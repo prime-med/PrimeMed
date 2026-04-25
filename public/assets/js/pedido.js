@@ -487,9 +487,10 @@ function getVariantStock(id) {
 
 function changeVariantQty(id, varIdx, delta) {
   const key = `${id}__${varIdx}`;
-  const p = CATALOG.find(x => x.id === id);
-  const maxStock = p && p.variantes && p.variantes[varIdx] ? parseInt(p.variantes[varIdx].estoque) || 999 : 999;
-  const newQty = Math.max(0, Math.min(maxStock, (cart[key] || 0) + delta));
+  // Estoque é informativo (label visual), não bloqueia compra — pedidos
+  // sem estoque suficiente entram como pré-venda ("chega em 7 dias").
+  // Cap de 999 só pra não travar o navegador com valores absurdos.
+  const newQty = Math.max(0, Math.min(999, (cart[key] || 0) + delta));
   if (newQty === 0) delete cart[key]; else cart[key] = newQty;
 
   const qtyEl = document.getElementById(`vqty-${id}-${varIdx}`);
@@ -1259,7 +1260,22 @@ function buildReview() {
 function v(id) { return document.getElementById(id)?.value?.trim() || ''; }
 
 // ─── WHATSAPP ────────────────────────────────────────────────────────────────
+let _sendingPedido = false;
 async function sendWhatsApp() {
+  // Trava contra múltiplos cliques: enquanto o request está em voo,
+  // ignora cliques adicionais. Reativa só após sucesso/erro.
+  if (_sendingPedido) return;
+  _sendingPedido = true;
+  const btnWA = document.querySelector('.btn-wa');
+  let _btnHtmlOrig = '';
+  if (btnWA) {
+    _btnHtmlOrig = btnWA.innerHTML;
+    btnWA.disabled = true;
+    btnWA.style.opacity = '.6';
+    btnWA.style.cursor = 'wait';
+    btnWA.innerHTML = '<span style="display:inline-flex;align-items:center;gap:8px">⏳ Enviando pedido...</span>';
+  }
+
   const total = getFinalTotal();
 
   const _clientName = (typeof CLIENT !== 'undefined' && CLIENT.name) ? CLIENT.name.toUpperCase() : 'PEDIDO';
@@ -1370,8 +1386,18 @@ async function sendWhatsApp() {
   const wa = (typeof CLIENT !== 'undefined' && CLIENT.wa) ? CLIENT.wa : WA_NUMBER;
   if (wa) window.open(`https://wa.me/${wa}?text=${encoded}`, '_blank');
 
-  // Mostrar sucesso
+  // Mostrar sucesso. Não reativa o botão — `showSuccess` troca de tela
+  // (success-screen). Se o cliente quiser fazer outro pedido, `newOrder()`
+  // recarrega o form do zero. _sendingPedido fica true por segurança.
   showSuccess();
+  // Reset do flag pra permitir novo pedido após showSuccess (se o user voltar)
+  _sendingPedido = false;
+  if (btnWA) {
+    btnWA.disabled = false;
+    btnWA.style.opacity = '';
+    btnWA.style.cursor = '';
+    btnWA.innerHTML = _btnHtmlOrig;
+  }
 }
 
 function getFinalTotal() {
