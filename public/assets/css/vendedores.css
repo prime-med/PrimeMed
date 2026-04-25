@@ -141,6 +141,17 @@
   .td-orig{font-size:.8rem;color:var(--gray);white-space:nowrap}
   .td-novo input{width:110px;padding:7px 10px;background:var(--bg);border:1px solid var(--border);border-radius:7px;color:var(--accent);font-weight:700;font-size:.85rem;text-align:right}
   .td-novo input:focus{border-color:var(--accent);outline:none}
+  /* Hover row pra dar feedback visual na tabela de preços fixos */
+  .preco-table tbody tr{transition:background .15s}
+  .preco-table tbody tr:hover{background:rgba(245,158,11,.04)}
+
+  /* ── OPÇÕES EXTRAS (Parcelamento / Frete grátis) ── */
+  .opt-row{display:flex;align-items:center;gap:12px;cursor:pointer;font-size:.88rem;color:var(--light);padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:var(--bg);transition:.15s}
+  .opt-row:hover{border-color:var(--accent)}
+  .opt-row:has(.opt-check:checked){border-color:var(--accent);background:rgba(245,158,11,.06)}
+  .opt-check{width:18px;height:18px;accent-color:var(--accent);cursor:pointer;flex-shrink:0}
+  .opt-input-num{width:100px;padding:6px 10px;background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--accent);font-weight:700;font-size:.9rem;text-align:right;font-family:inherit}
+  .opt-input-num:focus{outline:none;border-color:var(--accent)}
 
   /* ── CÓDIGO + VALIDADE ── */
   .cupom-code-wrap{display:flex;gap:10px;align-items:flex-end}

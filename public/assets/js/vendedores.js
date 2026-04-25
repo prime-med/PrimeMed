@@ -223,6 +223,7 @@ function setMode(modo) {
 
 // ── PRODUTOS ──────────────────────────────────────────────────────────────────
 let PRODUTOS = [], selecionados = new Set(), tipoAtual = 'pct';
+let precosFixos = {}; // { prodId: '99.90' } — preserva valores ao re-renderizar tabela
 
 async function carregarProdutos() {
   try {
@@ -285,6 +286,15 @@ function setTipo(tipo) {
 }
 
 function renderTabelaPrecos() {
+  // 1) Captura valores atuais antes do re-render destruir o DOM
+  document.querySelectorAll('input[id^="novo-preco-"]').forEach(inp => {
+    if (inp.value) precosFixos[inp.id.replace('novo-preco-','')] = inp.value;
+  });
+  // 2) Limpa valores de produtos que foram desselecionados
+  Object.keys(precosFixos).forEach(id => {
+    if (!selecionados.has(id)) delete precosFixos[id];
+  });
+
   const wrap  = document.getElementById('tabela-precos-wrap');
   const prods = PRODUTOS.filter(p=>selecionados.has(p.id));
   if (!prods.length) { wrap.innerHTML='<p style="color:var(--gray);font-size:.82rem">Selecione os produtos acima para definir os preços.</p>'; return; }
@@ -292,7 +302,7 @@ function renderTabelaPrecos() {
     ${prods.map(p=>`<tr>
       <td class="td-nome">${esc(p.icone||'💊')} ${esc(p.nome)}${p.conc?` <span style="color:var(--gray);font-weight:400">${esc(p.conc)}</span>`:''}</td>
       <td class="td-orig">R$ ${(parseFloat(p.preco)||0).toLocaleString('pt-BR',{minimumFractionDigits:2})}</td>
-      <td class="td-novo"><input type="number" id="novo-preco-${escAttr(p.id)}" min="0" step="0.01" placeholder="${(parseFloat(p.preco)||0).toFixed(2)}"/></td>
+      <td class="td-novo"><input type="number" id="novo-preco-${escAttr(p.id)}" min="0" step="0.01" placeholder="${(parseFloat(p.preco)||0).toFixed(2)}" value="${escAttr(precosFixos[p.id]||'')}" oninput="precosFixos[this.id.replace('novo-preco-','')]=this.value"/></td>
     </tr>`).join('')}
   </tbody></table>`;
 }
@@ -356,13 +366,16 @@ async function criarCupom() {
   const btn = document.getElementById('btn-submit');
   btn.disabled=true; btn.textContent='Salvando…';
   try {
-    const parcelamento = document.getElementById('f_parcelamento').checked ? 'SIM' : '';
-    const freteGratis  = document.getElementById('f_frete_gratis').checked  ? '5000' : '';
+    const parcelamento  = document.getElementById('f_parcelamento').checked ? 'SIM' : 'NAO';
+    const freteAtivo    = document.getElementById('f_frete_gratis').checked;
+    const freteMin      = parseFloat(document.getElementById('f_frete_minimo').value) || 0;
     const data = await postAction_('criarcupom', {
       email: SESSION.email, senha: SESSION.senha,
       codigo, tipo: tipoAtual === 'pct' ? '%' : 'fixo',
       valor: valor || 0, produtos, precos, validade: validadeFmt,
-      parcelamento, frete_gratis_acima: freteGratis,
+      parcelamento,
+      frete_gratis_acima: freteAtivo ? freteMin.toFixed(2) : '',
+      frete_gratis_ativo: freteAtivo ? 'SIM' : 'NAO',
     });
     if (data.ok) {
       document.getElementById('suc-code').textContent = codigo;

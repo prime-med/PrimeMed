@@ -509,16 +509,26 @@ button { cursor: pointer; }
 }
 .cupom-toggle-label input { accent-color: var(--accent); }
 .cupom-extras {
-  display: flex; gap: 20px; flex-wrap: wrap; align-items: center; padding: 4px 0;
+  display: flex; gap: 12px; flex-wrap: wrap; align-items: stretch; padding: 4px 0;
 }
 .cupom-extra-item {
-  display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;
+  display: flex; align-items: center; gap: 10px; font-size: 13px; cursor: pointer;
+  padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px;
+  background: var(--bg); transition: .15s; flex: 1; min-width: 240px;
 }
-.cupom-extra-item input[type="checkbox"] { accent-color: var(--accent); }
+.cupom-extra-item:hover { border-color: var(--accent); }
+.cupom-extra-item:has(input[type="checkbox"]:checked) {
+  border-color: var(--accent); background: rgba(26,188,156,.08);
+}
+.cupom-extra-item input[type="checkbox"] {
+  accent-color: var(--accent); width: 16px; height: 16px; flex-shrink: 0;
+}
 .cupom-frete-val {
-  width: 90px; background: var(--bg2); border: 1px solid var(--border);
-  border-radius: 5px; padding: 4px 8px; color: var(--text); font-size: 13px; outline: none;
+  width: 90px; background: var(--card); border: 1px solid var(--border);
+  border-radius: 6px; padding: 5px 8px; color: var(--accent); font-weight: 600;
+  font-size: 13px; outline: none; text-align: right;
 }
+.cupom-frete-val:focus { border-color: var(--accent); }
 .btn-xs-danger { border-color: rgba(231,76,60,.4) !important; color: var(--danger) !important; }
 .btn-xs-danger:hover { background: rgba(231,76,60,.1) !important; }
 
@@ -773,20 +783,27 @@ button { cursor: pointer; }
 /* ── PREÇOS FIXOS (cupom tipo fixo) ──────────────────────────────────────── */
 .cupom-precos-wrap {
   background: var(--bg2); border: 1px solid var(--border);
-  border-radius: 8px; padding: 10px 12px;
-  display: flex; flex-direction: column; gap: 8px;
+  border-radius: 10px; padding: 14px;
+  display: flex; flex-direction: column; gap: 10px;
 }
 .cupom-precos-title {
   font-size: 11px; font-weight: 700; color: var(--text2);
-  text-transform: uppercase; letter-spacing: .5px;
+  text-transform: uppercase; letter-spacing: .6px;
+  padding-bottom: 8px; border-bottom: 1px solid var(--border);
 }
-.preco-fix-row { display: flex; align-items: center; gap: 10px; }
-.preco-fix-label { flex: 1; font-size: 12px; }
+.preco-fix-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 6px 8px; border-radius: 6px; transition: background .15s;
+}
+.preco-fix-row:hover { background: rgba(26,188,156,.04); }
+.preco-fix-label { flex: 1; font-size: 13px; line-height: 1.3; }
 .preco-fix-input {
-  width: 90px; background: var(--bg); border: 1px solid var(--border);
-  border-radius: 5px; padding: 4px 8px; color: var(--text);
-  font-size: 13px; text-align: right; outline: none;
+  width: 100px; background: var(--bg); border: 1px solid var(--border);
+  border-radius: 6px; padding: 6px 10px; color: var(--accent);
+  font-weight: 600; font-size: 13px; text-align: right; outline: none;
+  transition: border-color .15s;
 }
+.preco-fix-input::placeholder { color: var(--text2); font-weight: 400; }
 .preco-fix-input:focus { border-color: var(--accent); }
 
 /* ── MOBILE ───────────────────────────────────────────────────────────────── */

@@ -1606,6 +1606,9 @@ function syncProdPickerInput() {
   renderPrecosFixos();
 }
 
+// State pra preservar preços fixos entre re-renderizações (toggle de produtos)
+window._adminPrecosFixos = window._adminPrecosFixos || {};
+
 function renderPrecosFixos() {
   const wrap  = document.getElementById('nc-precos-wrap');
   const items = document.getElementById('nc-precos-items');
@@ -1613,6 +1616,16 @@ function renderPrecosFixos() {
   const tipo = document.getElementById('nc-tipo')?.value;
   if (tipo !== 'fixo') { wrap.classList.add('hidden'); return; }
   const checked = [...document.querySelectorAll('.prod-pick-cb:checked')].map(cb => cb.value);
+
+  // 1) Captura valores atuais antes do re-render destruir o DOM
+  document.querySelectorAll('.preco-fix-input').forEach(inp => {
+    if (inp.value) window._adminPrecosFixos[inp.dataset.key] = inp.value;
+  });
+  // 2) Limpa keys de produtos que foram desselecionados
+  Object.keys(window._adminPrecosFixos).forEach(k => {
+    if (!checked.includes(k)) delete window._adminPrecosFixos[k];
+  });
+
   if (checked.length === 0) { wrap.classList.add('hidden'); return; }
   wrap.classList.remove('hidden');
   items.innerHTML = checked.map(key => {
@@ -1626,11 +1639,14 @@ function renderPrecosFixos() {
     const basePrice = varIdx !== null
       ? (prod.variantes?.[varIdx]?.preco || prod.preco)
       : prod.preco;
+    const savedVal = window._adminPrecosFixos[key] || '';
     return `
       <div class="preco-fix-row">
         <span class="preco-fix-label">${esc(label)}</span>
         <input type="number" step="0.01" min="0" class="preco-fix-input" data-key="${escAttr(key)}"
-          placeholder="${formatNum(basePrice)}" title="Preço fixo (padrão: R$ ${formatNum(basePrice)})"/>
+          placeholder="${formatNum(basePrice)}" title="Preço fixo (padrão: R$ ${formatNum(basePrice)})"
+          value="${escAttr(savedVal)}"
+          oninput="window._adminPrecosFixos[this.dataset.key]=this.value"/>
       </div>`;
   }).join('');
 }
@@ -1681,6 +1697,7 @@ async function salvarCupomAdmin(e) {
         .map(i => `${i.dataset.key}:${i.value.trim()}`)
         .join('|')
     : '';
+  const freteAtivo = !!freteToggle?.checked;
   const params = {
     codigo:              document.getElementById('nc-codigo').value.trim(),
     tipo,
@@ -1688,7 +1705,8 @@ async function salvarCupomAdmin(e) {
     produtos:            document.getElementById('nc-produtos').value.trim() || 'todos',
     precos,
     validade:            document.getElementById('nc-validade').value.trim() || 'INDETERMINADO',
-    frete_gratis_acima:  (freteToggle?.checked ? document.getElementById('nc-frete').value : '') || '',
+    frete_gratis_acima:  freteAtivo ? (document.getElementById('nc-frete').value || '') : '',
+    frete_gratis_ativo:  freteAtivo ? 'SIM' : 'NAO',
     parcelamento:        document.getElementById('nc-parc').checked ? 'SIM' : 'NAO',
   };
   try {
@@ -1701,6 +1719,7 @@ async function salvarCupomAdmin(e) {
       if (todosCheck) { todosCheck.checked = true; toggleTodosProdutos(todosCheck); }
       const _pi = document.getElementById('nc-prod-items'); if (_pi) _pi.innerHTML = '';
       const _pf = document.getElementById('nc-precos-items'); if (_pf) _pf.innerHTML = '';
+      window._adminPrecosFixos = {}; // limpa state após criar cupom
       document.getElementById('nc-precos-wrap')?.classList.add('hidden');
       document.getElementById('nc-produtos').value = 'todos';
       document.getElementById('nc-valor-wrap').style.display = '';
