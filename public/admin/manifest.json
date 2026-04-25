@@ -4,8 +4,8 @@
   "description": "Painel administrativo do template B2B",
   "start_url": "./painel.html",
   "display": "standalone",
-  "background_color": "#0b1622",
-  "theme_color": "#1abc9c",
+  "background_color": "#14181a",
+  "theme_color": "#84a98c",
   "orientation": "portrait-primary",
   "icons": [
     { "src": "icons/icon-192.svg", "sizes": "192x192", "type": "image/svg+xml" },
