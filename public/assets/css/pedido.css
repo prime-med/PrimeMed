@@ -471,6 +471,12 @@
   }
   .cupom-row button:hover:not(:disabled) { opacity: .82; }
   .cupom-row button:disabled { opacity: .5; cursor: default; }
+  .cupom-row button#btn-remover-cupom {
+    background: transparent; color: var(--danger);
+    border: 1px solid var(--danger); padding: 9px 14px;
+  }
+  .cupom-row button#btn-remover-cupom:hover { background: rgba(231,76,60,.1); opacity: 1; }
+  .cupom-row .hidden { display: none; }
   .cupom-ok  { color: var(--accent); font-size: .82rem; margin-top: 10px; font-weight: 600; }
   .cupom-err { color: var(--danger);  font-size: .82rem; margin-top: 8px; }
 

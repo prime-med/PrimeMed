@@ -303,6 +303,7 @@ function aplicarCupom() {
       msgTxt = `✅ Cupom <strong>${esc(codigo)}</strong> aplicado! Preço especial em ${n || Object.keys(precos).length} produto(s)${descStr}.`;
     }
     msg.innerHTML = `<div class="cupom-ok">${msgTxt}</div>`;
+    document.getElementById('btn-remover-cupom').classList.remove('hidden');
     checkCupomExtras();
     buildReview();
   } else {
@@ -311,6 +312,26 @@ function aplicarCupom() {
     cupomData     = null;
     msg.innerHTML = `<div class="cupom-err">❌ Código inválido. Verifique e tente novamente.</div>`;
   }
+}
+
+function removerCupom() {
+  cupomAplicado = false;
+  cupomCodigo   = '';
+  cupomDesconto = 0;
+  cupomData     = null;
+  document.getElementById('f_cupom').disabled   = false;
+  document.getElementById('f_cupom').value      = '';
+  document.getElementById('btn-cupom').disabled = false;
+  document.getElementById('btn-remover-cupom').classList.add('hidden');
+  document.getElementById('cupom-msg').innerHTML = '';
+  // Esconde badges de benefícios
+  const badge    = document.getElementById('cupom-parc-badge');
+  const gratisEl = document.getElementById('frete-gratis');
+  if (badge) badge.style.display = 'none';
+  if (gratisEl) gratisEl.style.display = 'none';
+  // Recalcula frete (volta ao valor cheio se era grátis pelo cupom)
+  if (freteEstado && freteMetodo) selecionarFrete(freteMetodo);
+  buildReview();
 }
 
 function checkCupomExtras() {
@@ -705,6 +726,7 @@ function toggleProduct(id) {
     cart[id] = 1;
   }
   renderProducts();
+  updateTotal(); // revalida cupom de frete grátis ao adicionar/remover produto
 }
 
 function changeQty(id, delta) {
@@ -1146,10 +1168,12 @@ function buildReview() {
 
   // Frete
   let freteLabel = getFreteLabel();
-  if (cupomData?.frete_gratis_acima) {
+  // Só anota "Grátis (cupom)" se o frete FOI calculado (freteEstado/freteCep preenchidos).
+  // Quando ainda não calculou, freteValor=0 mas isso não é "grátis" — é "não calculado".
+  if (cupomData?.frete_gratis_acima && freteEstado) {
     const limiar = parseFloat(cupomData.frete_gratis_acima);
     if (!isNaN(limiar)) {
-      if (freteValor === 0) {
+      if (freteValor === 0 && getTotal() >= limiar) {
         freteLabel += ` <span style="color:var(--green);font-size:.78rem">🎉 Grátis (cupom)</span>`;
       } else {
         const falta = limiar - getTotal();
