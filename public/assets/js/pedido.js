@@ -55,8 +55,8 @@ window.onload = () => {
 // ── CACHE (apenas dados estáticos — protocolos e parcelas, 30min TTL) ─────────
 // Preços, promos e cupons NUNCA são cacheados: devem ser sempre frescos.
 const PF_CACHE_TTL = 30 * 60 * 1000;
-function pfFromCache_(k){try{const c=sessionStorage.getItem('pf_'+k);if(!c)return null;const{data,ts}=JSON.parse(c);return(Date.now()-ts)<PF_CACHE_TTL?data:null;}catch(e){return null;}}
-function pfToCache_(k,d){try{sessionStorage.setItem('pf_'+k,JSON.stringify({data:d,ts:Date.now()}));}catch(e){}}
+function pfFromCache_(k){try{const c=sessionStorage.getItem('lp_'+k);if(!c)return null;const{data,ts}=JSON.parse(c);return(Date.now()-ts)<PF_CACHE_TTL?data:null;}catch(e){return null;}}
+function pfToCache_(k,d){try{sessionStorage.setItem('lp_'+k,JSON.stringify({data:d,ts:Date.now()}));}catch(e){}}
 function pfBgRefresh_(k,url){fetch(url).then(r=>r.json()).then(d=>pfToCache_(k,d)).catch(()=>{});}
 
 async function carregarProdutos() {
@@ -122,11 +122,10 @@ async function carregarProdutos() {
 }
 
 // ─── FILTERS & SORT ─────────────────────────────────────────────────────────
+// As categorias abaixo são preenchidas dinamicamente a partir das tags da planilha.
+// Mantemos apenas "Todos" como categoria base — as demais são geradas em renderFilters().
 const CATEGORIAS = [
-  { val: 'todos',          label: 'Todos' },
-  { val: 'emagrecimento',  label: '⚡ Emagrecimento' },
-  { val: 'peptideo',       label: '🧬 Peptídeo' },
-  { val: 'estetica',       label: '✨ Estética' },
+  { val: 'todos', label: 'Todos' },
 ];
 
 function renderFilters() {
@@ -136,7 +135,14 @@ function renderFilters() {
     return `<button class="lab-btn ${val === activeLabFilter ? 'active' : ''}" onclick="setLabFilter('${val}')">${l}</button>`;
   }).join('');
 
-  document.getElementById('tag-filters').innerHTML = CATEGORIAS.map(c =>
+  // Tags dinâmicas a partir do catálogo (se nenhuma, esconde a sessão).
+  const allTags = new Set();
+  CATALOG.forEach(p => {
+    (Array.isArray(p.tags) ? p.tags : []).forEach(t => { if (t) allTags.add(String(t)); });
+  });
+  const dyn = [...allTags].sort().map(t => ({ val: t.toLowerCase(), label: t }));
+  const cats = [...CATEGORIAS, ...dyn];
+  document.getElementById('tag-filters').innerHTML = cats.map(c =>
     `<button class="lab-btn ${c.val === activeTagFilter ? 'active' : ''}" onclick="setTagFilter('${c.val}')">${c.label}</button>`
   ).join('');
 }
@@ -220,7 +226,6 @@ async function buscarCliente(docParam) {
       const set = (id, val) => { const el = document.getElementById(id); if (el) el.value = val || ''; };
       set('f_clinica',     data.clinica);
       set('f_responsavel', data.responsavel);
-      set('f_cargo',       data.cargo);
       set('f_telefone',    data.telefone);
       set('f_email',       data.email);
       set('f_documento',   data.documento);
@@ -245,7 +250,7 @@ function limparAcesso() {
   document.getElementById('ar-bem-vindo').style.display = 'none';
   document.getElementById('ar-nao-encontrado').style.display = 'none';
   document.getElementById('ar-limpar').style.display = 'none';
-  ['f_clinica','f_responsavel','f_cargo','f_telefone','f_email','f_documento','f_cep_entrega','f_rua','f_numero','f_bairro','f_complemento','f_cidade','f_estado'].forEach(id => {
+  ['f_clinica','f_responsavel','f_telefone','f_email','f_documento','f_cep_entrega','f_rua','f_numero','f_bairro','f_complemento','f_cidade','f_estado'].forEach(id => {
     const el = document.getElementById(id); if (el) el.value = '';
   });
 }
@@ -967,7 +972,6 @@ async function _goStep3() {
       action:      'cadastrar',
       clinica:     v('f_clinica'),
       responsavel: v('f_responsavel'),
-      cargo:       v('f_cargo'),
       telefone:    v('f_telefone'),
       email:       v('f_email'),
       cpf:         docLimpo,
@@ -1069,7 +1073,6 @@ function buildReview() {
   const dados = [
     ['Clínica', v('f_clinica')],
     ['Responsável', v('f_responsavel')],
-    ['Cargo', v('f_cargo') || '—'],
     ['Telefone', v('f_telefone')],
     ['E-mail', v('f_email')],
     ['Documento', v('f_documento') || '—'],
@@ -1218,16 +1221,16 @@ function buildReview() {
 function v(id) { return document.getElementById(id)?.value?.trim() || ''; }
 
 // ─── WHATSAPP ────────────────────────────────────────────────────────────────
-function sendWhatsApp() {
+async function sendWhatsApp() {
   const total = getFinalTotal();
 
-  let msg = `🧬 *PEDIDO PHARMAFIT-PY*\n`;
+  const _clientName = (typeof CLIENT !== 'undefined' && CLIENT.name) ? CLIENT.name.toUpperCase() : 'PEDIDO';
+  let msg = `📦 *PEDIDO ${_clientName}*\n`;
   msg += `━━━━━━━━━━━━━━━━━━━━━━\n\n`;
 
   msg += `📋 *DADOS DA CLÍNICA*\n`;
   msg += `Clínica: ${v('f_clinica')}\n`;
   msg += `Responsável: ${v('f_responsavel')}\n`;
-  if (v('f_cargo')) msg += `Cargo: ${v('f_cargo')}\n`;
   msg += `Telefone: ${v('f_telefone')}\n`;
   msg += `E-mail: ${v('f_email')}\n`;
   if (v('f_documento')) msg += `Documento: ${v('f_documento')}\n`;
@@ -1236,7 +1239,7 @@ function sendWhatsApp() {
   if (endCompleto) msg += `Endereço: ${endCompleto}\n`;
   if (v('f_obs')) msg += `Obs: ${v('f_obs')}\n`;
 
-  msg += `\n💊 *PRODUTOS SOLICITADOS*\n`;
+  msg += `\n📦 *PRODUTOS SOLICITADOS*\n`;
   Object.keys(cart).forEach(key => {
     const { id } = parseCartKey(key);
     const p = CATALOG.find(x => x.id === id);
@@ -1270,7 +1273,7 @@ function sendWhatsApp() {
   }
   msg += `💰 *TOTAL: R$ ${total.toLocaleString('pt-BR',{minimumFractionDigits:2})}*\n`;
   msg += `━━━━━━━━━━━━━━━━━━━━━━\n`;
-  msg += `\n_Pedido enviado via formulário PharmaFit-PY_`;
+  msg += `\n_Pedido enviado via formulário ${(typeof CLIENT !== 'undefined' && CLIENT.name) ? CLIENT.name : ''}_`;
 
   // Salvar localmente
   saveOrder(total);
@@ -1292,7 +1295,6 @@ function sendWhatsApp() {
   const params = new URLSearchParams({
     clinica:       v('f_clinica'),
     responsavel:   v('f_responsavel'),
-    cargo:         v('f_cargo'),
     telefone:      v('f_telefone'),
     email:         v('f_email'),
     documento:     v('f_documento'),
@@ -1311,14 +1313,24 @@ function sendWhatsApp() {
     cupom_valor:   cupomAplicado ? calcularDescontoCupom().toFixed(2) : '0',
     carrinho:      JSON.stringify(cart)
   });
-  fetch(`${SHEETS_URL}?${params.toString()}`, { method: 'GET', mode: 'no-cors' }).catch(() => {});
-
-  // Decrementar estoque
-  fetch(`${SHEETS_URL}?action=decrementar_estoque&carrinho=${encodeURIComponent(JSON.stringify(cart))}`, { method: 'GET', mode: 'no-cors' }).catch(() => {});
+  // Salva pedido. O backend já decrementa o estoque internamente — não precisa
+  // chamar action=decrementar_estoque separadamente.
+  try {
+    const r = await fetch(`${SHEETS_URL}?${params.toString()}`);
+    const data = await r.json().catch(() => null);
+    if (!data || data.ok === false) {
+      console.warn('Pedido pode não ter sido salvo:', data);
+    }
+  } catch (err) {
+    // Falha de rede/CORS: pedido pode não ter sido salvo. Segue o fluxo do
+    // WhatsApp pra não bloquear o cliente, mas avisa no console.
+    console.warn('Erro ao enviar pedido ao backend:', err);
+  }
 
   // Abrir WhatsApp
   const encoded = encodeURIComponent(msg);
-  window.open(`https://wa.me/${WA_NUMBER}?text=${encoded}`, '_blank');
+  const wa = (typeof CLIENT !== 'undefined' && CLIENT.wa) ? CLIENT.wa : WA_NUMBER;
+  if (wa) window.open(`https://wa.me/${wa}?text=${encoded}`, '_blank');
 
   // Mostrar sucesso
   showSuccess();
@@ -1349,7 +1361,7 @@ function showSuccess() {
 
 function newOrder() {
   // Preserva dados do cliente logado antes de limpar tudo
-  const camposCliente = ['f_documento','f_clinica','f_responsavel','f_cargo','f_telefone','f_email','f_cep_entrega','f_rua','f_numero','f_bairro','f_complemento','f_cidade','f_estado'];
+  const camposCliente = ['f_documento','f_clinica','f_responsavel','f_telefone','f_email','f_cep_entrega','f_rua','f_numero','f_bairro','f_complemento','f_cidade','f_estado'];
   const dadosSalvos = _clienteJaLogado
     ? Object.fromEntries(camposCliente.map(id => [id, document.getElementById(id)?.value || '']))
     : null;
@@ -1393,7 +1405,7 @@ function newOrder() {
 
 // ─── LOCAL STORAGE "DATABASE" ────────────────────────────────────────────────
 function saveOrder(total) {
-  const orders = JSON.parse(localStorage.getItem('pharmafit_orders') || '[]');
+  const orders = JSON.parse(localStorage.getItem('lp_orders') || '[]');
   const products = Object.keys(cart).map(id => {
     const p = CATALOG.find(x => x.id === id);
     return p ? `${p.name} ×${cart[id]}` : id;
@@ -1409,11 +1421,11 @@ function saveOrder(total) {
     payment: selectedPayment,
     total: total.toFixed(2)
   });
-  localStorage.setItem('pharmafit_orders', JSON.stringify(orders));
+  localStorage.setItem('lp_orders', JSON.stringify(orders));
 }
 
 function openHistory() {
-  const orders = JSON.parse(localStorage.getItem('pharmafit_orders') || '[]');
+  const orders = JSON.parse(localStorage.getItem('lp_orders') || '[]');
   const body = document.getElementById('history-body');
   if (orders.length === 0) {
     body.innerHTML = '<div class="no-history">📭 Nenhum pedido registrado ainda.</div>';
@@ -1438,7 +1450,7 @@ function closeHistory() {
 
 function clearHistory() {
   if (confirm('Apagar todo o histórico de pedidos?')) {
-    localStorage.removeItem('pharmafit_orders');
+    localStorage.removeItem('lp_orders');
     closeHistory();
   }
 }
@@ -1544,7 +1556,7 @@ function lpSetLogado(clinica, responsavel) {
 function lpLogout() {
   clienteHistorico = [];
   _clienteJaLogado = false;
-  ['f_clinica','f_responsavel','f_cargo','f_telefone','f_email','f_documento','f_cep_entrega','f_rua','f_numero','f_bairro','f_complemento','f_cidade','f_estado'].forEach(id => {
+  ['f_clinica','f_responsavel','f_telefone','f_email','f_documento','f_cep_entrega','f_rua','f_numero','f_bairro','f_complemento','f_cidade','f_estado'].forEach(id => {
     const el = document.getElementById(id); if (el) el.value = '';
   });
   document.getElementById('lp-logado-bar').style.display = 'none';
@@ -1610,7 +1622,7 @@ function lpPreencherCampos(data) {
   set('f_documento',   data.doc || data.documento || '');
   set('f_clinica',     data.clinica || data.nome || '');
   set('f_responsavel', data.responsavel || '');
-  set('f_cargo',       data.cargo || '');
+  set(       data.cargo || '');
   set('f_telefone',    data.telefone);
   set('f_email',       data.email);
   set('f_cidade',      data.cidade);

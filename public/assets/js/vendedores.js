@@ -3,11 +3,11 @@ let SESSION = null;
 
 function salvarSession(email, senha, nome) {
   SESSION = { email, senha, nome };
-  sessionStorage.setItem('pf_vendedora_b2b', JSON.stringify(SESSION));
+  sessionStorage.setItem('lp_vendedora', JSON.stringify(SESSION));
 }
 function carregarSession() {
   try {
-    const s = sessionStorage.getItem('pf_vendedora_b2b');
+    const s = sessionStorage.getItem('lp_vendedora');
     if (s) SESSION = JSON.parse(s);
   } catch(e) { SESSION = null; }
 }
@@ -47,7 +47,7 @@ async function checkPin() {
 
 function logout() {
   SESSION = null;
-  sessionStorage.removeItem('pf_vendedora_b2b');
+  sessionStorage.removeItem('lp_vendedora');
   document.getElementById('tela-app').classList.remove('show');
   document.getElementById('tela-auth').classList.add('show');
   document.getElementById('hist-resultado').style.display = 'none';
@@ -100,7 +100,7 @@ async function confirmarTrocarSenha() {
     const data = await r.json();
     if (data.ok) {
       SESSION.senha = nova;
-      sessionStorage.setItem('pf_vendedora_b2b', JSON.stringify(SESSION));
+      sessionStorage.setItem('lp_vendedora', JSON.stringify(SESSION));
       msg.textContent = '✅ Senha alterada com sucesso!'; msg.classList.add('ok');
       setTimeout(() => fecharModal('modal-senha'), 1800);
     } else {

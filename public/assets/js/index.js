@@ -51,10 +51,13 @@ async function renderProdutosLanding() {
     const promo = isPromoAtiva(p);
     const promoBadge = promo ? `<div style="display:inline-flex;align-items:center;gap:4px;background:linear-gradient(135deg,#e74c3c,#c0392b);color:white;font-size:.62rem;font-weight:800;padding:3px 9px;border-radius:20px;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px">🔥 PROMOÇÃO</div>` : '';
     const waText = encodeURIComponent(`Olá! Tenho interesse no produto ${p.nome} (${p.conc}). Podem me passar mais informações?`);
+    const waHref = WA_NUMBER
+      ? `https://wa.me/${WA_NUMBER}?text=${waText}`
+      : '#';
     return `
       <div class="prod-card">
         <div class="prod-card-top ${cor}">
-          <div class="pc-icon">${p.icone || '💊'}</div>
+          <div class="pc-icon">${p.icone || '📦'}</div>
           <div class="pc-conc">${p.conc}</div>
           <div class="pc-name">${p.nome}</div>
           <div class="pc-sub">${p.lab || ''}</div>
@@ -62,8 +65,8 @@ async function renderProdutosLanding() {
         <div class="prod-card-body">
           ${promoBadge}
           <div class="pb-tags">${tags.map(t=>`<span class="pb-tag">${t}</span>`).join('')}</div>
-          ${temProto ? `<button class="btn-protocolo" onclick="verProtocolo('${p.id}','${p.nome}','${p.icone || '💊'}','${p.conc}')">🔬 Ver Protocolo</button>` : ''}
-          <a href="https://wa.me/12142049853?text=${waText}" class="btn-prod" target="_blank">💬 Solicitar Informações</a>
+          ${temProto ? `<button class="btn-protocolo" onclick="verProtocolo('${p.id}','${p.nome}','${p.icone || '📦'}','${p.conc}')">🔬 Ver Detalhes</button>` : ''}
+          <a href="${waHref}" class="btn-prod" target="_blank">💬 Solicitar Informações</a>
         </div>
       </div>`;
   }).join('');

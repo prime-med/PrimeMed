@@ -1,0 +1,13 @@
+<!-- PLACEHOLDER OG IMAGE (1200x630) — substitua pela imagem real do cliente -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0D2B3E"/>
+      <stop offset="100%" stop-color="#1B4F72"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect x="500" y="200" width="200" height="200" rx="32" fill="#1ABC9C"/>
+  <text x="600" y="330" font-family="system-ui, sans-serif" font-size="80" font-weight="800" fill="#0D2B3E" text-anchor="middle">LP</text>
+  <text x="600" y="500" font-family="system-ui, sans-serif" font-size="42" font-weight="600" fill="#FFFFFF" text-anchor="middle">Catálogo B2B</text>
+</svg>

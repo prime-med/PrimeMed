@@ -4,14 +4,14 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
-<title>Gerador de Pedido — PharmaFit</title>
+<title>Gerador de Pedido</title>
   <link rel="stylesheet" href="assets/css/theme.css"/>
   <link rel="stylesheet" href="assets/css/gerador_pedido.css"/>
 </head>
 <body>
 
 <header>
-  <div class="left"><div><h1>🧬 Gerador de Pedido</h1><span>Ferramenta interna — PharmaFit-PY</span></div></div>
+  <div class="left"><div><h1>📋 Gerador de Pedido</h1><span>Ferramenta interna — <span data-client-name></span></span></div></div>
   <button class="btn-voltar" id="btn-voltar" onclick="voltarInicio()">← Voltar ao Inicio</button>
 </header>
 
@@ -160,7 +160,7 @@
 <div class="modal-overlay" id="modal-cadastro"><div class="modal">
   <h3>➕ Cadastrar Novo Cliente</h3>
   <div class="row"><div class="field"><label>Nome / Clinica *</label><input type="text" id="nc_nome"/></div></div>
-  <div class="row"><div class="field"><label>Responsavel</label><input type="text" id="nc_responsavel"/></div><div class="field"><label>Cargo</label><input type="text" id="nc_cargo"/></div></div>
+  <div class="row"><div class="field"><label>Responsavel</label><input type="text" id="nc_responsavel"/></div></div>
   <div class="row"><div class="field"><label>Telefone *</label><input type="text" id="nc_telefone"/></div><div class="field"><label>E-mail</label><input type="text" id="nc_email"/></div></div>
   <div class="row"><div class="field"><label>CPF/CNPJ</label><input type="text" id="nc_cpf"/></div></div>
   <div class="row"><div class="field"><label>Cidade</label><input type="text" id="nc_cidade"/></div><div class="field" style="max-width:100px"><label>Estado</label><input type="text" id="nc_estado" maxlength="2"/></div></div>
@@ -170,6 +170,7 @@
 </div></div>
 
 <script src="assets/js/config.js"></script>
+<script src="assets/js/client_render.js"></script>
 <script src="assets/js/frete.js"></script>
 <script src="assets/js/gerador_pedido.js"></script>
 </body>

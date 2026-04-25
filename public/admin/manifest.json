@@ -1,7 +1,7 @@
 {
-  "name": "PharmaFit Admin",
-  "short_name": "PharmaFit",
-  "description": "Painel administrativo PharmaFit",
+  "name": "Painel Admin",
+  "short_name": "Admin",
+  "description": "Painel administrativo do template B2B",
   "start_url": "./painel.html",
   "display": "standalone",
   "background_color": "#0b1622",

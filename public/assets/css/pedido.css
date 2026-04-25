@@ -13,6 +13,7 @@
     --white: #ffffff;
     --danger: #E74C3C;
     --warn: #F39C12;
+    --selected-bg: #1a3f55;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
@@ -175,7 +176,7 @@
     user-select: none;
   }
   .product-card:hover { border-color: var(--blue); transform: translateY(-2px); }
-  .product-card.selected { border-color: var(--accent); background: #1a3f55; }
+  .product-card.selected { border-color: var(--accent); background: var(--selected-bg); }
   .product-card .pc-header {
     display: flex;
     justify-content: space-between;
@@ -287,7 +288,7 @@
     text-align: center;
   }
   .pay-opt:hover { border-color: var(--blue); }
-  .pay-opt.selected { border-color: var(--accent); background: #1a3f55; }
+  .pay-opt.selected { border-color: var(--accent); background: var(--selected-bg); }
   .pay-icon { font-size: 2rem; margin-bottom: 8px; }
   .pay-name { font-weight: 700; font-size: 0.95rem; }
   .pay-desc { font-size: 0.72rem; color: var(--gray); margin-top: 4px; }
@@ -329,7 +330,7 @@
     background: var(--input-bg);
   }
   .frete-opt:hover { border-color: var(--blue); }
-  .frete-opt.selected { border-color: var(--accent); background: #1a3f55; }
+  .frete-opt.selected { border-color: var(--accent); background: var(--selected-bg); }
   .frete-opt .fo-icon { font-size: 1.4rem; margin-bottom: 5px; }
   .frete-opt .fo-name { font-size: 0.8rem; font-weight: 700; }
   .frete-opt .fo-price { font-size: 0.9rem; font-weight: 800; color: var(--accent); margin-top: 4px; }

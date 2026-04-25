@@ -13,7 +13,7 @@ const API = {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     if (data.erro === 'Não autorizado' && admin) {
-      localStorage.removeItem('pharmafit_admin');
+      localStorage.removeItem('lp_admin');
       alert('Sessão expirada. Faça login novamente.');
       window.location.href = 'index.html';
     }

@@ -1,5 +1,20 @@
 // FRETE_TABELA, buscarCEP e mascaraCep → frete.js
 
+// ═══════════════════════════════════════════════════════════════════════════════
+// SESSÃO ADMIN (página interna — exige login admin)
+// ═══════════════════════════════════════════════════════════════════════════════
+const ADMIN_SESSION = (() => {
+  try { return JSON.parse(localStorage.getItem('lp_admin') || 'null'); } catch (_) { return null; }
+})();
+if (!ADMIN_SESSION || !ADMIN_SESSION.token) {
+  window.location.href = 'admin/index.html';
+}
+function authQS_() {
+  // Query string parcial pra anexar em chamadas que exigem token admin.
+  if (!ADMIN_SESSION) return '';
+  return `&email=${encodeURIComponent(ADMIN_SESSION.email)}&token=${encodeURIComponent(ADMIN_SESSION.token)}`;
+}
+
 let CATALOG=[], CLIENTES=[], CLIENTES_CORR=[], PEDIDOS=[], PARCELAS=[], CUPONS={};
 let cart={}, MODO='', clienteAtual=null;
 let freteValor=0, freteMetodo='', freteEstado='', freteCep='';
@@ -14,10 +29,10 @@ window.onload = () => {
   carregarParcelas();
   carregarCupons();
   carregarCatalogo().then(() => {
-    const raw = sessionStorage.getItem('pharmafit_corrigir');
+    const raw = sessionStorage.getItem('lp_corrigir');
     if (raw) {
       try {
-        sessionStorage.removeItem('pharmafit_corrigir');
+        sessionStorage.removeItem('lp_corrigir');
         const payload = JSON.parse(raw);
         const p = {
           rowNum:    payload.rowNum,
@@ -46,8 +61,8 @@ async function carregarCupons(){
 
 // ── CACHE (apenas parcelas, 30min TTL — preços/cupons sempre frescos) ──────────
 const CACHE_TTL = 30 * 60 * 1000;
-function fromCache_(k){try{const c=sessionStorage.getItem('pf_'+k);if(!c)return null;const{data,ts}=JSON.parse(c);return(Date.now()-ts)<CACHE_TTL?data:null;}catch(e){return null;}}
-function toCache_(k,data){try{sessionStorage.setItem('pf_'+k,JSON.stringify({data,ts:Date.now()}));}catch(e){}}
+function fromCache_(k){try{const c=sessionStorage.getItem('lp_'+k);if(!c)return null;const{data,ts}=JSON.parse(c);return(Date.now()-ts)<CACHE_TTL?data:null;}catch(e){return null;}}
+function toCache_(k,data){try{sessionStorage.setItem('lp_'+k,JSON.stringify({data,ts:Date.now()}));}catch(e){}}
 
 async function carregarCatalogo() {
   try {
@@ -302,7 +317,7 @@ function renderCatalogo(filtro=''){
 // ═══════════════════════════════════════════════════════════════════════════════
 async function carregarClientesLista(){
   document.getElementById('clientes-grid').innerHTML='<div class="loading-box">⏳ Carregando clientes...</div>';
-  try{const r=await fetch(`${SHEETS_URL}?action=clientes`);CLIENTES=await r.json();renderClientes();}
+  try{const r=await fetch(`${SHEETS_URL}?action=clientes${authQS_()}`);CLIENTES=await r.json();renderClientes();}
   catch(e){document.getElementById('clientes-grid').innerHTML='<div class="loading-box">⚠️ Erro ao carregar.</div>';}
 }
 function filtrarClientes(){renderClientes(document.getElementById('busca_cliente').value.toLowerCase());}
@@ -331,7 +346,7 @@ function selecionarCliente(i,modo){
 // ═══════════════════════════════════════════════════════════════════════════════
 async function carregarClientesCorrLista(){
   document.getElementById('clientes-corr-grid').innerHTML='<div class="loading-box">⏳ Carregando clientes...</div>';
-  try{const r=await fetch(`${SHEETS_URL}?action=clientes`);CLIENTES_CORR=await r.json();renderClientesCorr();}
+  try{const r=await fetch(`${SHEETS_URL}?action=clientes${authQS_()}`);CLIENTES_CORR=await r.json();renderClientesCorr();}
   catch(e){document.getElementById('clientes-corr-grid').innerHTML='<div class="loading-box">⚠️ Erro.</div>';}
 }
 function filtrarClientesCorr(){renderClientesCorr(document.getElementById('busca_cli_corr').value.toLowerCase());}
@@ -356,7 +371,7 @@ async function carregarPedidosDoCliente(cli){
   const doc=cli.cpf||cli.telefone||cli.email||'';
   if(!doc){grid.innerHTML='<div class="loading-box">Sem documento para buscar.</div>';return;}
   try{
-    const r=await fetch(`${SHEETS_URL}?action=pedidos&documento=${encodeURIComponent(doc.replace(/\D/g,''))}`);
+    const r=await fetch(`${SHEETS_URL}?action=pedidos&documento=${encodeURIComponent(doc.replace(/\D/g,''))}${authQS_()}`);
     const pedidos=await r.json();
     if(!pedidos.length){grid.innerHTML='<div class="loading-box">Nenhum pedido encontrado para este cliente.</div>';return;}
     grid.innerHTML=pedidos.map((p,i)=>{
@@ -384,7 +399,7 @@ function selecionarPedidoCliente(i){
 // ═══════════════════════════════════════════════════════════════════════════════
 async function carregarUltimosPedidos(){
   document.getElementById('pedidos-grid').innerHTML='<div class="loading-box">⏳ Carregando pedidos...</div>';
-  try{const r=await fetch(`${SHEETS_URL}?action=ultimos_pedidos`);PEDIDOS=await r.json();renderPedidosLista();}
+  try{const r=await fetch(`${SHEETS_URL}?action=ultimos_pedidos${authQS_()}`);PEDIDOS=await r.json();renderPedidosLista();}
   catch(e){document.getElementById('pedidos-grid').innerHTML='<div class="loading-box">⚠️ Erro.</div>';}
 }
 function filtrarPedidos(){renderPedidosLista(document.getElementById('busca_pedido').value.toLowerCase());}
@@ -452,11 +467,11 @@ async function salvarNovoCliente(){
   const nome=document.getElementById('nc_nome').value.trim(),tel=document.getElementById('nc_telefone').value.trim();
   if(!nome){status.textContent='Preencha o nome.';return;}if(!tel){status.textContent='Preencha o telefone.';return;}
   const btn=document.getElementById('btn-salvar-cliente');btn.disabled=true;btn.textContent='Salvando...';status.textContent='';
-  const params=new URLSearchParams({action:'cadastrar',clinica:nome,responsavel:document.getElementById('nc_responsavel').value.trim(),cargo:document.getElementById('nc_cargo').value.trim(),telefone:tel,email:document.getElementById('nc_email').value.trim(),cpf:document.getElementById('nc_cpf').value.trim(),cidade:document.getElementById('nc_cidade').value.trim(),estado:document.getElementById('nc_estado').value.trim(),endereco:document.getElementById('nc_endereco').value.trim()});
+  const params=new URLSearchParams({action:'cadastrar',clinica:nome,responsavel:document.getElementById('nc_responsavel').value.trim(),telefone:tel,email:document.getElementById('nc_email').value.trim(),cpf:document.getElementById('nc_cpf').value.trim(),cidade:document.getElementById('nc_cidade').value.trim(),estado:document.getElementById('nc_estado').value.trim(),endereco:document.getElementById('nc_endereco').value.trim()});
   try{
     const r=await fetch(`${SHEETS_URL}?${params}`);const data=await r.json();
-    if(data.ok){fecharModal();['nc_nome','nc_responsavel','nc_cargo','nc_telefone','nc_email','nc_cpf','nc_cidade','nc_estado','nc_endereco'].forEach(id=>document.getElementById(id).value='');
-      clienteAtual={clinica:nome,telefone:tel,email:document.getElementById('nc_email').value,endereco:document.getElementById('nc_endereco').value,cidade:document.getElementById('nc_cidade').value,estado:document.getElementById('nc_estado').value,cpf:document.getElementById('nc_cpf').value,responsavel:document.getElementById('nc_responsavel').value,cargo:document.getElementById('nc_cargo').value};
+    if(data.ok){fecharModal();['nc_nome','nc_responsavel','nc_telefone','nc_email','nc_cpf','nc_cidade','nc_estado','nc_endereco'].forEach(id=>document.getElementById(id).value='');
+      clienteAtual={clinica:nome,telefone:tel,email:document.getElementById('nc_email').value,endereco:document.getElementById('nc_endereco').value,cidade:document.getElementById('nc_cidade').value,estado:document.getElementById('nc_estado').value,cpf:document.getElementById('nc_cpf').value,responsavel:document.getElementById('nc_responsavel').value};
       cart={};irParaEditor();
     }else if(data.duplicado){const c=data.duplicado==='cpf'?'CPF/CNPJ':data.duplicado==='email'?'E-mail':'Telefone';status.textContent=`${c} ja cadastrado.`;}
     else status.textContent=data.erro||'Erro.';
@@ -546,7 +561,8 @@ function gerarMensagem(){
   if(!keys.length){ta.value='';btnC.disabled=true;btnW.disabled=true;btnS.disabled=true;return;}
   const nome=document.getElementById('c_nome').value.trim()||'Cliente',pag=document.getElementById('c_pagamento').value,obs=document.getElementById('c_obs').value.trim();
   const isNovo=MODO==='novo',titulo=isNovo?'NOVO PEDIDO':'PEDIDO CORRIGIDO',rodape=isNovo?'Novo pedido':'Pedido corrigido';
-  let msg=`🧬 *${titulo} — PharmaFit-PY*\n━━━━━━━━━━━━━━━━━━━━━━\n\n👤 *CLIENTE*\n${nome}\n\n💊 *PRODUTOS*\n`;
+  const _clientName=(typeof CLIENT!=='undefined'&&CLIENT.name)?CLIENT.name:'';
+  let msg=`📦 *${titulo}${_clientName?' — '+_clientName:''}*\n━━━━━━━━━━━━━━━━━━━━━━\n\n👤 *CLIENTE*\n${nome}\n\n📦 *PRODUTOS*\n`;
   let subtotal=0;
   keys.forEach(key=>{
     const parts=key.split('__'),id=parts[0],vi=parts.length>1?parseInt(parts[1]):null,p=CATALOG.find(x=>x.id===id);if(!p)return;
@@ -568,7 +584,7 @@ function gerarMensagem(){
   else msg+=`💰 *TOTAL: R$ ${total.toLocaleString('pt-BR',{minimumFractionDigits:2})}*\n`;
   if(pag)msg+=`💳 Pagamento: ${pag}\n`;
   if(obs)msg+=`\n📝 ${obs}\n`;
-  msg+=`━━━━━━━━━━━━━━━━━━━━━━\n_PharmaFit-PY · ${rodape}_`;
+  msg+=`━━━━━━━━━━━━━━━━━━━━━━\n_${_clientName?_clientName+' · ':''}${rodape}_`;
   ta.value=msg;btnC.disabled=false;btnS.disabled=false;
   btnS.classList.remove('saved');btnS.innerHTML='💾 Salvar no Sheets';document.getElementById('save-status').textContent='';
   btnW.disabled=!document.getElementById('c_telefone').value.trim();
@@ -595,7 +611,7 @@ async function salvarPedido(){
   const obs=document.getElementById('c_obs').value.trim(),tipo=MODO==='novo'?'NOVO':'CORRECAO';
   const endTxt=document.getElementById('frete-endereco-txt').textContent||'';
   const params=new URLSearchParams({
-    clinica:nome,responsavel:clienteAtual?.responsavel||'',cargo:clienteAtual?.cargo||'',telefone:tel,
+    clinica:nome,responsavel:clienteAtual?.responsavel||'',telefone:tel,
     email:clienteAtual?.email||'',documento:clienteAtual?.cpf||clienteAtual?.documento||'',
     cidade:clienteAtual?.cidade||'',estado:clienteAtual?.estado||'',
     endereco:endTxt||clienteAtual?.endereco||'',
@@ -605,12 +621,23 @@ async function salvarPedido(){
     cupom_codigo:cupomCodigo||'',cupom_valor:calcularDescontoCupom().toFixed(2),carrinho:JSON.stringify(cart),
     cep:freteCep||'',frete_metodo:freteMetodo||'',frete_valor:freteValor>0?freteValor.toFixed(2):'0',
   });
-  // Corrigir: atualiza linha existente em vez de criar nova
-  if(MODO==='corrigir'&&pedidoRowId){params.set('action','atualizar_pedido');params.set('rowNum',pedidoRowId);}
+  // Corrigir: atualiza linha existente em vez de criar nova (exige token admin)
+  if(MODO==='corrigir'&&pedidoRowId){
+    params.set('action','atualizar_pedido');
+    params.set('rowNum',pedidoRowId);
+    params.set('email', ADMIN_SESSION.email);
+    params.set('token', ADMIN_SESSION.token);
+  }
   try{
     const r=await fetch(`${SHEETS_URL}?${params}`);
-    const resultado=MODO==='corrigir'&&pedidoRowId?await r.json():await r.text();
-    const ok=typeof resultado==='object'?resultado.ok:(resultado==='ok'||resultado.includes('ok'));
+    // Backend novo retorna JSON ({ok:true,token}). Pode também retornar string
+    // 'ignored' ou 'ok' em paths legados. Tenta ambos.
+    const txt = await r.text();
+    let resultado;
+    try { resultado = JSON.parse(txt); } catch(_) { resultado = txt; }
+    const ok = typeof resultado === 'object'
+      ? resultado.ok === true
+      : (resultado === 'ok' || (typeof resultado === 'string' && resultado.includes('ok')));
     if(ok){btn.classList.add('saved');btn.innerHTML='✓ Salvo!';status.textContent=`✅ Pedido ${tipo==='NOVO'?'criado':'corrigido'} salvo com sucesso.`;status.style.color='#6EE7B7';}
     else{btn.disabled=false;btn.innerHTML='💾 Salvar no Sheets';status.textContent=`⚠️ ${typeof resultado==='object'?(resultado.erro||'Resposta inesperada'):'Resposta inesperada'}`;status.style.color='#FCA5A5';}
   }catch(e){btn.disabled=false;btn.innerHTML='💾 Salvar no Sheets';status.textContent='⚠️ Erro de conexao.';status.style.color='#FCA5A5';}

@@ -1,4 +1,4 @@
-/* painel.js — PharmaFit Admin Panel */
+/* painel.js — Painel Admin B2B */
 
 // ── STATE ─────────────────────────────────────────────────────────────────────
 window.App = {
@@ -50,7 +50,7 @@ const PREV_STATUS = {
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', async () => {
-  const saved = localStorage.getItem('pharmafit_admin');
+  const saved = localStorage.getItem('lp_admin');
   if (!saved) return (window.location.href = 'index.html');
   App.admin = JSON.parse(saved);
   document.getElementById('admin-nome').textContent = App.admin.nome;
@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Sincroniza abas do mesmo browser instantaneamente via BroadcastChannel
   if ('BroadcastChannel' in window) {
-    const _bc = new BroadcastChannel('pharmafit-admin');
+    const _bc = new BroadcastChannel('lp-admin');
     _bc.addEventListener('message', e => {
       if (e.data?.type === 'PEDIDOS_UPDATED') {
         App.pedidos = e.data.pedidos;
@@ -159,7 +159,7 @@ async function loadPedidos() {
     if (data.ok) {
       if (_knownOrderIds === null) {
         // Primeira carga: restaura do sessionStorage para não re-notificar pedidos já existentes
-        const saved = localStorage.getItem('pf_known_ids');
+        const saved = localStorage.getItem('lp_known_ids');
         _knownOrderIds = saved
           ? new Set(JSON.parse(saved))
           : new Set(data.pedidos.map(p => String(p.id)));
@@ -173,7 +173,7 @@ async function loadPedidos() {
         addNotificacao(titulo, corpo);
       });
       _knownOrderIds = new Set(data.pedidos.map(p => String(p.id)));
-      localStorage.setItem('pf_known_ids', JSON.stringify([..._knownOrderIds]));
+      localStorage.setItem('lp_known_ids', JSON.stringify([..._knownOrderIds]));
       App.pedidos = data.pedidos;
       updateSwState();
       updateSyncTime();
@@ -850,7 +850,7 @@ async function salvarRastreio(orderId) {
 function printRomaneio(orderId) {
   const order = App.pedidos.find(p => p.id === orderId);
   if (!order) return;
-  sessionStorage.setItem('romaneio_order', JSON.stringify({ ...order, itens: parseItens(order) }));
+  sessionStorage.setItem('lp_romaneio_order', JSON.stringify({ ...order, itens: parseItens(order) }));
   window.open('print/romaneio.html', '_blank');
 }
 
@@ -881,7 +881,7 @@ function corrigirPedido(orderId) {
       endereco:    order.endereco,
     },
   };
-  sessionStorage.setItem('pharmafit_corrigir', JSON.stringify(payload));
+  sessionStorage.setItem('lp_corrigir', JSON.stringify(payload));
   window.open('../gerador_pedido.html', '_blank');
 }
 
@@ -997,12 +997,12 @@ async function updateStock(prodId, valor) {
 
 // ── CONFIG ────────────────────────────────────────────────────────────────────
 function getArchDays() {
-  const v = localStorage.getItem('pharmafit_arch_days');
+  const v = localStorage.getItem('lp_arch_days');
   return v === null ? 7 : parseInt(v);
 }
 
 function salvarConfigArquivamento(val) {
-  localStorage.setItem('pharmafit_arch_days', val);
+  localStorage.setItem('lp_arch_days', val);
   showToast('Configuração salva');
   if (App.view === 'kanban') renderKanban();
 }
@@ -1148,24 +1148,24 @@ async function solicitarNotificacoes() {
   const result = await Notification.requestPermission();
   updateNotifStatus();
   if (result === 'granted') {
-    showNotif('✅ PharmaFit Admin', { body: 'Notificações ativadas! Você receberá alertas de novos pedidos.' });
+    showNotif('✅ Painel Admin', { body: 'Notificações ativadas! Você receberá alertas de novos pedidos.' });
   }
 }
 
 // ── STOCK ALERTS ──────────────────────────────────────────────────────────────
 function getStockAlertThreshold() {
-  return parseInt(localStorage.getItem('pharmafit_stock_alert') || '5');
+  return parseInt(localStorage.getItem('lp_stock_alert') || '5');
 }
 
 function salvarConfigEstoque(val) {
-  localStorage.setItem('pharmafit_stock_alert', String(parseInt(val) || 5));
+  localStorage.setItem('lp_stock_alert', String(parseInt(val) || 5));
   showToast('Configuração salva');
 }
 
 function checkStockAlerts() {
   if (Notification.permission !== 'granted') return;
   const threshold = getStockAlertThreshold();
-  const alerted = new Set(JSON.parse(localStorage.getItem('pharmafit_stock_alerted') || '[]'));
+  const alerted = new Set(JSON.parse(localStorage.getItem('lp_stock_alerted') || '[]'));
   let changed = false;
 
   App.produtos.forEach(p => {
@@ -1193,7 +1193,7 @@ function checkStockAlerts() {
   });
 
   if (changed) {
-    localStorage.setItem('pharmafit_stock_alerted', JSON.stringify([...alerted]));
+    localStorage.setItem('lp_stock_alerted', JSON.stringify([...alerted]));
   }
 }
 
@@ -1207,7 +1207,7 @@ function updateSyncTime() {
 // ── BACKGROUND SYNC ───────────────────────────────────────────────────────────
 function updateSwState() {
   if (!('caches' in window) || !App.admin) return;
-  caches.open('pharmafit-sw-state').then(cache =>
+  caches.open('lp-admin-state').then(cache =>
     cache.put('sw-state', new Response(JSON.stringify({
       sheetsUrl: SHEETS_URL,
       email:     App.admin.email,
@@ -1366,7 +1366,7 @@ function hideGlobalResults() {
 
 // ── UTILS ─────────────────────────────────────────────────────────────────────
 function logout() {
-  localStorage.removeItem('pharmafit_admin');
+  localStorage.removeItem('lp_admin');
   window.location.href = 'index.html';
 }
 
@@ -2235,7 +2235,7 @@ function abrirNovoProduto() {
           </select>
         </div>
         <div class="field-inline"><label>Tags (vírgula)</label>
-          <input id="np-tags" placeholder="ex: peptídeo, injetável"/></div>
+          <input id="np-tags" placeholder="ex: tag1, tag2"/></div>
       </div>
 
       <div class="var-section">

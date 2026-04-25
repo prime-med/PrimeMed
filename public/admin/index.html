@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>PharmaFit Admin — Acesso</title>
+<title>Painel Admin — Acesso</title>
 <link rel="stylesheet" href="assets/css/admin.css"/>
 </head>
 <body class="login-page">
 
 <div class="login-card">
-  <div class="login-logo">🧬</div>
-  <h1 class="login-title">PharmaFit Admin</h1>
+  <div class="login-logo">🔐</div>
+  <h1 class="login-title">Painel Admin</h1>
   <p class="login-sub">Acesso restrito — equipe interna</p>
 
   <form id="login-form" autocomplete="on">
@@ -31,7 +31,7 @@
 
 <script src="../assets/js/config.js"></script>
 <script>
-  if (localStorage.getItem('pharmafit_admin')) {
+  if (localStorage.getItem('lp_admin')) {
     window.location.href = 'painel.html';
   }
 
@@ -54,7 +54,7 @@
       const data = await res.json();
 
       if (data.ok) {
-        localStorage.setItem('pharmafit_admin', JSON.stringify({
+        localStorage.setItem('lp_admin', JSON.stringify({
           email: data.email,
           token: data.token,
           nome:  data.nome,

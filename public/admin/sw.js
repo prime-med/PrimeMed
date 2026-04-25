@@ -1,4 +1,4 @@
-const CACHE = 'pharmafit-admin-v2';
+const CACHE = 'lp-admin-v1';
 
 self.addEventListener('install', e => {
   self.skipWaiting();
@@ -40,7 +40,7 @@ self.addEventListener('periodicsync', e => {
 async function checkNewOrdersBg() {
   let state;
   try {
-    const cache = await caches.open('pharmafit-sw-state');
+    const cache = await caches.open('lp-admin-state');
     const resp  = await cache.match('sw-state');
     if (!resp) return;
     state = await resp.json();
@@ -70,7 +70,7 @@ async function checkNewOrdersBg() {
 
     // Atualiza IDs conhecidos no cache para o próximo ciclo
     const newState = { ...state, knownIds: data.pedidos.map(p => String(p.id)) };
-    const cache2 = await caches.open('pharmafit-sw-state');
+    const cache2 = await caches.open('lp-admin-state');
     await cache2.put('sw-state', new Response(JSON.stringify(newState), {
       headers: { 'Content-Type': 'application/json' }
     }));

@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8"/>
-<title>Romaneio — PharmaFit</title>
+<title>Romaneio</title>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: Arial, Helvetica, sans-serif; font-size: 12pt; color: #111; background: #fff; }
@@ -73,7 +73,7 @@ tbody tr:nth-child(even) td { background: #fafafa; }
 
 <script>
   (function () {
-    const data = sessionStorage.getItem('romaneio_order');
+    const data = sessionStorage.getItem('lp_romaneio_order');
     if (!data) {
       document.getElementById('romaneio').innerHTML =
         '<div class="error-msg">Romaneio não encontrado.<br>Abra esta página a partir do painel admin.</div>';
@@ -99,7 +99,7 @@ tbody tr:nth-child(even) td { background: #fafafa; }
 
     document.getElementById('romaneio').innerHTML = `
       <div class="rom-header">
-        <div class="rom-logo">🧬 <span>Pharma</span>Fit</div>
+        <div class="rom-logo">📦 Romaneio</div>
         <div class="rom-id-block">
           <div class="rom-id">Pedido #${o.id || '—'}</div>
           <div class="rom-date">${esc(o.data || '')}</div>
@@ -145,7 +145,7 @@ tbody tr:nth-child(even) td { background: #fafafa; }
       </div>
 
       <div class="rom-footer">
-        <span>PharmaFit — Uso Interno</span>
+        <span>Uso Interno</span>
         <span>Emitido em ${now}</span>
       </div>
     `;

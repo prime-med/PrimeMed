@@ -7,8 +7,6 @@
       <stop offset="100%" stop-color="#0b1622"/>
     </linearGradient>
   </defs>
-  <text x="96" y="72" font-family="system-ui,sans-serif" font-size="44" font-weight="800" fill="#1abc9c" text-anchor="middle">PF</text>
-  <text x="96" y="112" font-family="system-ui,sans-serif" font-size="18" font-weight="500" fill="#7aaccb" text-anchor="middle">Admin</text>
-  <rect x="40" y="126" width="112" height="2" rx="1" fill="#1e3a52"/>
-  <text x="96" y="154" font-family="system-ui,sans-serif" font-size="13" fill="#1abc9c" text-anchor="middle" opacity=".7">PharmaFit</text>
+  <text x="96" y="92" font-family="system-ui,sans-serif" font-size="44" font-weight="800" fill="#1abc9c" text-anchor="middle">B2B</text>
+  <text x="96" y="132" font-family="system-ui,sans-serif" font-size="18" font-weight="500" fill="#7aaccb" text-anchor="middle">Admin</text>
 </svg>
