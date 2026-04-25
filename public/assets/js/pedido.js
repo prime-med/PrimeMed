@@ -4,6 +4,14 @@ let freteMetodo = '';
 let freteCep = '';
 let freteEstado = '';
 
+// ── ESCAPE HTML ──
+function esc(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function escAttr(s) {
+  return String(s || '').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+}
+
 // ─── STATE ──────────────────────────────────────────────────────────────────
 // ─── CORRELAÇÕES ────────────────────────────────────────────────────────────
 const CORRELACOES = {
@@ -132,7 +140,7 @@ function renderFilters() {
   const labs = [...new Set(CATALOG.filter(p => p.lab).map(p => p.lab))].sort();
   document.getElementById('lab-filters').innerHTML = ['Todos', ...labs].map(l => {
     const val = l === 'Todos' ? 'todos' : l;
-    return `<button class="lab-btn ${val === activeLabFilter ? 'active' : ''}" onclick="setLabFilter('${val}')">${l}</button>`;
+    return `<button class="lab-btn ${val === activeLabFilter ? 'active' : ''}" onclick="setLabFilter('${escAttr(val)}')">${esc(l)}</button>`;
   }).join('');
 
   // Tags dinâmicas a partir do catálogo (se nenhuma, esconde a sessão).
@@ -143,7 +151,7 @@ function renderFilters() {
   const dyn = [...allTags].sort().map(t => ({ val: t.toLowerCase(), label: t }));
   const cats = [...CATEGORIAS, ...dyn];
   document.getElementById('tag-filters').innerHTML = cats.map(c =>
-    `<button class="lab-btn ${c.val === activeTagFilter ? 'active' : ''}" onclick="setTagFilter('${c.val}')">${c.label}</button>`
+    `<button class="lab-btn ${c.val === activeTagFilter ? 'active' : ''}" onclick="setTagFilter('${escAttr(c.val)}')">${esc(c.label)}</button>`
   ).join('');
 }
 
@@ -235,7 +243,7 @@ async function buscarCliente(docParam) {
 
       if (Array.isArray(data.historico)) clienteHistorico = data.historico;
       bemVindo.style.display = 'block';
-      bemVindo.innerHTML = `✅ Bem-vindo de volta, <strong>${data.responsavel || data.clinica}</strong>! Dados preenchidos automaticamente.`;
+      bemVindo.innerHTML = `✅ Bem-vindo de volta, <strong>${esc(data.responsavel || data.clinica)}</strong>! Dados preenchidos automaticamente.`;
       limpar.style.display = 'block';
     } else {
       naoEncontrado.innerHTML = '⚠️ Não encontramos seus dados. Preencha o formulário manualmente abaixo.';
@@ -283,16 +291,16 @@ function aplicarCupom() {
     let msgTxt = '';
     if (cupomData.tipo === '%') {
       if (cupomData.produtos === 'todos') {
-        msgTxt = `✅ Cupom <strong>${codigo}</strong> aplicado! ${cupomData.valor}% de desconto em todos os produtos${descStr}.`;
+        msgTxt = `✅ Cupom <strong>${esc(codigo)}</strong> aplicado! ${esc(cupomData.valor)}% de desconto em todos os produtos${descStr}.`;
       } else {
         const prods = Array.isArray(cupomData.produtos) ? cupomData.produtos : [];
         const n = Object.keys(cart).filter(k => { const b = k.split('__')[0]; return prods.includes(k) || prods.includes(b); }).length;
-        msgTxt = `✅ Cupom <strong>${codigo}</strong> aplicado! ${cupomData.valor}% em ${n || prods.length} produto(s)${descStr}.`;
+        msgTxt = `✅ Cupom <strong>${esc(codigo)}</strong> aplicado! ${esc(cupomData.valor)}% em ${n || prods.length} produto(s)${descStr}.`;
       }
     } else {
       const precos = cupomData.precos || {};
       const n = Object.keys(cart).filter(k => { const b = k.split('__')[0]; return precos[k] !== undefined || precos[b] !== undefined; }).length;
-      msgTxt = `✅ Cupom <strong>${codigo}</strong> aplicado! Preço especial em ${n || Object.keys(precos).length} produto(s)${descStr}.`;
+      msgTxt = `✅ Cupom <strong>${esc(codigo)}</strong> aplicado! Preço especial em ${n || Object.keys(precos).length} produto(s)${descStr}.`;
     }
     msg.innerHTML = `<div class="cupom-ok">${msgTxt}</div>`;
     checkCupomExtras();
@@ -525,15 +533,15 @@ function renderProducts() {
       : stockAtual <= 10
         ? `<span style="color:#f39c12;font-size:.7rem">⚡ Últimas ${stockAtual} un.</span>`
         : `<span style="color:var(--accent);font-size:.7rem">✅ ${stockAtual} em estoque</span>`;
-    const labBadge = p.lab ? `<span class="pc-tag" style="background:rgba(26,188,156,.15);border-color:rgba(26,188,156,.3);color:var(--accent)">${p.lab}</span>` : '';
+    const labBadge = p.lab ? `<span class="pc-tag" style="background:rgba(26,188,156,.15);border-color:rgba(26,188,156,.3);color:var(--accent)">${esc(p.lab)}</span>` : '';
     const promoAtiva = isPromoAtiva(p);
     const promoRibbon = promoAtiva ? `<div class="promo-ribbon">🔥 Promoção</div>` : '';
     const promoTimer  = promoAtiva ? `
-      <div class="promo-timer">⏱ Termina em: <span id="countdown-${p.id}">${getCountdown(p.promo_fim)}</span></div>` : '';
+      <div class="promo-timer">⏱ Termina em: <span id="countdown-${escAttr(p.id)}">${getCountdown(p.promo_fim)}</span></div>` : '';
     const promoPrecoHtml = promoAtiva ? `
       <span class="promo-price-old">R$ ${p.price.toLocaleString('pt-BR',{minimumFractionDigits:2})}</span>` : '';
     const temProtocolo = PROTOCOLS && PROTOCOLS[p.id];
-    const saibaMaisBtn = temProtocolo ? `<button class="btn-saiba-mais" onclick="event.stopPropagation(); abrirProtocolo('${p.id}')">📋 Saiba mais sobre este produto</button>` : '';
+    const saibaMaisBtn = temProtocolo ? `<button class="btn-saiba-mais" onclick="event.stopPropagation(); abrirProtocolo('${escAttr(p.id)}')">📋 Saiba mais sobre este produto</button>` : '';
     const temVariantes = p.variantes && p.variantes.length > 0;
 
     // Produtos COM variantes: cada dose tem sua própria linha com [− qty +]
@@ -562,52 +570,52 @@ function renderProducts() {
             : vStockLabel;
           return `<div class="variant-row">
             <div class="vr-info">
-              <span class="vr-dose">${v.dose}</span>
+              <span class="vr-dose">${esc(v.dose)}</span>
               <div class="vr-price-row">${vPromoHtml}${vStockLabel2}</div>
             </div>
             <div class="vr-controls">
-              <button class="vr-btn" onclick="event.stopPropagation(); changeVariantQty('${p.id}',${i},-1)">−</button>
-              <span class="vr-qty" id="vqty-${p.id}-${i}">${vQty}</span>
-              <button class="vr-btn" onclick="event.stopPropagation(); changeVariantQty('${p.id}',${i},1)">+</button>
+              <button class="vr-btn" onclick="event.stopPropagation(); changeVariantQty('${escAttr(p.id)}',${i},-1)">−</button>
+              <span class="vr-qty" id="vqty-${escAttr(p.id)}-${i}">${vQty}</span>
+              <button class="vr-btn" onclick="event.stopPropagation(); changeVariantQty('${escAttr(p.id)}',${i},1)">+</button>
             </div>
-            <span class="vr-sub" id="vsub-${p.id}-${i}">${vQty > 0 ? `= R$ ${(vPriceDisc*vQty).toLocaleString('pt-BR',{minimumFractionDigits:2})}` : ''}</span>
+            <span class="vr-sub" id="vsub-${escAttr(p.id)}-${i}">${vQty > 0 ? `= R$ ${(vPriceDisc*vQty).toLocaleString('pt-BR',{minimumFractionDigits:2})}` : ''}</span>
           </div>`;
         }).join('')}
       </div>` : '';
 
     // Produtos SEM variantes: comportamento original
     const qtyWrapHtml = !temVariantes ? `
-        <div class="pc-qty-wrap" id="qty-wrap-${p.id}">
-          <button class="qty-btn" onclick="event.stopPropagation(); changeQty('${p.id}',-1)">−</button>
-          <input class="qty-input" type="number" id="qty-${p.id}" value="${qty}" min="1" max="${p.stock}"
-            onchange="event.stopPropagation(); setQty('${p.id}', this.value)"
+        <div class="pc-qty-wrap" id="qty-wrap-${escAttr(p.id)}">
+          <button class="qty-btn" onclick="event.stopPropagation(); changeQty('${escAttr(p.id)}',-1)">−</button>
+          <input class="qty-input" type="number" id="qty-${escAttr(p.id)}" value="${qty}" min="1" max="${p.stock}"
+            onchange="event.stopPropagation(); setQty('${escAttr(p.id)}', this.value)"
             onclick="event.stopPropagation()"/>
-          <button class="qty-btn" onclick="event.stopPropagation(); changeQty('${p.id}',1)">+</button>
+          <button class="qty-btn" onclick="event.stopPropagation(); changeQty('${escAttr(p.id)}',1)">+</button>
           <span class="qty-label">un.</span>
-          <span class="pc-subtotal" id="sub-${p.id}">= R$ ${subtotal}</span>
+          <span class="pc-subtotal" id="sub-${escAttr(p.id)}">= R$ ${subtotal}</span>
         </div>` : '';
 
-    const cardOnclick = temVariantes ? '' : `toggleProduct('${p.id}')`;
+    const cardOnclick = temVariantes ? '' : `toggleProduct('${escAttr(p.id)}')`;
     const cardSelected = temVariantes
       ? p.variantes.some((_, i) => (cart[`${p.id}__${i}`] || 0) > 0)
       : isSelected;
 
     grid.innerHTML += `
       <div class="product-card ${cardSelected ? 'selected' : ''} ${promoAtiva ? 'promo-ativa' : ''}"
-           id="pc-${p.id}" onclick="${cardOnclick}"
+           id="pc-${escAttr(p.id)}" onclick="${cardOnclick}"
            style="">
         ${promoRibbon}
         <div class="pc-header">
-          <span class="pc-icon">${p.icon}</span>
+          <span class="pc-icon">${esc(p.icon)}</span>
           <div class="pc-check">${cardSelected ? '✓' : ''}</div>
         </div>
-        <div class="pc-name">${p.name}</div>
-        <div class="pc-conc">${p.conc}</div>
-        <div class="pc-tags">${labBadge}${(p.tags||[]).map(t=>`<span class="pc-tag">${t}</span>`).join('')}</div>
-        ${!temVariantes ? `<div style="margin:6px 0" id="stock-${p.id}">${estoqueLabel}</div>` : ''}
+        <div class="pc-name">${esc(p.name)}</div>
+        <div class="pc-conc">${esc(p.conc)}</div>
+        <div class="pc-tags">${labBadge}${(p.tags||[]).map(t=>`<span class="pc-tag">${esc(t)}</span>`).join('')}</div>
+        ${!temVariantes ? `<div style="margin:6px 0" id="stock-${escAttr(p.id)}">${estoqueLabel}</div>` : ''}
         ${!temVariantes ? `<div class="pc-price-row" style="flex-direction:column;align-items:flex-start;gap:2px">
           ${promoPrecoHtml}<div style="display:flex;align-items:baseline;gap:4px">
-          <span class="pc-price" id="price-${p.id}" style="${promoAtiva?'color:#F39C12':''}">R$ ${currentPrice.toLocaleString('pt-BR',{minimumFractionDigits:2})}</span>
+          <span class="pc-price" id="price-${escAttr(p.id)}" style="${promoAtiva?'color:#F39C12':''}">R$ ${currentPrice.toLocaleString('pt-BR',{minimumFractionDigits:2})}</span>
           <span class="pc-unit">/ unidade</span></div></div>` : ''}
         ${promoTimer}
         ${variantRowsHtml}
@@ -645,7 +653,7 @@ function renderHighlights() {
            <span style="font-size:.65rem;color:var(--gray)">A partir de</span>
            <span style="font-size:.7rem;color:var(--gray);text-decoration:line-through">R$ ${varOriginal.toLocaleString('pt-BR',{minimumFractionDigits:2})}</span>
            <span class="hl-card-price" style="color:#F59E0B">R$ ${minPromo.toLocaleString('pt-BR',{minimumFractionDigits:2})}</span>
-           <span id="hl-countdown-${p.id}" style="font-size:.63rem;color:#F59E0B;font-weight:600">⏱ ${getCountdown(p.promo_fim)}</span>
+           <span id="hl-countdown-${escAttr(p.id)}" style="font-size:.63rem;color:#F59E0B;font-weight:600">⏱ ${getCountdown(p.promo_fim)}</span>
          </div>`;
       } else {
         priceHtml = `<div style="margin-top:4px">
@@ -662,16 +670,16 @@ function renderHighlights() {
         ? `<div style="display:flex;flex-direction:column;align-items:flex-start;gap:2px;margin-top:4px">
              <span style="font-size:.7rem;color:var(--gray);text-decoration:line-through">R$ ${p.price.toLocaleString('pt-BR',{minimumFractionDigits:2})}</span>
              <span class="hl-card-price" style="color:#F59E0B">R$ ${price.toLocaleString('pt-BR',{minimumFractionDigits:2})}</span>
-             <span id="hl-countdown-${p.id}" style="font-size:.63rem;color:#F59E0B;font-weight:600">⏱ ${getCountdown(p.promo_fim)}</span>
+             <span id="hl-countdown-${escAttr(p.id)}" style="font-size:.63rem;color:#F59E0B;font-weight:600">⏱ ${getCountdown(p.promo_fim)}</span>
            </div>`
         : `<div class="hl-card-price">R$ ${price.toLocaleString('pt-BR',{minimumFractionDigits:2})}</div>`;
     }
-    return `<div class="hl-card ${cardClass} ${promoClass}" onclick="scrollToCard('${p.id}')">
+    return `<div class="hl-card ${cardClass} ${promoClass}" onclick="scrollToCard('${escAttr(p.id)}')">
       ${promoRibbon}
       <span class="${badgeClass}">${badgeLabel}</span>
-      <span class="hl-card-icon">${p.icon}</span>
-      <div class="hl-card-name">${p.name}</div>
-      <div class="hl-card-conc">${p.conc}</div>
+      <span class="hl-card-icon">${esc(p.icon)}</span>
+      <div class="hl-card-name">${esc(p.name)}</div>
+      <div class="hl-card-conc">${esc(p.conc)}</div>
       ${priceHtml}
       <div class="hl-card-hint">Toque para ver no catálogo →</div>
     </div>`;
@@ -861,7 +869,7 @@ function abrirProtocolo(id) {
     .filter(s => s.campo && String(s.campo).trim())
     .map(s => `<div class="proto-section">
       <div class="proto-section-title">${s.titulo}</div>
-      <div class="proto-section-body">${String(s.campo).replace(/\n/g,'<br>')}</div>
+      <div class="proto-section-body">${esc(String(s.campo)).replace(/\n/g,'<br>')}</div>
     </div>`).join('');
 
   // Informativo
@@ -1081,7 +1089,7 @@ function buildReview() {
     ['Observações', v('f_obs') || '—'],
   ];
   document.getElementById('review-dados').innerHTML =
-    dados.map(([l,val]) => `<div class="rc-row"><span class="lbl">${l}</span><span class="val">${val}</span></div>`).join('');
+    dados.map(([l,val]) => `<div class="rc-row"><span class="lbl">${l}</span><span class="val">${esc(val)}</span></div>`).join('');
 
   // Produtos
   let html = '';
@@ -1111,13 +1119,13 @@ function buildReview() {
       } else if (cupomData.tipo === '%') {
         const prods = Array.isArray(cupomData.produtos) ? cupomData.produtos : null;
         if (!prods || prods.includes(key) || prods.includes(baseId)) {
-          cupomHtml = `<div style="font-size:.72rem;color:var(--accent);margin-top:1px">🎟️ Cupom: −${cupomData.valor}%</div>`;
+          cupomHtml = `<div style="font-size:.72rem;color:var(--accent);margin-top:1px">🎟️ Cupom: −${esc(cupomData.valor)}%</div>`;
         }
       }
     }
 
     html += `<div class="rp-item">
-      <div><div class="rp-name">${p.icon} ${p.name}</div><div class="rp-detail">${varLabel}</div>${cupomHtml}</div>
+      <div><div class="rp-name">${esc(p.icon)} ${esc(p.name)}</div><div class="rp-detail">${esc(varLabel)}</div>${cupomHtml}</div>
       <div><div style="text-align:right; font-size:.8rem; color:var(--gray)">${qty} × R$${price.toLocaleString('pt-BR',{minimumFractionDigits:2})}</div>
       <div class="rp-total">R$ ${sub.toLocaleString('pt-BR',{minimumFractionDigits:2})}</div></div>
     </div>`;
@@ -1125,15 +1133,15 @@ function buildReview() {
   document.getElementById('review-products').innerHTML = html;
 
   // Pagamento
-  let pagInfo = `<div class="rc-row"><span class="lbl">Forma</span><span class="val">${selectedPayment}</span></div>`;
+  let pagInfo = `<div class="rc-row"><span class="lbl">Forma</span><span class="val">${esc(selectedPayment)}</span></div>`;
   if (selectedPayment === 'Cartão de Crédito') {
     const parc = document.getElementById('f_parcelas').value;
     const val = document.getElementById('f_parcela_val').value;
     const semJuros = cupomData?.parcelamento === 'SIM' && parseInt(parc) <= 3 ? ' — sem juros (cupom)' : '';
-    pagInfo += `<div class="rc-row"><span class="lbl">Parcelamento</span><span class="val">${parc}x de ${val}${semJuros}</span></div>`;
+    pagInfo += `<div class="rc-row"><span class="lbl">Parcelamento</span><span class="val">${esc(parc)}x de ${esc(val)}${semJuros}</span></div>`;
   }
   if (v('f_obs_pag')) {
-    pagInfo += `<div class="rc-row"><span class="lbl">Obs. pagamento</span><span class="val">${v('f_obs_pag')}</span></div>`;
+    pagInfo += `<div class="rc-row"><span class="lbl">Obs. pagamento</span><span class="val">${esc(v('f_obs_pag'))}</span></div>`;
   }
 
   // Frete
@@ -1171,7 +1179,7 @@ function buildReview() {
     : '';
   const descontoHtml  = cupomAplicado ? `
     <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:.85rem;color:var(--accent);font-weight:700">
-      <span>🎟️ Desconto (${descontoLabel} — ${cupomCodigo})</span>
+      <span>🎟️ Desconto (${esc(descontoLabel)} — ${esc(cupomCodigo)})</span>
       <span>− R$ ${descontoValor.toLocaleString('pt-BR',{minimumFractionDigits:2})}</span>
     </div>` : '';
   const beneficiosReviewHtml = (() => {
@@ -1186,7 +1194,7 @@ function buildReview() {
         const econJuros = jurosOrig > 0
           ? ` <span style="opacity:.85">· economia de R$ ${(base * jurosOrig / 100).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})} em juros</span>`
           : '';
-        items.push(`⚡ Parcelamento sem juros (${parc}×)${econJuros} · cupom <strong>${cupomCodigo}</strong>`);
+        items.push(`⚡ Parcelamento sem juros (${parc}×)${econJuros} · cupom <strong>${esc(cupomCodigo)}</strong>`);
       }
     }
     if (cupomData.frete_gratis_acima && freteValor === 0 && freteEstado && freteMetodo) {
@@ -1195,7 +1203,7 @@ function buildReview() {
       const econFrete    = freteOriginal > 0
         ? ` <span style="opacity:.85">· economia de R$ ${freteOriginal.toFixed(2).replace('.',',')}</span>`
         : '';
-      items.push(`🚚 Frete grátis${econFrete} · cupom <strong>${cupomCodigo}</strong>`);
+      items.push(`🚚 Frete grátis${econFrete} · cupom <strong>${esc(cupomCodigo)}</strong>`);
     }
     if (!items.length) return '';
     return items.map(i =>
@@ -1214,7 +1222,7 @@ function buildReview() {
     <div style="border-top:1px solid rgba(255,255,255,.15);margin:10px 0"></div>
     <div class="rtb-label">Total do Pedido</div>
     <div class="rtb-amount">R$ ${totalFinal.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}</div>
-    <div class="rtb-method">${selectedPayment}</div>`;
+    <div class="rtb-method">${esc(selectedPayment)}</div>`;
   renderRecomendacoesRevisao();
 }
 
@@ -1433,12 +1441,12 @@ function openHistory() {
     body.innerHTML = orders.map(o => `
       <div class="history-item">
         <div class="hi-top">
-          <span class="hi-clinic">${o.clinica}</span>
-          <span class="hi-total">R$ ${o.total}</span>
+          <span class="hi-clinic">${esc(o.clinica)}</span>
+          <span class="hi-total">R$ ${esc(o.total)}</span>
         </div>
-        <div class="hi-date">📅 ${o.date} · ${o.responsavel} · ${o.telefone}</div>
-        <div class="hi-products">💊 ${o.products.join(' | ')}</div>
-        <div class="hi-method">💳 ${o.payment}</div>
+        <div class="hi-date">📅 ${esc(o.date)} · ${esc(o.responsavel)} · ${esc(o.telefone)}</div>
+        <div class="hi-products">💊 ${esc(o.products.join(' | '))}</div>
+        <div class="hi-method">💳 ${esc(o.payment)}</div>
       </div>`).join('');
   }
   document.getElementById('history-modal').classList.add('open');
@@ -1488,13 +1496,13 @@ function renderRecomendacoesRevisao() {
     const inCart = cartIds.includes(p.id);
     return `<div class="rec-card">
       <div class="rec-card-top">
-        <span class="rec-card-icon">${p.icon}</span>
-        <span class="rec-card-name">${p.name}</span>
+        <span class="rec-card-icon">${esc(p.icon)}</span>
+        <span class="rec-card-name">${esc(p.name)}</span>
       </div>
-      <div class="rec-card-conc">${p.conc}</div>
+      <div class="rec-card-conc">${esc(p.conc)}</div>
       <div class="rec-card-price">R$ ${price.toLocaleString('pt-BR',{minimumFractionDigits:2})}</div>
-      <button class="rec-add-btn" id="rec-btn-${p.id}" ${inCart ? 'disabled' : ''}
-        onclick="adicionarDaRec('${p.id}')">
+      <button class="rec-add-btn" id="rec-btn-${escAttr(p.id)}" ${inCart ? 'disabled' : ''}
+        onclick="adicionarDaRec('${escAttr(p.id)}')">
         ${inCart ? '✓ Já no carrinho' : '+ Adicionar ao pedido'}
       </button>
     </div>`;

@@ -17,6 +17,14 @@ let gPendingCart=null, gPendingCartText=null;
 let gPedidoRowId=null;
 let gCupomAplicado=false, gCupomCodigo='', gCupomData=null;
 
+// ── ESCAPE HTML ──
+function esc(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function escAttr(s) {
+  return String(s || '').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+}
+
 // ═══════════════════════════════════════════════════════════════════════════════
 // INIT (chamado pelo painel.js quando o usuário abre a aba "Gerar Pedido")
 //   - Primeira vez: carrega parcelas, cupons, catálogo
@@ -160,8 +168,8 @@ function aplicarCupom(){
     const desc=calcularDescontoCupom();
     const descStr=desc>0?` — <strong>R$ ${desc.toLocaleString('pt-BR',{minimumFractionDigits:2})} de desconto</strong>`:'';
     let txt='';
-    if(gCupomData.tipo==='%')txt=`✅ <strong>${codigo}</strong> aplicado! ${gCupomData.valor}% de desconto${descStr}.`;
-    else txt=`✅ <strong>${codigo}</strong> aplicado! Preço especial em produtos selecionados${descStr}.`;
+    if(gCupomData.tipo==='%')txt=`✅ <strong>${esc(codigo)}</strong> aplicado! ${esc(gCupomData.valor)}% de desconto${descStr}.`;
+    else txt=`✅ <strong>${esc(codigo)}</strong> aplicado! Preço especial em produtos selecionados${descStr}.`;
     status.innerHTML=`<span class="cupom-ok">${txt}</span>`;
     renderParcelasSelect();renderCart();gerarMensagem();
   }else{
@@ -235,7 +243,7 @@ async function calcularFrete(){
   try{
     const data=await buscarCEP(cep);
     gFreteEstado=data.uf;gFreteCep=cep;
-    endTxt.textContent=`📍 ${data.logradouro?data.logradouro+', ':''}${data.localidade}/${data.uf}`;
+    endTxt.textContent=`📍 ${data.logradouro?data.logradouro+', ':''}${data.localidade}/${data.uf}`; // textContent already safe
     const tab=FRETE_TABELA[data.uf];
     if(!tab){status.textContent='Estado sem tabela de frete.';status.style.color='#FCA5A5';return;}
 
@@ -310,10 +318,10 @@ function renderCatalogo(filtro=''){
   grid.innerHTML=lista.map(p=>{
     const inCart=Object.keys(gCart).some(k=>k.split('__')[0]===p.id);
     const precoMin=p.variantes.length>0?Math.min(...p.variantes.map(v=>v.preco)):p.price;
-    return`<div class="prod-tile ${inCart?'in-cart':''}" onclick="adicionarProduto('${p.id}')">
+    return`<div class="prod-tile ${inCart?'in-cart':''}" onclick="adicionarProduto('${escAttr(p.id)}')">
       ${inCart?'<span class="pt-badge">✓</span>':''}
-      <div class="pt-icon">${p.icon}</div><div class="pt-name">${p.name}</div>
-      <div class="pt-conc">${p.conc}</div><div class="pt-price">R$ ${precoMin.toLocaleString('pt-BR',{minimumFractionDigits:2})}</div>
+      <div class="pt-icon">${esc(p.icon)}</div><div class="pt-name">${esc(p.name)}</div>
+      <div class="pt-conc">${esc(p.conc)}</div><div class="pt-price">R$ ${precoMin.toLocaleString('pt-BR',{minimumFractionDigits:2})}</div>
     </div>`;
   }).join('');
 }
@@ -335,8 +343,8 @@ function g_renderClientes(filtro=''){
   if(!lista.length&&filtro)html+='<div class="loading-box">Nenhum cliente encontrado.</div>';
   else html+=lista.map((c,i)=>{
     const ri=gCLIENTES.indexOf(c);const parts=[];
-    if(c.telefone)parts.push(`📞 ${c.telefone}`);if(c.cpf)parts.push(`🆔 ${c.cpf}`);if(c.email)parts.push(`📧 ${c.email}`);if(c.cidade)parts.push(`📍 ${c.cidade}${c.estado?'/'+c.estado:''}`);
-    return`<div class="cli-card" onclick="selecionarCliente(${ri},'novo')"><div class="cli-nome">${c.clinica||c.responsavel||'Sem nome'}</div><div class="cli-info">${parts.join(' · ')}</div>${c.responsavel&&c.clinica?`<span class="cli-tag">${c.responsavel}</span>`:''}</div>`;
+    if(c.telefone)parts.push(`📞 ${esc(c.telefone)}`);if(c.cpf)parts.push(`🆔 ${esc(c.cpf)}`);if(c.email)parts.push(`📧 ${esc(c.email)}`);if(c.cidade)parts.push(`📍 ${esc(c.cidade)}${c.estado?'/'+esc(c.estado):''}`);
+    return`<div class="cli-card" onclick="selecionarCliente(${ri},'novo')"><div class="cli-nome">${esc(c.clinica||c.responsavel||'Sem nome')}</div><div class="cli-info">${parts.join(' · ')}</div>${c.responsavel&&c.clinica?`<span class="cli-tag">${esc(c.responsavel)}</span>`:''}</div>`;
   }).join('');
   grid.innerHTML=html;
   document.getElementById('clientes-status').textContent=`${gCLIENTES.length} clientes cadastrados`;
@@ -363,8 +371,8 @@ function renderClientesCorr(filtro=''){
   if(!lista.length){grid.innerHTML='<div class="loading-box">Nenhum cliente encontrado.</div>';return;}
   grid.innerHTML=lista.map((c,i)=>{
     const ri=gCLIENTES_CORR.indexOf(c);const parts=[];
-    if(c.telefone)parts.push(`📞 ${c.telefone}`);if(c.cpf)parts.push(`🆔 ${c.cpf}`);if(c.cidade)parts.push(`📍 ${c.cidade}${c.estado?'/'+c.estado:''}`);
-    return`<div class="cli-card" onclick="selecionarCliente(${ri},'corr')"><div class="cli-nome">${c.clinica||'Sem nome'}</div><div class="cli-info">${parts.join(' · ')}</div></div>`;
+    if(c.telefone)parts.push(`📞 ${esc(c.telefone)}`);if(c.cpf)parts.push(`🆔 ${esc(c.cpf)}`);if(c.cidade)parts.push(`📍 ${esc(c.cidade)}${c.estado?'/'+esc(c.estado):''}`);
+    return`<div class="cli-card" onclick="selecionarCliente(${ri},'corr')"><div class="cli-nome">${esc(c.clinica||'Sem nome')}</div><div class="cli-info">${parts.join(' · ')}</div></div>`;
   }).join('');
   document.getElementById('clientes-corr-status').textContent=`${gCLIENTES_CORR.length} clientes`;
 }
@@ -383,10 +391,10 @@ async function carregarPedidosDoCliente(cli){
     if(!pedidos.length){grid.innerHTML='<div class="loading-box">Nenhum pedido encontrado para este cliente.</div>';return;}
     grid.innerHTML=pedidos.map((p,i)=>{
       const itens=(p.produtos||'').split('\n').filter(Boolean);
-      const itensH=itens.slice(0,3).map(l=>`<div>${l}</div>`).join('')+(itens.length>3?`<div style="color:var(--gray)">+${itens.length-3} itens...</div>`:'');
+      const itensH=itens.slice(0,3).map(l=>`<div>${esc(l)}</div>`).join('')+(itens.length>3?`<div style="color:var(--gray)">+${itens.length-3} itens...</div>`:'');
       const total=p.total?`R$ ${parseFloat(p.total).toLocaleString('pt-BR',{minimumFractionDigits:2})}`:'—';
-      return`<div class="ped-card" id="pcli-card-${i}"><div class="ped-header"><div class="ped-cliente">${p.clinica||''}</div><div class="ped-data">📅 ${p.data||'—'}</div></div>
-        <div class="ped-total">${total}</div>${p.pagamento?`<span class="ped-pag">${p.pagamento}</span>`:''}
+      return`<div class="ped-card" id="pcli-card-${i}"><div class="ped-header"><div class="ped-cliente">${esc(p.clinica||'')}</div><div class="ped-data">📅 ${esc(p.data||'—')}</div></div>
+        <div class="ped-total">${total}</div>${p.pagamento?`<span class="ped-pag">${esc(p.pagamento)}</span>`:''}
         <div class="ped-itens">${itensH}</div>
         <button class="ped-btn" id="pcli-btn-${i}" onclick="selecionarPedidoCliente(${i})">✏️ Editar este pedido</button></div>`;
     }).join('');
@@ -416,10 +424,10 @@ function renderPedidosLista(filtro=''){
   if(!lista.length){grid.innerHTML=`<div class="loading-box">${filtro?'Nenhum pedido encontrado.':'Nenhum pedido registrado.'}</div>`;return;}
   grid.innerHTML=lista.map(p=>{
     const ri=gPEDIDOS.indexOf(p);const itens=(p.produtos||'').split('\n').filter(Boolean);
-    const itensH=itens.slice(0,3).map(l=>`<div>${l}</div>`).join('')+(itens.length>3?`<div style="color:var(--gray)">+${itens.length-3} itens...</div>`:'');
+    const itensH=itens.slice(0,3).map(l=>`<div>${esc(l)}</div>`).join('')+(itens.length>3?`<div style="color:var(--gray)">+${itens.length-3} itens...</div>`:'');
     const total=p.total?`R$ ${parseFloat(p.total).toLocaleString('pt-BR',{minimumFractionDigits:2})}`:'—';
-    return`<div class="ped-card" id="ped-card-${ri}"><div class="ped-header"><div class="ped-cliente">${p.clinica||'Sem nome'}</div><div class="ped-data">📅 ${p.data||'—'}</div></div>
-      <div class="ped-total">${total}</div>${p.pagamento?`<span class="ped-pag">${p.pagamento}</span>`:''}
+    return`<div class="ped-card" id="ped-card-${ri}"><div class="ped-header"><div class="ped-cliente">${esc(p.clinica||'Sem nome')}</div><div class="ped-data">📅 ${esc(p.data||'—')}</div></div>
+      <div class="ped-total">${total}</div>${p.pagamento?`<span class="ped-pag">${esc(p.pagamento)}</span>`:''}
       <div class="ped-itens">${itensH}</div>
       <button class="ped-btn" id="ped-btn-${ri}" onclick="selecionarPedido(${ri})">✏️ Editar este pedido</button></div>`;
   }).join('');
@@ -518,16 +526,16 @@ function renderCart(){
   let subtotal=0;
   list.innerHTML=keys.map(key=>{
     const parts=key.split('__'),id=parts[0],varIdx=parts.length>1?parseInt(parts[1]):null,p=gCATALOG.find(x=>x.id===id);
-    if(!p)return`<div class="cart-item"><span class="ci-icon">❓</span><div class="ci-info"><div class="ci-name">${key}</div></div><button class="ci-remove" onclick="removerItem('${key}')">✕</button></div>`;
+    if(!p)return`<div class="cart-item"><span class="ci-icon">❓</span><div class="ci-info"><div class="ci-name">${esc(key)}</div></div><button class="ci-remove" onclick="removerItem('${escAttr(key)}')">✕</button></div>`;
     const qty=gCart[key];let conc=p.conc;
     if(varIdx!==null&&p.variantes[varIdx])conc=p.variantes[varIdx].dose;
     const price=getItemPrice(key);const sub=price*qty;subtotal+=sub;
-    const vs=p.variantes.length>1?`<select class="var-select" onchange="alterarVariante('${id}','${key}',this.value)">${p.variantes.map((v,vi)=>`<option value="${vi}" ${vi===varIdx?'selected':''}>${v.dose}</option>`).join('')}</select>`:'';
-    return`<div class="cart-item"><span class="ci-icon">${p.icon}</span>
-      <div class="ci-info"><div class="ci-name">${p.name}</div><div class="ci-conc">${conc}</div>${vs}</div>
+    const vs=p.variantes.length>1?`<select class="var-select" onchange="alterarVariante('${escAttr(id)}','${escAttr(key)}',this.value)">${p.variantes.map((v,vi)=>`<option value="${vi}" ${vi===varIdx?'selected':''}>${esc(v.dose)}</option>`).join('')}</select>`:'';
+    return`<div class="cart-item"><span class="ci-icon">${esc(p.icon)}</span>
+      <div class="ci-info"><div class="ci-name">${esc(p.name)}</div><div class="ci-conc">${esc(conc)}</div>${vs}</div>
       <div style="text-align:right;flex-shrink:0"><div class="ci-price">R$ ${sub.toLocaleString('pt-BR',{minimumFractionDigits:2})}</div>
-        <div class="ci-qty" style="margin-top:4px;justify-content:flex-end"><button onclick="alterarQtd('${key}',-1)">−</button><span>${qty}</span><button onclick="alterarQtd('${key}',1)">+</button></div>
-      </div><button class="ci-remove" onclick="removerItem('${key}')">✕</button></div>`;
+        <div class="ci-qty" style="margin-top:4px;justify-content:flex-end"><button onclick="alterarQtd('${escAttr(key)}',-1)">−</button><span>${qty}</span><button onclick="alterarQtd('${escAttr(key)}',1)">+</button></div>
+      </div><button class="ci-remove" onclick="removerItem('${escAttr(key)}')">✕</button></div>`;
   }).join('');
 
   document.getElementById('subtotal-amount').textContent=`R$ ${subtotal.toLocaleString('pt-BR',{minimumFractionDigits:2})}`;

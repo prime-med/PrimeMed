@@ -2,6 +2,14 @@ let protocolosCache = null;
 let produtosCache = null;
 const CORES = ['c1','c2','c3','c4','c5','c6','c7','c8'];
 
+// ── ESCAPE HTML ──
+function esc(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function escAttr(s) {
+  return String(s || '').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+}
+
 function parseBrDate(str) {
   if (!str) return null;
   const s = String(str).trim();
@@ -57,15 +65,15 @@ async function renderProdutosLanding() {
     return `
       <div class="prod-card">
         <div class="prod-card-top ${cor}">
-          <div class="pc-icon">${p.icone || '📦'}</div>
-          <div class="pc-conc">${p.conc}</div>
-          <div class="pc-name">${p.nome}</div>
-          <div class="pc-sub">${p.lab || ''}</div>
+          <div class="pc-icon">${esc(p.icone || '📦')}</div>
+          <div class="pc-conc">${esc(p.conc)}</div>
+          <div class="pc-name">${esc(p.nome)}</div>
+          <div class="pc-sub">${esc(p.lab || '')}</div>
         </div>
         <div class="prod-card-body">
           ${promoBadge}
-          <div class="pb-tags">${tags.map(t=>`<span class="pb-tag">${t}</span>`).join('')}</div>
-          ${temProto ? `<button class="btn-protocolo" onclick="verProtocolo('${p.id}','${p.nome}','${p.icone || '📦'}','${p.conc}')">🔬 Ver Detalhes</button>` : ''}
+          <div class="pb-tags">${tags.map(t=>`<span class="pb-tag">${esc(t)}</span>`).join('')}</div>
+          ${temProto ? `<button class="btn-protocolo" onclick="verProtocolo('${escAttr(p.id)}','${escAttr(p.nome)}','${escAttr(p.icone || '📦')}','${escAttr(p.conc)}')">🔬 Ver Detalhes</button>` : ''}
           <a href="${waHref}" class="btn-prod" target="_blank">💬 Solicitar Informações</a>
         </div>
       </div>`;
@@ -102,15 +110,15 @@ async function verProtocolo(id, nome, icone, conc) {
   document.getElementById('proto-body').innerHTML = `
     <div class="proto-section">
       <div class="proto-section-title">⚗️ Mecanismo de Ação</div>
-      <div class="proto-section-text">${p.mecanismo}</div>
+      <div class="proto-section-text">${esc(p.mecanismo)}</div>
     </div>
     <div class="proto-section">
       <div class="proto-section-title">💉 Reconstituição</div>
-      <div class="proto-section-text">${p.reconstituicao}</div>
+      <div class="proto-section-text">${esc(p.reconstituicao)}</div>
     </div>
     <div class="proto-section">
       <div class="proto-section-title">📊 Dosagem</div>
-      <div class="proto-section-text">${p.dosagem}</div>
+      <div class="proto-section-text">${esc(p.dosagem)}</div>
     </div>
     <div class="proto-section">
       <div class="proto-section-title">🗂️ Protocolos Clínicos</div>
@@ -120,15 +128,15 @@ async function verProtocolo(id, nome, icone, conc) {
           const pname = parts[0] || '';
           const pdesc = parts.slice(1).join(':').trim();
           return `<div class="proto-protocol-item">
-            <div class="proto-protocol-name">${pname}</div>
-            ${pdesc ? `<div class="proto-protocol-desc">${pdesc}</div>` : ''}
+            <div class="proto-protocol-name">${esc(pname)}</div>
+            ${pdesc ? `<div class="proto-protocol-desc">${esc(pdesc)}</div>` : ''}
           </div>`;
         }).join('')}
       </div>
     </div>
     <div class="proto-section">
       <div class="proto-section-title">⚠️ Cuidados e Contraindicações</div>
-      <div class="proto-warning">${p.cuidados}</div>
+      <div class="proto-warning">${esc(p.cuidados)}</div>
     </div>`;
 }
 

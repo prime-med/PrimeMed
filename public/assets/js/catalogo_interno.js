@@ -3,6 +3,14 @@ let CATALOG   = [];
 let catAtiva  = '';
 let queryAtiva = '';
 
+// ── ESCAPE HTML ──
+function esc(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function escAttr(s) {
+  return String(s || '').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+}
+
 // ── INIT ─────────────────────────────────────────────────────────────────────
 window.onload = init;
 
@@ -131,7 +139,7 @@ function buildCard(p) {
   }
 
   const tagsHtml = p.tags && p.tags.length
-    ? `<div class="card-tags">${p.tags.slice(0,3).map(t=>`<span class="tag">${t}</span>`).join('')}</div>`
+    ? `<div class="card-tags">${p.tags.slice(0,3).map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>`
     : '';
 
   let variantesHtml = '';
@@ -139,7 +147,7 @@ function buildCard(p) {
     const rows = p.variantes.map(v => {
       const vPromo = promo && parseFloat(v.promo_preco) > 0;
       return `<div class="variant-row">
-        <span class="variant-dose">${v.dose}</span>
+        <span class="variant-dose">${esc(v.dose)}</span>
         ${vPromo
           ? `<span><span class="variant-price" style="text-decoration:line-through;color:var(--gray);font-weight:400">R$ ${fmt(v.preco)}</span> <span class="variant-promo">R$ ${fmt(v.promo_preco)}</span></span>`
           : `<span class="variant-price">R$ ${fmt(v.preco)}</span>`}
@@ -155,11 +163,11 @@ function buildCard(p) {
   return `
     <div class="card${promo ? ' em-promo' : ''}">
       <div class="card-head">
-        <div class="card-icon">${p.icone || '💊'}</div>
+        <div class="card-icon">${esc(p.icone || '💊')}</div>
         <div class="card-info">
-          <div class="card-name">${p.nome}</div>
-          ${p.conc ? `<div class="card-conc">${p.conc}</div>` : ''}
-          ${p.lab  ? `<div class="card-lab">${p.lab}</div>`   : ''}
+          <div class="card-name">${esc(p.nome)}</div>
+          ${p.conc ? `<div class="card-conc">${esc(p.conc)}</div>` : ''}
+          ${p.lab  ? `<div class="card-lab">${esc(p.lab)}</div>`   : ''}
         </div>
       </div>
       ${tagsHtml}
