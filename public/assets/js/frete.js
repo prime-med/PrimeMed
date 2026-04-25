@@ -1,7 +1,7 @@
 // ─── frete.js — Template B2B ──────────────────────────────────────────────────
 // Fonte única de verdade para frete. Importado por:
 //   • pedido.html
-//   • gerador_pedido.html
+//   • admin/painel.html (aba "Gerar Pedido")
 //
 // Para trocar de tabela fixa para API real no futuro,
 // só mude este arquivo — as páginas não precisam saber.

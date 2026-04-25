@@ -239,6 +239,9 @@ function renderCurrentView() {
   if (App.view === 'cupons')     { loadCupons().then(renderCupons); }
   if (App.view === 'relatorio')  { loadRelatorio().then(renderRelatorio); }
   if (App.view === 'config')     { loadAdmins().then(renderConfig); }
+  if (App.view === 'gerador') {
+    if (typeof window.initGerador === 'function') window.initGerador();
+  }
 }
 
 // ── STATS BAR ─────────────────────────────────────────────────────────────────
@@ -872,7 +875,6 @@ function corrigirPedido(orderId) {
     cli: {
       clinica:     order.clinica,
       responsavel: order.responsavel,
-      cargo:       order.cargo,
       telefone:    order.telefone,
       email:       order.email_cli,
       cpf:         order.documento,
@@ -882,7 +884,9 @@ function corrigirPedido(orderId) {
     },
   };
   sessionStorage.setItem('lp_corrigir', JSON.stringify(payload));
-  window.open('../gerador_pedido.html', '_blank');
+  // Abre a aba "Gerar Pedido" no painel — initGerador lê o sessionStorage
+  // e carrega o pedido automaticamente (mesmo em chamadas subsequentes).
+  setView('gerador');
 }
 
 async function salvarNotaInterna(orderId) {
@@ -1365,7 +1369,14 @@ function hideGlobalResults() {
 }
 
 // ── UTILS ─────────────────────────────────────────────────────────────────────
-function logout() {
+async function logout() {
+  // Invalida sessão no servidor antes de limpar storage local. Não bloqueia
+  // logout local mesmo se a chamada falhar (rede, server fora, etc).
+  try {
+    if (window.App?.admin?.token) {
+      await API.call({ action: 'logout_admin' });
+    }
+  } catch (_) { /* segue logout local */ }
   localStorage.removeItem('lp_admin');
   window.location.href = 'index.html';
 }

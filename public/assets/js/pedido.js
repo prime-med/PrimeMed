@@ -1071,8 +1071,8 @@ function validateStep3() {
 function buildReview() {
   // Dados
   const dados = [
-    ['Clínica', v('f_clinica')],
-    ['Responsável', v('f_responsavel')],
+    ['Nome', v('f_clinica')],
+    ['Apelido', v('f_responsavel')],
     ['Telefone', v('f_telefone')],
     ['E-mail', v('f_email')],
     ['Documento', v('f_documento') || '—'],
@@ -1228,9 +1228,9 @@ async function sendWhatsApp() {
   let msg = `📦 *PEDIDO ${_clientName}*\n`;
   msg += `━━━━━━━━━━━━━━━━━━━━━━\n\n`;
 
-  msg += `📋 *DADOS DA CLÍNICA*\n`;
-  msg += `Clínica: ${v('f_clinica')}\n`;
-  msg += `Responsável: ${v('f_responsavel')}\n`;
+  msg += `📋 *DADOS DO CLIENTE*\n`;
+  msg += `Nome: ${v('f_clinica')}\n`;
+  msg += `Apelido: ${v('f_responsavel')}\n`;
   msg += `Telefone: ${v('f_telefone')}\n`;
   msg += `E-mail: ${v('f_email')}\n`;
   if (v('f_documento')) msg += `Documento: ${v('f_documento')}\n`;
