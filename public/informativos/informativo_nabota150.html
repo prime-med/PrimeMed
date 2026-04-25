@@ -1,0 +1,486 @@
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  INFORMATIVO TÉCNICO — TEMPLATE PHARMAFIT-PY 2026           ║
+  ║  Produto: Nabota 150 UI — Toxina Botulínica Tipo A          ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  ESTRUTURA GERAL (2 páginas .page):                         ║
+  ║  Pág 1: header → header-bar → info-strip → conteúdo clínico ║
+  ║  Pág 2: header-small → header-bar → conteúdo → banner       ║
+  ║         → referências → footer + footer-note                ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Informativo Técnico — Nabota 150 UI | PharmaFit-PY</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/informativo.css" />
+  <style>
+    :root {
+      --petrol:      #0C3D5E; --petrol-dark: #071F31; --petrol-mid: #0A7FC4;
+      --petrol-lite: #BAE6FD; --petrol-bg:   #F0F9FF;
+      --amber:       #0369A1; --amber-mid:   #0EA5E9;
+      --amber-lite:  #BAE6FD; --amber-bg:    #E0F2FE;
+      --gold:        #0284C7; --gold-mid:    #06B6D4;
+      --gold-lite:   #CFFAFE; --gold-bg:     #ECFEFF;
+      --white:       #FFFFFF; --gray-1: #F4F6F7; --gray-2: #D5D8DC;
+      --text-dark:   #1A2530; --text-mid: #2C4A5E;
+      --shadow:      0 2px 12px rgba(7,31,49,0.12);
+      --header-bg:   linear-gradient(135deg, #071F31 0%, #0C3D5E 30%, #0369A1 60%, #0284C7 80%, #06B6D4 100%);
+      --header-small-bg: linear-gradient(135deg, #071F31 0%, #0C3D5E 40%, #0369A1 70%, #0A7FC4 100%);
+      --header-bar-bg: linear-gradient(90deg, #071F31 0%, #0C3D5E 15%, #0369A1 40%, #06B6D4 65%, #F59E0B 85%, #D97706 100%);
+      --header-hl:   #A5F3FC;
+    }
+    body { background: #b8d0e0; }
+
+    /* ── Pro tag badge ── */
+    .pro-vial-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: linear-gradient(135deg, #F59E0B, #D97706);
+      color: white;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 7pt;
+      font-weight: 800;
+      letter-spacing: 1.5px;
+      padding: 3px 9px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    /* ── Vantagem 150 UI box ── */
+    .vantagem-box {
+      background: linear-gradient(135deg, #FEF3C7 0%, #FFFBEB 100%);
+      border: 1px solid #FCD34D;
+      border-left: 5px solid #F59E0B;
+      border-radius: 10px;
+      padding: 12px 16px;
+      box-shadow: var(--shadow);
+      margin-bottom: 14px;
+    }
+    .vantagem-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 8.5pt;
+      font-weight: 800;
+      color: #78350F;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      margin-bottom: 8px;
+    }
+    .cap-grid4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; }
+    .cap-card4 {
+      background: #FFFFFF;
+      border: 1px solid #FCD34D;
+      border-radius: 8px;
+      padding: 8px 10px;
+      text-align: center;
+    }
+    .cap-card4 .cc-num  { font-size: 17pt; font-weight: 900; color: #D97706; line-height: 1.1; }
+    .cap-card4 .cc-lbl  { font-size: 7pt; color: #78350F; font-weight: 600; margin-top: 2px; }
+
+    /* ── Mecanismo 4-step grid ── */
+    .mech-grid4 {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .mech-card4 {
+      background: linear-gradient(135deg, var(--petrol-bg) 0%, var(--gold-bg) 100%);
+      border: 1px solid var(--petrol-lite);
+      border-top: 3px solid var(--gold-mid);
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+    .mech-card4 .mc-icon  { font-size: 18px; margin-bottom: 4px; }
+    .mech-card4 .mc-title { font-family: 'Montserrat', sans-serif; font-size: 8pt; font-weight: 800; color: var(--petrol-dark); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .mech-card4 .mc-text  { font-size: 8pt; color: var(--text-mid); line-height: 1.45; }
+
+    /* ── Especificações ── */
+    .specs-card {
+      background: var(--white);
+      border: 1px solid var(--petrol-lite);
+      border-radius: 10px;
+      padding: 12px 14px;
+      box-shadow: var(--shadow);
+    }
+    .recon-title { font-family: 'Montserrat', sans-serif; font-size: 8pt; font-weight: 800; color: var(--petrol); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 10px; }
+    .spec-row-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px 0;
+      border-bottom: 1px dashed var(--gray-2);
+      font-size: 8.5pt;
+    }
+    .spec-row-item:last-child { border-bottom: none; }
+    .spec-row-item .sri-lbl { color: var(--text-mid); font-weight: 400; }
+    .spec-row-item .sri-val { color: var(--petrol-dark); font-weight: 700; text-align: right; }
+
+    /* ── Benefícios 150 ── */
+    .benefits-grid6 {
+      display: grid;
+      grid-template-columns: repeat(3,1fr);
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .benefit-card6 {
+      background: var(--white);
+      border: 1px solid var(--petrol-lite);
+      border-top: 3px solid var(--gold-mid);
+      border-radius: 8px;
+      padding: 10px;
+      text-align: center;
+    }
+    .benefit-card6 .bc-icon  { font-size: 20px; margin-bottom: 4px; }
+    .benefit-card6 .bc-title { font-family: 'Montserrat', sans-serif; font-size: 8pt; font-weight: 700; color: var(--petrol-dark); margin-bottom: 2px; }
+    .benefit-card6 .bc-desc  { font-size: 7.5pt; color: var(--text-mid); line-height: 1.4; }
+
+    /* ── Reconstituição 150 ── */
+    .recon-nabota {
+      background: linear-gradient(135deg, var(--amber-bg) 0%, var(--petrol-bg) 100%);
+      border: 1.5px solid var(--petrol-lite);
+      border-radius: 10px;
+      padding: 14px 18px;
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+    }
+    .recon-grid4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-bottom: 12px; }
+    .recon-card4 {
+      background: var(--white);
+      border: 1px solid var(--petrol-lite);
+      border-radius: 8px;
+      padding: 10px 8px;
+      text-align: center;
+    }
+    .recon-card4 .rc-vol  { font-size: 14pt; font-weight: 900; color: var(--petrol-mid); line-height: 1; }
+    .recon-card4 .rc-conc { font-size: 8.5pt; font-weight: 700; color: var(--petrol-dark); margin: 3px 0; }
+    .recon-card4 .rc-use  { font-size: 7.5pt; color: var(--text-mid); }
+
+    /* ── Proto heads para 150 ── */
+    .proto-head.pc1 { background: linear-gradient(135deg, #071F31 0%, #0C3D5E 100%); }
+    .proto-head.pc2 { background: linear-gradient(135deg, #0C3D5E 0%, #0369A1 100%); }
+    .proto-head.pc3 { background: linear-gradient(135deg, #0369A1 0%, #06B6D4 100%); }
+
+    /* ── Highlight box 150 advantage ── */
+    .highlight-150 {
+      background: linear-gradient(135deg, #FEF3C7 0%, #FFFBEB 100%);
+      border: 1px solid #FCD34D;
+      border-left: 4px solid #F59E0B;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 8.5pt;
+      color: #78350F;
+      line-height: 1.6;
+    }
+    .highlight-150 strong { color: #D97706; }
+
+    /* ── Post-care alert ── */
+    .postcare-alert {
+      background: #FFF7ED;
+      border: 1px solid #FED7AA;
+      border-left: 4px solid #F97316;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 8.5pt;
+      color: #7C2D12;
+      line-height: 1.6;
+    }
+    .postcare-alert strong { color: #C2410C; }
+  </style>
+</head>
+<body>
+
+<!-- ═══ PÁGINA 1 — FRENTE ═══ -->
+<div class="page">
+  <div class="header">
+    <div class="orb-amber" style="background:radial-gradient(circle,rgba(6,182,212,0.35) 0%,transparent 70%);"></div>
+    <div class="header-inner">
+      <div class="header-logo"><img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" /></div>
+      <div class="header-center">
+        <div class="header-tag">Informativo Técnico · Toxina Botulínica Tipo A · Frasco Profissional</div>
+        <div class="header-title"><span class="hl">NABOTA</span></div>
+        <div class="header-subtitle">Daewoong Pharmaceutical · Alta Capacidade · Protocolos Multi-Área em Sessão Única</div>
+      </div>
+      <div class="header-badges">
+        <div class="badge-box"><div class="b-label">Apresentação</div><div class="b-val"><span>150</span> UI</div></div>
+        <div class="badge-box"><div class="b-label">Complexo</div><div class="b-val">900 kDa</div></div>
+        <div class="badge-box"><div class="b-label">Código</div><div class="b-val">NABT-150-PFY</div></div>
+      </div>
+    </div>
+    <div class="header-bar"></div>
+  </div>
+
+  <div class="info-strip" style="background:linear-gradient(90deg,var(--petrol-bg) 0%,var(--gold-bg) 100%); border-bottom:1px solid var(--petrol-lite);">
+    <span class="info-chip" style="background:linear-gradient(90deg,var(--petrol-dark),var(--petrol-mid));">FDA APROVADO (2019)</span>
+    <span class="info-chip gold" style="background:linear-gradient(90deg,#D97706,#F59E0B);">PRO VIAL · +50% DOSE</span>
+    <span class="info-text" style="color:var(--text-mid);">Nabota 150 UI é a apresentação de <strong style="color:var(--petrol-dark);">alta capacidade</strong> da Daewoong Pharmaceutical. Oferece <strong style="color:var(--petrol-dark);">50% mais dose</strong> que o frasco padrão — ideal para protocolos combinados, tratamentos corporais extensos e múltiplas áreas em sessão única, reduzindo custo por unidade e desperdício.</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">💉</span><h2 style="color:var(--petrol-mid);">O Que É a Nabota 150 UI — Frasco Profissional?</h2><div class="st-line" style="background:linear-gradient(90deg,var(--petrol-lite),transparent);"></div></div>
+      <div class="intro-strip" style="background:linear-gradient(135deg,var(--petrol-bg) 0%,var(--gold-bg) 100%); border:1.5px solid var(--petrol-mid); border-left:5px solid var(--petrol-mid);">
+        <div class="intro-icon">⭐</div>
+        <div class="intro-text">A <strong>Nabota 150 UI</strong> é a apresentação profissional da toxina botulínica tipo A da <strong>Daewoong Pharmaceutical</strong> (Coreia do Sul). Aprovada pelo FDA em 2019 (Jeuveau®) e registrada na ANVISA, o frasco de <strong>150 UI</strong> oferece 50% mais unidades que o padrão de 100 UI — tornando-se a escolha ideal para <strong>protocolos avançados multi-área</strong>: full face + pescoço, bruxismo com contouring, hiperhidrose completa ou tratamentos corporais extensos. Menor custo por unidade e maior eficiência de atendimento para clínicas de alto volume.</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">⭐</span><h2 style="color:var(--petrol-mid);">Vantagem do Frasco 150 UI vs. 100 UI</h2><div class="st-line" style="background:linear-gradient(90deg,var(--petrol-lite),transparent);"></div></div>
+      <div class="vantagem-box">
+        <div class="vantagem-title">⭐ Por que escolher o Frasco Profissional 150 UI?</div>
+        <div class="cap-grid4">
+          <div class="cap-card4"><div class="cc-num">150</div><div class="cc-lbl">Unidades por frasco</div></div>
+          <div class="cap-card4"><div class="cc-num">+50%</div><div class="cc-lbl">Mais dose vs. 100 UI</div></div>
+          <div class="cap-card4"><div class="cc-num">2–3</div><div class="cc-lbl">Áreas por sessão</div></div>
+          <div class="cap-card4"><div class="cc-num">↓UI</div><div class="cc-lbl">Menor custo por unidade</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">⚙️</span><h2 style="color:var(--petrol-mid);">Mecanismo de Ação — Bloqueio da Junção Neuromuscular</h2><div class="st-line" style="background:linear-gradient(90deg,var(--petrol-lite),transparent);"></div></div>
+      <div class="mech-grid4">
+        <div class="mech-card4">
+          <div class="mc-icon">🔗</div>
+          <div class="mc-title">Ligação</div>
+          <div class="mc-text">A toxina liga-se a receptores específicos da terminação nervosa colinérgica pré-sináptica</div>
+        </div>
+        <div class="mech-card4">
+          <div class="mc-icon">📥</div>
+          <div class="mc-title">Endocitose</div>
+          <div class="mc-text">Captada por vesículas endossomais no axônio terminal — cadeia pesada medeia internalização</div>
+        </div>
+        <div class="mech-card4">
+          <div class="mc-icon">✂️</div>
+          <div class="mc-title">Clivagem SNARE</div>
+          <div class="mc-text">Cadeia leve cliva SNAP-25 → impede fusão vesicular e liberação de acetilcolina (ACh)</div>
+        </div>
+        <div class="mech-card4">
+          <div class="mc-icon">🔄</div>
+          <div class="mc-title">Reversibilidade</div>
+          <div class="mc-text">Brotamento axonal espontâneo restaura função neuromuscular em 3–6 meses</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📐</span><h2 style="color:var(--petrol-mid);">Indicações — Protocolos Exclusivos com 150 UI</h2><div class="st-line" style="background:linear-gradient(90deg,var(--petrol-lite),transparent);"></div></div>
+      <div class="benefits-grid6">
+        <div class="benefit-card6"><div class="bc-icon">✨</div><div class="bc-title">Full Face + Pescoço</div><div class="bc-desc">Glabela + frontal + pés de galinha + platisma em 1 sessão</div></div>
+        <div class="benefit-card6"><div class="bc-icon">💦</div><div class="bc-title">Hiperhidrose Dupla</div><div class="bc-desc">Axilar bilateral (100 UI) + palmar ou plantar com o restante</div></div>
+        <div class="benefit-card6"><div class="bc-icon">🦷</div><div class="bc-title">Bruxismo Avançado</div><div class="bc-desc">Masseter bilateral + temporal + mentalis em protocolo único</div></div>
+        <div class="benefit-card6"><div class="bc-icon">💪</div><div class="bc-title">Trapezoalgia</div><div class="bc-desc">Trapézio superior bilateral — alívio de cefaleia tensional</div></div>
+        <div class="benefit-card6"><div class="bc-icon">📐</div><div class="bc-title">Contouring Corporal</div><div class="bc-desc">Panturrilha + gastrocnêmio para afinar e alongar a perna</div></div>
+        <div class="benefit-card6"><div class="bc-icon">🎯</div><div class="bc-title">Protocolo Combinado</div><div class="bc-desc">Facial completo + área corporal em única reconstituição</div></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📋</span><h2 style="color:var(--petrol-mid);">Especificações Técnicas</h2><div class="st-line" style="background:linear-gradient(90deg,var(--petrol-lite),transparent);"></div></div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+        <div class="specs-card">
+          <div class="recon-title">Dados do Produto</div>
+          <div class="spec-row-item"><span class="sri-lbl">Fabricante</span><span class="sri-val">Daewoong Pharm. (KOR)</span></div>
+          <div class="spec-row-item"><span class="sri-lbl">Complexo proteico</span><span class="sri-val">900 kDa</span></div>
+          <div class="spec-row-item"><span class="sri-lbl">Apresentação</span><span class="sri-val">150 UI liofilizado</span></div>
+          <div class="spec-row-item"><span class="sri-lbl">Conservação</span><span class="sri-val">2–8 °C (geladeira)</span></div>
+        </div>
+        <div class="specs-card">
+          <div class="recon-title">Perfil de Ação</div>
+          <div class="spec-row-item"><span class="sri-lbl">Após reconstituição</span><span class="sri-val">Usar em até 4h</span></div>
+          <div class="spec-row-item"><span class="sri-lbl">Início de ação</span><span class="sri-val">2–5 dias</span></div>
+          <div class="spec-row-item"><span class="sri-lbl">Pico de efeito</span><span class="sri-val">10–14 dias</span></div>
+          <div class="spec-row-item"><span class="sri-lbl">Duração</span><span class="sri-val">3–6 meses</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Toxinas Botulínicas de Alta Pureza</div>
+    <div class="footer-code">DOC: NABT-150-PFY · Rev. Mar/2026</div>
+    <div class="footer-page">1 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+<!-- ═══ PÁGINA 2 — VERSO ═══ -->
+<div class="page">
+  <div class="header-small">
+    <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" />
+    <div>
+      <div class="hs-title"><span>NABOTA 150 UI</span> · Protocolos Avançados</div>
+      <div class="hs-sub">Toxina Botulínica Tipo A · Reconstituição · Doses · Protocolos Multi-Área</div>
+    </div>
+    <div class="hs-right">
+      <div class="hs-title" style="font-size:9pt;color:rgba(255,255,255,0.5)">PHARMAFIT-PY</div>
+      <div class="hs-sub">Frasco Profissional · Alta Capacidade</div>
+    </div>
+  </div>
+  <div class="header-bar"></div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">💧</span><h2 style="color:var(--petrol-mid);">Reconstituição — SF 0,9% Estéril · Nabota 150 UI</h2><div class="st-line" style="background:linear-gradient(90deg,var(--petrol-lite),transparent);"></div></div>
+      <div class="recon-nabota">
+        <div class="recon-title">Concentrações disponíveis para 150 UI</div>
+        <div class="recon-grid4">
+          <div class="recon-card4">
+            <div class="rc-vol">1,5 mL</div>
+            <div class="rc-conc">100 UI / mL</div>
+            <div class="rc-use">Alta concentração<br>Áreas pequenas</div>
+          </div>
+          <div class="recon-card4">
+            <div class="rc-vol">2 mL</div>
+            <div class="rc-conc">75 UI / mL</div>
+            <div class="rc-use">Padrão muscular<br>Masseter / Trapézio</div>
+          </div>
+          <div class="recon-card4">
+            <div class="rc-vol">3 mL</div>
+            <div class="rc-conc">50 UI / mL</div>
+            <div class="rc-use">Padrão clínico<br>Uso geral</div>
+          </div>
+          <div class="recon-card4">
+            <div class="rc-vol">6 mL</div>
+            <div class="rc-conc">25 UI / mL</div>
+            <div class="rc-use">Hiperhidrose<br>Área extensa</div>
+          </div>
+        </div>
+        <div class="diss-steps" style="grid-template-columns:repeat(4,1fr);">
+          <div class="diss-step"><div class="step-circle" style="background:linear-gradient(135deg,var(--petrol-dark),var(--petrol-mid));">1</div><div class="step-text"><strong>Higienizar</strong>Álcool 70% no septo · aguardar secar</div></div>
+          <div class="diss-step"><div class="step-circle" style="background:linear-gradient(135deg,var(--petrol-dark),var(--petrol-mid));">2</div><div class="step-text"><strong>Injetar SF</strong>Lentamente pela parede do frasco · não agitar</div></div>
+          <div class="diss-step"><div class="step-circle" style="background:linear-gradient(135deg,var(--petrol-dark),var(--petrol-mid));">3</div><div class="step-text"><strong>Girar</strong>Suavemente até dissolução total · límpida e incolor</div></div>
+          <div class="diss-step"><div class="step-circle" style="background:linear-gradient(135deg,#B91C1C,#DC2626);">4h</div><div class="step-text"><strong>Usar em 4h</strong>Manter refrigerado 2–8 °C até aplicação</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📊</span><h2 style="color:var(--petrol-mid);">Tabela de Doses — Protocolos com 150 UI</h2><div class="st-line" style="background:linear-gradient(90deg,var(--petrol-lite),transparent);"></div></div>
+      <table class="moa">
+        <thead>
+          <tr style="background:linear-gradient(90deg,var(--petrol-dark),var(--petrol-mid));">
+            <th>Área de Aplicação</th>
+            <th>Dose (UI)</th>
+            <th>Pontos</th>
+            <th>Início</th>
+            <th>Duração</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="color:var(--petrol-dark);font-weight:700;">Glabela + Frontal + Pés galinha</td><td><strong style="color:var(--petrol-mid);">44–65 UI</strong></td><td>12–14 pontos</td><td>2–5 dias</td><td>3–5 meses</td></tr>
+          <tr><td style="color:var(--petrol-dark);font-weight:700;">Masseter bilateral (bruxismo)</td><td><strong style="color:var(--petrol-mid);">50–60 UI</strong></td><td>6–8 pontos total</td><td>5–7 dias</td><td>4–6 meses</td></tr>
+          <tr><td style="color:var(--petrol-dark);font-weight:700;">Trapézio bilateral (trapezoalgia)</td><td><strong style="color:var(--petrol-mid);">50–100 UI</strong></td><td>6–10 pontos total</td><td>5–10 dias</td><td>3–4 meses</td></tr>
+          <tr><td style="color:var(--petrol-dark);font-weight:700;">Hiperhidrose axilar bilateral</td><td><strong style="color:var(--petrol-mid);">100 UI total</strong></td><td>30–40 pontos</td><td>5–14 dias</td><td>5–7 meses</td></tr>
+          <tr><td style="color:var(--petrol-dark);font-weight:700;">Panturrilha (slimming)</td><td><strong style="color:var(--petrol-mid);">50–100 UI/perna</strong></td><td>5–8 pontos/perna</td><td>7–14 dias</td><td>4–6 meses</td></tr>
+          <tr><td style="color:var(--petrol-dark);font-weight:700;">Platisma (neck lift)</td><td><strong style="color:var(--petrol-mid);">25–50 UI</strong></td><td>Múltiplos lineares</td><td>5–7 dias</td><td>3–4 meses</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📋</span><h2 style="color:var(--petrol-mid);">Protocolos Avançados com 150 UI</h2><div class="st-line" style="background:linear-gradient(90deg,var(--petrol-lite),transparent);"></div></div>
+      <div class="proto-grid">
+        <div class="proto-card">
+          <div class="proto-head pc1"><div class="p-num">Protocolo 01</div><div class="p-title">Full Face + Pescoço</div><div class="p-icon">✨</div></div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Glabela</span><span class="pr-val">20–25 UI · 5 pontos</span></div>
+            <div class="proto-row"><span class="pr-label">Frontal</span><span class="pr-val">10–15 UI · 4 pontos</span></div>
+            <div class="proto-row"><span class="pr-label">Pés galinha</span><span class="pr-val">12 UI/lado</span></div>
+            <div class="proto-row"><span class="pr-label">Platisma</span><span class="pr-val">25–30 UI</span></div>
+            <div class="proto-row"><span class="pr-label">Total</span><span class="pr-val"><strong>79–102 UI</strong> / sessão</span></div>
+            <div class="proto-row"><span class="pr-label">Manutenção</span><span class="pr-val">A cada 4–6 meses</span></div>
+          </div>
+        </div>
+        <div class="proto-card">
+          <div class="proto-head pc2"><div class="p-num">Protocolo 02</div><div class="p-title">Bruxismo + Contouring</div><div class="p-icon">🦷</div></div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Masseter</span><span class="pr-val">25–30 UI/lado</span></div>
+            <div class="proto-row"><span class="pr-label">Temporal</span><span class="pr-val">15 UI/lado</span></div>
+            <div class="proto-row"><span class="pr-label">Mentalis</span><span class="pr-val">5–8 UI</span></div>
+            <div class="proto-row"><span class="pr-label">Total</span><span class="pr-val"><strong>95–118 UI</strong> / sessão</span></div>
+            <div class="proto-row"><span class="pr-label">Retorno</span><span class="pr-val">30 dias</span></div>
+            <div class="proto-row"><span class="pr-label">Manutenção</span><span class="pr-val">A cada 5–6 meses</span></div>
+          </div>
+        </div>
+        <div class="proto-card">
+          <div class="proto-head pc3"><div class="p-num">Protocolo 03</div><div class="p-title">Hiperhidrose Completa</div><div class="p-icon">💧</div></div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Axilas</span><span class="pr-val">50 UI/axila (total 100)</span></div>
+            <div class="proto-row"><span class="pr-label">Palmas</span><span class="pr-val">25 UI/mão (50 total)</span></div>
+            <div class="proto-row"><span class="pr-label">Total</span><span class="pr-val"><strong>150 UI</strong> / sessão</span></div>
+            <div class="proto-row"><span class="pr-label">Pontos</span><span class="pr-val">50–70 intradérmicos</span></div>
+            <div class="proto-row"><span class="pr-label">Retorno</span><span class="pr-val">14 dias (avaliar)</span></div>
+            <div class="proto-row"><span class="pr-label">Manutenção</span><span class="pr-val">A cada 6–7 meses</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="highlight-150">
+        <strong>⭐ Por que escolher o Frasco 150 UI?</strong><br>
+        • Menor custo por unidade botulínica<br>
+        • Ideal para protocolos multi-área em 1 sessão<br>
+        • Menos abertura de frascos = menos risco de contaminação<br>
+        • Perfeito para clínicas com alto volume de atendimento<br>
+        • Mesma qualidade e pureza do frasco padrão 100 UI
+      </div>
+      <div class="box-card adv">
+        <div class="box-title">⚠️ Cuidados Pós-Procedimento</div>
+        <div class="postcare-alert">
+          <strong>Instruções ao Paciente:</strong><br>
+          • Não massagear a área nas primeiras 24h<br>
+          • Manter postura ereta por 4h após aplicação<br>
+          • Evitar exercício físico intenso nas primeiras 24h<br>
+          • Não expor ao calor (sauna, banho quente) por 48h<br>
+          • Retorno em 14 dias para avaliação e retoques
+        </div>
+      </div>
+    </div>
+
+    <div class="pharmafit-banner">
+      <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" class="pf-logo" />
+      <div class="pf-text">
+        <div class="pf-label">Estudo Clínico Elaborado por</div>
+        <div class="pf-brand">Pharmafit<span>-PY</span></div>
+        <div class="pf-tagline">Compostos injetáveis de alta pureza com qualidade farmacêutica.<br>Protocolos personalizados para saúde, performance e bem-estar.</div>
+      </div>
+      <a class="pf-cta" href="tel:+12142049853">📞 +1 (214) 204-9853</a>
+    </div>
+
+    <div class="box-card ref">
+      <div class="box-title" style="color:var(--petrol-dark);">📚 Referências Científicas</div>
+      <ul class="ref-list">
+        <li data-n="1">Daewoong Pharmaceutical Co., Ltd. (2019). <em>Jeuveau® (prabotulinumtoxinA-xvfs) — Prescribing Information.</em> FDA NDA 761085. U.S. Food &amp; Drug Administration.</li>
+        <li data-n="2">Carruthers J et al. (2018). <em>OnabotulinumtoxinA for treatment of moderate to severe glabellar lines.</em> Dermatol Surg. 39(3 Pt 2):1–15.</li>
+        <li data-n="3">Shome D et al. (2018). <em>Botulinum toxin type A in masseter reduction and management of bruxism — a clinical study.</em> Plast Reconstr Surg. 141(3):406e–415e.</li>
+        <li data-n="4">Naumann M et al. (2002). <em>Botulinum toxin type A in the treatment of focal hyperhidrosis.</em> Br J Dermatol. 147:s11–s16.</li>
+        <li data-n="5">Lowe NJ et al. (2014). <em>Botulinum toxins types A and B for shoulder and upper-back musculoskeletal pain.</em> Clin J Pain. 30(7):630–640.</li>
+        <li data-n="6">Kerscher M et al. (2021). <em>Efficacy and safety of high-dose botulinum toxin A for platysmal bands.</em> J Drugs Dermatol. 20(4):410–416.</li>
+        <li data-n="7">Hexsel D et al. (2013). <em>Prabotulinumtoxin A and onabotulinumtoxin A for the treatment of glabellar lines.</em> J Drugs Dermatol. 17(6):645–652.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Toxinas Botulínicas de Alta Pureza</div>
+    <div class="footer-code">DOC: NABT-150-PFY · Rev. Mar/2026 · Uso Profissional</div>
+    <div class="footer-page">2 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+</body>
+</html>

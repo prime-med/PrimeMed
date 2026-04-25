@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+<title>PharmaFit Admin — Painel</title>
+<link rel="manifest" href="manifest.json"/>
+<meta name="theme-color" content="#1abc9c"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="PharmaFit"/>
+<link rel="apple-touch-icon" href="icons/icon-192.svg"/>
+<link rel="stylesheet" href="../assets/css/theme.css"/>
+<link rel="stylesheet" href="assets/css/admin.css"/>
+</head>
+<body class="admin-layout">
+
+<!-- HEADER -->
+<header class="admin-header">
+  <div class="header-logo">🧬 <span>Pharma</span>Fit Admin</div>
+
+  <nav class="admin-nav">
+    <button class="nav-btn active" data-view="kanban">📦 Fila de Pedidos</button>
+    <button class="nav-btn" data-view="clientes">👥 Clientes</button>
+    <button class="nav-btn" data-view="produtos">💊 Produtos & Estoque</button>
+    <button class="nav-btn" data-view="protocolos">🔬 Protocolos</button>
+    <button class="nav-btn" data-view="cupons">🎟️ Cupons</button>
+    <button class="nav-btn" data-view="relatorio">📊 Relatório</button>
+    <button class="nav-btn notif-nav-btn" data-view="notificacoes">🔔 Notificações<span class="notif-badge" id="notif-badge" style="display:none">0</span></button>
+    <button class="nav-btn" data-view="config">⚙️ Configurações</button>
+  </nav>
+
+  <div class="header-right">
+    <div class="global-search-wrap">
+      <input type="search" id="global-search" class="global-search-input" placeholder="🔍 Buscar..." oninput="globalSearch(this.value)" onfocus="showGlobalResults()" onblur="setTimeout(hideGlobalResults,200)"/>
+      <div id="global-results" class="global-results hidden"></div>
+    </div>
+    <span id="admin-nome" class="admin-nome"></span>
+    <button class="btn-logout" onclick="logout()">Sair</button>
+  </div>
+  <div class="mobile-header-row">
+    <nav class="admin-nav-mobile"></nav>
+  </div>
+</header>
+
+<!-- GLOBAL LOADING -->
+<div id="global-loading" class="loading-msg" style="padding:60px">⏳ Carregando dados...</div>
+
+<!-- MAIN -->
+<main class="admin-main">
+
+  <!-- ══ VIEW: KANBAN ══ -->
+  <div id="view-kanban" class="view hidden">
+    <div class="view-bar">
+      <div style="display:flex;align-items:baseline;gap:10px">
+        <h2>Fila de Pedidos</h2>
+        <span id="kanban-sync-time" style="font-size:.72rem;color:var(--text2)"></span>
+      </div>
+      <div class="view-bar-right">
+        <button class="btn-sm" onclick="refreshAll()">🔄 Atualizar</button>
+        <a href="../gerador_pedido.html" class="btn-sm btn-accent" target="_blank">+ Novo Pedido</a>
+      </div>
+    </div>
+
+    <div class="stats-bar" id="stats-bar"></div>
+
+    <div class="kanban-toolbar">
+      <div class="search-bar-wrapper" style="padding:0;flex:1">
+        <input type="search" id="kanban-search" placeholder="🔍 Filtrar por clínica, produto, telefone..."
+          oninput="renderKanban()"/>
+      </div>
+      <div class="kanban-filters">
+        <button class="filter-btn active" data-period="all"   onclick="setKanbanPeriod(this)">Todos</button>
+        <button class="filter-btn" data-period="today"  onclick="setKanbanPeriod(this)">Hoje</button>
+        <button class="filter-btn" data-period="week"   onclick="setKanbanPeriod(this)">Semana</button>
+        <button class="filter-btn" data-period="month"  onclick="setKanbanPeriod(this)">Mês</button>
+        <select id="filter-pagamento" onchange="renderKanban()">
+          <option value="">Pagamento: Todos</option>
+          <option value="PIX">PIX</option>
+          <option value="Cartão">Cartão</option>
+          <option value="Boleto">Boleto</option>
+        </select>
+        <button class="btn-sm btn-outline" onclick="exportarCSV()">⬇️ CSV</button>
+      </div>
+    </div>
+
+    <div class="kanban-scroll">
+      <div class="kanban-board" id="kanban-board">
+        <div class="loading-msg">⏳ Carregando pedidos...</div>
+      </div>
+    </div>
+    <div id="kanban-dev-zone"></div>
+    <div id="kanban-arch-zone"></div>
+  </div>
+
+  <!-- ══ VIEW: CLIENTES ══ -->
+  <div id="view-clientes" class="view hidden">
+    <div class="view-bar">
+      <h2>Clientes</h2>
+      <div class="view-bar-right">
+        <span id="clientes-count" style="font-size:13px;color:var(--text2)"></span>
+        <button class="btn-sm btn-accent" onclick="abrirNovoCliente()">+ Novo Cliente</button>
+      </div>
+    </div>
+
+    <div class="search-bar-wrapper">
+      <input type="search" id="busca-clientes" placeholder="🔍 Buscar por nome, telefone, e-mail..."
+        oninput="renderClientes()"/>
+    </div>
+
+    <div id="clientes-grid" class="admin-grid cli-grid">
+      <div class="loading-msg">⏳ Carregando...</div>
+    </div>
+  </div>
+
+  <!-- ══ VIEW: PRODUTOS ══ -->
+  <div id="view-produtos" class="view hidden">
+    <div class="view-bar">
+      <h2>Produtos & Estoque</h2>
+      <div class="view-bar-right">
+        <span style="font-size:12px;color:var(--text2)">Clique em Editar para alterar um produto</span>
+        <button class="btn-sm btn-accent" onclick="abrirNovoProduto()">+ Novo Produto</button>
+      </div>
+    </div>
+
+    <div class="search-bar-wrapper">
+      <input type="search" id="busca-produtos" placeholder="🔍 Buscar produto..."
+        oninput="renderProdutos()"/>
+    </div>
+
+    <div id="produtos-grid" class="admin-grid prod-grid">
+      <div class="loading-msg">⏳ Carregando...</div>
+    </div>
+  </div>
+
+
+  <!-- ══ VIEW: PROTOCOLOS ══ -->
+  <div id="view-protocolos" class="view hidden">
+    <div class="view-bar">
+      <h2>Protocolos</h2>
+      <div class="view-bar-right">
+        <button class="btn-sm" onclick="App.protocolos=null;document.getElementById('protocolos-grid').innerHTML='<div class=\'loading-msg\'>⏳ Carregando...</div>';loadProtocolos().then(renderProtocolos)">🔄</button>
+        <span style="font-size:12px;color:var(--text2)">Clique em Editar para alterar o protocolo</span>
+      </div>
+    </div>
+    <div class="kanban-toolbar">
+      <div class="search-bar-wrapper" style="padding:0;flex:1">
+        <input type="search" id="busca-protocolos" placeholder="🔍 Buscar produto..." oninput="renderProtocolos()"/>
+      </div>
+      <div class="kanban-filters">
+        <button class="filter-btn active" data-proto-filter="todos"  onclick="setProtoFilter(this)">Todos</button>
+        <button class="filter-btn"        data-proto-filter="com"    onclick="setProtoFilter(this)">✓ Com protocolo</button>
+        <button class="filter-btn"        data-proto-filter="sem"    onclick="setProtoFilter(this)">— Sem protocolo</button>
+      </div>
+    </div>
+    <div id="protocolos-grid" class="proto-grid"></div>
+  </div>
+
+  <!-- ══ VIEW: CUPONS ══ -->
+  <div id="view-cupons" class="view hidden">
+    <div class="view-bar">
+      <h2>Cupons</h2>
+      <div class="view-bar-right">
+        <button class="btn-sm btn-accent" onclick="toggleFormCupom()">+ Novo Cupom</button>
+      </div>
+    </div>
+
+    <!-- Create form -->
+    <div id="cupom-form-panel" class="cupom-form-panel hidden">
+      <form onsubmit="salvarCupomAdmin(event)" style="display:flex;flex-direction:column;gap:14px">
+        <!-- Linha 1: campos básicos -->
+        <div class="cupom-grid">
+          <div class="field-inline">
+            <label>Código</label>
+            <input type="text" id="nc-codigo" placeholder="EX: PHARMA10" required
+              style="text-transform:uppercase" oninput="this.value=this.value.toUpperCase()"/>
+          </div>
+          <div class="field-inline">
+            <label>Tipo</label>
+            <select id="nc-tipo" onchange="toggleCupomTipo()">
+              <option value="%">% Desconto</option>
+              <option value="fixo">Preço Fixo</option>
+            </select>
+          </div>
+          <div class="field-inline" id="nc-valor-wrap">
+            <label>Desconto (%)</label>
+            <input type="number" id="nc-valor" min="1" max="100" placeholder="10"/>
+          </div>
+          <div class="field-inline">
+            <label>Validade</label>
+            <input type="text" id="nc-validade" placeholder="dd/mm/aaaa hh:mm  ou  INDETERMINADO"/>
+          </div>
+        </div>
+
+        <!-- Linha 2: produtos -->
+        <div class="cupom-prods-section">
+          <div class="cupom-prods-header">
+            <span class="cupom-prods-title">Produtos aplicáveis</span>
+            <label class="cupom-toggle-label">
+              <input type="checkbox" id="nc-todos-prods" checked onchange="toggleTodosProdutos(this)"/>
+              Todos
+            </label>
+          </div>
+          <div id="nc-prod-list" class="prod-picker-list hidden">
+            <input type="search" id="nc-prod-busca" placeholder="🔍 Filtrar produto..." oninput="filtrarProdPicker(this.value)"
+              style="width:100%;background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:5px 9px;color:var(--text);font-size:12px;margin-bottom:6px;outline:none"/>
+            <div id="nc-prod-items"></div>
+          </div>
+          <div id="nc-precos-wrap" class="cupom-precos-wrap hidden">
+            <div class="cupom-precos-title">💰 Preços fixos por produto</div>
+            <div id="nc-precos-items"></div>
+          </div>
+          <input type="hidden" id="nc-produtos" value="todos"/>
+        </div>
+
+        <!-- Linha 3: extras -->
+        <div class="cupom-extras">
+          <label class="cupom-extra-item">
+            <input type="checkbox" id="nc-frete-toggle" onchange="toggleFreteGratis(this)"/>
+            <span>Frete grátis acima de</span>
+            <input type="number" id="nc-frete" placeholder="500" min="0" class="cupom-frete-val hidden"/>
+            <span id="nc-frete-real-label" class="hidden" style="color:var(--text2);font-size:12px">R$</span>
+          </label>
+          <label class="cupom-extra-item">
+            <input type="checkbox" id="nc-parc"/>
+            <span>Parcelamento sem juros</span>
+          </label>
+        </div>
+
+        <div id="nc-status" class="cfg-status-msg"></div>
+        <div style="display:flex;gap:8px">
+          <button type="submit" class="btn-sm btn-accent">Criar Cupom</button>
+          <button type="button" class="btn-sm" onclick="toggleFormCupom()">Cancelar</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="search-bar-wrapper">
+      <input type="search" id="busca-cupons" placeholder="🔍 Buscar cupom..." oninput="renderCupons()"/>
+    </div>
+    <div id="cupons-grid" class="admin-grid cupom-grid">
+      <div class="loading-msg">⏳ Carregando...</div>
+    </div>
+  </div>
+
+  <!-- ══ VIEW: NOTIFICAÇÕES ══ -->
+  <div id="view-notificacoes" class="view hidden">
+    <div class="view-bar">
+      <h2 class="view-title">🔔 Notificações</h2>
+      <div class="view-bar-right">
+        <button class="btn-sm btn-outline" onclick="limparNotificacoes()">🗑️ Limpar</button>
+      </div>
+    </div>
+    <p class="notif-subtext">Apenas notificações recebidas após o login são mostradas aqui.</p>
+    <div id="notif-list" class="notif-list"></div>
+  </div>
+
+  <!-- ══ VIEW: RELATÓRIO ══ -->
+  <div id="view-relatorio" class="view hidden">
+    <div class="view-bar">
+      <h2>Relatório Financeiro</h2>
+      <div class="view-bar-right">
+        <button class="btn-sm" onclick="loadRelatorio().then(renderRelatorio)">🔄 Atualizar</button>
+      </div>
+    </div>
+    <div class="relatorio-scroll" id="relatorio-body">
+      <div class="loading-msg">⏳ Carregando...</div>
+    </div>
+  </div>
+
+  <!-- ══ VIEW: CONFIG ══ -->
+  <div id="view-config" class="view hidden">
+    <div class="view-bar">
+      <h2>Configurações</h2>
+    </div>
+
+    <div class="config-layout">
+
+      <!-- Admins list -->
+      <div class="config-section">
+        <h3 class="cfg-section-title">Admins cadastrados</h3>
+        <div class="table-view" style="max-height:340px">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Cargo</th>
+                <th>Desde</th>
+              </tr>
+            </thead>
+            <tbody id="admins-tbody">
+              <tr><td colspan="4" class="loading-msg">⏳ Carregando...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Panel settings -->
+      <div class="config-section">
+        <h3 class="cfg-section-title">⚙️ Configurações do Painel</h3>
+        <div class="cfg-form">
+          <div class="cfg-row">
+            <div class="field-inline" style="flex:0 0 auto">
+              <label>Arquivar pedidos entregues após</label>
+              <select id="cfg-arch-days" onchange="salvarConfigArquivamento(this.value)" style="min-width:180px">
+                <option value="0">Imediato (qualquer entregue)</option>
+                <option value="1">1 dia</option>
+                <option value="3">3 dias</option>
+                <option value="7" selected>7 dias (padrão)</option>
+                <option value="14">14 dias</option>
+                <option value="30">30 dias</option>
+                <option value="-1">Nunca arquivar</option>
+              </select>
+            </div>
+          </div>
+          <p style="font-size:11px;color:var(--text2);margin:6px 0 0">Pedidos com status "Entregue" mais antigos que esse prazo aparecem colapsados no final do kanban.</p>
+          <div class="cfg-row" style="margin-top:14px">
+            <div class="field-inline" style="flex:0 0 auto">
+              <label>Alerta de estoque crítico abaixo de</label>
+              <div style="display:flex;align-items:center;gap:8px">
+                <input type="number" id="cfg-stock-alert" min="1" max="999"
+                  onchange="salvarConfigEstoque(this.value)"
+                  style="width:70px;text-align:center"/>
+                <span style="font-size:12px;color:var(--text2)">unidades</span>
+              </div>
+            </div>
+          </div>
+          <p style="font-size:11px;color:var(--text2);margin:6px 0 0">Você receberá uma notificação quando o estoque de um produto atingir este nível.</p>
+        </div>
+      </div>
+
+      <!-- Notifications -->
+      <div class="config-section">
+        <h3 class="cfg-section-title">🔔 Notificações de Pedidos</h3>
+        <div class="cfg-form">
+          <p id="notif-status-text" style="font-size:13px;color:var(--text);margin:0 0 12px;line-height:1.6"></p>
+          <button id="notif-btn" class="btn-sm btn-accent" onclick="solicitarNotificacoes()">🔔 Ativar Notificações</button>
+          <p style="font-size:11px;color:var(--text2);margin:10px 0 0;line-height:1.5">
+            No iPhone: funciona apenas com o app instalado na tela inicial (iOS 16.4+).<br>
+            No Android: funciona no Chrome, mesmo sem instalar.
+          </p>
+        </div>
+      </div>
+
+      <!-- PWA Install -->
+      <div class="config-section">
+        <h3 class="cfg-section-title">📲 Instalar como App</h3>
+        <div class="cfg-form">
+          <p style="font-size:13px;color:var(--text);margin:0 0 12px;line-height:1.6">
+            Instale o PharmaFit Admin na tela inicial do seu celular para acesso rápido, notificações e uso offline.
+          </p>
+          <button class="btn-sm btn-accent" onclick="promptInstall()">📲 Instalar agora</button>
+          <p id="pwa-cfg-hint" style="font-size:11px;color:var(--text2);margin:8px 0 0"></p>
+        </div>
+      </div>
+
+      <!-- Admins list -->
+      <div class="config-section">
+        <h3 class="cfg-section-title">Cadastrar novo admin</h3>
+        <form class="cfg-form" onsubmit="cadastrarAdmin(event)">
+          <div class="cfg-row">
+            <div class="field-inline">
+              <label>PIN interno</label>
+              <input type="password" id="cfg-pin" placeholder="PIN secreto" required/>
+            </div>
+            <div class="field-inline">
+              <label>Cargo</label>
+              <input type="text" id="cfg-cargo" placeholder="ex: Operações"/>
+            </div>
+          </div>
+          <div class="cfg-row">
+            <div class="field-inline">
+              <label>Nome</label>
+              <input type="text" id="cfg-nome" placeholder="Nome completo" required/>
+            </div>
+            <div class="field-inline">
+              <label>E-mail</label>
+              <input type="email" id="cfg-email" placeholder="email@admin.com" required/>
+            </div>
+          </div>
+          <div class="cfg-row">
+            <div class="field-inline">
+              <label>Senha</label>
+              <input type="password" id="cfg-senha" placeholder="Senha de acesso" required/>
+            </div>
+          </div>
+          <div id="cfg-status" class="cfg-status-msg"></div>
+          <button type="submit" class="btn-sm btn-accent">+ Cadastrar Admin</button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+
+<!-- ORDER DRAWER -->
+<div class="drawer-overlay" id="drawer-overlay" onclick="closeDrawer()"></div>
+<aside class="order-drawer" id="order-drawer"></aside>
+
+<!-- Modal -->
+<div id="modal-overlay" class="modal-overlay" onclick="closeModal()"></div>
+<div id="modal-box" class="modal-box"></div>
+
+<!-- PWA Install Banner -->
+<div id="install-overlay" class="install-overlay hidden" onclick="dismissInstall()"></div>
+<div id="install-banner" class="install-banner hidden">
+  <button class="install-banner-close" onclick="dismissInstall()">✕</button>
+  <div class="install-banner-icon">📲</div>
+  <div class="install-banner-title">Instalar PharmaFit Admin</div>
+  <div class="install-banner-text">Adicione o painel como app para acesso rápido, notificações e uso offline.</div>
+  <button class="btn-sm btn-accent install-banner-btn" onclick="promptInstall()">Instalar agora</button>
+  <button class="btn-sm" onclick="dismissInstall()">Agora não</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script src="../assets/js/config.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/painel.js"></script>
+</body>
+</html>

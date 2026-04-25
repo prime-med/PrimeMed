@@ -1,0 +1,383 @@
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  INFORMATIVO TÉCNICO — TEMPLATE PHARMAFIT-PY                ║
+  ║  Produto: Klow 80mg                                         ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  ESTRUTURA GERAL (2 páginas .page):                         ║
+  ║  Pág 1: header → info-strip → "O Que É" → seções técnicas  ║
+  ║  Pág 2: header-small → seções avançadas → pharmafit-banner  ║
+  ║         → referências científicas → footer + footer-note    ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  O QUE CUSTOMIZAR POR PRODUTO:                              ║
+  ║  1. <title> — nome do produto                               ║
+  ║  2. :root — paleta de cores (ver abaixo)                    ║
+  ║     Tema azul/âmbar      → ex: Tirzepatida 120mg            ║
+  ║     Tema escuro/ouro     → ex: Durateston                   ║
+  ║  3. body { background } — cor do fundo externo da página    ║
+  ║  4. .header → textos: tag, título, subtítulo, badges        ║
+  ║  5. .info-strip → chips e texto de contexto                 ║
+  ║  6. Seção "O Que É..." → section-title + intro-text         ║
+  ║  7. Conteúdo das seções (componentes em informativo.css)    ║
+  ║  8. .header-small (pág 2) → título e subtítulo              ║
+  ║  9. .footer → brand text e código do documento              ║
+  ║  10. Referências científicas → .ref-list                    ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  NÃO ALTERAR (padronizado para todos os informativos):      ║
+  ║  • .pharmafit-banner — tagline e telefone da Pharmafit-PY   ║
+  ║  • .footer-note — aviso de uso profissional                 ║
+  ║  • Link para ../assets/css/informativo.css                  ║
+  ║  • Fontes: Montserrat + Lato (Google Fonts)                 ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Informativo Técnico — Klow 80mg | PharmaFit-PY</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/informativo.css" />
+  <style>
+    :root {
+      --petrol:      #1B4F72;
+      --petrol-dark: #0D2B3E;
+      --petrol-mid:  #2471A3;
+      --petrol-lite: #D6EAF8;
+      --petrol-bg:   #EBF5FB;
+      --amber:       #B7600A;
+      --amber-mid:   #E67E22;
+      --amber-lite:  #FAE5D3;
+      --amber-bg:    #FEF5EC;
+      --gold:        #9A7D0A;
+      --gold-mid:    #D4AC0D;
+      --gold-lite:   #FCF3CF;
+      --gold-bg:     #FEFDE7;
+      --white:       #FFFFFF;
+      --gray-1:      #F4F6F7;
+      --gray-2:      #D5D8DC;
+      --text-dark:   #1A2530;
+      --text-mid:    #3D566E;
+      --shadow:      0 2px 12px rgba(13,43,62,0.10);
+      --header-bg:   linear-gradient(135deg, var(--petrol-dark) 0%, var(--petrol) 45%, var(--amber) 100%);
+      --header-small-bg: linear-gradient(135deg, var(--petrol-dark) 0%, var(--petrol) 55%, var(--amber) 100%);
+      --header-bar-bg: linear-gradient(90deg, var(--petrol-dark) 0%, var(--petrol-mid) 30%, var(--amber-mid) 60%, var(--gold-mid) 80%, var(--amber) 100%);
+      --header-hl:   #FAD7A0;
+    }
+    body { background: #c8d8e4; }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════
+     PÁGINA 1 — FRENTE
+═══════════════════════════════════════════════════════════ -->
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="orb-amber"></div>
+    <div class="header-inner">
+      <div class="header-logo">
+        <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" />
+      </div>
+      <div class="header-center">
+        <div class="header-tag">Informativo Técnico — Peptídeo Lipolítico Premium</div>
+        <div class="header-title"><span class="hl">KLOW</span> 80mg</div>
+        <div class="header-subtitle">Complexo Lipolítico Avançado &nbsp;·&nbsp; Redução de Gordura Localizada &nbsp;·&nbsp; Alta Bioatividade</div>
+      </div>
+      <div class="header-badges">
+        <div class="badge-box">
+          <div class="b-label">Concentração</div>
+          <div class="b-val"><span>80</span> mg</div>
+        </div>
+        <div class="badge-box">
+          <div class="b-label">Via</div>
+          <div class="b-val">SC / IM</div>
+        </div>
+        <div class="badge-box">
+          <div class="b-label">Código</div>
+          <div class="b-val">KLOW-80-PFY</div>
+        </div>
+      </div>
+    </div>
+    <div class="header-bar"></div>
+  </div>
+
+  <div class="info-strip">
+    <span class="info-chip">PROPRIETARY</span>
+    <span class="info-chip dark">NeoPeptides / PureLab</span>
+    <span class="info-text">Klow 80mg — Blend Peptídeo Proprietary &nbsp;·&nbsp; Formulação exclusiva NeoPeptides/PureLab &nbsp;·&nbsp; Composto por AOD-9604 + fragmentos lipolíticos seletivos de alta pureza (≥99%)</span>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">🔥</span><h2>O Que É o Klow 80mg?</h2><div class="st-line"></div></div>
+      <div class="intro-strip">
+        <div class="intro-icon">🔥</div>
+        <div class="intro-text">
+          <strong>Klow 80mg</strong> é um blend peptídeo proprietário de alta concentração desenvolvido para <strong>lipólise seletiva e redução de medidas</strong>. A formulação combina fragmentos bioativos incluindo AOD-9604 (hGH 176–191) e peptídeos complementares que atuam em sinergia nos <strong>receptores β3-adrenérgicos do tecido adiposo</strong>, potencializando a mobilização de gordura localizada sem efeitos anabolizantes ou sobre IGF-1.
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 1 — MECANISMO DE AÇÃO -->
+    <div class="section">
+      <div class="section-title"><span class="st-icon">⚡</span><h2>Mecanismo de Ação Científico</h2><div class="st-line"></div></div>
+      <table class="moa">
+        <thead>
+          <tr>
+            <th>Via de Ação</th>
+            <th>Efeito Clínico</th>
+            <th>Alvo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Receptor β3-adrenérgico</td>
+            <td>Lipólise seletiva no adipócito · mobilização de ácidos graxos livres para oxidação</td>
+            <td><span class="tag">β3-ADR</span></td>
+          </tr>
+          <tr>
+            <td>Inibição de Lipogênese</td>
+            <td>Bloqueia síntese de novos adipócitos · reduz acúmulo de gordura abdominal e visceral</td>
+            <td><span class="tag petrol">Adipócito</span></td>
+          </tr>
+          <tr>
+            <td>AOD-9604 Component</td>
+            <td>Fragmento hGH 176–191 · ação exclusivamente lipolítica · sem impacto sobre IGF-1 ou GH endógeno</td>
+            <td><span class="tag">hGH Frag</span></td>
+          </tr>
+          <tr>
+            <td>Sinergia dos Componentes</td>
+            <td>Os peptídeos do blend ampliam a resposta lipolítica de forma aditiva · maior eficácia que cada componente isolado</td>
+            <td><span class="tag petrol">Multi-alvo</span></td>
+          </tr>
+          <tr>
+            <td>Termogênese</td>
+            <td>Leve aumento do gasto energético basal · complementa a lipólise com maior oxidação de lipídeos</td>
+            <td><span class="tag">β-ADR</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SECTION 2 — RECONSTITUIÇÃO E DOSAGEM -->
+    <div class="section">
+      <div class="section-title"><span class="st-icon">💧</span><h2>Reconstituição &amp; Dosagem — Klow 80mg / 4ml</h2><div class="st-line"></div></div>
+      <div class="diss-box">
+        <div class="diss-steps">
+          <div class="diss-step">
+            <div class="step-circle">1</div>
+            <div class="step-text"><strong>Higienizar</strong>Álcool 70% na tampa do frasco</div>
+          </div>
+          <div class="diss-step">
+            <div class="step-circle">2</div>
+            <div class="step-text"><strong>Preparar</strong>Aspirar 4ml de água bacteriostática</div>
+          </div>
+          <div class="diss-step">
+            <div class="step-circle">3</div>
+            <div class="step-text"><strong>Injetar</strong>Lentamente na parede do frasco</div>
+          </div>
+          <div class="diss-step">
+            <div class="step-circle">4</div>
+            <div class="step-text"><strong>Girar</strong>Suavemente — nunca agitar com força</div>
+          </div>
+          <div class="diss-step">
+            <div class="step-circle">5</div>
+            <div class="step-text"><strong>Refrigerar</strong>2–8°C · máx 28 dias</div>
+          </div>
+        </div>
+        <table class="dose-table">
+          <thead>
+            <tr>
+              <th>Nível de Dose</th>
+              <th>Dose (mg)</th>
+              <th>Volume (ml)</th>
+              <th>Indicação</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Dose Baixa</td>
+              <td>20 mg</td>
+              <td>1 ml</td>
+              <td>Iniciantes</td>
+            </tr>
+            <tr>
+              <td>Dose Padrão</td>
+              <td>40 mg</td>
+              <td>2 ml</td>
+              <td>Protocolo padrão</td>
+            </tr>
+            <tr>
+              <td>Dose Alta</td>
+              <td>60–80 mg</td>
+              <td>3–4 ml</td>
+              <td>Protocolo avançado</td>
+            </tr>
+            <tr>
+              <td>Manutenção</td>
+              <td>20–40 mg</td>
+              <td>1–2 ml</td>
+              <td>Pós protocolo intensivo</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Peptídeos de Alta Performance</div>
+    <div class="footer-code">DOC: KLOW-80-PFY · Rev. Mar/2026</div>
+    <div class="footer-page">1 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     PÁGINA 2 — VERSO
+═══════════════════════════════════════════════════════════ -->
+<div class="page">
+  <div class="header-small">
+    <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" />
+    <div>
+      <div class="hs-title"><span>KLOW</span> 80mg · Protocolos Clínicos</div>
+      <div class="hs-sub">Blend Peptídeo Lipolítico Avançado · AOD-9604 Complex</div>
+    </div>
+    <div class="hs-right">
+      <div class="hs-title" style="font-size:9pt;color:rgba(255,255,255,0.5);">PHARMAFIT-PY</div>
+      <div class="hs-sub">Lipólise Seletiva Premium</div>
+    </div>
+  </div>
+  <div class="header-bar"></div>
+
+  <div class="content">
+
+    <!-- SECTION 3 — PROTOCOLOS -->
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📋</span><h2>Protocolos de Uso Clínico</h2><div class="st-line"></div></div>
+      <div class="proto-grid">
+
+        <div class="proto-card">
+          <div class="proto-head p1">
+            <div class="p-num">Protocolo 01</div>
+            <div class="p-title">Lipólise Abdominal</div>
+            <div class="p-icon">🎯</div>
+          </div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Objetivo</span><span class="pr-val">Redução de gordura abdominal localizada</span></div>
+            <div class="proto-row"><span class="pr-label">Dose</span><span class="pr-val"><strong>40 mg</strong> (2ml)</span></div>
+            <div class="proto-row"><span class="pr-label">Freq.</span><span class="pr-val">3x/semana · em jejum</span></div>
+            <div class="proto-row"><span class="pr-label">Via</span><span class="pr-val">SC periabdominal</span></div>
+            <div class="proto-row"><span class="pr-label">Duração</span><span class="pr-val">8–12 semanas</span></div>
+            <div class="proto-row"><span class="pr-label">Associar</span><span class="pr-val">Dieta low-carb</span></div>
+          </div>
+        </div>
+
+        <div class="proto-card">
+          <div class="proto-head p2">
+            <div class="p-num">Protocolo 02</div>
+            <div class="p-title">Redução de Medidas Global</div>
+            <div class="p-icon">📏</div>
+          </div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Objetivo</span><span class="pr-val">Lipólise corporal difusa e redução global</span></div>
+            <div class="proto-row"><span class="pr-label">Dose</span><span class="pr-val"><strong>60 mg</strong> (3ml)</span></div>
+            <div class="proto-row"><span class="pr-label">Freq.</span><span class="pr-val">3x/semana · manhã em jejum</span></div>
+            <div class="proto-row"><span class="pr-label">Via</span><span class="pr-val">SC abdominal / flanco</span></div>
+            <div class="proto-row"><span class="pr-label">Duração</span><span class="pr-val">10–12 semanas</span></div>
+            <div class="proto-row"><span class="pr-label">Associar</span><span class="pr-val">Exercício aeróbico</span></div>
+          </div>
+        </div>
+
+        <div class="proto-card">
+          <div class="proto-head p3">
+            <div class="p-num">Protocolo 03</div>
+            <div class="p-title">Protocolo Combinado</div>
+            <div class="p-icon">⚡</div>
+          </div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Objetivo</span><span class="pr-val">Máxima lipólise com sinergia peptídica</span></div>
+            <div class="proto-row"><span class="pr-label">Dose</span><span class="pr-val"><strong>40mg</strong> Klow + 500mcg AOD-9604</span></div>
+            <div class="proto-row"><span class="pr-label">Freq.</span><span class="pr-val">5x/semana · alternados</span></div>
+            <div class="proto-row"><span class="pr-label">Via</span><span class="pr-val">SC periabdominal</span></div>
+            <div class="proto-row"><span class="pr-label">Duração</span><span class="pr-val">8 semanas</span></div>
+            <div class="proto-row"><span class="pr-label">Resultado</span><span class="pr-val">Máxima lipólise</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- COMPARATIVO DOS PROTOCOLOS -->
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📊</span><h2>Comparativo dos Protocolos</h2><div class="st-line"></div></div>
+      <table class="compare-table">
+        <thead>
+          <tr><th>Parâmetro</th><th>🎯 Lip. Abdominal</th><th>📏 Red. Global</th><th>⚡ Combinado</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Dose por aplicação</td><td>40 mg</td><td>60 mg</td><td>40mg + AOD</td></tr>
+          <tr><td>Frequência</td><td>3× / semana</td><td>3× / semana</td><td>5× / semana</td></tr>
+          <tr><td>Via</td><td>SC periabdominal</td><td>SC abdominal</td><td>SC periabdominal</td></tr>
+          <tr><td>Duração</td><td>8–12 semanas</td><td>10–12 semanas</td><td>8 semanas</td></tr>
+          <tr><td>Jejum obrigatório</td><td>✅</td><td>✅</td><td>✅</td></tr>
+          <tr><td>Sinergia recomendada</td><td>Low-carb</td><td>Exercício aeróbico</td><td>AOD-9604</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- PRECAUÇÕES -->
+    <div class="two-col">
+      <div class="box-card adv">
+        <div class="box-title">⚠️ Precauções &amp; Contraindicações</div>
+        <div class="adv-item"><span class="adv-icon">🚫</span><div class="adv-text"><strong>Gravidez e lactação:</strong> contraindicado em ambas as situações.</div></div>
+        <div class="adv-item"><span class="adv-icon">⏰</span><div class="adv-text"><strong>Jejum obrigatório:</strong> aplicar com pelo menos 3–4 horas de jejum para máximo efeito lipolítico.</div></div>
+        <div class="adv-item"><span class="adv-icon">🌡️</span><div class="adv-text"><strong>Reações locais:</strong> pode causar leve sensação de calor e rubor no local de aplicação.</div></div>
+        <div class="adv-item"><span class="adv-icon">⛔</span><div class="adv-text"><strong>GH exógeno:</strong> não associar com GH exógeno — risco de antagonismo de ação.</div></div>
+        <div class="adv-item"><span class="adv-icon">🧊</span><div class="adv-text"><strong>Armazenamento:</strong> reconstituído, manter a 2–8°C por no máximo 28 dias.</div></div>
+      </div>
+      <div style="background: var(--petrol-bg); border: 1px solid var(--petrol-lite); border-left: 4px solid var(--petrol-mid); border-radius: 8px; padding: 12px 14px;">
+        <div style="font-family:'Montserrat',sans-serif;font-size:7.5pt;font-weight:800;color:var(--petrol);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;">🔬 Seletividade do Klow 80mg</div>
+        <p style="font-size:8pt;color:var(--text-mid);line-height:1.55;margin:0;">O Klow 80mg atua exclusivamente sobre o tecido adiposo via receptores β3-adrenérgicos e fragmento hGH 176–191 (AOD-9604), <strong style="color:var(--petrol-dark);">sem interferir na produção endógena de GH, nos níveis de IGF-1, nem nos receptores androgênicos</strong>. Isso o diferencia dos análogos do GH e garante perfil de segurança superior para uso prolongado em protocolos estéticos e de composição corporal.</p>
+      </div>
+    </div>
+
+    <div class="pharmafit-banner" style="margin-top:16px">
+      <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" class="pf-logo" />
+      <div class="pf-text">
+        <div class="pf-label">Estudo Clínico Elaborado por</div>
+        <div class="pf-brand">Pharmafit<span>-PY</span></div>
+        <div class="pf-tagline">Compostos injetáveis de alta pureza com qualidade farmacêutica.<br>Protocolos personalizados para saúde, performance e bem-estar.</div>
+      </div>
+      <a class="pf-cta" href="tel:+12142049853">📞 +1 (214) 204-9853</a>
+    </div>
+
+    <div class="box-card ref" style="margin-bottom:0">
+      <div class="box-title">📚 Referências Científicas</div>
+      <ul class="ref-list">
+        <li data-n="1">Heffernan M. et al. <em>The anti-obesity effects of the hGH fragment AOD-9604.</em> Endocrinology, 2001.</li>
+        <li data-n="2">Stier H. et al. <em>AOD-9604 as lipolytic agent: mechanism and evidence.</em> J Pept Sci, 2004.</li>
+        <li data-n="3">Ng FM. et al. <em>Effects of C-terminal fragment of hGH on adipose tissue.</em> Biochem J, 1990.</li>
+        <li data-n="4">Lanzi R. et al. <em>β3-adrenergic receptor activation and lipolysis in human adipocytes.</em> Eur J Endocrinol, 2003.</li>
+        <li data-n="5">PharmaFit-PY. <em>Dossier técnico Klow 80mg — NeoPeptides/PureLab.</em> 2026.</li>
+        <li data-n="6">Saltiel AR. et al. <em>Insulin signaling and the regulation of glucose and lipid metabolism.</em> Nature, 2001.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Peptídeos de Alta Performance</div>
+    <div class="footer-code">DOC: KLOW-80-PFY · Rev. Mar/2026 · Uso Profissional</div>
+    <div class="footer-page">2 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+</body>
+</html>

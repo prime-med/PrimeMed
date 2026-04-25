@@ -1,0 +1,349 @@
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  INFORMATIVO TÉCNICO — TEMPLATE PHARMAFIT-PY                ║
+  ║  Produto: Retatrutide 40mg                                  ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  ESTRUTURA GERAL (2 páginas .page):                         ║
+  ║  Pág 1: header → info-strip → "O Que É" → seções técnicas  ║
+  ║  Pág 2: header-small → seções avançadas → pharmafit-banner  ║
+  ║         → referências científicas → footer + footer-note    ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  O QUE CUSTOMIZAR POR PRODUTO:                              ║
+  ║  1. <title> — nome do produto                               ║
+  ║  2. :root — paleta de cores (ver abaixo)                    ║
+  ║     Tema azul/âmbar      → ex: Tirzepatida 120mg            ║
+  ║     Tema escuro/ouro     → ex: Durateston                   ║
+  ║  3. body { background } — cor do fundo externo da página    ║
+  ║  4. .header → textos: tag, título, subtítulo, badges        ║
+  ║  5. .info-strip → chips e texto de contexto                 ║
+  ║  6. Seção "O Que É..." → section-title + intro-text         ║
+  ║  7. Conteúdo das seções (componentes em informativo.css)    ║
+  ║  8. .header-small (pág 2) → título e subtítulo              ║
+  ║  9. .footer → brand text e código do documento              ║
+  ║  10. Referências científicas → .ref-list                    ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  NÃO ALTERAR (padronizado para todos os informativos):      ║
+  ║  • .pharmafit-banner — tagline e telefone da Pharmafit-PY   ║
+  ║  • .footer-note — aviso de uso profissional                 ║
+  ║  • Link para ../assets/css/informativo.css                  ║
+  ║  • Fontes: Montserrat + Lato (Google Fonts)                 ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Informativo Técnico — Retatrutide 40mg | PharmaFit-PY</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/informativo.css" />
+  <style>
+    :root {
+      --petrol:     #1B4F72; --petrol-dark: #0D2B3E; --petrol-mid: #2471A3;
+      --petrol-lite:#D6EAF8; --petrol-bg:  #EBF5FB;
+      --amber:      #B7600A; --amber-mid:  #E67E22;
+      --amber-lite: #FAE5D3; --amber-bg:   #FEF5EC;
+      --gold:       #9A7D0A; --gold-mid:   #D4AC0D;
+      --gold-lite:  #FCF3CF; --gold-bg:    #FEFDE7;
+      --white:      #FFFFFF; --gray-1: #F4F6F7; --gray-2: #D5D8DC;
+      --text-dark:  #1A2530; --text-mid: #3D566E;
+      --shadow:     0 2px 12px rgba(13,43,62,0.10);
+      --header-bg:  linear-gradient(135deg, var(--petrol-dark) 0%, #1A3A5C 30%, #7D4A0A 60%, var(--amber) 80%, var(--amber-mid) 100%);
+      --header-small-bg: linear-gradient(135deg, var(--petrol-dark) 0%, var(--petrol) 35%, #7D4A0A 70%, var(--amber) 100%);
+      --header-bar-bg: linear-gradient(90deg, var(--petrol) 0%, var(--petrol-mid) 20%, var(--amber) 50%, var(--gold-mid) 75%, var(--amber-mid) 100%);
+      --header-hl:  #FDEBD0;
+    }
+    body { background: #c8d8e4; }
+    /* Triple Tag Strip — specific to Retatrutide */
+    .triple-strip { display:flex; gap:8px; margin-bottom:14px; }
+    .triple-tag { flex:1; background:linear-gradient(135deg, var(--petrol-bg) 0%, var(--white) 100%); border:1.5px solid var(--petrol-lite); border-radius:8px; padding:8px 12px; text-align:center; }
+    .triple-tag .tt-icon { font-size:20px; margin-bottom:4px; }
+    .triple-tag .tt-name { font-family:'Montserrat',sans-serif; font-size:7.5pt; font-weight:800; color:var(--petrol-dark); }
+    .triple-tag .tt-desc { font-size:6.5pt; color:var(--text-mid); margin-top:2px; line-height:1.3; }
+    /* Escal grid for 4 steps */
+    .escal-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; }
+  </style>
+</head>
+<body>
+
+<!-- ═══ PÁGINA 1 — FRENTE ═══ -->
+<div class="page">
+  <div class="header">
+    <div class="orb-amber"></div>
+    <div class="header-inner">
+      <div class="header-logo"><img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" /></div>
+      <div class="header-center">
+        <div class="header-tag">Informativo Técnico — Triple Agonist GIP/GLP-1/Glucagon · Nova Geração</div>
+        <div class="header-title"><span class="hl">RETATRUTIDE</span></div>
+        <div class="header-subtitle">Triple Agonist GIP/GLP-1/Glucagon · Perda de Peso Superior · Alta Performance Metabólica</div>
+      </div>
+      <div class="header-badges">
+        <div class="badge-box"><div class="b-label">Concentração</div><div class="b-val"><span>40</span> mg</div></div>
+        <div class="badge-box"><div class="b-label">Dissolução</div><div class="b-val">2ml → 20mg/ml</div></div>
+        <div class="badge-box"><div class="b-label">Código</div><div class="b-val">RETAT-40-PFY</div></div>
+      </div>
+    </div>
+    <div class="header-bar"></div>
+  </div>
+
+  <div class="info-strip">
+    <span class="info-chip">FASE III — TRIUMPH-1</span>
+    <span class="info-chip dark">PIPELINE ELI LILLY</span>
+    <span class="info-text">Retatrutide (LY3437943) — Triple Agonist em Fase III (TRIUMPH-1) — <strong>Perda de peso superior a 24% do peso corporal</strong> — Pipeline Eli Lilly</span>
+  </div>
+
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="st-icon">⚡</span><h2>O Que É o Retatrutide?</h2><div class="st-line"></div></div>
+      <div class="intro-strip">
+        <div class="intro-icon">⚡</div>
+        <div class="intro-text">
+          <strong>Retatrutide</strong> é um peptídeo sintético de ação tripla que ativa simultaneamente os receptores <strong>GIP, GLP-1 e do Glucagon (GcgR)</strong>. É o único agente da nova geração triple agonista em estudos de fase III, com resultados que superam a Tirzepatida em perda de peso (<strong>até 24,2% vs 22,5%</strong>). A ativação do receptor do glucagon adiciona um terceiro mecanismo: <strong>aumento do gasto energético hepático</strong> e redução de gordura visceral via termogênese.
+        </div>
+      </div>
+    </div>
+
+    <!-- TRIPLE AGONIST TAGS -->
+    <div class="triple-strip">
+      <div class="triple-tag">
+        <div class="tt-icon">🟠</div>
+        <div class="tt-name">Receptor GIP</div>
+        <div class="tt-desc">Secreção insulina · reduz adiposidade · melhora HDL</div>
+      </div>
+      <div class="triple-tag">
+        <div class="tt-icon">🟡</div>
+        <div class="tt-name">Receptor GLP-1</div>
+        <div class="tt-desc">Saciedade central · inibe glucagon · retarda esvaziamento</div>
+      </div>
+      <div class="triple-tag">
+        <div class="tt-icon">🔵</div>
+        <div class="tt-name">Receptor Glucagon</div>
+        <div class="tt-desc">Gasto energético hepático · termogênese · gordura visceral</div>
+      </div>
+      <div class="triple-tag" style="border-color:var(--amber-lite); background:linear-gradient(135deg,var(--amber-bg),var(--white));">
+        <div class="tt-icon">📊</div>
+        <div class="tt-name">Resultado</div>
+        <div class="tt-desc"><strong style="color:var(--amber);">24,2%</strong> perda de peso — superior à tirzepatida</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">⚗️</span><h2>Mecanismo de Ação — Triple Agonist GIP/GLP-1/Glucagon</h2><div class="st-line"></div></div>
+      <table class="moa">
+        <thead><tr><th>Via de Ação</th><th>Efeito Clínico</th><th>Receptor/Alvo</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>GIP Receptor</td>
+            <td>Secreção insulina glicose-dep. · reduz adiposidade visceral · melhora HDL e triglicerídeos</td>
+            <td><span class="tag a">GIP</span></td>
+          </tr>
+          <tr>
+            <td>GLP-1 Receptor</td>
+            <td>Saciedade central · inibe glucagon · retarda esvaziamento gástrico · reduz picos glicêmicos</td>
+            <td><span class="tag g">GLP-1</span></td>
+          </tr>
+          <tr>
+            <td>Glucagon Receptor (GcgR)</td>
+            <td>Aumenta gasto energético hepático · mobiliza gordura visceral · ativa termogênese · reduz síntese lipídica hepática</td>
+            <td><span class="tag b">GcgR</span></td>
+          </tr>
+          <tr>
+            <td>Eixo Intestino-Fígado</td>
+            <td>Reduz síntese hepática de lipídeos · melhora NASH/MASLD · diminui transaminases · reversão esteatose hepática</td>
+            <td><span class="tag t">DUAL+GcgR</span></td>
+          </tr>
+          <tr>
+            <td>Saciedade Hipotalâmica</td>
+            <td>Suprime NPY/AgRP · ativa POMC · reduz fome hedônica · melhora controle do comportamento alimentar</td>
+            <td><span class="tag a">GIP</span> <span class="tag g">GLP-1</span></td>
+          </tr>
+          <tr>
+            <td>Cardiometabólico</td>
+            <td>Reduz PA sistólica · triglicerídeos · PCR ultrassensível · marcadores inflamatórios sistêmicos</td>
+            <td><span class="tag t">TRIPLE</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">💧</span><h2>Reconstituição — Retatrutide 40mg / 2ml</h2><div class="st-line"></div></div>
+      <div class="diss-box">
+        <div class="diss-steps">
+          <div class="diss-step"><div class="step-circle">1</div><div class="step-text"><strong>Higienizar</strong>Álcool 70% na tampa</div></div>
+          <div class="diss-step"><div class="step-circle">2</div><div class="step-text"><strong>Seringa</strong>Use seringa de insulina 1ml</div></div>
+          <div class="diss-step"><div class="step-circle">3</div><div class="step-text"><strong>Diluir</strong>Injete 2ml de água bacteriostática lentamente</div></div>
+          <div class="diss-step"><div class="step-circle">4</div><div class="step-text"><strong>Homogeneizar</strong>Gire suavemente, NÃO agite</div></div>
+          <div class="diss-step"><div class="step-circle">5</div><div class="step-text"><strong>Armazenar</strong>2–8°C, válido 28 dias</div></div>
+        </div>
+        <table class="dose-table">
+          <thead><tr><th>Fase do Protocolo</th><th>Dose</th><th>Volume</th><th>Período</th></tr></thead>
+          <tbody>
+            <tr><td>Dose Inicial</td><td>0,5 mg</td><td>0,05 ml</td><td>Semanas 1–4 <span class="note">Adaptação e tolerância GI</span></td></tr>
+            <tr><td>Dose Intermediária</td><td>2 mg</td><td>0,10 ml</td><td>Semanas 5–8 <span class="note">Início atividade terapêutica</span></td></tr>
+            <tr><td>Dose Padrão</td><td>4 mg</td><td>0,20 ml</td><td>Semanas 9–12 <span class="note">Eficácia plena · alta perda de peso</span></td></tr>
+            <tr><td>Dose Máxima</td><td>8–12 mg</td><td>0,40–0,60 ml</td><td>Manutenção <span class="note">Dose de manutenção / meta metabólica</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Peptídeos de Alta Performance</div>
+    <div class="footer-code">DOC: RETAT-40-PFY · Rev. Mar/2026</div>
+    <div class="footer-page">1 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+<!-- ═══ PÁGINA 2 — VERSO ═══ -->
+<div class="page">
+  <div class="header-small">
+    <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" />
+    <div>
+      <div class="hs-title"><span>RETATRUTIDE</span> · Protocolos Clínicos</div>
+      <div class="hs-sub">Triple Agonist GIP/GLP-1/Glucagon · 40mg · 20mg/ml reconstituído</div>
+    </div>
+    <div class="hs-right">
+      <div class="hs-title" style="font-size:9pt;color:rgba(255,255,255,0.5);">PHARMAFIT-PY</div>
+      <div class="hs-sub">Peptídeos de Alta Performance</div>
+    </div>
+  </div>
+  <div class="header-bar"></div>
+
+  <div class="content">
+
+    <!-- ESCALONAMENTO -->
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📈</span><h2>Escalonamento de Dose — Protocolo Progressivo (1x/semana SC)</h2><div class="st-line"></div></div>
+      <div class="escal-box">
+        <div class="box-title" style="color:var(--amber)">📈 Escalonamento Progressivo — Triple Agonist · Máxima Eficácia com Tolerância Gradual</div>
+        <div class="escal-grid">
+          <div class="escal-step">
+            <div class="e-circle s1">0,5</div>
+            <div class="e-dose">0,5 mg</div>
+            <div class="e-week">Sem. 1–4</div>
+            <div class="e-vol">0,05ml</div>
+          </div>
+          <div class="escal-step">
+            <div class="e-circle s2">2mg</div>
+            <div class="e-dose">2 mg</div>
+            <div class="e-week">Sem. 5–8</div>
+            <div class="e-vol">0,10ml</div>
+          </div>
+          <div class="escal-step">
+            <div class="e-circle s3">4mg</div>
+            <div class="e-dose">4 mg</div>
+            <div class="e-week">Sem. 9–12</div>
+            <div class="e-vol">0,20ml</div>
+          </div>
+          <div class="escal-step">
+            <div class="e-circle s4">8–12mg</div>
+            <div class="e-dose">8–12 mg</div>
+            <div class="e-week">Manutenção</div>
+            <div class="e-vol">0,40–0,60ml</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROTOCOLOS -->
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📋</span><h2>Protocolos Clínicos</h2><div class="st-line"></div></div>
+      <div class="proto-grid">
+        <div class="proto-card">
+          <div class="proto-head p1">
+            <div class="p-num">Protocolo 01</div>
+            <div class="p-title">Emagrecimento Intensivo</div>
+            <div class="p-icon">🚀</div>
+          </div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Dose</span><span class="pr-val"><strong>2–4mg SC/semana</strong></span></div>
+            <div class="proto-row"><span class="pr-label">Início</span><span class="pr-val">0,5mg · escalonar cada 4 semanas</span></div>
+            <div class="proto-row"><span class="pr-label">Duração</span><span class="pr-val"><strong>16–24 semanas</strong></span></div>
+            <div class="proto-row"><span class="pr-label">Meta</span><span class="pr-val">Perda <strong>&gt;15% do peso</strong> corporal</span></div>
+            <div class="proto-row"><span class="pr-label">Via</span><span class="pr-val">SC · abdome ou coxa · 1x/semana</span></div>
+          </div>
+        </div>
+        <div class="proto-card">
+          <div class="proto-head p2">
+            <div class="p-num">Protocolo 02</div>
+            <div class="p-title">Controle Metabólico DM2/Obesidade</div>
+            <div class="p-icon">🩺</div>
+          </div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Dose</span><span class="pr-val"><strong>4–8mg SC/semana</strong></span></div>
+            <div class="proto-row"><span class="pr-label">Condição</span><span class="pr-val">Jejum ≥8h antes da dose</span></div>
+            <div class="proto-row"><span class="pr-label">Duração</span><span class="pr-val"><strong>24 semanas</strong></span></div>
+            <div class="proto-row"><span class="pr-label">Monitorar</span><span class="pr-val">Glicemia · HbA1c · função renal</span></div>
+            <div class="proto-row"><span class="pr-label">Via</span><span class="pr-val">SC · 1x/semana · mesmo dia</span></div>
+          </div>
+        </div>
+        <div class="proto-card">
+          <div class="proto-head p3">
+            <div class="p-num">Protocolo 03</div>
+            <div class="p-title">Manutenção Pós-Perda</div>
+            <div class="p-icon">⚖️</div>
+          </div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Dose</span><span class="pr-val"><strong>2mg SC/semana</strong></span></div>
+            <div class="proto-row"><span class="pr-label">Frequência</span><span class="pr-val">1x/semana · contínuo</span></div>
+            <div class="proto-row"><span class="pr-label">Duração</span><span class="pr-val"><strong>Contínuo</strong> · reavaliação trimestral</span></div>
+            <div class="proto-row"><span class="pr-label">Meta</span><span class="pr-val">Manter peso alcançado</span></div>
+            <div class="proto-row"><span class="pr-label">Suporte</span><span class="pr-val">Dieta equilibrada · atividade física</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="box-card supl">
+        <div class="box-title">⚗️ Monitoramento Recomendado</div>
+        <div class="supl-item"><span class="si-icon">🩸</span><div class="si-text"><strong>Glicemia em jejum e HbA1c</strong> — baseline + a cada 8 semanas durante o protocolo.</div></div>
+        <div class="supl-item"><span class="si-icon">🧪</span><div class="si-text"><strong>Função renal (creatinina / TFG)</strong> — monitorar especialmente em pacientes com nefropatia prévia.</div></div>
+        <div class="supl-item"><span class="si-icon">🫀</span><div class="si-text"><strong>Perfil lipídico completo</strong> — triglicerídeos, HDL, LDL. Esperar melhora progressiva após sem. 8.</div></div>
+        <div class="supl-item"><span class="si-icon">🦋</span><div class="si-text"><strong>TSH e função tireoidiana</strong> — exame basal obrigatório. Ativação GcgR pode impactar eixo tireoidiano.</div></div>
+        <div class="supl-item"><span class="si-icon">📊</span><div class="si-text"><strong>PCR ultrassensível + TGO/TGP</strong> — marcadores inflamatórios e função hepática a cada 12 semanas.</div></div>
+      </div>
+      <div class="box-card adv">
+        <div class="box-title">⚠️ Advertências &amp; Contraindicações</div>
+        <div class="adv-item"><span class="adv-icon">🔴</span><div class="adv-text"><strong>Contraindicado em gravidez, lactação</strong> e histórico de NEM tipo 2 ou carcinoma medular de tireoide.</div></div>
+        <div class="adv-item"><span class="adv-icon">🔴</span><div class="adv-text"><strong>Monitorar função renal e hepática</strong> a cada 8 semanas durante o protocolo completo.</div></div>
+        <div class="adv-item"><span class="adv-icon">🟡</span><div class="adv-text"><strong>Náuseas, vômitos e diarreia</strong> são comuns nas primeiras semanas — reduzir dose se necessário.</div></div>
+        <div class="adv-item"><span class="adv-icon">🟡</span><div class="adv-text"><strong>Não usar</strong> em pacientes com gastroparesia grave ou doença inflamatória intestinal ativa.</div></div>
+        <div class="adv-item"><span class="adv-icon">⚪</span><div class="adv-text"><strong>Exames basais obrigatórios:</strong> glicemia, HbA1c, função renal, perfil lipídico, TSH antes de iniciar.</div></div>
+      </div>
+    </div>
+
+    <div class="pharmafit-banner">
+      <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" class="pf-logo" />
+      <div class="pf-text">
+        <div class="pf-label">Estudo Clínico Elaborado por</div>
+        <div class="pf-brand">Pharmafit<span>-PY</span></div>
+        <div class="pf-tagline">Compostos injetáveis de alta pureza com qualidade farmacêutica.<br>Protocolos personalizados para saúde, performance e bem-estar.</div>
+      </div>
+      <a class="pf-cta" href="tel:+12142049853">📞 +1 (214) 204-9853</a>
+    </div>
+
+    <div class="box-card ref">
+      <div class="box-title">📚 Referências Científicas</div>
+      <ul class="ref-list">
+        <li data-n="1">Jastreboff AM et al. (2023). <em>Retatrutide, a GIP, GLP-1 and glucagon receptor agonist, for people with type 2 diabetes: a randomised, double-blind, placebo and active-controlled, parallel-group, phase 2 trial.</em> Lancet. 402(10401):529–544.</li>
+        <li data-n="2">Hartman ML et al. (2023). <em>Triple hormone receptor agonist retatrutide for obesity — a phase 2 trial.</em> N Engl J Med. 389(6):514–526.</li>
+        <li data-n="3">Coskun T et al. (2022). <em>LY3437943, a novel triple GIP, GLP-1, and glucagon receptor agonist for glycemic control and weight loss: From discovery to clinical proof of concept.</em> Cell Metab. 34(9):1234–1247.</li>
+        <li data-n="4">Eli Lilly and Company (2024). <em>TRIUMPH-1 Phase III Trial — Retatrutide in Obesity Management.</em> ClinicalTrials.gov NCT05583617.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Peptídeos de Alta Performance</div>
+    <div class="footer-code">DOC: RETAT-40-PFY · Rev. Mar/2026 · Uso Profissional</div>
+    <div class="footer-page">2 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+</body>
+</html>

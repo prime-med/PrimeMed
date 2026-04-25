@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>PharmaFit Admin — Acesso</title>
+<link rel="stylesheet" href="assets/css/admin.css"/>
+</head>
+<body class="login-page">
+
+<div class="login-card">
+  <div class="login-logo">🧬</div>
+  <h1 class="login-title">PharmaFit Admin</h1>
+  <p class="login-sub">Acesso restrito — equipe interna</p>
+
+  <form id="login-form" autocomplete="on">
+    <div class="field">
+      <label>E-mail</label>
+      <input type="email" id="email" placeholder="seu@email.com" autocomplete="email" required/>
+    </div>
+    <div class="field">
+      <label>Senha</label>
+      <input type="password" id="senha" placeholder="••••••••" autocomplete="current-password" required/>
+    </div>
+    <div class="login-error hidden" id="login-error"></div>
+    <button type="submit" class="btn-login" id="btn-login">Entrar</button>
+  </form>
+
+  <p class="login-footer">Para cadastrar um novo admin, use o PIN interno.</p>
+</div>
+
+<script src="../assets/js/config.js"></script>
+<script>
+  if (localStorage.getItem('pharmafit_admin')) {
+    window.location.href = 'painel.html';
+  }
+
+  document.getElementById('login-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('btn-login');
+    const err = document.getElementById('login-error');
+    btn.disabled = true;
+    btn.textContent = 'Entrando...';
+    err.classList.add('hidden');
+
+    try {
+      const email = document.getElementById('email').value.trim().toLowerCase();
+      const senha = document.getElementById('senha').value.trim();
+      const url   = new URL(SHEETS_URL);
+      url.searchParams.set('action', 'login_admin');
+      url.searchParams.set('email', email);
+      url.searchParams.set('senha', senha);
+      const res  = await fetch(url.toString());
+      const data = await res.json();
+
+      if (data.ok) {
+        localStorage.setItem('pharmafit_admin', JSON.stringify({
+          email: data.email,
+          token: data.token,
+          nome:  data.nome,
+          cargo: data.cargo,
+        }));
+        window.location.href = 'painel.html';
+      } else {
+        err.textContent = data.erro || 'Credenciais inválidas';
+        err.classList.remove('hidden');
+      }
+    } catch(ex) {
+      err.textContent = 'Erro de conexão. Tente novamente.';
+      err.classList.remove('hidden');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Entrar';
+    }
+  });
+</script>
+</body>
+</html>

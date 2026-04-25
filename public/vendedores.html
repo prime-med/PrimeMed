@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Sistema de Cupons — Pharmafit B2B</title>
+  <link rel="stylesheet" href="assets/css/theme.css"/>
+  <link rel="stylesheet" href="assets/css/vendedores.css"/>
+</head>
+<body>
+
+<!-- ══ PIN OVERLAY ══ -->
+<div id="pin-overlay">
+  <div class="pin-box">
+    <div class="pin-title">🔐 Acesso Restrito</div>
+    <div class="pin-sub">Digite o PIN para entrar na área das vendedoras</div>
+    <input type="password" id="pin-input" class="pin-input" maxlength="8"
+           placeholder="••••" onkeydown="if(event.key==='Enter')checkPin()"/>
+    <button id="pin-btn" class="pin-btn" onclick="checkPin()">Entrar</button>
+    <div id="pin-err" class="pin-err"></div>
+  </div>
+</div>
+
+<!-- ══ HEADER ══ -->
+<div class="header" id="main-header">
+  <div>
+    <div class="header-title">🎟️ Sistema de Cupons B2B</div>
+    <div class="header-sub">Pharmafit — Área das Vendedoras</div>
+  </div>
+  <div class="header-spacer"></div>
+  <span class="header-nome" id="header-nome"></span>
+  <button class="btn-logout" onclick="abrirTrocarSenha()" style="margin-left:12px;border-color:var(--border);color:var(--light)">🔑 Trocar Senha</button>
+  <button class="btn-logout" onclick="logout()" style="margin-left:6px">Sair</button>
+</div>
+
+<!-- ══ MODAL TROCAR SENHA ══ -->
+<div class="modal-overlay" id="modal-senha">
+  <div class="modal-box">
+    <div class="modal-title">🔑 Trocar Senha</div>
+    <div class="auth-field"><label>Senha Atual</label>
+      <input type="password" id="ts_atual" placeholder="••••••" onkeydown="if(event.key==='Enter')document.getElementById('ts_nova').focus()"/>
+    </div>
+    <div class="auth-field"><label>Nova Senha</label>
+      <input type="password" id="ts_nova" placeholder="Mínimo 6 caracteres" onkeydown="if(event.key==='Enter')document.getElementById('ts_conf').focus()"/>
+    </div>
+    <div class="auth-field"><label>Confirmar Nova Senha</label>
+      <input type="password" id="ts_conf" placeholder="Repita a nova senha" onkeydown="if(event.key==='Enter')confirmarTrocarSenha()"/>
+    </div>
+    <div class="modal-msg" id="ts-msg"></div>
+    <div class="modal-actions">
+      <button class="btn-modal-cancel" onclick="fecharModal('modal-senha')">Cancelar</button>
+      <button class="btn-modal-ok" id="btn-ts-ok" onclick="confirmarTrocarSenha()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ══ TELA AUTH ══ -->
+  <div id="tela-auth">
+    <div class="auth-box">
+      <div class="auth-logo">🎟️</div>
+      <div class="auth-brand">Área das Vendedoras</div>
+      <div class="auth-tagline">Entre ou crie sua conta para gerenciar seus cupons</div>
+
+      <div class="auth-tabs" id="auth-tabs-el">
+        <button class="auth-tab active" id="atab-login" onclick="setAuthMode('login')">Entrar</button>
+        <button class="auth-tab"        id="atab-reg"   onclick="setAuthMode('reg')">Criar Conta</button>
+      </div>
+
+      <!-- LOGIN -->
+      <div id="form-login">
+        <div class="auth-field"><label>E-mail</label>
+          <input type="email" id="l_email" placeholder="seu@email.com" autocomplete="email"
+                 onkeydown="if(event.key==='Enter')document.getElementById('l_senha').focus()"/>
+        </div>
+        <div class="auth-field"><label>Senha</label>
+          <input type="password" id="l_senha" placeholder="••••••" autocomplete="current-password"
+                 onkeydown="if(event.key==='Enter')fazerLogin()"/>
+        </div>
+        <button class="btn-auth entrar" id="btn-login" onclick="fazerLogin()">Entrar →</button>
+        <div class="auth-msg" id="login-msg"></div>
+        <span class="link-esqueci" onclick="setAuthMode('esqueci')">Esqueci minha senha</span>
+      </div>
+
+      <!-- ESQUECI SENHA -->
+      <div id="form-esqueci" style="display:none">
+        <button class="btn-voltar-login" onclick="setAuthMode('login')">← Voltar</button>
+        <div class="auth-field"><label>E-mail do cadastro</label>
+          <input type="email" id="e_email" placeholder="seu@email.com"/>
+        </div>
+        <div class="auth-field"><label>Data de Nascimento</label>
+          <input type="date" id="e_nasc"/>
+        </div>
+        <div class="auth-field"><label>Nova Senha</label>
+          <input type="password" id="e_nova" placeholder="Mínimo 6 caracteres"/>
+        </div>
+        <div class="auth-field"><label>Confirmar Nova Senha</label>
+          <input type="password" id="e_conf" placeholder="Repita a nova senha"
+                 onkeydown="if(event.key==='Enter')recuperarSenha()"/>
+        </div>
+        <button class="btn-auth registrar" id="btn-esqueci" onclick="recuperarSenha()">Redefinir Senha</button>
+        <div class="auth-msg" id="esqueci-msg"></div>
+      </div>
+
+      <!-- REGISTRO -->
+      <div id="form-reg" style="display:none">
+        <div class="auth-field"><label>Seu nome</label>
+          <input type="text" id="r_nome" placeholder="Ex: Ana Silva"
+                 onkeydown="if(event.key==='Enter')document.getElementById('r_nasc').focus()"/>
+        </div>
+        <div class="auth-field"><label>Data de Nascimento</label>
+          <input type="date" id="r_nasc"
+                 onkeydown="if(event.key==='Enter')document.getElementById('r_email').focus()"/>
+        </div>
+        <div class="auth-field"><label>E-mail</label>
+          <input type="email" id="r_email" placeholder="seu@email.com" autocomplete="email"
+                 onkeydown="if(event.key==='Enter')document.getElementById('r_senha').focus()"/>
+        </div>
+        <div class="auth-field"><label>Senha</label>
+          <input type="password" id="r_senha" placeholder="Mínimo 6 caracteres"
+                 onkeydown="if(event.key==='Enter')document.getElementById('r_conf').focus()"/>
+        </div>
+        <div class="auth-field"><label>Confirmar senha</label>
+          <input type="password" id="r_conf" placeholder="Repita a senha"
+                 onkeydown="if(event.key==='Enter')criarConta()"/>
+        </div>
+        <button class="btn-auth registrar" id="btn-reg" onclick="criarConta()">Criar Conta</button>
+        <div class="auth-msg" id="reg-msg"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══ TELA APP ══ -->
+  <div id="tela-app">
+
+    <!-- ABAS -->
+    <div class="mode-tabs">
+      <button class="mode-tab active" id="tab-criar"  onclick="setMode('criar')">✅ Criar Cupom</button>
+      <button class="mode-tab"        id="tab-hist"   onclick="setMode('hist')">📊 Histórico</button>
+      <button class="mode-tab"        id="tab-cupons" onclick="setMode('cupons')">🗂️ Meus Cupons</button>
+    </div>
+
+    <!-- ══ CRIAR CUPOM ══ -->
+    <div id="form-criar">
+
+      <div class="sec">
+        <div class="sec-title">📦 Selecionar Produtos</div>
+        <input type="search" class="search-prod" id="prod-search"
+               placeholder="🔍 Buscar produto..." oninput="filtrarProdutos()"/>
+        <div class="sel-all-row">
+          <span class="sel-count" id="sel-count">0 selecionados</span>
+          <button class="btn-sel-all" onclick="toggleTodos()">Selecionar todos</button>
+        </div>
+        <div class="prod-grid" id="prod-grid">
+          <div style="color:var(--gray);font-size:.85rem;padding:20px">Carregando produtos…</div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-title">💰 Tipo de Desconto</div>
+        <div class="tipo-toggle">
+          <button class="tipo-btn active" id="btn-pct"  onclick="setTipo('pct')">% Percentual</button>
+          <button class="tipo-btn"        id="btn-fixo" onclick="setTipo('fixo')">R$ Preço Fixo por Produto</button>
+        </div>
+        <div id="modo-pct">
+          <label>Desconto (%)</label>
+          <input type="number" id="f_pct" min="1" max="99" placeholder="Ex: 20"/>
+        </div>
+        <div id="modo-fixo" style="display:none">
+          <div id="tabela-precos-wrap">
+            <p style="color:var(--gray);font-size:.82rem">Selecione os produtos acima para definir os preços.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-title">🏷️ Código do Cupom</div>
+        <label>Código (editável)</label>
+        <div class="cupom-code-wrap">
+          <input type="text" id="f_codigo" placeholder="Ex: ANA20"
+                 oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'')"/>
+          <button class="btn-regen" onclick="gerarCodigo()">🔀 Gerar</button>
+        </div>
+        <div style="margin-top:18px">
+          <label>Validade</label>
+          <div class="valid-btns" id="valid-btns">
+            <button class="valid-btn" onclick="setValidade(this,1)">1 dia</button>
+            <button class="valid-btn" onclick="setValidade(this,3)">3 dias</button>
+            <button class="valid-btn" onclick="setValidade(this,7)">7 dias</button>
+            <button class="valid-btn" onclick="setValidade(this,15)">15 dias</button>
+            <button class="valid-btn" onclick="setValidade(this,30)">30 dias</button>
+            <button class="valid-btn" id="btn-indet" onclick="setValidadeIndet(this)">♾️ Indeterminado</button>
+          </div>
+          <input type="date" id="f_validade" style="margin-top:10px"/>
+        </div>
+      </div>
+
+      <div class="sec">
+        <div class="sec-title">⚙️ Opções Extras</div>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <label style="display:flex;align-items:center;gap:12px;cursor:pointer;font-size:.88rem;color:var(--light)">
+            <input type="checkbox" id="f_parcelamento" style="width:18px;height:18px;accent-color:var(--accent);cursor:pointer"/>
+            <span>Ativar parcelamento sem juros (máx. 3×)</span>
+          </label>
+          <label style="display:flex;align-items:center;gap:12px;cursor:pointer;font-size:.88rem;color:var(--light)">
+            <input type="checkbox" id="f_frete_gratis" style="width:18px;height:18px;accent-color:var(--accent);cursor:pointer"/>
+            <span>Frete grátis para compras acima de R$ 5.000</span>
+          </label>
+        </div>
+      </div>
+
+      <div id="alert-main" class="alert"></div>
+      <button class="btn-submit" id="btn-submit" onclick="criarCupom()">✅ Gerar Cupom</button>
+
+      <div id="success-box">
+        <div class="suc-icon">🎉</div>
+        <div class="suc-title">Cupom criado com sucesso!</div>
+        <div class="suc-code" id="suc-code"></div>
+        <br/>
+        <button class="btn-copy" onclick="copiarCodigo()">📋 Copiar Código</button>
+        <button class="btn-novo" onclick="novoCupom()">+ Criar Outro</button>
+      </div>
+
+    </div><!-- fim #form-criar -->
+
+    <!-- ══ HISTÓRICO ══ -->
+    <div id="secao-historico" style="display:none">
+      <div class="sec">
+        <div class="sec-title">📊 Meu Histórico de Vendas</div>
+        <p style="font-size:.83rem;color:var(--gray);margin-bottom:16px;line-height:1.6">
+          Todos os pedidos que usaram qualquer cupom criado por você.
+        </p>
+        <button class="btn-buscar" id="btn-buscar-hist" onclick="buscarHistorico()">
+          🔍 Carregar Meus Pedidos
+        </button>
+        <div class="hist-err" id="hist-err"></div>
+      </div>
+      <div id="hist-resultado" style="display:none">
+        <div class="stats-grid" id="hist-stats"></div>
+        <div class="sec" style="margin-bottom:0">
+          <div class="sec-title">📦 Pedidos</div>
+          <div class="cupons-linha" id="hist-cupons-linha"></div>
+          <div id="hist-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ MEUS CUPONS ══ -->
+    <div id="secao-meus-cupons" style="display:none">
+      <div class="sec">
+        <div class="sec-title">🗂️ Meus Cupons Ativos</div>
+        <p style="font-size:.83rem;color:var(--gray);margin-bottom:16px;line-height:1.6">
+          Cupons que você criou e ainda estão ativos na plataforma.
+        </p>
+        <button class="btn-buscar" id="btn-carregar-cupons" onclick="carregarMeusCupons()">
+          🔄 Carregar Meus Cupons
+        </button>
+        <div id="mc-err" class="hist-err"></div>
+      </div>
+      <div id="mc-lista"></div>
+    </div>
+
+  </div><!-- fim #tela-app -->
+
+</div><!-- fim .wrap -->
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/vendedores.js"></script>
+</body>
+</html>

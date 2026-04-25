@@ -1,0 +1,256 @@
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  INFORMATIVO TÉCNICO — TEMPLATE PHARMAFIT-PY                ║
+  ║  Produto: TB-500 10mg                                       ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  ESTRUTURA GERAL (2 páginas .page):                         ║
+  ║  Pág 1: header → info-strip → "O Que É" → seções técnicas  ║
+  ║  Pág 2: header-small → seções avançadas → pharmafit-banner  ║
+  ║         → referências científicas → footer + footer-note    ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  O QUE CUSTOMIZAR POR PRODUTO:                              ║
+  ║  1. <title> — nome do produto                               ║
+  ║  2. :root — paleta de cores (ver abaixo)                    ║
+  ║     Tema azul/âmbar      → ex: Tirzepatida 120mg            ║
+  ║     Tema escuro/ouro     → ex: Durateston                   ║
+  ║  3. body { background } — cor do fundo externo da página    ║
+  ║  4. .header → textos: tag, título, subtítulo, badges        ║
+  ║  5. .info-strip → chips e texto de contexto                 ║
+  ║  6. Seção "O Que É..." → section-title + intro-text         ║
+  ║  7. Conteúdo das seções (componentes em informativo.css)    ║
+  ║  8. .header-small (pág 2) → título e subtítulo              ║
+  ║  9. .footer → brand text e código do documento              ║
+  ║  10. Referências científicas → .ref-list                    ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  NÃO ALTERAR (padronizado para todos os informativos):      ║
+  ║  • .pharmafit-banner — tagline e telefone da Pharmafit-PY   ║
+  ║  • .footer-note — aviso de uso profissional                 ║
+  ║  • Link para ../assets/css/informativo.css                  ║
+  ║  • Fontes: Montserrat + Lato (Google Fonts)                 ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Informativo Técnico — TB-500 10mg | PharmaFit-PY</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/informativo.css" />
+  <style>
+    :root {
+      --petrol:     #1B4F72; --petrol-dark: #0D2B3E; --petrol-mid: #2471A3;
+      --petrol-lite:#D6EAF8; --petrol-bg:  #EBF5FB;
+      --amber:      #117864; --amber-mid:  #17A589;
+      --amber-lite: #D0ECE7; --amber-bg:   #E8F8F5;
+      --gold:       #0E6655; --gold-mid:   #17A589;
+      --gold-lite:  #D0ECE7; --gold-bg:    #E8F8F5;
+      --white:      #FFFFFF; --gray-1: #F4F6F7; --gray-2: #D5D8DC;
+      --text-dark:  #1A2530; --text-mid: #3D566E;
+      --shadow:     0 2px 12px rgba(13,43,62,0.10);
+      --header-bg:  linear-gradient(135deg, #0D2B3E 0%, #1B4F72 40%, #0E6655 75%, #17A589 100%);
+      --header-bar-bg: linear-gradient(90deg, #117864 0%, #17A589 30%, #76D7C4 55%, #2471A3 80%, #1B4F72 100%);
+      --header-small-bg: linear-gradient(135deg, #0D2B3E 0%, #1B4F72 50%, #0E6655 100%);
+      --header-hl:  #76D7C4;
+    }
+    body { background: #c8d8e4; }
+    .proto-head.p1 { background: linear-gradient(135deg, #1A5276 0%, #2471A3 100%); }
+    .proto-head.p2 { background: linear-gradient(135deg, var(--amber) 0%, var(--amber-mid) 100%); }
+    .proto-head.p3 { background: linear-gradient(135deg, #6C3483 0%, #8E44AD 100%); }
+    .orb-teal { position: absolute; top: 10px; right: 155px; width: 90px; height: 90px; border-radius: 50%; background: radial-gradient(circle, rgba(23,165,137,0.3) 0%, transparent 70%); }
+    .header-title .teal-text { color: #76D7C4; text-shadow: 0 0 24px rgba(118,215,196,0.6); }
+  </style>
+</head>
+<body>
+<!-- PÁGINA 1 — FRENTE -->
+<div class="page">
+  <div class="header">
+    <div class="orb-teal"></div>
+    <div class="header-inner">
+      <div class="header-logo"><img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" /></div>
+      <div class="header-center">
+        <div class="header-tag">Informativo Técnico — Peptídeo de Alta Performance</div>
+        <div class="header-title"><span class="teal-text">TB</span>-500</div>
+        <div class="header-subtitle">Thymosin Beta-4 · Fragmento Acf-17 · Peptídeo de Mobilização Celular e Reparo Tecidual Sistêmico</div>
+      </div>
+      <div class="header-badges">
+        <div class="badge-box"><div class="b-label">Concentração</div><div class="b-val"><span>10</span> mg</div></div>
+        <div class="badge-box"><div class="b-label">Código</div><div class="b-val">TB500-10-PFY</div></div>
+      </div>
+    </div>
+    <div class="header-bar"></div>
+  </div>
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="st-icon">🔄</span><h2>O Que É o TB-500?</h2><div class="st-line"></div></div>
+    <div class="intro-strip">
+      <div class="intro-icon">🔄</div>
+      <div>
+      <div class="intro-text">
+        O <strong>TB-500 (Thymosin Beta-4 · fragmento Ac-SDKPDMAEIEKFDKSKLKK-TEP)</strong> é um peptídeo sintético derivado da Timosina Beta-4, hormônio produzido naturalmente pelo timo. Age como potente <strong>mobilizador de células-tronco e precursoras</strong>, promovendo regeneração tecidual sistêmica com ação anti-inflamatória. Atua na regulação da actina, facilitando migração celular, angiogênese e reparo em músculos, tendões, ligamentos, coração e sistema nervoso. Sua ação é <strong>sistêmica e de longa duração</strong>, diferenciando-o do BPC-157 de ação local.
+      </div>
+      <div class="spec-grid">
+        <div class="spec-item"><div class="s-val">Tβ4 / Timo</div><div class="s-lbl">Derivado de</div></div>
+        <div class="spec-item"><div class="s-val">4.963 Da</div><div class="s-lbl">Peso Molecular</div></div>
+        <div class="spec-item"><div class="s-val">Timo</div><div class="s-lbl">Origem</div></div>
+        <div class="spec-item"><div class="s-val">4–6 h SC</div><div class="s-lbl">Meia-vida</div></div>
+        <div class="spec-item"><div class="s-val">Sistêmica</div><div class="s-lbl">Ação</div></div>
+        <div class="spec-item"><div class="s-val">10 mg</div><div class="s-lbl">Concentração</div></div>
+      </div>
+      </div>
+    </div>
+    </div>
+    <div class="section">
+      <div class="section-title"><span class="st-icon">⚡</span><h2>Mecanismo de Ação Científico</h2><div class="st-line"></div></div>
+      <table class="moa">
+        <thead><tr><th>Via de Ação</th><th>Efeito Biológico</th><th>Evidência</th></tr></thead>
+        <tbody>
+          <tr><td>Regulação da Actina</td><td>Liga-se à actina G monomérica · facilita migração e proliferação celular · essencial para remodelação do citoesqueleto em células de reparo</td><td><span class="tag">Alta</span></td></tr>
+          <tr><td>Mobilização de Células-Tronco</td><td>Recruta células-tronco da medula óssea para o sítio lesado · amplifica regeneração tecidual sistêmica</td><td><span class="tag">Alta</span></td></tr>
+          <tr><td>Angiogênese</td><td>Promove formação de novos vasos via upregulação de VEGF e HIF-1α · melhora perfusão em áreas isquêmicas e lesadas</td><td><span class="tag">Alta</span></td></tr>
+          <tr><td>Reparo Muscular</td><td>Ativa células satélites musculares · acelera regeneração fibrilar · reduz fibrose pós-lesão · preserva função contrátil</td><td><span class="tag">Alta</span></td></tr>
+          <tr><td>Cardioproteção</td><td>Reduz apoptose de cardiomiócitos · estimula regeneração cardíaca pós-infarto · estudado em modelos de insuficiência cardíaca</td><td><span class="tag teal">Moderada-Alta</span></td></tr>
+          <tr><td>Neuroproteção Sistêmica</td><td>Estimula remielinização · protege neurônios contra isquemia · promove recuperação em lesões medulares e TCE</td><td><span class="tag teal">Moderada-Alta</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="section">
+      <div class="section-title"><span class="st-icon">💧</span><h2>Reconstituição — TB-500 10mg / 2ml</h2><div class="st-line"></div></div>
+      <div class="diss-box">
+        <div class="diss-steps">
+          <div class="diss-step"><div class="step-circle">1</div><div class="step-text"><strong>Higienizar</strong>Álcool 70% na tampa</div></div>
+          <div class="diss-step"><div class="step-circle">2</div><div class="step-text"><strong>Preparar</strong>Aspirar 2ml de água bacteriostática</div></div>
+          <div class="diss-step"><div class="step-circle">3</div><div class="step-text"><strong>Injetar</strong>Lentamente na parede do frasco</div></div>
+          <div class="diss-step"><div class="step-circle">4</div><div class="step-text"><strong>Girar</strong>Suavemente — nunca agitar</div></div>
+          <div class="diss-step"><div class="step-circle">5</div><div class="step-text"><strong>Refrigerar</strong>2–8°C · 28 dias</div></div>
+        </div>
+        <table class="dose-table">
+          <thead><tr><th>Volume Aspirado</th><th>Dose TB-500</th><th>Indicação Clínica</th><th>Via</th></tr></thead>
+          <tbody>
+            <tr><td>0,25 ml</td><td>1,25 mg</td><td>Dose mínima · manutenção semanal</td><td>SC / IM</td></tr>
+            <tr><td>0,50 ml</td><td>2,5 mg</td><td>Dose padrão · fase inicial (semanas 1–2)</td><td>SC / IM</td></tr>
+            <tr><td>1,00 ml</td><td>5 mg</td><td>Dose de carga · lesão aguda</td><td>SC / IM</td></tr>
+            <tr><td>2,00 ml</td><td>10 mg</td><td>Protocolo intensivo · sob supervisão médica</td><td>SC / IM</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Peptídeos de Alta Performance</div>
+    <div class="footer-code">DOC: TB500-10-PFY · Rev. Mar/2026</div>
+    <div class="footer-page">1 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+<!-- PÁGINA 2 — VERSO -->
+<div class="page">
+  <div class="header-small">
+    <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" />
+    <div><div class="hs-title"><span>TB</span>-500 · Protocolos Clínicos</div><div class="hs-sub">Thymosin Beta-4 Fragment · 10mg</div></div>
+    <div class="hs-right"><div class="hs-title" style="font-size:9pt;color:rgba(255,255,255,0.5);">PHARMAFIT-PY</div><div class="hs-sub">Peptídeos de Alta Performance</div></div>
+  </div>
+  <div class="header-bar"></div>
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📋</span><h2>Protocolos de Uso Clínico</h2><div class="st-line"></div></div>
+      <div class="proto-grid">
+        <div class="proto-card">
+          <div class="proto-head p1"><div class="p-num">Protocolo 01</div><div class="p-title">Reparo Muscular & Lesões Agudas</div><div class="p-icon">⚡</div></div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Objetivo</span><span class="pr-val">Rotura muscular · distensão · pós-cirurgia</span></div>
+            <div class="proto-row"><span class="pr-label">Carga</span><span class="pr-val"><strong>5–10mg</strong> · semanas 1 e 2</span></div>
+            <div class="proto-row"><span class="pr-label">Manutenção</span><span class="pr-val"><strong>2,5mg</strong> · 2x/semana · semanas 3–8</span></div>
+            <div class="proto-row"><span class="pr-label">Via</span><span class="pr-val">SC abdominal ou IM</span></div>
+            <div class="proto-row"><span class="pr-label">Duração</span><span class="pr-val"><strong>6–8 semanas</strong> total</span></div>
+            <div class="proto-row"><span class="pr-label">Sinergia</span><span class="pr-val">BPC-157 500mcg 2x/dia simultâneo</span></div>
+          </div>
+        </div>
+        <div class="proto-card">
+          <div class="proto-head p2"><div class="p-num">Protocolo 02</div><div class="p-title">Reparo Tendão & Ligamento</div><div class="p-icon">🦴</div></div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Objetivo</span><span class="pr-val">Tendinite crônica · lesão de LCA · cotovelo</span></div>
+            <div class="proto-row"><span class="pr-label">Carga</span><span class="pr-val"><strong>5mg</strong> · semanas 1–2 · 2x/semana</span></div>
+            <div class="proto-row"><span class="pr-label">Manutenção</span><span class="pr-val"><strong>2,5mg</strong> · 1x/semana · semanas 3–10</span></div>
+            <div class="proto-row"><span class="pr-label">Via</span><span class="pr-val">SC perilesional ou IM</span></div>
+            <div class="proto-row"><span class="pr-label">Duração</span><span class="pr-val"><strong>8–12 semanas</strong></span></div>
+            <div class="proto-row"><span class="pr-label">Obs.</span><span class="pr-val">Resultado superior combinado com BPC-157</span></div>
+          </div>
+        </div>
+        <div class="proto-card">
+          <div class="proto-head p3"><div class="p-num">Protocolo 03</div><div class="p-title">Recuperação Sistêmica & Anti-aging</div><div class="p-icon">♻️</div></div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Objetivo</span><span class="pr-val">Fadiga crônica · recuperação atlética · envelhecimento</span></div>
+            <div class="proto-row"><span class="pr-label">Dose</span><span class="pr-val"><strong>2,5mg</strong> · 2x/semana</span></div>
+            <div class="proto-row"><span class="pr-label">Via</span><span class="pr-val">SC abdominal</span></div>
+            <div class="proto-row"><span class="pr-label">Duração</span><span class="pr-val"><strong>8–12 semanas</strong> ON / 4 OFF</span></div>
+            <div class="proto-row"><span class="pr-label">Horário</span><span class="pr-val">Pós-treino ou antes de dormir</span></div>
+            <div class="proto-row"><span class="pr-label">Sinergia</span><span class="pr-val">CJC-1295 + Ipamorelin à noite</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📊</span><h2>Comparativo dos Protocolos</h2><div class="st-line"></div></div>
+      <table class="compare-table">
+        <thead><tr><th>Parâmetro</th><th>⚡ Muscular Agudo</th><th>🦴 Tendão/Lig.</th><th>♻️ Sistêmico</th></tr></thead>
+        <tbody>
+          <tr><td>Dose de carga</td><td>5–10 mg</td><td>5 mg</td><td>Sem carga</td></tr>
+          <tr><td>Dose manutenção</td><td>2,5 mg · 2x/sem</td><td>2,5 mg · 1x/sem</td><td>2,5 mg · 2x/sem</td></tr>
+          <tr><td>Duração total</td><td>6–8 semanas</td><td>8–12 semanas</td><td>8–12 semanas</td></tr>
+          <tr><td>Sinergia ideal</td><td>BPC-157</td><td>BPC-157 + Colágeno</td><td>CJC-1295 + Ipamorelin</td></tr>
+          <tr><td>Zinco obrigatório</td><td>✅</td><td>✅</td><td>✅</td></tr>
+          <tr><td>Vitamina C</td><td>✅</td><td>✅</td><td>✅</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="two-col">
+      <div class="box-card supl">
+        <div class="box-title">⚗️ Suplementação Recomendada</div>
+        <div class="supl-item"><span class="si-icon">🔵</span><div class="si-text"><strong>Zinco 30mg/dia</strong> — cofator essencial para síntese proteica e regeneração celular. Potencializa a mobilização de células-tronco.</div></div>
+        <div class="supl-item"><span class="si-icon">🟠</span><div class="si-text"><strong>Vitamina C 1g/dia</strong> — cofator da síntese de colágeno. Suporte antioxidante e anti-inflamatório durante o reparo.</div></div>
+        <div class="supl-item"><span class="si-icon">🟤</span><div class="si-text"><strong>Colágeno Hidrolisado 10g/dia</strong> — substrato para regeneração de tendão e ligamento. Amplifica o efeito do TB-500.</div></div>
+        <div class="supl-item"><span class="si-icon">🟡</span><div class="si-text"><strong>Vitamina D3 5.000 UI/dia</strong> — suporte imune e à função muscular. Essencial para ativação de células satélites.</div></div>
+      </div>
+      <div class="box-card adv">
+        <div class="box-title">⚠️ Advertências & Contraindicações</div>
+        <div class="adv-item"><span class="adv-icon">🔴</span><div class="adv-text"><strong>Neoplasias ativas</strong> — contraindicado. A mobilização de células-tronco e a angiogênese podem favorecer crescimento tumoral.</div></div>
+        <div class="adv-item"><span class="adv-icon">🔴</span><div class="adv-text"><strong>Gravidez e lactação</strong> — contraindicado. Ausência de dados de segurança nessa população.</div></div>
+        <div class="adv-item"><span class="adv-icon">🟡</span><div class="adv-text"><strong>Doenças autoimunes</strong> — usar com cautela. A modulação imune pode alterar o curso de doenças como lupus e artrite reumatoide.</div></div>
+        <div class="adv-item"><span class="adv-icon">🟡</span><div class="adv-text"><strong>Efeitos adversos</strong> — tontura passageira e sensação de fadiga nas primeiras 24h após doses de carga. Transitório.</div></div>
+        <div class="adv-item"><span class="adv-icon">⚪</span><div class="adv-text"><strong>Armazenamento</strong> — após reconstituição: 2–8°C, validade 28 dias. Não congelar o produto reconstituído.</div></div>
+      </div>
+    </div>
+
+    <div class="pharmafit-banner" style="margin-top:16px">
+      <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" class="pf-logo" />
+      <div class="pf-text">
+        <div class="pf-label">Estudo Clínico Elaborado por</div>
+        <div class="pf-brand">Pharmafit<span>-PY</span></div>
+        <div class="pf-tagline">Compostos injetáveis de alta pureza com qualidade farmacêutica.<br>Protocolos personalizados para saúde, performance e bem-estar.</div>
+      </div>
+      <a class="pf-cta" href="tel:+12142049853">📞 +1 (214) 204-9853</a>
+    </div>
+
+    <div class="box-card ref" style="margin-bottom:0">
+      <div class="box-title">📚 Referências Científicas</div>
+      <ul class="ref-list">
+        <li data-n="1">Goldstein AL et al. (2012). <em>Thymosin β4: A Multi-Functional Regenerative Peptide.</em> Expert Opin Biol Ther. 12(Suppl 1):S37–51.</li>
+        <li data-n="2">Philp D et al. (2004). <em>Thymosin beta 4 and a synthetic tetrapeptide AcSDKP promote dermal and epidermal healing.</em> Wound Repair Regen. 12(4):397–404.</li>
+        <li data-n="3">Bock-Marquette I et al. (2004). <em>Thymosin beta4 activates integrin-linked kinase and promotes cardiac cell migration, survival and cardiac repair.</em> Nature. 432(7016):466–472.</li>
+        <li data-n="4">Smart N et al. (2007). <em>Thymosin beta4 induces adult epicardial progenitor mobilization and neovascularization.</em> Nature. 445(7124):177–182.</li>
+        <li data-n="5">Huff T et al. (2001). <em>Beta-thymosins, small acidic peptides with multiple functions.</em> Int J Biochem Cell Biol. 33(3):205–220.</li>
+        <li data-n="6">Sanders MC et al. (1992). <em>Thymosin beta 4 (Fx peptide) is a potent regulator of actin polymerization in living cells.</em> Proc Natl Acad Sci. 89(10):4678–4682.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Peptídeos de Alta Performance</div>
+    <div class="footer-code">DOC: TB500-10-PFY · Rev. Mar/2026 · Uso Profissional</div>
+    <div class="footer-page">2 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+</body>
+</html>

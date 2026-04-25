@@ -1,0 +1,502 @@
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  INFORMATIVO TÉCNICO — TEMPLATE PHARMAFIT-PY 2026           ║
+  ║  Produto: Line Body — Protocolo Lipolítico PC + DC          ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  ESTRUTURA GERAL (2 páginas .page):                         ║
+  ║  Pág 1: header → header-bar → info-strip → conteúdo clínico ║
+  ║  Pág 2: header-small → header-bar → conteúdo → banner       ║
+  ║         → referências → footer + footer-note                ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Informativo Técnico — Line Body Protocolo | PharmaFit-PY</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/informativo.css" />
+  <style>
+    :root {
+      --petrol:      #065F46; --petrol-dark: #022C22; --petrol-mid: #059669;
+      --petrol-lite: #A7F3D0; --petrol-bg:   #ECFDF5;
+      --amber:       #047857; --amber-mid:   #10B981;
+      --amber-lite:  #A7F3D0; --amber-bg:    #D1FAE5;
+      --gold:        #0F766E; --gold-mid:    #14B8A6;
+      --gold-lite:   #CCFBF1; --gold-bg:     #F0FDFA;
+      --white:       #FFFFFF; --gray-1: #F4F6F7; --gray-2: #D5D8DC;
+      --text-dark:   #1A2530; --text-mid: #1F4035;
+      --shadow:      0 2px 12px rgba(2,44,34,0.12);
+      --header-bg:   linear-gradient(135deg, #022C22 0%, #065F46 30%, #047857 60%, #059669 80%, #10B981 100%);
+      --header-small-bg: linear-gradient(135deg, #022C22 0%, #065F46 40%, #047857 70%, #059669 100%);
+      --header-bar-bg: linear-gradient(90deg, #022C22 0%, #065F46 20%, #059669 50%, #14B8A6 75%, #34D399 100%);
+      --header-hl:   #A7F3D0;
+    }
+    body { background: #b8d4c8; }
+
+    /* ── Dupla molécula PC+DC ── */
+    .mol-dual-strip {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      background: linear-gradient(135deg, var(--petrol-bg) 0%, var(--gold-bg) 100%);
+      border: 1.5px solid var(--petrol-lite);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow);
+    }
+    .mol-pill {
+      background: linear-gradient(135deg, var(--petrol-dark), var(--petrol));
+      border-radius: 8px;
+      padding: 10px 14px;
+      text-align: center;
+      min-width: 100px;
+      flex-shrink: 0;
+    }
+    .mol-pill .mp-name { font-family: 'Montserrat', sans-serif; font-size: 13pt; font-weight: 900; color: var(--petrol-lite); }
+    .mol-pill .mp-full { font-size: 7pt; color: var(--amber-lite); margin-top: 2px; line-height: 1.3; }
+    .mol-pill .mp-pct  { font-family: 'Montserrat', sans-serif; font-size: 16pt; font-weight: 900; color: var(--gold-mid); margin-top: 4px; line-height: 1; }
+    .mol-desc { flex: 1; font-size: 8.5pt; color: var(--text-mid); line-height: 1.6; }
+    .mol-desc strong { color: var(--petrol-dark); }
+
+    /* ── Zonas de aplicação grid ── */
+    .zones-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7px;
+      margin-bottom: 14px;
+    }
+    .zone-item-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      background: linear-gradient(135deg, var(--petrol-bg) 0%, var(--gold-bg) 100%);
+      border: 1px solid var(--petrol-lite);
+      border-radius: 8px;
+      padding: 8px 10px;
+    }
+    .zone-dot-color {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .zi-name  { font-family: 'Montserrat', sans-serif; font-size: 8.5pt; font-weight: 700; color: var(--text-dark); }
+    .zi-dose  { font-size: 7.5pt; color: var(--petrol-mid); margin-top: 2px; font-weight: 600; }
+    .zi-note  { font-size: 7pt; color: var(--text-mid); }
+
+    /* ── Profundidade camadas ── */
+    .depth-layers {
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow);
+    }
+    .depth-layer {
+      padding: 8px 14px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 8pt;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .dl-epidermis { background: #BE185D; color: #FCE7F3; }
+    .dl-dermis    { background: #9D174D; color: #FDF2F8; }
+    .dl-hipoderm  { background: #047857; color: #D1FAE5; border: 2px dashed #34D399; }
+    .dl-musculo   { background: #1E3A5F; color: #DBEAFE; }
+    .depth-note   { font-size: 7pt; font-weight: 400; opacity: 0.8; margin-left: 8px; }
+
+    /* ── Material grid ── */
+    .material-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7px;
+      margin-bottom: 14px;
+    }
+    .mat-item-card {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, var(--petrol-bg) 0%, var(--gold-bg) 100%);
+      border: 1px solid var(--petrol-lite);
+      border-radius: 8px;
+      padding: 8px 12px;
+    }
+    .mat-icon-lb   { font-size: 18px; flex-shrink: 0; }
+    .mi-name-lb    { font-family: 'Montserrat', sans-serif; font-size: 8.5pt; font-weight: 700; color: var(--text-dark); }
+    .mi-spec-lb    { font-size: 7.5pt; color: var(--text-mid); margin-top: 1px; }
+
+    /* ── Pré-aplicação steps ── */
+    .preapp-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7px;
+      margin-bottom: 14px;
+    }
+    .preapp-card {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      background: linear-gradient(135deg, var(--petrol-bg) 0%, var(--gold-bg) 100%);
+      border: 1px solid var(--petrol-lite);
+      border-radius: 8px;
+      padding: 9px 11px;
+    }
+    .preapp-num {
+      width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--petrol), var(--petrol-mid));
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Montserrat', sans-serif; font-size: 10pt; font-weight: 800; color: #fff;
+    }
+    .preapp-title { font-family: 'Montserrat', sans-serif; font-size: 8.5pt; font-weight: 700; color: var(--petrol-dark); }
+    .preapp-desc  { font-size: 7.5pt; color: var(--text-mid); margin-top: 2px; line-height: 1.4; }
+
+    /* ── Técnica aplicação steps ── */
+    .tech-steps-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .tech-card {
+      background: linear-gradient(135deg, var(--petrol-dark), var(--petrol));
+      border: 1px solid var(--petrol-lite);
+      border-radius: 10px;
+      padding: 10px 8px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+    .tech-card .tc-icon  { font-size: 20px; margin-bottom: 4px; }
+    .tech-card .tc-num   {
+      width: 18px; height: 18px; border-radius: 50%;
+      background: var(--petrol-mid); display: flex; align-items: center; justify-content: center;
+      font-family: 'Montserrat', sans-serif; font-size: 9pt; font-weight: 800; color: #fff;
+      margin: 0 auto 5px;
+    }
+    .tech-card .tc-title { font-family: 'Montserrat', sans-serif; font-size: 7.5pt; font-weight: 700; color: var(--petrol-lite); margin-bottom: 3px; }
+    .tech-card .tc-desc  { font-size: 7pt; color: var(--amber-lite); line-height: 1.4; }
+
+    /* ── Cronograma timeline ── */
+    .session-timeline {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      background: linear-gradient(135deg, var(--petrol-bg) 0%, var(--gold-bg) 100%);
+      border: 1px solid var(--petrol-lite);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow);
+    }
+    .stl-item { flex: 1; text-align: center; position: relative; padding: 0 4px; }
+    .stl-item:not(:last-child)::after {
+      content: '→'; position: absolute; right: -6px; top: 50%;
+      transform: translateY(-50%); color: var(--petrol-mid); font-size: 14px;
+    }
+    .stl-circle {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--petrol), var(--petrol-mid));
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Montserrat', sans-serif; font-size: 9pt; font-weight: 800; color: #fff;
+      margin: 0 auto 6px; box-shadow: 0 2px 8px rgba(5,150,105,0.3);
+    }
+    .stl-label { font-family: 'Montserrat', sans-serif; font-size: 7.5pt; font-weight: 700; color: var(--petrol-dark); }
+    .stl-sub   { font-size: 7pt; color: var(--text-mid); margin-top: 2px; }
+
+    /* ── Peptídeos sinérgicos table ── */
+    table.synergy-lb { width: 100%; border-collapse: collapse; font-size: 8.5pt; box-shadow: var(--shadow); margin-bottom: 14px; }
+    table.synergy-lb thead tr { background: linear-gradient(90deg, var(--petrol-dark), var(--petrol-mid)); color: white; }
+    table.synergy-lb thead th { padding: 8px 10px; font-family: 'Montserrat', sans-serif; font-size: 7.5pt; font-weight: 700; letter-spacing: 0.5px; text-align: left; }
+    table.synergy-lb tbody tr:nth-child(odd)  { background: var(--petrol-bg); }
+    table.synergy-lb tbody tr:nth-child(even) { background: var(--white); }
+    table.synergy-lb tbody td { padding: 6px 10px; border-bottom: 1px solid var(--gray-2); font-size: 8pt; color: var(--text-dark); vertical-align: top; }
+    table.synergy-lb tbody td:first-child { color: var(--petrol-dark); font-weight: 700; }
+    .pep-class-lb { font-size: 7.5pt; color: var(--petrol-mid); margin-top: 2px; }
+    .synergy-stars { color: #F59E0B; font-size: 10pt; }
+
+    /* ── Pós-cuidados grid ── */
+    .postcare-grid6 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .pc-card6 {
+      background: linear-gradient(135deg, var(--petrol-bg) 0%, var(--gold-bg) 100%);
+      border: 1px solid var(--petrol-lite);
+      border-radius: 8px;
+      padding: 10px;
+    }
+    .pc-card6 .pc-icon6  { font-size: 18px; margin-bottom: 4px; }
+    .pc-card6 .pc-title6 { font-family: 'Montserrat', sans-serif; font-size: 8pt; font-weight: 700; color: var(--petrol-dark); margin-bottom: 3px; }
+    .pc-card6 .pc-text6  { font-size: 7.5pt; color: var(--text-mid); line-height: 1.45; }
+
+    /* ── Proto heads verdes ── */
+    .proto-head.pg1 { background: linear-gradient(135deg, #022C22 0%, #065F46 100%); }
+    .proto-head.pg2 { background: linear-gradient(135deg, #065F46 0%, #059669 100%); }
+    .proto-head.pg3 { background: linear-gradient(135deg, #059669 0%, #14B8A6 100%); }
+  </style>
+</head>
+<body>
+
+<!-- ═══ PÁGINA 1 — FRENTE ═══ -->
+<div class="page">
+  <div class="header">
+    <div class="orb-amber" style="background:radial-gradient(circle,rgba(16,185,129,0.35) 0%,transparent 70%);"></div>
+    <div class="header-inner">
+      <div class="header-logo"><img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" /></div>
+      <div class="header-center">
+        <div class="header-tag">Protocolo Clínico · Solução Lipolítica · PC + Deoxicolato de Sódio</div>
+        <div class="header-title"><span class="hl">LINE BODY</span></div>
+        <div class="header-subtitle">Fosfatidilcolina + Deoxicolato de Sódio · Lipólise Localizada · Contorno Corporal</div>
+      </div>
+      <div class="header-badges">
+        <div class="badge-box"><div class="b-label">Molécula</div><div class="b-val">PC + <span>DC</span></div></div>
+        <div class="badge-box"><div class="b-label">Alvo</div><div class="b-val">Adipócito</div></div>
+        <div class="badge-box"><div class="b-label">Código</div><div class="b-val">LNBD-PCO-PFY</div></div>
+      </div>
+    </div>
+    <div class="header-bar"></div>
+  </div>
+
+  <div class="info-strip" style="background:linear-gradient(90deg,var(--petrol-bg) 0%,var(--gold-bg) 100%); border-bottom:1px solid var(--petrol-lite);">
+    <span class="info-chip" style="background:linear-gradient(90deg,var(--petrol-dark),var(--petrol-mid));">LIPÓLISE LOCALIZADA</span>
+    <span class="info-chip gold" style="background:linear-gradient(90deg,var(--gold),var(--gold-mid));">PC + DC · DUPLA AÇÃO</span>
+    <span class="info-text" style="color:var(--text-mid);">Line Body combina <strong style="color:var(--petrol-dark);">Fosfatidilcolina (PC)</strong> e <strong style="color:var(--petrol-dark);">Deoxicolato de Sódio (DC)</strong> para induzir apoptose controlada dos adipócitos sem dano ao tecido circunjacente. Indicado para redução localizada de gordura em múltiplas zonas corporais e faciais.</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">🧪</span><h2 style="color:var(--petrol-mid);">Mecanismo de Ação — Dupla Molécula PC + DC</h2><div class="st-line" style="background:linear-gradient(90deg,var(--petrol-lite),transparent);"></div></div>
+      <div class="mol-dual-strip">
+        <div class="mol-pill">
+          <div class="mp-name">PC</div>
+          <div class="mp-full">Fosfatidilcolina</div>
+          <div class="mp-pct">70%</div>
+        </div>
+        <div class="mol-desc">
+          <strong>Fosfatidilcolina (PC):</strong> fosfolipídeo emulsificante que desestabiliza a membrana do adipócito, promovendo ruptura celular e liberação de triglicerídeos livres. Ativa lipase lipoproteica e estimula o metabolismo lipídico local, aumentando o fluxo de ácidos graxos para oxidação mitocondrial.<br><br>
+          <strong>Deoxicolato de Sódio (DC):</strong> surfactante aniônico derivado do ácido biliar que potencializa a ação da PC. Age solubilizando a membrana lipídica dos adipócitos, criando poros transitórios que permitem entrada da PC. Juntos, induzem <strong>apoptose controlada do adipócito</strong> sem dano ao tecido circunjacente quando na dose correta.
+        </div>
+        <div class="mol-pill">
+          <div class="mp-name">DC</div>
+          <div class="mp-full">Deoxicolato Na</div>
+          <div class="mp-pct">30%</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">🗺️</span><h2 style="color:var(--petrol-mid);">Zonas de Aplicação — Mapa Corporal</h2><div class="st-line" style="background:linear-gradient(90deg,var(--petrol-lite),transparent);"></div></div>
+      <div class="zones-grid">
+        <div class="zone-item-card"><div class="zone-dot-color" style="background:#EF4444;"></div><div><div class="zi-name">📍 Papada (Região Submandibular)</div><div class="zi-dose">2–5 mL por sessão · agulha 30G×8mm</div><div class="zi-note">Grid de pontos 1×1 cm · profundidade intralipídica</div></div></div>
+        <div class="zone-item-card"><div class="zone-dot-color" style="background:#F59E0B;"></div><div><div class="zi-name">📍 Abdômen (Alta e Baixa)</div><div class="zi-dose">10–40 mL por sessão · cânula 22–25G</div><div class="zi-note">Dividir em quadrantes de 4×4 cm · 2–3 mL/quadrante</div></div></div>
+        <div class="zone-item-card"><div class="zone-dot-color" style="background:#8B5CF6;"></div><div><div class="zi-name">📍 Flancos ("Pneuzinhos")</div><div class="zi-dose">6–12 mL por sessão · cânula 22G</div><div class="zi-note">Grid 2×2 cm · aspiração para confirmar plano correto</div></div></div>
+        <div class="zone-item-card"><div class="zone-dot-color" style="background:#14B8A6;"></div><div><div class="zi-name">📍 Braços (Região Tríceps)</div><div class="zi-dose">4–8 mL/braço · cânula 22–23G</div><div class="zi-note">Plano subdérmico profundo · evitar nervo ulnar</div></div></div>
+        <div class="zone-item-card"><div class="zone-dot-color" style="background:#EC4899;"></div><div><div class="zi-name">📍 Culotes e Quadril</div><div class="zi-dose">6–12 mL/lado · cânula 20–22G</div><div class="zi-note">Grid 2×2 cm · evitar nervo ciático</div></div></div>
+        <div class="zone-item-card"><div class="zone-dot-color" style="background:#10B981;"></div><div><div class="zi-name">📍 Coxas (Interna e Externa)</div><div class="zi-dose">8–14 mL/coxa · cânula 22G</div><div class="zi-note">Face interna: cautela vascular · marcar área em pé</div></div></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">🔬</span><h2 style="color:var(--petrol-mid);">Profundidade de Aplicação — Plano Alvo: Hipoderme</h2><div class="st-line" style="background:linear-gradient(90deg,var(--petrol-lite),transparent);"></div></div>
+      <div class="depth-layers">
+        <div class="depth-layer dl-epidermis">EPIDERME <span class="depth-note">— NÃO atingir</span></div>
+        <div class="depth-layer dl-dermis">DERME <span class="depth-note">— NÃO atingir</span></div>
+        <div class="depth-layer dl-hipoderm">HIPODERME (Tecido Adiposo) ← PLANO ALVO · Agulha 8mm (papada) · Cânula 10–15mm (corpo)</div>
+        <div class="depth-layer dl-musculo">MÚSCULO — NÃO ATINGIR · risco de necrose e dor intensa</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📊</span><h2 style="color:var(--petrol-mid);">Tabela de Doses por Área</h2><div class="st-line" style="background:linear-gradient(90deg,var(--petrol-lite),transparent);"></div></div>
+      <table class="moa">
+        <thead>
+          <tr style="background:linear-gradient(90deg,var(--petrol-dark),var(--petrol-mid));">
+            <th>Área</th>
+            <th>Volume/Sessão</th>
+            <th>Agulha / Cânula</th>
+            <th>Nº de Sessões</th>
+            <th>Intervalo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="color:var(--petrol-dark);font-weight:700;">Papada</td><td><strong style="color:var(--petrol-mid);">2–5 mL</strong></td><td>30G × 8 mm</td><td>2–4 sessões</td><td>30–45 dias</td></tr>
+          <tr><td style="color:var(--petrol-dark);font-weight:700;">Abdômen (completo)</td><td><strong style="color:var(--petrol-mid);">10–40 mL</strong></td><td>Cânula 22–25G</td><td>3–6 sessões</td><td>30–45 dias</td></tr>
+          <tr><td style="color:var(--petrol-dark);font-weight:700;">Flancos</td><td><strong style="color:var(--petrol-mid);">6–12 mL</strong></td><td>Cânula 22G</td><td>3–5 sessões</td><td>30–45 dias</td></tr>
+          <tr><td style="color:var(--petrol-dark);font-weight:700;">Braços (tríceps)</td><td><strong style="color:var(--petrol-mid);">4–8 mL/braço</strong></td><td>Cânula 22–23G</td><td>3–4 sessões</td><td>30–45 dias</td></tr>
+          <tr><td style="color:var(--petrol-dark);font-weight:700;">Culotes / Quadril</td><td><strong style="color:var(--petrol-mid);">6–12 mL/lado</strong></td><td>Cânula 20–22G</td><td>4–6 sessões</td><td>30–45 dias</td></tr>
+          <tr><td style="color:var(--petrol-dark);font-weight:700;">Coxas</td><td><strong style="color:var(--petrol-mid);">8–14 mL/coxa</strong></td><td>Cânula 22G</td><td>4–6 sessões</td><td>30–45 dias</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Soluções Lipolíticas de Alta Performance</div>
+    <div class="footer-code">DOC: LNBD-PCO-PFY · Rev. Mar/2026</div>
+    <div class="footer-page">1 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+<!-- ═══ PÁGINA 2 — VERSO ═══ -->
+<div class="page">
+  <div class="header-small">
+    <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" />
+    <div>
+      <div class="hs-title"><span>LINE BODY</span> · Técnica · Cronograma · Peptídeos</div>
+      <div class="hs-sub">Protocolo Lipolítico PC + DC · Material · Pré e Pós-Aplicação</div>
+    </div>
+    <div class="hs-right">
+      <div class="hs-title" style="font-size:9pt;color:rgba(255,255,255,0.5)">PHARMAFIT-PY</div>
+      <div class="hs-sub">Soluções Lipolíticas</div>
+    </div>
+  </div>
+  <div class="header-bar"></div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">🧰</span><h2 style="color:var(--petrol-mid);">Material Complementar Necessário</h2><div class="st-line" style="background:linear-gradient(90deg,var(--petrol-lite),transparent);"></div></div>
+      <div class="material-grid">
+        <div class="mat-item-card"><div class="mat-icon-lb">💉</div><div><div class="mi-name-lb">Seringa Luer-Lock</div><div class="mi-spec-lb">5 mL e 10 mL · para aspirar e aplicar</div></div></div>
+        <div class="mat-item-card"><div class="mat-icon-lb">🔩</div><div><div class="mi-name-lb">Agulha 30G × 8 mm</div><div class="mi-spec-lb">Papada e zonas superficiais</div></div></div>
+        <div class="mat-item-card"><div class="mat-icon-lb">🩺</div><div><div class="mi-name-lb">Cânula Flexível 22–25G</div><div class="mi-spec-lb">Abdômen, flancos, braços, culotes</div></div></div>
+        <div class="mat-item-card"><div class="mat-icon-lb">🧴</div><div><div class="mi-name-lb">Álcool 70% + Gazes Estéreis</div><div class="mi-spec-lb">Antissepsia do campo operatório</div></div></div>
+        <div class="mat-item-card"><div class="mat-icon-lb">🖊️</div><div><div class="mi-name-lb">Caneta Dermográfica</div><div class="mi-spec-lb">Marcação de grid e pontos · sempre em pé</div></div></div>
+        <div class="mat-item-card"><div class="mat-icon-lb">🧊</div><div><div class="mi-name-lb">Compressa Fria / Ice Pack</div><div class="mi-spec-lb">Antes e após aplicação · reduz dor e edema</div></div></div>
+        <div class="mat-item-card"><div class="mat-icon-lb">💊</div><div><div class="mi-name-lb">EMLA® Creme Tópico</div><div class="mi-spec-lb">Anestesia local 30–60 min antes</div></div></div>
+        <div class="mat-item-card"><div class="mat-icon-lb">🧤</div><div><div class="mi-name-lb">Luvas Estéreis + Campo Estéril</div><div class="mi-spec-lb">Proteção do profissional e paciente</div></div></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📋</span><h2 style="color:var(--petrol-mid);">Cuidados Pré-Aplicação — Protocolo do Paciente</h2><div class="st-line" style="background:linear-gradient(90deg,var(--petrol-lite),transparent);"></div></div>
+      <div class="preapp-grid">
+        <div class="preapp-card"><div class="preapp-num">1</div><div><div class="preapp-title">7 dias antes — Suspender</div><div class="preapp-desc">AAS, ibuprofeno, anti-inflamatórios, anticoagulantes, vitamina E e ômega-3 em alta dose. Reduzem hematomas.</div></div></div>
+        <div class="preapp-card"><div class="preapp-num">2</div><div><div class="preapp-title">48h antes — Alimentação</div><div class="preapp-desc">Evitar bebidas alcoólicas, sódio excessivo e alimentos industrializados. Reduzir retenção hídrica.</div></div></div>
+        <div class="preapp-card"><div class="preapp-num">3</div><div><div class="preapp-title">24h antes — Atividade Física</div><div class="preapp-desc">Suspender exercícios intensos. Músculo congesto dificulta plano de clivagem e aumenta inflamação.</div></div></div>
+        <div class="preapp-card"><div class="preapp-num">4</div><div><div class="preapp-title">Dia D — Hidratação</div><div class="preapp-desc">Beber ≥ 2L de água no dia. Facilita drenagem metabólica dos adipócitos lisados.</div></div></div>
+        <div class="preapp-card"><div class="preapp-num">5</div><div><div class="preapp-title">60 min antes — EMLA®</div><div class="preapp-desc">Aplicar creme anestésico cobrindo toda a área e ocluir com filme plástico. Remover antes de marcar.</div></div></div>
+        <div class="preapp-card"><div class="preapp-num">6</div><div><div class="preapp-title">Na consulta — Marcação em Pé</div><div class="preapp-desc">SEMPRE marcar o grid com paciente em pé. Deitado a gordura redistribui e a marcação fica imprecisa.</div></div></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">💉</span><h2 style="color:var(--petrol-mid);">Técnica de Aplicação — Passo a Passo</h2><div class="st-line" style="background:linear-gradient(90deg,var(--petrol-lite),transparent);"></div></div>
+      <div class="tech-steps-grid">
+        <div class="tech-card"><div class="tc-icon">📍</div><div class="tc-num">1</div><div class="tc-title">Marcação do Grid</div><div class="tc-desc">Paciente em pé. Demarcar quadrantes 1×1 cm (papada) ou 2×2 cm (corpo). Fotografar antes.</div></div>
+        <div class="tech-card"><div class="tc-icon">🧊</div><div class="tc-num">2</div><div class="tc-title">Compressa Fria</div><div class="tc-desc">Aplicar ice pack 5 min antes. Vasoconstricção local reduz hematoma e dor.</div></div>
+        <div class="tech-card"><div class="tc-icon">🔄</div><div class="tc-num">3</div><div class="tc-title">Aspirar → Aplicar</div><div class="tc-desc">Inserir cânula/agulha no plano intralipídico. Aspirar (confirma plano). Injetar em fan-out lento.</div></div>
+        <div class="tech-card"><div class="tc-icon">🗂️</div><div class="tc-num">4</div><div class="tc-title">Distribuição</div><div class="tc-desc">Técnica de leque (fan). 0,1–0,2 mL por ponto. Massagear suavemente após cada zona.</div></div>
+        <div class="tech-card"><div class="tc-icon">🧊</div><div class="tc-num">5</div><div class="tc-title">Pós-Aplicação</div><div class="tc-desc">Compressa fria 10 min. Não massagear vigorosamente. Fotografar resultado imediato.</div></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📅</span><h2 style="color:var(--petrol-mid);">Cronograma de Sessões</h2><div class="st-line" style="background:linear-gradient(90deg,var(--petrol-lite),transparent);"></div></div>
+      <div class="session-timeline">
+        <div class="stl-item"><div class="stl-circle">S1</div><div class="stl-label">Sessão 1</div><div class="stl-sub">Dose inicial<br>Avaliação tolerância</div></div>
+        <div class="stl-item"><div class="stl-circle">30d</div><div class="stl-label">30–45 dias</div><div class="stl-sub">Edema resolve<br>Avaliar resposta</div></div>
+        <div class="stl-item"><div class="stl-circle">S2</div><div class="stl-label">Sessão 2</div><div class="stl-sub">Dose manutenção<br>Ajuste de área</div></div>
+        <div class="stl-item"><div class="stl-circle">S3</div><div class="stl-label">Sessão 3+</div><div class="stl-sub">Reforço focal<br>Contorno final</div></div>
+        <div class="stl-item"><div class="stl-circle">🏁</div><div class="stl-label">Resultado</div><div class="stl-sub">60–90 dias<br>pós S1 completo</div></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">🔗</span><h2 style="color:var(--petrol-mid);">Peptídeos que Potencializam e Prolongam os Resultados</h2><div class="st-line" style="background:linear-gradient(90deg,var(--petrol-lite),transparent);"></div></div>
+      <table class="synergy-lb">
+        <thead>
+          <tr>
+            <th style="width:22%">Peptídeo</th>
+            <th style="width:33%">Mecanismo Sinérgico</th>
+            <th style="width:22%">Dose e Via</th>
+            <th style="width:23%">Benefício no Protocolo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>AOD-9604</strong><div class="pep-class-lb">Fragmento GH Lipolítico</div></td>
+            <td>Ativa β-3 adrenoceptores nos adipócitos → lipólise sistêmica sem ação anabólica. Aumenta oxidação de gordura pós-aplicação de PC+DC.</td>
+            <td>300–500 mcg/dia SC em jejum · 3–6 meses</td>
+            <td><span class="synergy-stars">⭐⭐⭐</span><br>Potencializa efeito lipolítico · prolonga resultados 3–6 meses</td>
+          </tr>
+          <tr>
+            <td><strong>Tesamorelin</strong><div class="pep-class-lb">GHRH Análogo · Anti-visceral</div></td>
+            <td>Estimula GH endógeno → reduz gordura visceral e subcutânea abdominal. Complementa Line Body em gordura profunda que PC+DC não alcança.</td>
+            <td>1–2 mg/dia SC antes de dormir · 3–6 meses</td>
+            <td><span class="synergy-stars">⭐⭐⭐</span><br>Gordura visceral abdominal · resultados 60–90 dias</td>
+          </tr>
+          <tr>
+            <td><strong>GHK-Cu</strong><div class="pep-class-lb">Cobre-Peptídeo Firmador</div></td>
+            <td>Estimula síntese de colágeno I, III e elastina. Essencial após lipólise para evitar flacidez e firmar a pele na área reduzida.</td>
+            <td>1–2 mg 3×/semana SC local ou tópico · 3 meses</td>
+            <td><span class="synergy-stars">⭐⭐⭐</span><br>Firmeza após perda de gordura · evita flacidez residual</td>
+          </tr>
+          <tr>
+            <td><strong>BPC-157</strong><div class="pep-class-lb">Peptídeo de Recuperação</div></td>
+            <td>Acelera cicatrização tecidual pós-injúria. Reduz inflamação, hematoma e edema após aplicação de PC+DC. Proteção vascular local.</td>
+            <td>250–500 mcg/dia SC próximo à área · 2–4 semanas pós-sessão</td>
+            <td><span class="synergy-stars">⭐⭐</span><br>Recuperação mais rápida · reduz tempo de edema</td>
+          </tr>
+          <tr>
+            <td><strong>Biofill Shape PCL</strong><div class="pep-class-lb">Bioestimulador · Neocolagênese</div></td>
+            <td>PCL scaffolding ativa fibroblastos → colágeno e elastina. Aplicado após Line Body: preenche espaço deixado pelo adipócito lisado com tecido conectivo firme.</td>
+            <td>2–4 mL/zona · cânula · 6–8 semanas após Line Body</td>
+            <td><span class="synergy-stars">⭐⭐⭐</span><br>Firmeza estrutural duradoura · 18–24 meses de efeito</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">🌿</span><h2 style="color:var(--petrol-mid);">Cuidados Pós-Aplicação</h2><div class="st-line" style="background:linear-gradient(90deg,var(--petrol-lite),transparent);"></div></div>
+      <div class="postcare-grid6">
+        <div class="pc-card6"><div class="pc-icon6">🚫</div><div class="pc-title6">48h — Restrições</div><div class="pc-text6">Evitar calor intenso (sauna, banho quente), exposição solar na área, massagem vigorosa e atividade física.</div></div>
+        <div class="pc-card6"><div class="pc-icon6">💧</div><div class="pc-title6">72h — Hidratação</div><div class="pc-text6">Mínimo 2–3L de água/dia. Favorece eliminação renal dos lipídios liberados e reduz edema inflamatório.</div></div>
+        <div class="pc-card6"><div class="pc-icon6">🏃</div><div class="pc-title6">5 dias — Retorno Gradual</div><div class="pc-text6">Retomar caminhadas leves após 48h. Exercícios moderados a partir do 5.º dia. Musculação pesada: 7 dias.</div></div>
+        <div class="pc-card6"><div class="pc-icon6">🥗</div><div class="pc-title6">Dieta Pós-Sessão</div><div class="pc-text6">Low-carb e anti-inflamatória nas primeiras 2 semanas. Evitar sódio e álcool. Proteína elevada (≥1,6g/kg).</div></div>
+        <div class="pc-card6"><div class="pc-icon6">🩹</div><div class="pc-title6">Edema e Hematoma</div><div class="pc-text6">Normal até 7–14 dias. Resultado definitivo avaliado a partir de 30 dias. Não alarmar paciente.</div></div>
+        <div class="pc-card6"><div class="pc-icon6">🧴</div><div class="pc-title6">Drenagem Linfática</div><div class="pc-text6">Sessões de DLM a partir do 4.º dia. Acelera remoção de lipídios lisados e reduz fibrose.</div></div>
+      </div>
+    </div>
+
+    <div class="pharmafit-banner">
+      <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" class="pf-logo" />
+      <div class="pf-text">
+        <div class="pf-label">Estudo Clínico Elaborado por</div>
+        <div class="pf-brand">Pharmafit<span>-PY</span></div>
+        <div class="pf-tagline">Compostos injetáveis de alta pureza com qualidade farmacêutica.<br>Protocolos personalizados para saúde, performance e bem-estar.</div>
+      </div>
+      <a class="pf-cta" href="tel:+12142049853">📞 +1 (214) 204-9853</a>
+    </div>
+
+    <div class="box-card ref">
+      <div class="box-title" style="color:var(--petrol-dark);">📚 Referências Científicas</div>
+      <ul class="ref-list">
+        <li data-n="1">Rotunda AM et al. (2004). <em>Detergent effects of sodium deoxycholate are a major feature of an injectable phosphatidylcholine formulation used for localized fat dissolution.</em> Dermatol Surg. 30(7):1001–1008.</li>
+        <li data-n="2">Salti G et al. (2008). <em>Phosphatidylcholine and sodium deoxycholate in the treatment of localized fat: a double-blind, randomized study.</em> Dermatol Surg. 34(1):60–66.</li>
+        <li data-n="3">Valantin MA et al. (2003). <em>Polylactic acid implants (New-Fill) to correct facial lipoatrophy in HIV-infected patients.</em> AIDS. 17(17):2471–2477.</li>
+        <li data-n="4">Thuangtong R et al. (2010). <em>Tissue-selective effects of injected deoxycholate.</em> Dermatol Surg. 36(6):899–908.</li>
+        <li data-n="5">Kenkel JM et al. (2021). <em>ATX-101 (deoxycholic acid injection) for reduction of submental fat.</em> Aesthet Surg J. 41(1):NP11–NP21.</li>
+        <li data-n="6">Kythera Biopharmaceuticals. (2015). <em>Kybella® (deoxycholic acid) — FDA Approval Summary.</em> NDA 206333. U.S. Food &amp; Drug Administration.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Soluções Lipolíticas de Alta Performance</div>
+    <div class="footer-code">DOC: LNBD-PCO-PFY · Rev. Mar/2026 · Uso Profissional</div>
+    <div class="footer-page">2 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+</body>
+</html>

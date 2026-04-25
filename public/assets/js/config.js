@@ -1,0 +1,2 @@
+const SHEETS_URL = '%%SHEETS_URL%%';
+const WA_NUMBER  = '12142049853';

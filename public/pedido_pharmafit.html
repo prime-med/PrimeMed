@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+<meta http-equiv="Pragma" content="no-cache"/>
+<meta http-equiv="Expires" content="0"/>
+<title>Pedido PharmaFit-PY</title>
+  <link rel="stylesheet" href="assets/css/theme.css"/>
+  <link rel="stylesheet" href="assets/css/pedido_pharmafit.css"/>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <img src="assets/img/logo_pharmafit.png" alt="PharmaFit-PY"
+       onerror="this.style.display='none'; document.getElementById('logo-text').style.display='block'"/>
+  <div id="logo-text" style="display:none; width:44px; height:44px; background:#1B4F72; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1.2rem;">💊</div>
+  <div>
+    <h1>PharmaFit-PY</h1>
+    <span>Formulário de Pedido — Peptídeos</span>
+  </div>
+  <div class="header-right">
+    <button class="btn-history" onclick="openHistory()">📋 Histórico</button>
+  </div>
+</header>
+<!-- POPUP PRAZO DESPACHO -->
+<div id="popup-prazo" class="popup-overlay" onclick="fecharPopupPrazo()">
+  <div class="popup-card" onclick="event.stopPropagation()">
+    <div class="popup-icon">⏰</div>
+    <h3 class="popup-title">Prazo de Despacho</h3>
+    <p class="popup-text">Pedidos confirmados até as <strong>12h00</strong> são despachados <strong>no mesmo dia</strong>.</p>
+    <p class="popup-text">Após esse horário, o despacho ocorre no <strong>próximo dia útil</strong>.</p>
+    <button class="popup-btn" onclick="fecharPopupPrazo()">Entendido ✓</button>
+  </div>
+</div>
+
+<!-- STEPPER -->
+<div class="stepper-wrap">
+  <div class="stepper">
+    <div class="step active" id="s1">
+      <div class="step-circle">1</div>
+      <div class="step-label">Produtos</div>
+    </div>
+    <div class="step-line" id="line1"></div>
+    <div class="step" id="s2">
+      <div class="step-circle">2</div>
+      <div class="step-label">Seus Dados</div>
+    </div>
+    <div class="step-line" id="line2"></div>
+    <div class="step" id="s3">
+      <div class="step-circle">3</div>
+      <div class="step-label">Pagamento</div>
+    </div>
+    <div class="step-line" id="line3"></div>
+    <div class="step" id="s4">
+      <div class="step-circle">4</div>
+      <div class="step-label">Revisar<br>& Enviar</div>
+    </div>
+  </div>
+</div>
+
+<main>
+
+  <!-- STEP 1 — PRODUTOS -->
+  <div class="step-panel active" id="panel1">
+    <div class="panel-title">💊 Selecione os Produtos</div>
+    <div class="panel-subtitle">Clique no produto para selecionar e defina a quantidade</div>
+
+    <div id="alert1" class="alert">⚠️ Selecione pelo menos 1 produto para continuar.</div>
+
+    <input type="search" id="product-search" placeholder="🔍 Buscar produto pelo nome..."
+      oninput="activeSearch=this.value.toLowerCase().trim();renderProducts()"
+      style="width:100%;padding:9px 14px;border-radius:8px;border:1px solid var(--border);
+             background:#0d1526;color:var(--text);font-size:.88rem;outline:none;font-family:inherit;margin-bottom:14px;display:block"/>
+
+    <!-- ⭐ Em Destaque -->
+    <div class="hl-section" id="section-destaque" style="display:none">
+      <div class="hl-header">
+        <span>⭐</span>
+        <span class="hl-title">Em Destaque</span>
+        <span class="hl-sub">Os mais vendidos</span>
+      </div>
+      <div class="hl-grid" id="grid-destaque"></div>
+    </div>
+
+    <!-- 💡 Você também pode gostar -->
+    <div class="hl-section" id="section-recomendado" style="display:none">
+      <div class="hl-header">
+        <span>💡</span>
+        <span class="hl-title">Você também pode gostar</span>
+        <span class="hl-sub">Selecionados para você</span>
+      </div>
+      <div class="hl-grid" id="grid-recomendado"></div>
+    </div>
+
+    <div class="catalog-divider" id="catalog-divider" style="display:none">📦 Catálogo Completo</div>
+
+    <div class="filter-area">
+      <div class="filter-group">
+        <div class="filter-group-header" onclick="toggleFilterGroup('lab-filters','arrow-lab')">
+          <span class="filter-group-label">Laboratórios</span>
+          <span class="filter-arrow" id="arrow-lab">▼</span>
+        </div>
+        <div class="lab-filters" id="lab-filters" style="display:none"></div>
+      </div>
+      <div class="filter-group">
+        <div class="filter-group-header">
+          <span class="filter-group-label">Categoria</span>
+        </div>
+        <div class="lab-filters" id="tag-filters"></div>
+      </div>
+      <div class="sort-bar">
+        <span class="sort-label">Ordenar:</span>
+        <button class="sort-btn active" data-sort="alpha" onclick="setSort('alpha')">A–Z</button>
+        <button class="sort-btn" data-sort="price-asc" onclick="setSort('price-asc')">↑ Menor preço</button>
+        <button class="sort-btn" data-sort="price-desc" onclick="setSort('price-desc')">↓ Maior preço</button>
+      </div>
+    </div>
+
+    <div class="products-grid" id="products-grid">
+      <!-- cards gerados via JS -->
+    </div>
+
+    <div class="cart-sticky">
+      <div class="total-bar">
+        <div>
+          <div class="tb-label">Itens selecionados</div>
+          <div class="tb-items" id="items-count">0 produto(s)</div>
+        </div>
+        <div style="text-align:right">
+          <div class="tb-label">Total do Pedido</div>
+          <div style="display:flex; align-items:baseline; gap:4px; justify-content:flex-end">
+            <span class="tb-currency">R$</span>
+            <span class="tb-total" id="total-display">0,00</span>
+          </div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-next" onclick="goStep(2)">Finalizar Carrinho →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2 — DADOS DA CLÍNICA -->
+  <div class="step-panel" id="panel2">
+    <div class="panel-title">📋 Dados da Clínica</div>
+    <div class="panel-subtitle">Preencha os dados do responsável pelo pedido</div>
+
+    <!-- ── LOGIN PANEL ── -->
+    <div id="lp-logado-bar" class="lp-logado-bar" style="display:none">
+      <div class="lp-logado-info">✅ Logado como <span id="lp-nome-bar"></span></div>
+      <span class="lp-sair" onclick="lpLogout()">Não sou eu</span>
+    </div>
+
+    <!-- "Já tem conta?" link no topo -->
+    <div id="lp-ja-tem-conta" style="text-align:center;margin-bottom:14px">
+      <span style="font-size:.82rem;color:var(--gray)">Já tem conta? </span>
+      <span class="lp-link" onclick="lpToggleLogin()" style="color:var(--accent);font-weight:600">Já sou cadastrado</span>
+    </div>
+
+    <!-- Painel de login (oculto, expande ao clicar) -->
+    <div id="lp-panel" class="lp-wrap" style="display:none">
+      <div class="lp-title">🔑 Entre com seu CPF ou CNPJ</div>
+      <div class="lp-sub">Digite seu CPF ou CNPJ para carregar seus dados automaticamente</div>
+      <div class="lp-input-wrap">
+        <input class="lp-input" id="lp-doc-input" placeholder="CPF, CNPJ ou E-mail" oninput="lpFormatDoc(this)" onkeydown="if(event.key==='Enter')lpEntrar()"/>
+        <button class="lp-btn-entrar" onclick="lpEntrar()">Entrar</button>
+      </div>
+      <div class="lp-loading" id="lp-loading">⏳ Buscando dados...</div>
+      <div class="lp-erro" id="lp-erro"></div>
+      <span class="lp-link" onclick="lpToggleLogin()" style="margin-top:6px;display:inline-block">← Fechar</span>
+    </div>
+
+    <!-- Formulário — visível por padrão -->
+    <div id="lp-form-wrap">
+      <div id="alert2" class="alert">⚠️ Preencha todos os campos obrigatórios antes de continuar.</div>
+
+    <div class="form-grid">
+      <div class="field full">
+        <label>CNPJ / CPF</label>
+        <input type="text" id="f_documento" placeholder="00.000.000/0001-00" oninput="agendarBuscaCliente(this.value)"/>
+      </div>
+      <div class="field full">
+        <label>Nome da Clínica <span class="required-mark">*</span></label>
+        <input type="text" id="f_clinica" placeholder="Ex: Clínica Estética Bella Vida"/>
+      </div>
+      <div class="field">
+        <label>Responsável <span class="required-mark">*</span></label>
+        <input type="text" id="f_responsavel" placeholder="Nome completo"/>
+      </div>
+      <div class="field">
+        <label>Cargo / Especialidade</label>
+        <input type="text" id="f_cargo" placeholder="Ex: Médico, Enfermeiro, Proprietário"/>
+      </div>
+      <div class="field">
+        <label>Telefone / WhatsApp <span class="required-mark">*</span></label>
+        <input type="tel" id="f_telefone" placeholder="+55 (11) 99999-9999"/>
+      </div>
+      <div class="field">
+        <label>E-mail <span class="required-mark">*</span></label>
+        <input type="email" id="f_email" placeholder="contato@clinica.com"/>
+      </div>
+      <div class="field" style="max-width:170px">
+        <label>CEP de Entrega <span class="required-mark">*</span></label>
+        <input type="text" id="f_cep_entrega" placeholder="00000-000" maxlength="9"
+          oninput="this.value=this.value.replace(/\D/g,'').replace(/^(\d{5})(\d)/,'$1-$2'); if(this.value.replace(/\D/g,'').length===8) preencherEnderecoViaCEP()"/>
+        <div id="cep-end-loading" style="display:none;font-size:.72rem;color:var(--gray);margin-top:3px">⏳ Buscando endereço...</div>
+      </div>
+      <div class="field">
+        <label>Rua / Logradouro <span class="required-mark">*</span></label>
+        <input type="text" id="f_rua" placeholder="Ex: Rua das Flores"/>
+      </div>
+      <div class="field" style="max-width:130px">
+        <label>Número <span class="required-mark">*</span></label>
+        <input type="text" id="f_numero" placeholder="Ex: 123"/>
+      </div>
+      <div class="field">
+        <label>Bairro <span class="required-mark">*</span></label>
+        <input type="text" id="f_bairro" placeholder="Ex: Centro"/>
+      </div>
+      <div class="field">
+        <label>Complemento</label>
+        <input type="text" id="f_complemento" placeholder="Sala 5, Apto 301..."/>
+      </div>
+      <div class="field">
+        <label>Cidade</label>
+        <input type="text" id="f_cidade" placeholder="São Paulo"/>
+      </div>
+      <div class="field" style="max-width:100px">
+        <label>Estado</label>
+        <input type="text" id="f_estado" placeholder="SP" maxlength="2"/>
+      </div>
+      <div class="field full">
+        <label>Observações Iniciais</label>
+        <textarea id="f_obs" placeholder="Alguma informação adicional sobre o pedido?"></textarea>
+      </div>
+    </div>
+    </div><!-- /lp-form-wrap -->
+
+    <div class="btn-row">
+      <button class="btn btn-back" onclick="goStep(1)">← Voltar</button>
+      <button class="btn btn-next" onclick="_goStep3()">Continuar para Pagamento →</button>
+    </div>
+  </div>
+
+  <!-- STEP 3 — PAGAMENTO -->
+  <div class="step-panel" id="panel3">
+    <div class="panel-title">💳 Forma de Pagamento</div>
+    <div class="panel-subtitle">Escolha como deseja pagar</div>
+
+    <div id="alert3" class="alert">⚠️ Selecione uma forma de pagamento.</div>
+
+    <div class="payment-options">
+      <div class="pay-opt" onclick="selectPayment('PIX')" id="pay-PIX">
+        <div class="pay-icon">⚡</div>
+        <div class="pay-name">PIX</div>
+        <div class="pay-desc">Pagamento instantâneo · sem taxas</div>
+      </div>
+      <div class="pay-opt" onclick="selectPayment('Transferência Bancária')" id="pay-Transferência Bancária">
+        <div class="pay-icon">🏦</div>
+        <div class="pay-name">Transferência Bancária</div>
+        <div class="pay-desc">TED / DOC · mesmo dia</div>
+      </div>
+      <div class="pay-opt" onclick="selectPayment('Cartão de Crédito')" id="pay-Cartão de Crédito">
+        <div class="pay-icon">💳</div>
+        <div class="pay-name">Cartão de Crédito</div>
+        <div class="pay-desc">Até 12x · acréscimo de 5%</div>
+      </div>
+      <div class="pay-opt" onclick="selectPayment('Boleto')" id="pay-Boleto">
+        <div class="pay-icon">📄</div>
+        <div class="pay-name">Boleto Bancário</div>
+        <div class="pay-desc">Vencimento em 3 dias úteis</div>
+      </div>
+    </div>
+
+    <!-- Parcelamento (só para cartão) -->
+    <div class="installment-wrap" id="installment-wrap">
+      <div id="cupom-parc-badge" style="display:none;background:rgba(245,158,11,.12);border:1px solid var(--accent);border-radius:8px;padding:8px 14px;font-size:.82rem;color:var(--accent);margin-bottom:12px">
+        ⚡ Cupom ativo: parcelas 1× a 3× sem juros!
+      </div>
+      <div class="form-grid">
+        <div class="field">
+          <label>Número de Parcelas</label>
+          <select id="f_parcelas" onchange="calcInstallment()">
+            <option value="1">1x sem juros</option>
+            <option value="2">2x sem juros</option>
+            <option value="3">3x sem juros</option>
+            <option value="4">4x + 5%</option>
+            <option value="6">6x + 5%</option>
+            <option value="12">12x + 5%</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Valor por Parcela</label>
+          <input type="text" id="f_parcela_val" readonly style="color: var(--accent); font-weight:700;"/>
+        </div>
+      </div>
+    </div>
+
+    <!-- FRETE -->
+    <div class="frete-section">
+      <div class="frete-header">🚚 Calcular Frete (Correios)</div>
+      <div class="frete-body">
+        <div style="display:flex; gap:10px; align-items:flex-end">
+          <div class="field" style="flex:1">
+            <label>CEP de Destino</label>
+            <input type="text" id="f_frete_cep" placeholder="00000-000" maxlength="9"
+              oninput="this.value=this.value.replace(/\D/g,'').replace(/^(\d{5})(\d)/,'$1-$2')"
+              onkeydown="if(event.key==='Enter') calcFrete()"/>
+          </div>
+          <button class="btn btn-next" style="margin-bottom:0;padding:10px 18px;font-size:.85rem" onclick="calcFrete()">Calcular</button>
+        </div>
+        <div id="frete-loading" style="display:none;text-align:center;padding:12px;color:var(--gray);font-size:.85rem">⏳ Consultando Correios...</div>
+        <div id="frete-error" style="display:none;background:rgba(231,76,60,.12);border:1px solid var(--danger);border-radius:8px;padding:10px 14px;font-size:.83rem;color:#f5a;margin-top:10px"></div>
+        <div class="frete-gratis" id="frete-gratis" style="display:none"></div>
+        <div class="frete-metodos" id="frete-metodos" style="display:none">
+          <div class="frete-opt" id="fo-sedex" onclick="selecionarFrete('sedex')">
+            <div class="fo-icon">⚡</div>
+            <div class="fo-name">SEDEX</div>
+            <div class="fo-price" id="fp-sedex">—</div>
+            <div class="fo-days" id="fd-sedex">—</div>
+          </div>
+          <div class="frete-opt" id="fo-jadlog" onclick="selecionarFrete('jadlog')">
+            <div class="fo-icon">🚚</div>
+            <div class="fo-name">Jadlog</div>
+            <div class="fo-price" id="fp-jadlog">—</div>
+            <div class="fo-days" id="fd-jadlog">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="field" style="margin-top:16px">
+      <label>Observações de Pagamento</label>
+      <textarea id="f_obs_pag" placeholder="Alguma informação adicional sobre o pagamento?"></textarea>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-back" onclick="goStep(2)">← Voltar</button>
+      <button class="btn btn-next" onclick="goStep(4)">Próximo — Revisar Pedido →</button>
+    </div>
+  </div>
+
+  <!-- STEP 4 — REVISÃO -->
+  <div class="step-panel" id="panel4">
+    <div class="panel-title">✅ Revisar e Enviar</div>
+    <div class="panel-subtitle">Confira todos os dados antes de enviar pelo WhatsApp</div>
+
+    <div class="review-card">
+      <div class="rc-header">📋 Dados da Clínica</div>
+      <div class="rc-body" id="review-dados"></div>
+    </div>
+
+    <div class="review-card">
+      <div class="rc-header">💊 Produtos Selecionados</div>
+      <div class="rc-body">
+        <div class="review-products" id="review-products"></div>
+      </div>
+    </div>
+
+    <div class="review-card">
+      <div class="rc-header">💳 Pagamento</div>
+      <div class="rc-body" id="review-payment"></div>
+    </div>
+
+    <div class="review-total-box" id="review-total-box"></div>
+
+    <!-- Cupom de Bonificação -->
+    <div class="cupom-section">
+      <div class="cupom-header">🎟️ Código de Bonificação</div>
+      <div class="cupom-row">
+        <input type="text" id="f_cupom" placeholder="EX: BONUS10"
+               oninput="this.value=this.value.toUpperCase()"
+               onkeydown="if(event.key==='Enter') aplicarCupom()"/>
+        <button id="btn-cupom" onclick="aplicarCupom()">Aplicar</button>
+      </div>
+      <div id="cupom-msg"></div>
+    </div>
+
+    <!-- Recomendações na revisão -->
+    <div class="rec-revisao" id="rec-revisao" style="display:none">
+      <div class="rec-rev-header">
+        <span class="rec-rev-icon">🛒</span>
+        <span class="rec-rev-title">Você se esqueceu de algo?</span>
+      </div>
+      <div class="rec-rev-sub">Produtos que combinam com o seu pedido</div>
+      <div id="rec-rev-leve">
+        <div class="rec-rev-group-label">💡 Leve também</div>
+        <div class="rec-grid" id="rec-rev-leve-grid"></div>
+      </div>
+      <div id="rec-rev-hist" style="display:none; margin-top:14px">
+        <div class="rec-rev-group-label">🔄 Você costuma levar</div>
+        <div class="rec-grid" id="rec-rev-hist-grid"></div>
+      </div>
+    </div>
+
+    <button class="btn-wa" onclick="sendWhatsApp()">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+      </svg>
+      Enviar Pedido por WhatsApp
+    </button>
+    <p style="text-align:center; color:var(--gray); font-size:0.75rem; margin-top:10px;">
+      Será aberto o WhatsApp com a mensagem já formatada para envio
+    </p>
+
+    <div class="btn-row">
+      <button class="btn btn-back" onclick="goStep(3)">← Voltar e Editar</button>
+    </div>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="success-screen" id="success-screen">
+    <div class="success-icon">🎉</div>
+    <h2>Pedido Enviado!</h2>
+    <p>O pedido foi registrado e aberto no WhatsApp.<br>Nossa equipe retornará em breve.</p>
+    <button class="btn-new-order" onclick="newOrder()">+ Novo Pedido</button>
+  </div>
+
+</main>
+
+<!-- HISTORY MODAL -->
+<div class="modal-overlay" id="history-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>📋 Histórico de Pedidos</h2>
+      <div style="display:flex; gap:10px; align-items:center">
+        <button class="btn-clear-history" onclick="clearHistory()">Limpar Tudo</button>
+        <button class="modal-close" onclick="closeHistory()">✕</button>
+      </div>
+    </div>
+    <div class="modal-body" id="history-body"></div>
+  </div>
+</div>
+
+<!-- PROTOCOL MODAL -->
+<div class="modal-overlay" id="protocol-modal">
+  <div class="modal" style="max-width:620px">
+    <div class="modal-header">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span id="pm-icon" style="font-size:1.6rem"></span>
+        <div>
+          <h2 id="pm-name" style="font-size:1rem;margin:0"></h2>
+          <div id="pm-conc" style="font-size:.75rem;color:var(--gray)"></div>
+        </div>
+      </div>
+      <button class="modal-close" onclick="document.getElementById('protocol-modal').classList.remove('open')">✕</button>
+    </div>
+    <div class="proto-modal-body" id="pm-body">
+      <div class="proto-loading">⏳ Carregando protocolo...</div>
+    </div>
+    <div class="pm-aviso" id="pm-aviso" style="display:none">
+      <span class="pm-aviso-icon">⚠️</span>
+      <span>Estas são <strong>informações gerais</strong> do produto. Para protocolos específicos, advertências detalhadas, dosagens individualizadas e orientações de reconstituição, acesse o informativo completo abaixo.</span>
+    </div>
+    <div class="pm-info-footer" id="pm-info-footer" style="display:none">
+      <button class="btn-ver-informativo" onclick="abrirInformativo()">
+        📋 Acessar informativo completo do produto
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- INFORMATIVO FULLSCREEN OVERLAY -->
+<div class="info-overlay" id="info-overlay">
+  <div class="info-overlay-inner">
+    <div class="info-overlay-bar">
+      <span id="info-overlay-title">Informativo do produto</span>
+      <button class="btn-fechar-info" onclick="fecharInformativo()">✕ Fechar informativo</button>
+    </div>
+    <div class="info-iframe-wrap">
+      <iframe id="info-iframe" src="" allowfullscreen></iframe>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/frete.js"></script>
+<script src="assets/js/pedido_pharmafit.js"></script>
+
+
+</body>
+</html>

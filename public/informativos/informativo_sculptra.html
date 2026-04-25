@@ -1,0 +1,405 @@
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  INFORMATIVO TÉCNICO — TEMPLATE PHARMAFIT-PY                ║
+  ║  Produto: Sculptra 2 Ampolas                                ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  ESTRUTURA GERAL (2 páginas .page):                         ║
+  ║  Pág 1: header → info-strip → "O Que É" → seções técnicas  ║
+  ║  Pág 2: header-small → seções avançadas → pharmafit-banner  ║
+  ║         → referências científicas → footer + footer-note    ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  NÃO ALTERAR (padronizado para todos os informativos):      ║
+  ║  • .pharmafit-banner — tagline e telefone da Pharmafit-PY   ║
+  ║  • .footer-note — aviso de uso profissional                 ║
+  ║  • Link para ../assets/css/informativo.css                  ║
+  ║  • Fontes: Montserrat + Lato (Google Fonts)                 ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Informativo Técnico — Sculptra 2 Ampolas | PharmaFit-PY</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/informativo.css" />
+  <style>
+    :root {
+      --petrol:     #6B21A8; --petrol-dark: #3B0764; --petrol-mid: #7E22CE;
+      --petrol-lite:#F3E8FF; --petrol-bg:  #FAF5FF;
+      --amber:      #A21CAF; --amber-mid:  #C026D3;
+      --amber-lite: #FAE8FF; --amber-bg:   #FDF4FF;
+      --gold:       #581C87; --gold-mid:   #7E22CE;
+      --gold-lite:  #EDE9FE; --gold-bg:    #F5F3FF;
+      --white:      #FFFFFF; --gray-1: #F4F6F7; --gray-2: #D5D8DC;
+      --text-dark:  #1A2530; --text-mid: #3D566E;
+      --shadow:     0 2px 12px rgba(59,7,100,0.14);
+      --header-bg:  linear-gradient(135deg, #140a1a 0%, #3b0764 45%, #6b21a8 70%, #c026d3 88%, #e879f9 100%);
+      --header-small-bg: linear-gradient(135deg, #140a1a 0%, #3b0764 50%, #6b21a8 100%);
+      --header-bar-bg: linear-gradient(90deg, #7e22ce 0%, #a21caf 25%, #c026d3 55%, #e879f9 80%, #c026d3 100%);
+      --header-hl:  #F0ABFC;
+    }
+    body { background: #cdc4d8; }
+    .proto-head.p1 { background: linear-gradient(135deg, #a21caf 0%, #c026d3 100%); }
+    .proto-head.p2 { background: linear-gradient(135deg, #6b21a8 0%, #7e22ce 100%); }
+    .proto-head.p3 { background: linear-gradient(135deg, #3b0764 0%, #6b21a8 100%); }
+    /* Collagen timeline — único deste produto */
+    .collagen-box {
+      background: linear-gradient(135deg, #3b0764, #581c87);
+      border-radius: 8px; padding: 11px 14px; border: 1px solid rgba(192,38,211,0.30);
+    }
+    .col-title { font-size: 9.5px; font-weight: 800; color: #f0abfc; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; font-family: 'Montserrat', sans-serif; }
+    .col-timeline { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr auto 1fr; align-items: start; gap: 4px; }
+    .col-step { text-align: center; }
+    .cs-dot {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: linear-gradient(135deg, #7e22ce, #c026d3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; margin: 0 auto 5px;
+      border: 2px solid rgba(232,121,249,0.4);
+    }
+    .cs-time { font-size: 8px; font-weight: 800; color: #e879f9; margin-bottom: 2px; font-family: 'Montserrat', sans-serif; }
+    .cs-desc { font-size: 7.5px; color: #e9d5ff; line-height: 1.4; font-family: 'Lato', sans-serif; }
+    .col-arrow { color: #c026d3; font-size: 14px; display: flex; align-items: center; padding-top: 10px; }
+    /* kit box */
+    .kit-box { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .kit-card {
+      background: linear-gradient(135deg, #3b0764, #6b21a8);
+      border: 1px solid rgba(232,121,249,0.35); border-top: 3px solid #c026d3;
+      border-radius: 8px; padding: 10px 12px; text-align: center;
+    }
+    .kit-card .kc-label { font-size: 9px; font-weight: 700; color: #e9d5ff; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px; font-family: 'Montserrat', sans-serif; }
+    .kit-card .kc-val   { font-size: 20px; font-weight: 900; color: #ffffff; line-height: 1; font-family: 'Montserrat', sans-serif; }
+    .kit-card .kc-unit  { font-size: 9px; color: #f0abfc; font-weight: 600; margin-top: 2px; font-family: 'Lato', sans-serif; }
+    .kit-card .kc-note  { font-size: 8px; color: #d8b4fe; margin-top: 4px; line-height: 1.4; font-family: 'Lato', sans-serif; }
+    /* areas-box */
+    .areas-box { background: linear-gradient(135deg, #fdf4ff, #fae8ff); border: 1px solid #e9d5ff; border-radius: 8px; padding: 10px 14px; }
+    .areas-title { font-size: 9.5px; font-weight: 800; color: #6b21a8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; font-family: 'Montserrat', sans-serif; }
+    .areas-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+    .area-item { background: #fff; border: 1px solid #e9d5ff; border-radius: 6px; padding: 7px 9px; }
+    .area-item .ai-badge { display: inline-block; background: #7e22ce; color: #fff; font-size: 7.5px; font-weight: 700; padding: 1px 6px; border-radius: 3px; margin-bottom: 3px; font-family: 'Montserrat', sans-serif; }
+    .area-item .ai-name  { font-size: 9px; font-weight: 800; color: #6b21a8; margin-bottom: 2px; font-family: 'Montserrat', sans-serif; }
+    .area-item .ai-desc  { font-size: 8px; color: #374151; line-height: 1.45; font-family: 'Lato', sans-serif; }
+  </style>
+</head>
+<body>
+
+<!-- ═══ PÁGINA 1 ═══ -->
+<div class="page">
+  <div class="header">
+    <div class="header-inner">
+      <div class="header-logo"><img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" /></div>
+      <div class="header-center">
+        <div class="header-tag">Informativo Técnico · Bioestimulador de Colágeno · PLLA · FDA Aprovado</div>
+        <div class="header-title">SCULPTRA <span class="hl">2 Ampolas</span></div>
+        <div class="header-subtitle">Poli-L-Ácido Láctico (PLLA) · Neocolagênese Profunda · Rejuvenescimento Volumétrico · Duração ~25 meses</div>
+      </div>
+      <div class="header-badges">
+        <div class="badge-box"><div class="b-label">PLLA/Ampola</div><div class="b-val"><span>367,5</span> mg</div></div>
+        <div class="badge-box"><div class="b-label">Kit Total</div><div class="b-val">735mg PLLA</div></div>
+        <div class="badge-box"><div class="b-label">Código</div><div class="b-val">SCULP-2A-PFY</div></div>
+      </div>
+    </div>
+    <div class="header-bar"></div>
+  </div>
+
+  <div class="info-strip">
+    <span class="info-chip">FDA — APROVADO 2004</span>
+    <span class="info-chip dark">PLLA · NEOCOLAGÊNESE · ATÉ 25 MESES</span>
+    <span class="info-text">Sculptra® aprovado pela FDA desde 2004 — <strong>bioestimulador de colágeno de maior durabilidade no mercado</strong>. As micropartículas de PLLA ativam fibroblastos para produção progressiva de colágeno Tipo I e III. Resultado natural e gradual; sem efeito "preenchido". Indicado para face, glúteos, colo e regiões de flacidez corporal. Procedimento exclusivo para profissional habilitado.</span>
+  </div>
+
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="st-icon">✨</span><h2>O Que É o Sculptra?</h2><div class="st-line"></div></div>
+      <div class="intro-strip">
+        <div class="intro-icon">✨</div>
+        <div class="intro-text">
+          O <strong>Sculptra®</strong> é o bioestimulador de colágeno mais estudado e consagrado do mercado estético mundial, com base em <strong>Poli-L-Ácido Láctico (PLLA)</strong> — polímero biocompatível e biodegradável aprovado pela <strong>FDA desde 2004</strong>. Diferentemente dos preenchedores tradicionais, o Sculptra <em>não preenche diretamente</em>: suas micropartículas de PLLA atuam como <strong>estímulo biológico aos fibroblastos</strong>, desencadeando a produção de colágeno Tipos I e III de forma progressiva e natural. O resultado é uma <strong>volumização gradual, esteticamente harmoniosa e duradoura</strong> — com resultados que se desenvolvem ao longo de semanas e persistem por <strong>até 25 meses</strong>. O kit de 2 ampolas oferece flexibilidade para tratamentos faciais completos ou protocolos corporais de bioestimulação avançada.
+          <div class="spec-grid">
+            <div class="spec-item"><div class="s-val">PLLA</div><div class="s-lbl">Ativo</div></div>
+            <div class="spec-item"><div class="s-val">FDA</div><div class="s-lbl">Aprovação</div></div>
+            <div class="spec-item"><div class="s-val">2 amp.</div><div class="s-lbl">Kit</div></div>
+            <div class="spec-item"><div class="s-val">≥24h</div><div class="s-lbl">Hidratação</div></div>
+            <div class="spec-item"><div class="s-val">Grad.</div><div class="s-lbl">Resultado</div></div>
+            <div class="spec-item"><div class="s-val">~25 meses</div><div class="s-lbl">Duração</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📦</span><h2>Composição do Kit — 2 Ampolas</h2><div class="st-line"></div></div>
+      <div class="kit-box">
+        <div class="kit-card">
+          <div class="kc-label">Cada Ampola Contém</div>
+          <div class="kc-val">367,5mg</div>
+          <div class="kc-unit">PLLA liofilizado</div>
+          <div class="kc-note">Micropartículas 40–63 µm + manitol + carboximetilcelulose sódica + água PI</div>
+        </div>
+        <div class="kit-card">
+          <div class="kc-label">Kit Completo (2 amp.)</div>
+          <div class="kc-val">735mg</div>
+          <div class="kc-unit">PLLA total</div>
+          <div class="kc-note">Suficiente para 1 sessão facial completa ou 2 sessões de manutenção / áreas menores</div>
+        </div>
+      </div>
+      <div class="collagen-box" style="margin-top:8px">
+        <div class="col-title">🕐 Cronologia da Neocolagênese — Como o Sculptra age no tempo</div>
+        <div class="col-timeline">
+          <div class="col-step"><div class="cs-dot">💉</div><div class="cs-time">Dia 0</div><div class="cs-desc">Injeção PLLA subcutânea</div></div>
+          <div class="col-arrow">→</div>
+          <div class="col-step"><div class="cs-dot">🦠</div><div class="cs-time">1–2 sem</div><div class="cs-desc">Macrófagos fagocitam PLLA</div></div>
+          <div class="col-arrow">→</div>
+          <div class="col-step"><div class="cs-dot">🔬</div><div class="cs-time">4–6 sem</div><div class="cs-desc">Fibroblastos ativados</div></div>
+          <div class="col-arrow">→</div>
+          <div class="col-step"><div class="cs-dot">🧬</div><div class="cs-time">2–3 m</div><div class="cs-desc">Colágeno I e III formado</div></div>
+          <div class="col-arrow">→</div>
+          <div class="col-step"><div class="cs-dot">✨</div><div class="cs-time">6–25m</div><div class="cs-desc">Volume natural e duradouro</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">⚡</span><h2>Mecanismo de Ação</h2><div class="st-line"></div></div>
+      <div class="mec-grid">
+        <div class="mec-card">
+          <div class="mec-icon">🧬</div>
+          <div class="mec-title">Neocolagênese</div>
+          <div class="mec-text">As micropartículas de PLLA (40–63µm) induzem resposta inflamatória controlada → macrófagos envolvem as partículas → fibroblastos são recrutados e ativados → produção de colágeno Tipos I e III de forma progressiva e endógena.</div>
+        </div>
+        <div class="mec-card">
+          <div class="mec-icon">💧</div>
+          <div class="mec-title">Biodegradação Gradual</div>
+          <div class="mec-text">O PLLA é hidrolisado lentamente em ácido láctico e CO₂ — substâncias naturais do metabolismo — ao longo de 18–24 meses. Durante esse período, o colágeno neoformado substitui progressivamente o polímero, mantendo os resultados.</div>
+        </div>
+        <div class="mec-card">
+          <div class="mec-icon">🏗️</div>
+          <div class="mec-title">Remodelação da Matriz</div>
+          <div class="mec-text">Além do colágeno, estimula síntese de elastina e fibronectina, espessamento da derme e aumento da hidratação tecidual (glicosaminoglicanos). Resultado: pele mais firme, espessa e com maior tonicidade global.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">✅</span><h2>Benefícios Clínicos Documentados</h2><div class="st-line"></div></div>
+      <table class="moa">
+        <thead><tr><th>Área</th><th>Efeito Clínico</th><th style="width:12%;text-align:center">Evidência</th></tr></thead>
+        <tbody>
+          <tr><td>Volumização Facial</td><td>Restauração de volume em têmporas, maçãs do rosto e sulcos — sem efeito "preenchido", resultado natural e progressivo</td><td style="text-align:center"><span class="tag-ev high">Alta</span></td></tr>
+          <tr><td>Qualidade da Pele</td><td>↑ espessura dérmica (até 30%); ↑ firmeza e elasticidade; ↓ linhas finas e rugas superficiais pela neocolagênese</td><td style="text-align:center"><span class="tag-ev high">Alta</span></td></tr>
+          <tr><td>Longa Duração</td><td>Estudos clínicos confirmam manutenção dos resultados por 24–25 meses após ciclo de 3 sessões — maior durabilidade entre bioestimuladores</td><td style="text-align:center"><span class="tag-ev high">Alta</span></td></tr>
+          <tr><td>Bioestimulação Corporal</td><td>Melhora flacidez de braços, glúteos, colo e abdômen; "Sculptra Butt Lift" para volumização natural sem implante</td><td style="text-align:center"><span class="tag-ev mod">Mod.</span></td></tr>
+          <tr><td>Segurança</td><td>Perfil comprovado em mais de 150.000 pacientes; biocompatível, biodegradável, sem risco de embolização vascular se aplicado corretamente</td><td style="text-align:center"><span class="tag-ev high">Alta</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">💉</span><h2>Reconstituição — Protocolo Detalhado</h2><div class="st-line"></div></div>
+      <div class="uso-steps">
+        <div class="uso-step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Hidratação prévia — mínimo 24h antes</div>
+            <div class="step-text">Adicione <strong>5–8mL de água estéril para injeção (WFI)</strong> em cada ampola. Feche e deixe em repouso por <strong>mínimo 24h (idealmente 48–72h)</strong> em geladeira. Nunca use SF 0,9% na etapa de hidratação inicial.</div>
+          </div>
+        </div>
+        <div class="uso-step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Agitar e adicionar lidocaína antes do uso</div>
+            <div class="step-text">Na hora do procedimento, agite vigorosamente (diferente dos peptídeos) até suspensão homogênea. Acrescente <strong>1–2mL de lidocaína 2% sem vasoconstritor</strong> por ampola. Volume final: 6–10mL/ampola.</div>
+          </div>
+        </div>
+        <div class="uso-step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Seringa e agulha adequadas</div>
+            <div class="step-text">Use seringa de <strong>3mL ou 5mL</strong> com agulha <strong>25G × 25mm (face)</strong> ou <strong>23G × 40mm (corporal)</strong>. Cânula de 25G pode ser usada na face. Evitar agulhas mais finas que 25G — risco de entupimento das micropartículas.</div>
+          </div>
+        </div>
+        <div class="uso-step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <div class="step-title">Técnica — retroinjeção em depot</div>
+            <div class="step-text">Aplicar em plano subdérmico profundo ou supraperiósteo. Técnica em <strong>leque ou cross-hatching</strong>, depot de 0,1–0,2mL por ponto com espaçamento de 1cm. <strong>Nunca injetar na derme superficial</strong> (risco de nódulos) nem em vasos.</div>
+          </div>
+        </div>
+        <div class="uso-step">
+          <div class="step-num">5</div>
+          <div class="step-content">
+            <div class="step-title">Massagem pós-procedimento — regra 5-5-5</div>
+            <div class="step-text">Massagear a área por <strong>5 minutos</strong>. Repetir <strong>5 vezes ao dia</strong> por <strong>5 dias consecutivos</strong>. Essencial para distribuição homogênea das partículas e prevenção de nódulos tardios.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="conc-box">
+      <div class="conc-main">
+        <div class="conc-val">5–8mL</div>
+        <div class="conc-unit">WFI por ampola</div>
+      </div>
+      <div class="conc-divider"></div>
+      <div class="conc-info">
+        <div class="conc-row"><span class="conc-lbl">Ampola</span><span class="conc-data">367,5mg PLLA liofilizado</span></div>
+        <div class="conc-row"><span class="conc-lbl">Diluição padrão</span><span class="conc-data">5mL WFI + 1mL lidocaína = 6mL final</span></div>
+        <div class="conc-row"><span class="conc-lbl">Diluição ampliada</span><span class="conc-data">8mL WFI + 2mL lidocaína = 10mL final</span></div>
+        <div class="conc-row"><span class="conc-lbl">Facial standard</span><span class="conc-data">1 ampola = 1 hemiface ou área focal</span></div>
+        <div class="conc-row"><span class="conc-lbl">Kit 2 ampolas</span><span class="conc-data">Face completa ou sessão corporal</span></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📊</span><h2>Tabela de Aplicação por Área e Objetivo</h2><div class="st-line"></div></div>
+      <table class="dose-table">
+        <thead><tr><th>Área / Objetivo</th><th>Ampolas/Sessão</th><th>N.° Sessões</th><th>Intervalo</th><th>Manutenção</th></tr></thead>
+        <tbody>
+          <tr><td><span class="dose-badge dose-trt">Rosto Completo</span></td><td>1–2 amp.</td><td>2–4 sessões</td><td>4–6 semanas</td><td>1 amp./ano</td></tr>
+          <tr><td><span class="dose-badge dose-init">Glúteos (Butt Lift)</span></td><td>4–6 amp.</td><td>3–4 sessões</td><td>6–8 semanas</td><td>2 amp./ano</td></tr>
+          <tr><td><span class="dose-badge dose-std">Braços / Colo / Abdômen</span></td><td>2–4 amp.</td><td>2–3 sessões</td><td>6 semanas</td><td>1–2 amp./ano</td></tr>
+          <tr><td><span class="dose-badge dose-adv">Manutenção Anual</span></td><td>1 amp.</td><td>1–2 sessões</td><td>6 meses</td><td>Contínua</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Bioestimuladores Premium</div>
+    <div class="footer-code">DOC: SCULP-2A-PFY · Rev. Mar/2026</div>
+    <div class="footer-page">1 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+<!-- ═══ PÁGINA 2 ═══ -->
+<div class="page">
+  <div class="header-small">
+    <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" />
+    <div>
+      <div class="hs-title">SCULPTRA <span>2 Ampolas</span> · Protocolos</div>
+      <div class="hs-sub">PLLA · Neocolagênese · Facial &amp; Corporal</div>
+    </div>
+    <div class="hs-right">
+      <div class="hs-title" style="font-size:9pt;color:rgba(255,255,255,0.5)">PHARMAFIT-PY</div>
+      <div class="hs-sub">Informativo Técnico · Página 2</div>
+    </div>
+  </div>
+  <div class="header-bar"></div>
+
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📋</span><h2>Protocolos de Uso Clínico</h2><div class="st-line"></div></div>
+      <div class="proto-grid">
+        <div class="proto-card">
+          <div class="proto-head p1"><div class="p-num">Protocolo 01</div><div class="p-title">Rejuvenescimento Facial &amp; Volumização</div><div class="p-icon">✨</div></div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Perfil</span><span class="pr-val">Envelhecimento facial · perda volumétrica</span></div>
+            <div class="proto-row"><span class="pr-label">Dose</span><span class="pr-val"><strong>1–2 amp./sessão</strong></span></div>
+            <div class="proto-row"><span class="pr-label">Sessões</span><span class="pr-val">3 sessões · intervalo 4–6 semanas</span></div>
+            <div class="proto-row"><span class="pr-label">Áreas</span><span class="pr-val">Têmporas · Malar · Sulco nasogeniano</span></div>
+            <div class="proto-row"><span class="pr-label">Pós-proc.</span><span class="pr-val">Massagem 5-5-5 · gelo 30min · sem sol 72h</span></div>
+            <div class="proto-row"><span class="pr-label">Resultado</span><span class="pr-val">Volumização natural · duração até 25 meses</span></div>
+          </div>
+        </div>
+        <div class="proto-card">
+          <div class="proto-head p2"><div class="p-num">Protocolo 02</div><div class="p-title">Sculptra Butt Lift &amp; Bioestimulação Corporal</div><div class="p-icon">🍑</div></div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Perfil</span><span class="pr-val">Volumização glútea · flacidez corporal</span></div>
+            <div class="proto-row"><span class="pr-label">Dose</span><span class="pr-val"><strong>4–6 amp./sessão</strong></span></div>
+            <div class="proto-row"><span class="pr-label">Sessões</span><span class="pr-val">3–4 sessões · intervalo 6–8 semanas</span></div>
+            <div class="proto-row"><span class="pr-label">Técnica</span><span class="pr-val">23G × 40mm · subdérmico profundo · 0,2mL/depot</span></div>
+            <div class="proto-row"><span class="pr-label">Stack</span><span class="pr-val">CBL-514 pré-sessão · RF microagulhada</span></div>
+            <div class="proto-row"><span class="pr-label">Resultado</span><span class="pr-val">↑ Volume glúteo · ↑ Firmeza · 18–24 meses</span></div>
+          </div>
+        </div>
+        <div class="proto-card">
+          <div class="proto-head p3"><div class="p-num">Protocolo 03</div><div class="p-title">Anti-Aging Profundo — Manutenção Anual</div><div class="p-icon">🌸</div></div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Perfil</span><span class="pr-val">Longevidade estética · pós-protocolo inicial</span></div>
+            <div class="proto-row"><span class="pr-label">Dose</span><span class="pr-val"><strong>1 amp./sessão</strong></span></div>
+            <div class="proto-row"><span class="pr-label">Frequência</span><span class="pr-val">1–2 sessões/ano · intervalo 6 meses</span></div>
+            <div class="proto-row"><span class="pr-label">Foco</span><span class="pr-val">Têmporas e linha mandibular</span></div>
+            <div class="proto-row"><span class="pr-label">Stack</span><span class="pr-val">Epithalon 5mg · NAD+ 500mg/sem · Colágeno 10g/dia</span></div>
+            <div class="proto-row"><span class="pr-label">Resultado</span><span class="pr-val">Manutenção volumétrica · pele progressivamente firme</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">🗺️</span><h2>Principais Áreas Tratáveis com Sculptra</h2><div class="st-line"></div></div>
+      <div class="areas-box">
+        <div class="areas-title">Mapa de Áreas — Indicações Faciais e Corporais</div>
+        <div class="areas-grid">
+          <div class="area-item"><span class="ai-badge">FACE</span><div class="ai-name">Têmporas</div><div class="ai-desc">Reposição de volume temporal; 0,5–1 amp. por lado. Principal área de perda volumétrica no envelhecimento.</div></div>
+          <div class="area-item"><span class="ai-badge">FACE</span><div class="ai-name">Malar / Maçã do Rosto</div><div class="ai-desc">Projeção malar, contorno facial e sulcos nasogenianos. 0,5–1 amp./sessão por região.</div></div>
+          <div class="area-item"><span class="ai-badge">CORPO</span><div class="ai-name">Glúteos (Butt Lift)</div><div class="ai-desc">4–6 amp./sessão. Volumização e sustentação sem implante. Protocolo de 3–4 sessões.</div></div>
+          <div class="area-item"><span class="ai-badge">CORPO</span><div class="ai-name">Braços &amp; Colo</div><div class="ai-desc">Flacidez de tríceps e décolleté. 1–2 amp./sessão. Excelente para flacidez pós-emagrecimento.</div></div>
+          <div class="area-item"><span class="ai-badge">FACE</span><div class="ai-name">Jawline &amp; Queixo</div><div class="ai-desc">Definição mandibular e sustentação do contorno. 0,5 amp./sessão em manutenção.</div></div>
+          <div class="area-item"><span class="ai-badge">CORPO</span><div class="ai-name">Joelhos &amp; Abdômen</div><div class="ai-desc">Flacidez perijoelhos e abdominal. 1–2 amp./sessão. Associar à radiofrequência para resultado superior.</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📈</span><h2>Sculptra vs Outros Bioestimuladores</h2><div class="st-line"></div></div>
+      <table class="compare-table">
+        <thead>
+          <tr><th>Parâmetro</th><th>Sculptra (PLLA)</th><th>Radiesse (CaHA)</th><th>Ellansé (PCL)</th><th>AH Filler</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Duração dos resultados</td><td><span class="check">~25 meses</span></td><td><span class="partial">12–18 m</span></td><td><span class="check">18–24 m</span></td><td><span class="cross">6–12 m</span></td></tr>
+          <tr><td>Neocolagênese profunda</td><td><span class="check">✓✓</span></td><td><span class="check">✓✓</span></td><td><span class="check">✓✓</span></td><td><span class="cross">—</span></td></tr>
+          <tr><td>Resultado gradual/natural</td><td><span class="check">✓✓</span></td><td><span class="partial">±</span></td><td><span class="check">✓✓</span></td><td><span class="cross">Imediato</span></td></tr>
+          <tr><td>Uso corporal (glúteos)</td><td><span class="check">✓✓</span></td><td><span class="partial">±</span></td><td><span class="cross">—</span></td><td><span class="cross">—</span></td></tr>
+          <tr><td>Reversibilidade</td><td><span class="partial">Não reversível</span></td><td><span class="partial">Não reversível</span></td><td><span class="partial">Não reversível</span></td><td><span class="check">Hialuronidase</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="box-card adv">
+        <div class="box-title">⚠️ Contraindicações &amp; Precauções</div>
+        <div class="adv-item"><span class="adv-icon">🔴</span><div class="adv-text"><strong>Nunca injetar em vaso ou derme superficial</strong> — risco de nódulos visíveis ou necrose por embolização vascular.</div></div>
+        <div class="adv-item"><span class="adv-icon">🔴</span><div class="adv-text"><strong>Infecção ativa, queloides ou cicatriz hipertrófica</strong> — contraindicado na área. Avaliar com antecedência.</div></div>
+        <div class="adv-item"><span class="adv-icon">🔴</span><div class="adv-text"><strong>Gestantes, lactantes e imunossuprimidos</strong> — evitar; dados clínicos insuficientes para estas populações.</div></div>
+        <div class="adv-item"><span class="adv-icon">🟡</span><div class="adv-text"><strong>Massagem 5-5-5 é obrigatória</strong> — omissão aumenta risco de nódulos tardios em até 4×. Instruir rigorosamente o paciente.</div></div>
+        <div class="adv-item"><span class="adv-icon">🟡</span><div class="adv-text"><strong>Intervalo mínimo 4–6 semanas</strong> entre sessões — respeitar o ciclo de neocolagênese para resultado seguro.</div></div>
+        <div class="adv-item"><span class="adv-icon">⚪</span><div class="adv-text"><strong>Procedimento exclusivo</strong> para médico ou dentista com especialização em estética facial/corporal.</div></div>
+      </div>
+
+    <div class="pharmafit-banner">
+      <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" class="pf-logo" />
+      <div class="pf-text">
+        <div class="pf-label">Estudo Clínico Elaborado por</div>
+        <div class="pf-brand">Pharmafit<span>-PY</span></div>
+        <div class="pf-tagline">Compostos injetáveis de alta pureza com qualidade farmacêutica.<br>Protocolos personalizados para saúde, performance e bem-estar.</div>
+      </div>
+      <a class="pf-cta" href="tel:+12142049853">📞 +1 (214) 204-9853</a>
+    </div>
+
+    <div class="box-card ref">
+      <div class="box-title">📚 Referências Científicas</div>
+      <ul class="ref-list">
+        <li data-n="1">Vleggaar D. (2006). <em>Facial volumetric correction with injectable poly-L-lactic acid.</em> Dermatologic Surgery. 31(11):1511–1517.</li>
+        <li data-n="2">Goldberg DJ et al. (2013). <em>The safety and efficacy of poly-L-lactic acid in aesthetic applications: a review.</em> Journal of Drugs in Dermatology. 12(3):312–316.</li>
+        <li data-n="3">Fitzgerald R et al. (2011). <em>Physiochemical characteristics of poly-L-lactic acid (PLLA).</em> Aesthetic Surgery Journal. 31(2):7S–13S.</li>
+        <li data-n="4">Palm MD &amp; Goldman MP. (2009). <em>Patient satisfaction and duration of correction after augmentation with nonanimal-stabilized hyaluronic acid versus poly-L-lactic acid.</em> Dermatologic Surgery. 35(S1):344–351.</li>
+        <li data-n="5">Lam SM et al. (2014). <em>Technique optimization for poly-L-lactic acid injection to reduce side effects.</em> Facial Plastic Surgery Clinics of North America. 22(2):237–244.</li>
+        <li data-n="6">Rendon MI. (2012). <em>Long-term aesthetic outcomes with poly-L-lactic acid: observations over 5 years.</em> Journal of Cosmetic Dermatology. 11(2):93–100.</li>
+        <li data-n="7">Mazzuco R &amp; Hexsel D. (2012). <em>Poly-L-lactic acid for neck and chest rejuvenation.</em> Dermatologic Surgery. 35(8):1228–1237.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Bioestimuladores Premium</div>
+    <div class="footer-code">DOC: SCULP-2A-PFY · Rev. Mar/2026 · Uso Profissional</div>
+    <div class="footer-page">2 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+</body>
+</html>

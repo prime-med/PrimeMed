@@ -1,0 +1,555 @@
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  INFORMATIVO TÉCNICO — TEMPLATE PHARMAFIT-PY                ║
+  ║  Produto: PT-141 10mg (Bremelanotide)                       ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  ESTRUTURA GERAL (2 páginas .page):                         ║
+  ║  Pág 1: header → info-strip → "O Que É" → seções técnicas  ║
+  ║  Pág 2: header-small → seções avançadas → pharmafit-banner  ║
+  ║         → referências científicas → footer + footer-note    ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  O QUE CUSTOMIZAR POR PRODUTO:                              ║
+  ║  1. <title> — nome do produto                               ║
+  ║  2. :root — paleta de cores (ver abaixo)                    ║
+  ║     Tema azul/âmbar      → ex: Tirzepatida 120mg            ║
+  ║     Tema escuro/ouro     → ex: Durateston                   ║
+  ║  3. body { background } — cor do fundo externo da página    ║
+  ║  4. .header → textos: tag, título, subtítulo, badges        ║
+  ║  5. .info-strip → chips e texto de contexto                 ║
+  ║  6. Seção "O Que É..." → section-title + intro-text         ║
+  ║  7. Conteúdo das seções (componentes em informativo.css)    ║
+  ║  8. .header-small (pág 2) → título e subtítulo              ║
+  ║  9. .footer → brand text e código do documento              ║
+  ║  10. Referências científicas → .ref-list                    ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  NÃO ALTERAR (padronizado para todos os informativos):      ║
+  ║  • .pharmafit-banner — tagline e telefone da Pharmafit-PY   ║
+  ║  • .footer-note — aviso de uso profissional                 ║
+  ║  • Link para ../assets/css/informativo.css                  ║
+  ║  • Fontes: Montserrat + Lato (Google Fonts)                 ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Informativo Técnico — PT-141 10mg | PharmaFit-PY</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/informativo.css" />
+  <style>
+    :root {
+      --petrol:      #1B4F72;
+      --petrol-dark: #0D2B3E;
+      --petrol-mid:  #2471A3;
+      --petrol-lite: #D6EAF8;
+      --petrol-bg:   #EBF5FB;
+      --amber:       #6C3483;
+      --amber-mid:   #8E44AD;
+      --amber-lite:  #E8DAEF;
+      --amber-bg:    #F5EEF8;
+      --gold:        #B7860B;
+      --gold-mid:    #D4AC0D;
+      --gold-lite:   #FCF3CF;
+      --gold-bg:     #FEFDE7;
+      --white:       #FFFFFF;
+      --gray-1:      #F4F6F7;
+      --gray-2:      #D5D8DC;
+      --text-dark:   #1A2530;
+      --text-mid:    #3D566E;
+      --shadow:      0 2px 12px rgba(13,43,62,0.10);
+      --header-bg:   linear-gradient(135deg, var(--petrol-dark) 0%, var(--petrol) 40%, #5B2C6F 75%, #7D3C98 100%);
+      --header-small-bg: linear-gradient(135deg, var(--petrol-dark) 0%, var(--petrol) 50%, #6C3483 100%);
+      --header-bar-bg: linear-gradient(90deg, #6C3483 0%, #8E44AD 30%, #D7BDE2 55%, var(--petrol-mid) 80%, var(--petrol) 100%);
+      --header-hl:   #D7BDE2;
+    }
+    body { background: #c8d8e4; }
+    /* Comp card — specific to PT-141 */
+    .comp-card { border:1px solid var(--gray-2); border-radius:8px; overflow:hidden; margin-bottom:12px; }
+    .comp-card-header { background:linear-gradient(90deg, var(--petrol-dark) 0%, #6C3483 100%); padding:8px 14px; display:flex; align-items:center; gap:10px; }
+    .comp-card-header .comp-icon { font-size:16px; }
+    .comp-card-header .comp-name { font-family:'Montserrat',sans-serif; font-size:9pt; font-weight:700; color:white; }
+    .comp-card-header .comp-name span { font-size:7pt; font-weight:400; color:rgba(255,255,255,0.65); margin-left:6px; }
+    .comp-card-body { background:var(--gray-1); padding:9px 14px; display:grid; grid-template-columns:repeat(3,1fr); gap:6px 18px; }
+    .comp-item { font-size:8.5pt; color:var(--text-mid); line-height:1.4; }
+    .comp-item strong { color:var(--petrol-dark); font-size:8pt; display:block; }
+    /* Comp table */
+    table.comp-table { width:100%; border-collapse:collapse; font-size:8pt; margin-bottom:14px; }
+    table.comp-table thead tr { background:linear-gradient(90deg, var(--petrol-dark) 0%, #6C3483 100%); color:white; }
+    table.comp-table thead th { padding:7px 10px; font-family:'Montserrat',sans-serif; font-size:7.5pt; font-weight:700; letter-spacing:0.4px; text-align:center; }
+    table.comp-table thead th:first-child { text-align:left; }
+    table.comp-table tbody tr:nth-child(odd) { background:var(--gray-1); }
+    table.comp-table tbody tr:nth-child(even) { background:var(--white); }
+    table.comp-table tbody td { padding:6px 10px; border-bottom:1px solid var(--gray-2); text-align:center; vertical-align:middle; }
+    table.comp-table tbody td:first-child { text-align:left; font-weight:700; color:var(--text-dark); }
+    table.comp-table tbody td .dot { font-size:11pt; }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════
+     PÁGINA 1 — FRENTE
+════════════════════════════════════════════════════════ -->
+<div class="page">
+
+  <div class="header">
+    <div class="orb-violet"></div>
+    <div class="header-inner">
+      <div class="header-logo">
+        <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" />
+      </div>
+      <div class="header-center">
+        <div class="header-tag">Informativo Técnico — Peptídeo de Alta Performance</div>
+        <div class="header-title"><span class="hl">PT</span>-141</div>
+        <div class="header-subtitle">Bremelanotide · Agonista Melanocortínico MC3R/MC4R · Vitalidade &amp; Função Sexual</div>
+      </div>
+      <div class="header-badges">
+        <div class="badge-box">
+          <div class="b-label">Concentração</div>
+          <div class="b-val"><span>10</span> mg</div>
+        </div>
+        <div class="badge-box">
+          <div class="b-label">Código</div>
+          <div class="b-val">PT141-10-PFY</div>
+        </div>
+      </div>
+    </div>
+    <div class="header-bar"></div>
+  </div>
+
+  <div class="info-strip">
+    <span class="info-chip">FDA APROVADO</span>
+    <span class="info-text">Bremelanotide aprovado pelo FDA (2019) sob o nome comercial <strong>Vyleesi®</strong> para tratamento de Transtorno do Desejo Sexual Hipoativo (HSDD) em mulheres na pré-menopausa · Ação central via sistema melanocortínico.</span>
+  </div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">🧠</span><h2>O Que É o PT-141?</h2><div class="st-line"></div></div>
+      <div class="intro-strip">
+        <div class="intro-icon">🧠</div>
+        <div class="intro-text">
+          O <strong>PT-141 (Bremelanotide)</strong> é um análogo cíclico do hormônio α-MSH (alfa-melanócito estimulante) que atua
+          diretamente no <strong>Sistema Nervoso Central</strong>, ativando receptores MC3R e MC4R no hipotálamo. Diferente dos
+          inibidores da PDE-5 (sildenafil, tadalafil) que atuam perifericamente nos vasos sanguíneos, o PT-141 age na
+          <strong>via neurológica do desejo</strong>, sendo eficaz para disfunção sexual tanto masculina quanto feminina, com
+          ou sem componente vascular.
+        </div>
+      </div>
+    </div>
+
+    <!-- PERFIL -->
+    <div class="section">
+      <div class="section-title"><span class="st-icon">🔬</span><h2>Perfil do Composto Ativo</h2><div class="st-line"></div></div>
+      <div class="comp-card">
+        <div class="comp-card-header">
+          <span class="comp-icon">🔬</span>
+          <div class="comp-name">PT-141 — Bremelanotide <span>Agonista Melanocortínico · Análogo cíclico do α-MSH</span></div>
+        </div>
+        <div class="comp-card-body">
+          <div class="comp-item"><strong>Classe</strong>Peptídeo melanocortínico cíclico</div>
+          <div class="comp-item"><strong>Receptores</strong>MC3R + MC4R (SNC)</div>
+          <div class="comp-item"><strong>Peso Molecular</strong>1025,2 g/mol</div>
+          <div class="comp-item"><strong>Meia-vida</strong>~2,7 horas</div>
+          <div class="comp-item"><strong>Biodisponibilidade</strong>~100% (SC)</div>
+          <div class="comp-item"><strong>Concentração</strong>10mg / frasco</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MECANISMO -->
+    <div class="section">
+      <div class="section-title"><span class="st-icon">⚡</span><h2>Mecanismo de Ação Científico</h2><div class="st-line"></div></div>
+      <table class="moa">
+        <thead>
+          <tr>
+            <th>Via de Ação</th>
+            <th>Efeito Biológico</th>
+            <th>Evidência</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Agonismo MC4R (hipotálamo)</td>
+            <td>Ativa neurônios dopaminérgicos no núcleo accumbens e área pré-óptica medial · gera desejo sexual independente de estímulo genital</td>
+            <td><span class="tag">Alta</span></td>
+          </tr>
+          <tr>
+            <td>Agonismo MC3R</td>
+            <td>Modula equilíbrio energético e resposta inflamatória · contribui para sensação de bem-estar e disposição</td>
+            <td><span class="tag">Alta</span></td>
+          </tr>
+          <tr>
+            <td>Dopamina &amp; Ocitocina</td>
+            <td>Aumenta liberação de dopamina e ocitocina no SNC · reforça motivação sexual e conexão emocional</td>
+            <td><span class="tag">Alta</span></td>
+          </tr>
+          <tr>
+            <td>Ereção / Lubrificação</td>
+            <td>Induz ereção via via nervosa central (independente de PDE-5) · aumenta lubrificação vaginal e excitação genital feminina</td>
+            <td><span class="tag">Alta</span></td>
+          </tr>
+          <tr>
+            <td>Energia &amp; Disposição</td>
+            <td>Melhora energia, motivação e foco via ativação do eixo melanocortínico · efeito complementar ao desejo sexual</td>
+            <td><span class="tag violet">Moderada-Alta</span></td>
+          </tr>
+          <tr>
+            <td>Independência vascular</td>
+            <td>Eficaz mesmo em pacientes com disfunção erétil de origem não vascular ou com falha a PDE-5 · mecanismo de ação complementar</td>
+            <td><span class="tag">Alta</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- DISSOLUÇÃO -->
+    <div class="section">
+      <div class="section-title"><span class="st-icon">💧</span><h2>Reconstituição — PT-141 10mg / 2ml</h2><div class="st-line"></div></div>
+      <div class="diss-box">
+        <div class="diss-steps">
+          <div class="diss-step">
+            <div class="step-circle">1</div>
+            <div class="step-text"><strong>Higienizar</strong>Limpar a tampa com álcool 70%</div>
+          </div>
+          <div class="diss-step">
+            <div class="step-circle">2</div>
+            <div class="step-text"><strong>Preparar</strong>Aspirar 2ml de água bacteriostática</div>
+          </div>
+          <div class="diss-step">
+            <div class="step-circle">3</div>
+            <div class="step-text"><strong>Injetar</strong>Injetar lentamente na parede do frasco</div>
+          </div>
+          <div class="diss-step">
+            <div class="step-circle">4</div>
+            <div class="step-text"><strong>Girar</strong>Girar suavemente — nunca agitar</div>
+          </div>
+          <div class="diss-step">
+            <div class="step-circle">5</div>
+            <div class="step-text"><strong>Refrigerar</strong>2–8°C · Validade: 28 dias</div>
+          </div>
+        </div>
+
+        <table class="dose-table">
+          <thead>
+            <tr>
+              <th>Volume Aspirado</th>
+              <th>Dose PT-141</th>
+              <th>Perfil de Uso</th>
+              <th>Timing</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>0,25 ml</td>
+              <td>1,25 mg</td>
+              <td>Dose inicial · primeiro uso · sensibilidade</td>
+              <td>45–60 min antes</td>
+            </tr>
+            <tr>
+              <td>0,35 ml</td>
+              <td>1,75 mg</td>
+              <td>Dose terapêutica padrão (FDA aprovada)</td>
+              <td>45–60 min antes</td>
+            </tr>
+            <tr>
+              <td>0,50 ml</td>
+              <td>2,50 mg</td>
+              <td>Dose aumentada · protocolo masculino</td>
+              <td>60–90 min antes</td>
+            </tr>
+            <tr>
+              <td>0,60 ml</td>
+              <td>3,00 mg</td>
+              <td>Protocolo avançado · sob supervisão médica</td>
+              <td>60–90 min antes</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Peptídeos de Alta Performance</div>
+    <div class="footer-code">DOC: PT141-10-PFY · Rev. Mar/2026</div>
+    <div class="footer-page">1 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+
+</div><!-- /page 1 -->
+
+
+<!-- ═══════════════════════════════════════════════════════
+     PÁGINA 2 — VERSO
+════════════════════════════════════════════════════════ -->
+<div class="page">
+
+  <div class="header-small">
+    <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" />
+    <div>
+      <div class="hs-title"><span>PT</span>-141 · Protocolos Clínicos</div>
+      <div class="hs-sub">Bremelanotide · Agonista MC3R/MC4R · 10mg</div>
+    </div>
+    <div class="hs-right">
+      <div class="hs-title" style="font-size:9pt; color:rgba(255,255,255,0.5);">PHARMAFIT-PY</div>
+      <div class="hs-sub">Peptídeos de Alta Performance</div>
+    </div>
+  </div>
+  <div class="header-bar"></div>
+
+  <div class="content">
+
+    <!-- PROTOCOLOS -->
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📋</span><h2>Protocolos de Uso Clínico</h2><div class="st-line"></div></div>
+      <div class="proto-grid">
+
+        <!-- PROTOCOLO 1 -->
+        <div class="proto-card">
+          <div class="proto-head p1">
+            <div class="p-num">Protocolo 01</div>
+            <div class="p-title">Disfunção Sexual Masculina</div>
+            <div class="p-icon">♂️</div>
+          </div>
+          <div class="proto-body">
+            <div class="proto-row">
+              <span class="pr-label">Objetivo</span>
+              <span class="pr-val">Ereção · libido · DE resistente a PDE-5</span>
+            </div>
+            <div class="proto-row">
+              <span class="pr-label">Dose</span>
+              <span class="pr-val"><strong>1,75–2,5mg</strong> (0,35–0,50ml)</span>
+            </div>
+            <div class="proto-row">
+              <span class="pr-label">Timing</span>
+              <span class="pr-val">45–90 min antes da atividade</span>
+            </div>
+            <div class="proto-row">
+              <span class="pr-label">Freq.</span>
+              <span class="pr-val">Máx. 1x/48h · conforme necessidade</span>
+            </div>
+            <div class="proto-row">
+              <span class="pr-label">Via</span>
+              <span class="pr-val">SC abdominal</span>
+            </div>
+            <div class="proto-row">
+              <span class="pr-label">Obs.</span>
+              <span class="pr-val">Iniciar com 1,25mg para avaliar tolerância</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- PROTOCOLO 2 -->
+        <div class="proto-card">
+          <div class="proto-head p2">
+            <div class="p-num">Protocolo 02</div>
+            <div class="p-title">HSDD Feminino &amp; Desejo</div>
+            <div class="p-icon">♀️</div>
+          </div>
+          <div class="proto-body">
+            <div class="proto-row">
+              <span class="pr-label">Objetivo</span>
+              <span class="pr-val">HSDD · baixo desejo · lubrificação · excitação</span>
+            </div>
+            <div class="proto-row">
+              <span class="pr-label">Dose</span>
+              <span class="pr-val"><strong>1,25–1,75mg</strong> (FDA aprovado)</span>
+            </div>
+            <div class="proto-row">
+              <span class="pr-label">Timing</span>
+              <span class="pr-val">45 min antes da atividade</span>
+            </div>
+            <div class="proto-row">
+              <span class="pr-label">Freq.</span>
+              <span class="pr-val">Máx. 1x/24h · conforme necessidade</span>
+            </div>
+            <div class="proto-row">
+              <span class="pr-label">Via</span>
+              <span class="pr-val">SC abdominal ou coxa</span>
+            </div>
+            <div class="proto-row">
+              <span class="pr-label">Obs.</span>
+              <span class="pr-val">Início com 1,25mg · ajuste se necessário</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- PROTOCOLO 3 -->
+        <div class="proto-card">
+          <div class="proto-head p3">
+            <div class="p-num">Protocolo 03</div>
+            <div class="p-title">Vitalidade &amp; Bem-estar Geral</div>
+            <div class="p-icon">⚡</div>
+          </div>
+          <div class="proto-body">
+            <div class="proto-row">
+              <span class="pr-label">Objetivo</span>
+              <span class="pr-val">Energia · disposição · melhora de humor</span>
+            </div>
+            <div class="proto-row">
+              <span class="pr-label">Dose</span>
+              <span class="pr-val"><strong>1,25mg</strong> (0,25ml) · dose baixa</span>
+            </div>
+            <div class="proto-row">
+              <span class="pr-label">Timing</span>
+              <span class="pr-val">Manhã · 2–3x por semana</span>
+            </div>
+            <div class="proto-row">
+              <span class="pr-label">Freq.</span>
+              <span class="pr-val">2–3x/semana · ciclo de 4 semanas</span>
+            </div>
+            <div class="proto-row">
+              <span class="pr-label">Via</span>
+              <span class="pr-val">SC abdominal</span>
+            </div>
+            <div class="proto-row">
+              <span class="pr-label">Obs.</span>
+              <span class="pr-val">Combina bem com CJC-1295 + Ipamorelin</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- COMPARATIVO -->
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📊</span><h2>Comparativo dos Protocolos</h2><div class="st-line"></div></div>
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th>Parâmetro</th>
+            <th>♂️ Masculino</th>
+            <th>♀️ HSDD Feminino</th>
+            <th>⚡ Vitalidade</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Dose por uso</td>
+            <td>1,75–2,5 mg</td>
+            <td>1,25–1,75 mg (FDA)</td>
+            <td>1,25 mg</td>
+          </tr>
+          <tr>
+            <td>Timing antes da atividade</td>
+            <td>45–90 min</td>
+            <td>45 min</td>
+            <td>Manhã (sem relação)</td>
+          </tr>
+          <tr>
+            <td>Frequência máxima</td>
+            <td>1x / 48h</td>
+            <td>1x / 24h</td>
+            <td>3x / semana</td>
+          </tr>
+          <tr>
+            <td>Efeito esperado</td>
+            <td>30–90 min pós-injeção</td>
+            <td>30–60 min pós-injeção</td>
+            <td>Acumulativo (semanas)</td>
+          </tr>
+          <tr>
+            <td>Indicação FDA</td>
+            <td><span class="dot">⬜ Off-label</span></td>
+            <td><span class="dot">✅ Aprovado</span></td>
+            <td><span class="dot">⬜ Off-label</span></td>
+          </tr>
+          <tr>
+            <td>Zinco recomendado</td>
+            <td><span class="dot">✅</span></td>
+            <td><span class="dot">✅</span></td>
+            <td><span class="dot">✅</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SUPL + ADV -->
+    <div class="two-col">
+
+      <div class="box-card supl">
+        <div class="box-title">⚗️ Suplementação Recomendada</div>
+        <div class="supl-item">
+          <span class="si-icon">🔵</span>
+          <div class="si-text"><strong>Zinco 30mg/dia</strong> — cofator essencial da sinalização melanocortínica e produção de testosterona. Potencializa o efeito do PT-141 em ambos os sexos.</div>
+        </div>
+        <div class="supl-item">
+          <span class="si-icon">🟡</span>
+          <div class="si-text"><strong>Vitamina D3 5.000 UI/dia</strong> — suporte ao eixo hormonal e à produção endógena de testosterona e estrogênio.</div>
+        </div>
+        <div class="supl-item">
+          <span class="si-icon">🟣</span>
+          <div class="si-text"><strong>Magnésio 400mg/noite</strong> — regulação do cortisol e melhora da qualidade do sono. Essencial para saúde hormonal global.</div>
+        </div>
+        <div class="supl-item">
+          <span class="si-icon">🟢</span>
+          <div class="si-text"><strong>Ômega-3 2g/dia</strong> — suporte cardiovascular e anti-inflamatório. Melhora perfusão e resposta vascular.</div>
+        </div>
+      </div>
+
+      <div class="box-card adv">
+        <div class="box-title">⚠️ Advertências &amp; Contraindicações</div>
+        <div class="adv-item">
+          <span class="adv-icon">🔴</span>
+          <div class="adv-text"><strong>Doença cardiovascular grave</strong> — contraindicado. PT-141 pode aumentar transitoriamente a pressão arterial (média +6 mmHg).</div>
+        </div>
+        <div class="adv-item">
+          <span class="adv-icon">🔴</span>
+          <div class="adv-text"><strong>Gestação e lactação</strong> — contraindicação absoluta. Ausência de estudos de segurança nessa população.</div>
+        </div>
+        <div class="adv-item">
+          <span class="adv-icon">🟡</span>
+          <div class="adv-text"><strong>Efeitos adversos comuns</strong> — náuseas transitórias (mais frequentes), rubor facial, cefaleia leve. Geralmente passam em 1–2 horas.</div>
+        </div>
+        <div class="adv-item">
+          <span class="adv-icon">🟡</span>
+          <div class="adv-text"><strong>Hiperpigmentação</strong> — uso frequente pode causar escurecimento focal da pele por ativação de MC1R. Reversível após suspensão.</div>
+        </div>
+        <div class="adv-item">
+          <span class="adv-icon">⚪</span>
+          <div class="adv-text"><strong>Intervalo mínimo</strong> — respeitar mínimo de 24h entre doses. Não ultrapassar a frequência recomendada para evitar dessensibilização dos receptores.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="pharmafit-banner">
+      <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" class="pf-logo" />
+      <div class="pf-text">
+        <div class="pf-label">Estudo Clínico Elaborado por</div>
+        <div class="pf-brand">Pharmafit<span>-PY</span></div>
+        <div class="pf-tagline">Compostos injetáveis de alta pureza com qualidade farmacêutica.<br>Protocolos personalizados para saúde, performance e bem-estar.</div>
+      </div>
+      <a class="pf-cta" href="tel:+12142049853">📞 +1 (214) 204-9853</a>
+    </div>
+
+    <!-- REFERÊNCIAS -->
+    <div class="box-card ref">
+      <div class="box-title">📚 Referências Científicas</div>
+      <ul class="ref-list">
+        <li data-n="1">Clayton AH et al. (2016). <em>Bremelanotide for Female Sexual Dysfunctions in Premenopausal Women.</em> Obstet Gynecol. 128(3):536–547.</li>
+        <li data-n="2">Kingsberg SA et al. (2019). <em>Bremelanotide for Hypoactive Sexual Desire Disorder: Analyses of Clinical Trials.</em> Obstet Gynecol. 134(5):899–908.</li>
+        <li data-n="3">Shadiack AM et al. (2007). <em>Melanocortins in the treatment of male and female sexual dysfunction.</em> Curr Top Med Chem. 7(11):1137–1144.</li>
+        <li data-n="4">Diamond LE et al. (2006). <em>Double-blind, placebo-controlled evaluation of the safety, pharmacokinetic properties and pharmacodynamic effects of intranasal PT-141.</em> J Sex Med. 3(4):672–682.</li>
+        <li data-n="5">Pfaus JG. (2009). <em>Pathways of sexual desire.</em> J Sex Med. 6(6):1506–1533.</li>
+        <li data-n="6">Hadley ME, Dorr RT. (2006). <em>Melanocortin peptide therapeutics: historical milestones, clinical studies and commercialization.</em> Peptides. 27(4):921–930.</li>
+        <li data-n="7">FDA Drug Approval — Vyleesi® (bremelanotide). (2019). NDA 210557. U.S. Food &amp; Drug Administration.</li>
+      </ul>
+    </div>
+
+  </div><!-- /content -->
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Peptídeos de Alta Performance</div>
+    <div class="footer-code">DOC: PT141-10-PFY · Rev. Mar/2026 · Uso Profissional</div>
+    <div class="footer-page">2 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+
+</div><!-- /page 2 -->
+
+</body>
+</html>

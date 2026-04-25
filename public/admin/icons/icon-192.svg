@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192">
+  <rect width="192" height="192" rx="36" fill="#0b1622"/>
+  <rect width="192" height="192" rx="36" fill="url(#g)"/>
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0e2a3d"/>
+      <stop offset="100%" stop-color="#0b1622"/>
+    </linearGradient>
+  </defs>
+  <text x="96" y="72" font-family="system-ui,sans-serif" font-size="44" font-weight="800" fill="#1abc9c" text-anchor="middle">PF</text>
+  <text x="96" y="112" font-family="system-ui,sans-serif" font-size="18" font-weight="500" fill="#7aaccb" text-anchor="middle">Admin</text>
+  <rect x="40" y="126" width="112" height="2" rx="1" fill="#1e3a52"/>
+  <text x="96" y="154" font-family="system-ui,sans-serif" font-size="13" fill="#1abc9c" text-anchor="middle" opacity=".7">PharmaFit</text>
+</svg>

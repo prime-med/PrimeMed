@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<title>Romaneio — PharmaFit</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, Helvetica, sans-serif; font-size: 12pt; color: #111; background: #fff; }
+
+@media print {
+  @page { margin: 1.2cm; }
+  .no-print { display: none !important; }
+  body { background: #fff; }
+}
+
+.romaneio { max-width: 780px; margin: 0 auto; padding: 24px; }
+
+/* HEADER */
+.rom-header { display: flex; justify-content: space-between; align-items: flex-start; padding-bottom: 12px; border-bottom: 2px solid #111; margin-bottom: 16px; }
+.rom-logo { font-size: 20pt; font-weight: 900; letter-spacing: -1px; }
+.rom-logo span { color: #1abc9c; }
+.rom-id-block { text-align: right; }
+.rom-id { font-size: 14pt; font-weight: 700; }
+.rom-date { font-size: 10pt; color: #555; margin-top: 2px; }
+
+/* SECTIONS */
+.rom-section { margin-bottom: 16px; }
+.rom-section-title {
+  font-size: 9pt; text-transform: uppercase; letter-spacing: .8px;
+  color: #555; border-bottom: 1px solid #ddd; padding-bottom: 3px; margin-bottom: 8px;
+}
+.rom-section p { font-size: 12pt; line-height: 1.6; }
+.rom-section strong { font-weight: 700; }
+
+/* TABLE */
+table { width: 100%; border-collapse: collapse; font-size: 11pt; }
+thead th {
+  background: #f2f2f2; font-size: 9pt; text-transform: uppercase;
+  letter-spacing: .5px; padding: 7px 10px; text-align: left;
+  border: 1px solid #ccc;
+}
+tbody td { padding: 7px 10px; border: 1px solid #ddd; }
+tbody tr:nth-child(even) td { background: #fafafa; }
+
+/* FIELDS */
+.rom-fields { display: flex; gap: 20px; margin-top: 16px; }
+.rom-field { flex: 1; }
+.rom-field-label { font-size: 9pt; text-transform: uppercase; letter-spacing: .5px; color: #555; margin-bottom: 4px; }
+.rom-field-line { border-bottom: 1.5px solid #333; min-height: 28px; padding: 4px 0; font-size: 12pt; color: #222; }
+
+/* FOOTER */
+.rom-footer { margin-top: 24px; border-top: 1px solid #ccc; padding-top: 8px; font-size: 9pt; color: #888; display: flex; justify-content: space-between; }
+
+/* PRINT BUTTON */
+.print-btn {
+  position: fixed; top: 20px; right: 20px; padding: 10px 24px;
+  background: #1abc9c; color: #fff; border: none; border-radius: 8px;
+  cursor: pointer; font-size: 14px; font-weight: 600; box-shadow: 0 2px 8px rgba(0,0,0,.2);
+  transition: background .2s;
+}
+.print-btn:hover { background: #16a085; }
+
+.error-msg { text-align: center; padding: 60px; color: #888; font-size: 14px; }
+</style>
+</head>
+<body>
+
+<button class="print-btn no-print" onclick="window.print()">🖨️ Imprimir</button>
+
+<div class="romaneio" id="romaneio">
+  <div class="error-msg">⏳ Carregando romaneio...</div>
+</div>
+
+<script>
+  (function () {
+    const data = sessionStorage.getItem('romaneio_order');
+    if (!data) {
+      document.getElementById('romaneio').innerHTML =
+        '<div class="error-msg">Romaneio não encontrado.<br>Abra esta página a partir do painel admin.</div>';
+      return;
+    }
+
+    const o = JSON.parse(data);
+    const itens = o.itens || [];
+    const now   = new Date().toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' });
+
+    // Build items rows
+    const rows = itens.length > 0
+      ? itens.map(it => `
+          <tr>
+            <td>${esc(it.nome)}</td>
+            <td style="text-align:center;width:80px">${esc(String(it.dose || '—'))}</td>
+            <td style="text-align:center;width:60px"><strong>${it.qty || 1}</strong></td>
+          </tr>`).join('')
+      : '<tr><td colspan="3" style="text-align:center;color:#888">—</td></tr>';
+
+    const addrLine = [o.endereco, o.cidade, o.estado ? `— ${o.estado}` : '', o.cep ? `CEP ${o.cep}` : '']
+      .filter(Boolean).join(', ');
+
+    document.getElementById('romaneio').innerHTML = `
+      <div class="rom-header">
+        <div class="rom-logo">🧬 <span>Pharma</span>Fit</div>
+        <div class="rom-id-block">
+          <div class="rom-id">Pedido #${o.id || '—'}</div>
+          <div class="rom-date">${esc(o.data || '')}</div>
+        </div>
+      </div>
+
+      <div class="rom-section">
+        <div class="rom-section-title">Destinatário</div>
+        <p><strong>${esc(o.clinica || '—')}</strong>${o.responsavel ? ' — ' + esc(o.responsavel) : ''}</p>
+        ${o.telefone ? `<p>📱 ${esc(o.telefone)}</p>` : ''}
+        ${addrLine ? `<p>📍 ${esc(addrLine)}</p>` : ''}
+      </div>
+
+      <div class="rom-section">
+        <div class="rom-section-title">Itens do Pedido</div>
+        <table>
+          <thead>
+            <tr><th>Produto</th><th style="text-align:center">Dose / Var.</th><th style="text-align:center">Qtd</th></tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>
+
+      <div class="rom-section" style="margin-top:10px">
+        <p><strong>Pagamento:</strong> ${esc(o.pagamento || '—')}${o.parcelas ? ' · ' + esc(o.parcelas) + 'x' : ''}</p>
+        <p><strong>Total:</strong> R$ ${esc(String(o.total || '0').replace('.',','))}</p>
+        ${o.obs ? `<p><strong>Obs:</strong> ${esc(o.obs)}</p>` : ''}
+      </div>
+
+      <div class="rom-fields">
+        <div class="rom-field">
+          <div class="rom-field-label">Peso (kg)</div>
+          <div class="rom-field-line">${esc(o.peso || '')}</div>
+        </div>
+        <div class="rom-field">
+          <div class="rom-field-label">Dimensões L × A × P (cm)</div>
+          <div class="rom-field-line">${esc(o.dimensoes || '')}</div>
+        </div>
+        <div class="rom-field">
+          <div class="rom-field-label">Código de Rastreio</div>
+          <div class="rom-field-line">${esc(o.rastreio || '')}</div>
+        </div>
+      </div>
+
+      <div class="rom-footer">
+        <span>PharmaFit — Uso Interno</span>
+        <span>Emitido em ${now}</span>
+      </div>
+    `;
+
+    // Auto-print after a short delay (allow render)
+    setTimeout(() => window.print(), 600);
+
+    function esc(s) {
+      return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,272 @@
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  INFORMATIVO TÉCNICO — TEMPLATE PHARMAFIT-PY                ║
+  ║  Produto: BPC-157 10mg                                      ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  ESTRUTURA GERAL (2 páginas .page):                         ║
+  ║  Pág 1: header → info-strip → "O Que É" → seções técnicas  ║
+  ║  Pág 2: header-small → seções avançadas → pharmafit-banner  ║
+  ║         → referências científicas → footer + footer-note    ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  O QUE CUSTOMIZAR POR PRODUTO:                              ║
+  ║  1. <title> — nome do produto                               ║
+  ║  2. :root — paleta de cores (ver abaixo)                    ║
+  ║     Tema azul/âmbar      → ex: Tirzepatida 120mg            ║
+  ║     Tema escuro/ouro     → ex: Durateston                   ║
+  ║  3. body { background } — cor do fundo externo da página    ║
+  ║  4. .header → textos: tag, título, subtítulo, badges        ║
+  ║  5. .info-strip → chips e texto de contexto                 ║
+  ║  6. Seção "O Que É..." → section-title + intro-text         ║
+  ║  7. Conteúdo das seções (componentes em informativo.css)    ║
+  ║  8. .header-small (pág 2) → título e subtítulo              ║
+  ║  9. .footer → brand text e código do documento              ║
+  ║  10. Referências científicas → .ref-list                    ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  NÃO ALTERAR (padronizado para todos os informativos):      ║
+  ║  • .pharmafit-banner — tagline e telefone da Pharmafit-PY   ║
+  ║  • .footer-note — aviso de uso profissional                 ║
+  ║  • Link para ../assets/css/informativo.css                  ║
+  ║  • Fontes: Montserrat + Lato (Google Fonts)                 ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Informativo Técnico — BPC-157 10mg | PharmaFit-PY</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/informativo.css" />
+  <style>
+    :root {
+      --petrol:     #1B4F72; --petrol-dark: #0D2B3E; --petrol-mid: #2471A3;
+      --petrol-lite:#D6EAF8; --petrol-bg:  #EBF5FB;
+      --amber:      #1A7A4A; --amber-mid:  #27AE60;
+      --amber-lite: #D5F5E3; --amber-bg:   #EAFAF1;
+      --gold:       #117864; --gold-mid:   #17A589;
+      --gold-lite:  #D0ECE7; --gold-bg:    #E8F8F5;
+      --white:      #FFFFFF; --gray-1: #F4F6F7; --gray-2: #D5D8DC;
+      --text-dark:  #1A2530; --text-mid: #3D566E;
+      --shadow:     0 2px 12px rgba(13,43,62,0.10);
+      --header-bg:  linear-gradient(135deg, #0D2B3E 0%, #1B4F72 40%, #145A32 75%, #1E8449 100%);
+      --header-bar-bg: linear-gradient(90deg, #1A7A4A 0%, #27AE60 30%, #82E0AA 55%, #2471A3 80%, #1B4F72 100%);
+      --header-small-bg: linear-gradient(135deg, #0D2B3E 0%, #1B4F72 50%, #145A32 100%);
+      --header-hl:  #82E0AA;
+    }
+    body { background: #c8d8e4; }
+    .proto-head.p1 { background: linear-gradient(135deg, #1A5276 0%, #2471A3 100%); }
+    .proto-head.p2 { background: linear-gradient(135deg, var(--amber) 0%, var(--amber-mid) 100%); }
+    .proto-head.p3 { background: linear-gradient(135deg, #6C3483 0%, #8E44AD 100%); }
+    .orb-green { position: absolute; top: 10px; right: 155px; width: 90px; height: 90px; border-radius: 50%; background: radial-gradient(circle, rgba(39,174,96,0.3) 0%, transparent 70%); }
+    .header-title .green-text { color: #82E0AA; text-shadow: 0 0 24px rgba(130,224,170,0.6); }
+  </style>
+</head>
+<body>
+
+<!-- PÁGINA 1 — FRENTE -->
+<div class="page">
+  <div class="header">
+    <div class="orb-green"></div>
+    <div class="header-inner">
+      <div class="header-logo"><img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" /></div>
+      <div class="header-center">
+        <div class="header-tag">Informativo Técnico — Peptídeo de Alta Performance</div>
+        <div class="header-title"><span class="green-text">BPC</span>-157</div>
+        <div class="header-subtitle">Body Protection Compound 157 · Pentadecapeptídeo de Proteção e Reparo Tecidual</div>
+      </div>
+      <div class="header-badges">
+        <div class="badge-box"><div class="b-label">Concentração</div><div class="b-val"><span>10</span> mg</div></div>
+        <div class="badge-box"><div class="b-label">Código</div><div class="b-val">BPC157-10-PFY</div></div>
+      </div>
+    </div>
+    <div class="header-bar"></div>
+  </div>
+
+  <div class="info-strip">
+    <div class="chip">🛡️ Peptídeo de Reparo</div>
+    <div class="chip">15 Aminoácidos</div>
+    <div class="chip">10mg / Frasco</div>
+    <div class="chip">SC · IM · Oral</div>
+    <div class="chip">Meia-vida ~4h</div>
+    <div class="chip">Origem Gástrica</div>
+  </div>
+
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="st-icon">🛡️</span><h2>O Que É o BPC-157?</h2><div class="st-line"></div></div>
+    <div class="intro-strip">
+      <div class="intro-icon">🛡️</div>
+      <div class="intro-text">
+        O <strong>BPC-157 (Body Protection Compound 157)</strong> é um pentadecapeptídeo de 15 aminoácidos derivado de uma proteína protetora do suco gástrico humano. Considerado um dos peptídeos de reparo mais versáteis da medicina regenerativa, age em múltiplos tecidos simultaneamente: <strong>trato gastrointestinal, tendões, ligamentos, músculos, ossos e sistema nervoso central</strong>. Seus efeitos são mediados pela ativação do sistema NO (óxido nítrico), eixo VEGF e modulação da via do receptor FAK-paxillin.
+      </div>
+      <div class="spec-grid">
+        <div class="spec-item"><div class="s-val">GEPPPGKPADDAGLV</div><div class="s-lbl">Sequência</div></div>
+        <div class="spec-item"><div class="s-val">1.419 g/mol</div><div class="s-lbl">Peso Molecular</div></div>
+        <div class="spec-item"><div class="s-val">~4h</div><div class="s-lbl">Meia-vida SC</div></div>
+        <div class="spec-item"><div class="s-val">SC/IM/Oral</div><div class="s-lbl">Vias</div></div>
+        <div class="spec-item"><div class="s-val">10mg</div><div class="s-lbl">Concentração</div></div>
+        <div class="spec-item"><div class="s-val">Gástrica</div><div class="s-lbl">Origem</div></div>
+      </div>
+    </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">⚡</span><h2>Mecanismo de Ação Científico</h2><div class="st-line"></div></div>
+      <table class="moa">
+        <thead><tr><th>Via de Ação</th><th>Efeito Biológico</th><th>Evidência</th></tr></thead>
+        <tbody>
+          <tr><td>Sistema NO (Óxido Nítrico)</td><td>Ativa a via NO-síntase endotelial · melhora perfusão · acelera cicatrização vascular e tecidual em múltiplos órgãos</td><td><span class="tag">Alta</span></td></tr>
+          <tr><td>Eixo VEGF / Angiogênese</td><td>Upregula VEGF · estimula formação de novos capilares · melhora vascularização em tecidos lesados</td><td><span class="tag">Alta</span></td></tr>
+          <tr><td>Reparo GI & Antiúlcera</td><td>Reverte danos no epitélio gástrico e intestinal · trata colite, intestino permeável e refluxo · protege mucosa</td><td><span class="tag">Alta</span></td></tr>
+          <tr><td>Tendão & Ligamento</td><td>Ativa o receptor FAK-paxillin nos tenocitos · acelera regeneração de tendão e ligamento · reduz dor inflamatória articular</td><td><span class="tag">Alta</span></td></tr>
+          <tr><td>Neuroproteção</td><td>Atravessa a barreira hematoencefálica · efeito neuroprotetor em TCE, depressão e síndrome de abstinência · melhora humor</td><td><span class="tag green">Moderada-Alta</span></td></tr>
+          <tr><td>Anti-inflamatório sistêmico</td><td>Inibe TNF-α, IL-6 e NFκB · reduz inflamação crónica · compatível com uso contínuo sem efeitos imunossupressores</td><td><span class="tag">Alta</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">💧</span><h2>Reconstituição — BPC-157 10mg / 2ml</h2><div class="st-line"></div></div>
+      <div class="diss-box">
+        <div class="diss-steps">
+          <div class="diss-step"><div class="step-circle">1</div><div class="step-text"><strong>Higienizar</strong>Álcool 70% na tampa</div></div>
+          <div class="diss-step"><div class="step-circle">2</div><div class="step-text"><strong>Preparar</strong>Aspirar 2ml de água bacteriostática</div></div>
+          <div class="diss-step"><div class="step-circle">3</div><div class="step-text"><strong>Injetar</strong>Lentamente na parede do frasco</div></div>
+          <div class="diss-step"><div class="step-circle">4</div><div class="step-text"><strong>Girar</strong>Suavemente — nunca agitar</div></div>
+          <div class="diss-step"><div class="step-circle">5</div><div class="step-text"><strong>Refrigerar</strong>2–8°C · 28 dias</div></div>
+        </div>
+        <table class="dose-table">
+          <thead><tr><th>Volume Aspirado</th><th>Dose BPC-157</th><th>Indicação Clínica</th><th>Via</th></tr></thead>
+          <tbody>
+            <tr><td>0,05 ml</td><td>250 mcg</td><td>Dose mínima · primeira semana</td><td>SC / IM / Oral</td></tr>
+            <tr><td>0,10 ml</td><td>500 mcg</td><td>Dose padrão · protocolo GI e tendão</td><td>SC / IM / Oral</td></tr>
+            <tr><td>0,20 ml</td><td>1.000 mcg (1mg)</td><td>Dose elevada · reparo intensivo</td><td>SC / IM</td></tr>
+            <tr><td>0,40 ml</td><td>2.000 mcg (2mg)</td><td>Protocolo avançado · sob supervisão</td><td>SC / IM</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Peptídeos de Alta Performance</div>
+    <div class="footer-code">DOC: BPC157-10-PFY · Rev. Mar/2026</div>
+    <div class="footer-page">1 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+<!-- PÁGINA 2 — VERSO -->
+<div class="page">
+  <div class="header-small">
+    <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" />
+    <div><div class="hs-title"><span>BPC</span>-157 · Protocolos Clínicos</div><div class="hs-sub">Body Protection Compound 157 · 10mg</div></div>
+    <div class="hs-right"><div class="hs-title" style="font-size:9pt;color:rgba(255,255,255,0.5);">PHARMAFIT-PY</div><div class="hs-sub">Peptídeos de Alta Performance</div></div>
+  </div>
+  <div class="header-bar"></div>
+
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📋</span><h2>Protocolos de Uso Clínico</h2><div class="st-line"></div></div>
+      <div class="proto-grid">
+        <div class="proto-card">
+          <div class="proto-head p1"><div class="p-num">Protocolo 01</div><div class="p-title">Reparo Gastrointestinal</div><div class="p-icon">🫁</div></div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Objetivo</span><span class="pr-val">Colite · intestino permeável · úlcera · refluxo</span></div>
+            <div class="proto-row"><span class="pr-label">Dose</span><span class="pr-val"><strong>250–500mcg</strong> (0,05–0,10ml)</span></div>
+            <div class="proto-row"><span class="pr-label">Freq.</span><span class="pr-val">2x/dia · manhã e noite</span></div>
+            <div class="proto-row"><span class="pr-label">Via</span><span class="pr-val">Oral (em água) ou SC</span></div>
+            <div class="proto-row"><span class="pr-label">Duração</span><span class="pr-val"><strong>4–8 semanas</strong></span></div>
+            <div class="proto-row"><span class="pr-label">Obs.</span><span class="pr-val">Via oral tem efeito local GI superior</span></div>
+          </div>
+        </div>
+        <div class="proto-card">
+          <div class="proto-head p2"><div class="p-num">Protocolo 02</div><div class="p-title">Reparo Tendão & Ligamento</div><div class="p-icon">💪</div></div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Objetivo</span><span class="pr-val">Tendinite · lesão ligamentar · pós-cirurgia</span></div>
+            <div class="proto-row"><span class="pr-label">Dose</span><span class="pr-val"><strong>500mcg–1mg</strong> (0,10–0,20ml)</span></div>
+            <div class="proto-row"><span class="pr-label">Freq.</span><span class="pr-val">1–2x/dia</span></div>
+            <div class="proto-row"><span class="pr-label">Via</span><span class="pr-val">SC perilesional ou IM</span></div>
+            <div class="proto-row"><span class="pr-label">Duração</span><span class="pr-val"><strong>4–12 semanas</strong></span></div>
+            <div class="proto-row"><span class="pr-label">Obs.</span><span class="pr-val">Combinar com TB-500 para resultado máximo</span></div>
+          </div>
+        </div>
+        <div class="proto-card">
+          <div class="proto-head p3"><div class="p-num">Protocolo 03</div><div class="p-title">Neuroproteção & Bem-estar</div><div class="p-icon">🧠</div></div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Objetivo</span><span class="pr-val">Neuro-inflamação · humor · TCE · abstinência</span></div>
+            <div class="proto-row"><span class="pr-label">Dose</span><span class="pr-val"><strong>250–500mcg</strong> (0,05–0,10ml)</span></div>
+            <div class="proto-row"><span class="pr-label">Freq.</span><span class="pr-val">1–2x/dia</span></div>
+            <div class="proto-row"><span class="pr-label">Via</span><span class="pr-val">SC abdominal ou IM</span></div>
+            <div class="proto-row"><span class="pr-label">Duração</span><span class="pr-val"><strong>4–8 semanas</strong></span></div>
+            <div class="proto-row"><span class="pr-label">Obs.</span><span class="pr-val">Melhora visível em 2–3 semanas</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📊</span><h2>Comparativo dos Protocolos</h2><div class="st-line"></div></div>
+      <table class="compare-table">
+        <thead><tr><th>Parâmetro</th><th>🫁 GI</th><th>💪 Tendão/Lig.</th><th>🧠 Neuro</th></tr></thead>
+        <tbody>
+          <tr><td>Dose por aplicação</td><td>250–500 mcg</td><td>500–1000 mcg</td><td>250–500 mcg</td></tr>
+          <tr><td>Frequência diária</td><td>2x/dia</td><td>1–2x/dia</td><td>1–2x/dia</td></tr>
+          <tr><td>Duração do ciclo</td><td>4–8 semanas</td><td>4–12 semanas</td><td>4–8 semanas</td></tr>
+          <tr><td>Via preferencial</td><td>Oral / SC</td><td>SC perilesional</td><td>SC / IM</td></tr>
+          <tr><td>Sinergia recomendada</td><td>Glutamina + Zinco</td><td>TB-500 + Colágeno</td><td>BPC oral + SC</td></tr>
+          <tr><td>Zinco obrigatório</td><td>✅</td><td>✅</td><td>✅</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="two-col">
+      <div class="box-card supl">
+        <div class="box-title">⚗️ Suplementação Recomendada</div>
+        <div class="supl-item"><span class="si-icon">🔵</span><div class="si-text"><strong>Zinco 30mg/dia</strong> — cofator essencial para reparo tecidual e função imune. Potencializa a ação do BPC-157 em todos os protocolos.</div></div>
+        <div class="supl-item"><span class="si-icon">🟢</span><div class="si-text"><strong>L-Glutamina 5–10g/dia</strong> — combustível primário dos enterócitos. Sinergismo direto no protocolo GI.</div></div>
+        <div class="supl-item"><span class="si-icon">🟠</span><div class="si-text"><strong>Vitamina C 1g/dia</strong> — suporte à síntese de colágeno e à resposta antioxidante. Essencial no protocolo tendão.</div></div>
+        <div class="supl-item"><span class="si-icon">🟡</span><div class="si-text"><strong>Magnésio 400mg/noite</strong> — relaxamento muscular e anti-inflamatório. Melhora qualidade do sono e recuperação.</div></div>
+      </div>
+      <div class="box-card adv">
+        <div class="box-title">⚠️ Advertências & Contraindicações</div>
+        <div class="adv-item"><span class="adv-icon">🔴</span><div class="adv-text"><strong>Neoplasias ativas</strong> — uso contraindicado. A atividade angiogênica do BPC-157 pode estimular vascularização tumoral.</div></div>
+        <div class="adv-item"><span class="adv-icon">🔴</span><div class="adv-text"><strong>Gravidez e lactação</strong> — contraindicado por ausência de estudos de segurança nessa população.</div></div>
+        <div class="adv-item"><span class="adv-icon">🟡</span><div class="adv-text"><strong>Efeitos adversos raros</strong> — náuseas leves, tontura passageira. Geralmente relacionados ao início do protocolo.</div></div>
+        <div class="adv-item"><span class="adv-icon">🟡</span><div class="adv-text"><strong>Intervalo recomendado</strong> — após 8–12 semanas de uso, realizar pausa de 4 semanas antes de reiniciar.</div></div>
+        <div class="adv-item"><span class="adv-icon">⚪</span><div class="adv-text"><strong>Armazenamento</strong> — após reconstituição: 2–8°C, validade 28 dias. Não congelar reconstituído.</div></div>
+      </div>
+    </div>
+
+    <div class="pharmafit-banner">
+      <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" class="pf-logo" />
+      <div class="pf-text">
+        <div class="pf-label">Estudo Clínico Elaborado por</div>
+        <div class="pf-brand">Pharmafit<span>-PY</span></div>
+        <div class="pf-tagline">Compostos injetáveis de alta pureza com qualidade farmacêutica.<br>Protocolos personalizados para saúde, performance e bem-estar.</div>
+      </div>
+      <a class="pf-cta" href="tel:+12142049853">📞 +1 (214) 204-9853</a>
+    </div>
+
+    <div class="box-card ref">
+      <div class="box-title">📚 Referências Científicas</div>
+      <ul class="ref-list">
+        <li data-n="1">Sikiric P et al. (2018). <em>Brain-gut Axis and Pentadecapeptide BPC 157: Theoretical and Practical Implications.</em> Curr Neuropharmacol. 16(10):1523–1548.</li>
+        <li data-n="2">Chang CH et al. (2011). <em>The promoting effect of pentadecapeptide BPC 157 on tendon healing involves tendon outgrowth, cell survival, and cell migration.</em> J Appl Physiol. 110(3):774–780.</li>
+        <li data-n="3">Sikiric P et al. (2016). <em>Stable gastric pentadecapeptide BPC 157: novel therapy in gastrointestinal tract.</em> Curr Pharm Des. 17(16):1612–1632.</li>
+        <li data-n="4">Tkalcevic VI et al. (2007). <em>Enhancement by PL 14736 of granulation and collagen organization in healing wounds.</em> Eur J Pharmacol. 570(1-3):212–221.</li>
+        <li data-n="5">Hrelec M et al. (2009). <em>BPC 157 favorably alters tendon repair after transection injuries in rats.</em> J Orthop Surg Res. 4:27.</li>
+        <li data-n="6">Sikiric P et al. (2020). <em>Stable Gastric Pentadecapeptide BPC 157 and Wound Healing.</em> Front Pharmacol. 11:stable.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Peptídeos de Alta Performance</div>
+    <div class="footer-code">DOC: BPC157-10-PFY · Rev. Mar/2026 · Uso Profissional</div>
+    <div class="footer-page">2 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+</body>
+</html>

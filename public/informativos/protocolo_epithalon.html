@@ -1,0 +1,453 @@
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  PROTOCOLO CLÍNICO — TEMPLATE PHARMAFIT-PY                  ║
+  ║  Produto: Epithalon 10mg                                    ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  ESTRUTURA GERAL (2 páginas .page):                         ║
+  ║  Pág 1: header → info-strip → intro → reconstituição        ║
+  ║         → doses → técnica SC                                ║
+  ║  Pág 2: header-small → calendário anual → protocolos        ║
+  ║         → stacks → alertas → pharmafit-banner               ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Protocolo Clínico — Epithalon 10mg | PharmaFit-PY</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/informativo.css" />
+  <style>
+    :root {
+      --petrol:      #881337; --petrol-dark: #4C0519; --petrol-mid: #BE123C;
+      --petrol-lite: #FECDD3; --petrol-bg:   #FFF1F2;
+      --amber:       #B45309; --amber-mid:   #D97706;
+      --amber-lite:  #FDE68A; --amber-bg:    #FEF3C7;
+      --gold:        #92400E; --gold-mid:    #F59E0B;
+      --gold-lite:   #FCD34D; --gold-bg:     #FFFBEB;
+      --white:       #FFFFFF; --gray-1: #F4F6F7; --gray-2: #D5D8DC;
+      --text-dark:   #1A2530; --text-mid: #3D566E;
+      --shadow:      0 2px 12px rgba(76,5,25,0.10);
+      --header-bg:   linear-gradient(135deg, #4C0519 0%, #881337 55%, #BE123C 100%);
+      --header-small-bg: linear-gradient(135deg, #4C0519 0%, #881337 55%, #BE123C 100%);
+      --header-bar-bg: linear-gradient(90deg, #FBBF24 0%, #F59E0B 50%, #FBBF24 100%);
+      --header-hl:   #FDE68A;
+    }
+    body { background: #c8d8e4; }
+
+    /* Intro strip — epithalon variant */
+    .intro-strip-red { background: linear-gradient(135deg, #FFE4E6 0%, #FFF1F2 100%); border: 1px solid #FECDD3; border-left: 4px solid #BE123C; border-radius: 10px; padding: 12px 18px; display: flex; gap: 14px; align-items: flex-start; margin-bottom: 14px; box-shadow: var(--shadow); }
+    .intro-icon-lg { font-size: 28px; flex-shrink: 0; margin-top: 2px; }
+    .intro-body { flex: 1; }
+    .intro-title-red { font-family: 'Montserrat', sans-serif; font-size: 10pt; font-weight: 800; color: #4C0519; margin-bottom: 4px; }
+    .intro-desc-red { font-size: 8.5pt; color: var(--text-mid); line-height: 1.55; }
+    .intro-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
+    .itag { font-size: 8pt; font-weight: 700; padding: 2px 8px; border-radius: 4px; }
+    .itag-red  { background: #FFE4E6; border: 1px solid #FECDD3; color: #BE123C; }
+    .itag-gold { background: #FEF3C7; border: 1px solid #FCD34D; color: #92400E; }
+
+    /* Recon table */
+    .recon-box { background: var(--white); border: 1px solid #FECDD3; border-radius: 10px; padding: 12px 14px; }
+    table.recon-table { width: 100%; border-collapse: collapse; font-size: 8.5pt; margin-top: 8px; }
+    table.recon-table thead tr { background: linear-gradient(90deg, #4C0519, #881337); color: #fff; }
+    table.recon-table th { padding: 6px 9px; font-weight: 700; text-align: center; font-family: 'Montserrat', sans-serif; font-size: 7.5pt; }
+    table.recon-table td { padding: 6px 9px; text-align: center; border-bottom: 1px solid #FFE4E6; color: var(--text-dark); font-size: 8pt; }
+    table.recon-table tr:nth-child(even) td { background: #FFF1F2; }
+    table.recon-table td:first-child { font-weight: 800; color: #4C0519; text-align: left; }
+    .recon-hl td { background: #FEF3C7 !important; color: #92400E !important; }
+    .recon-hl td:first-child { color: #B45309 !important; }
+    .ui-note { font-size: 7.5pt; color: var(--text-mid); margin-top: 5px; font-style: italic; }
+    .recon-steps { background: #FFF1F2; border-radius: 7px; padding: 8px 10px; margin-top: 8px; }
+    .recon-steps-title { font-family: 'Montserrat', sans-serif; font-size: 8pt; font-weight: 700; color: #4C0519; margin-bottom: 4px; }
+    .recon-steps-text { font-size: 8pt; color: var(--text-mid); line-height: 1.5; }
+    .recon-steps-text strong { color: var(--text-dark); }
+
+    /* Dose table — epithalon */
+    table.dose-epi { width: 100%; border-collapse: collapse; font-size: 8.5pt; }
+    table.dose-epi thead tr { background: linear-gradient(90deg, #4C0519, #BE123C); color: #fff; }
+    table.dose-epi thead th { padding: 7px 10px; text-align: center; font-family: 'Montserrat', sans-serif; font-size: 7.5pt; font-weight: 700; }
+    table.dose-epi tbody tr:nth-child(odd)  { background: #FFF1F2; }
+    table.dose-epi tbody tr:nth-child(even) { background: var(--white); }
+    table.dose-epi tbody td { padding: 5px 10px; border-bottom: 1px solid #FFE4E6; text-align: center; vertical-align: middle; font-size: 8pt; }
+    table.dose-epi tbody td:first-child { text-align: left; }
+    .dose-badge { font-size: 7.5pt; font-weight: 800; padding: 2px 8px; border-radius: 20px; }
+    .db-init { background: #DCFCE7; color: #15803D; }
+    .db-std  { background: #DBEAFE; color: #1D4ED8; }
+    .db-adv  { background: #FEF3C7; color: #92400E; }
+    .db-rus  { background: #F3E8FF; color: #6B21A8; }
+    .dose-hl { font-weight: 800; color: #BE123C; }
+
+    /* Technique steps */
+    .technique-box { background: var(--white); border: 1px solid #FECDD3; border-radius: 10px; padding: 12px 14px; }
+    .tech-steps { display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
+    .tech-step { display: flex; align-items: flex-start; gap: 9px; background: #FFF1F2; border: 1px solid #FECDD3; border-radius: 7px; padding: 7px 10px; }
+    .ts-num { background: linear-gradient(135deg, #881337, #BE123C); color: #fff; font-family: 'Montserrat', sans-serif; font-size: 8.5pt; font-weight: 800; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+    .ts-text { font-size: 8pt; color: var(--text-mid); line-height: 1.4; }
+    .ts-text strong { color: #4C0519; }
+
+    /* Sites grid */
+    .sites-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; }
+    .site-card { background: var(--white); border: 1px solid #FECDD3; border-radius: 8px; padding: 9px; text-align: center; }
+    .site-icon { font-size: 18px; margin-bottom: 3px; }
+    .site-name { font-family: 'Montserrat', sans-serif; font-size: 8.5pt; font-weight: 800; color: #4C0519; margin-bottom: 2px; }
+    .site-desc { font-size: 7.5pt; color: var(--text-mid); line-height: 1.3; }
+    .rodizio-note { margin-top: 8px; background: #FFF1F2; border: 1px solid #FECDD3; border-radius: 8px; padding: 8px 10px; font-size: 8pt; color: var(--text-mid); line-height: 1.5; }
+    .rodizio-note strong { color: #4C0519; }
+
+    /* Calendar */
+    .calendar-box { background: var(--white); border: 1px solid #FECDD3; border-radius: 10px; padding: 12px 16px; margin-bottom: 14px; }
+    .calendar-note { font-size: 8pt; color: var(--text-mid); margin-bottom: 8px; background: #FFF1F2; border-radius: 6px; padding: 5px 8px; }
+    .cal-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 3px; }
+    .cal-month { border-radius: 5px; padding: 5px 3px; text-align: center; font-family: 'Montserrat', sans-serif; font-size: 7.5pt; font-weight: 700; }
+    .cal-off  { background: var(--gray-1); color: var(--text-mid); }
+    .cal-on   { background: linear-gradient(135deg, #881337, #BE123C); color: #fff; }
+    .cal-wait { background: #FEF3C7; color: #92400E; }
+    .cal-label { font-size: 7pt; font-weight: 600; margin-top: 3px; }
+    .cal-legend { display: flex; gap: 12px; margin-top: 8px; align-items: center; flex-wrap: wrap; }
+    .leg-dot { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+    .leg-on   { background: linear-gradient(135deg, #881337, #BE123C); }
+    .leg-wait { background: #FEF3C7; border: 1px solid #FCD34D; }
+    .leg-off  { background: var(--gray-1); border: 1px solid var(--gray-2); }
+    .leg-text { font-size: 8pt; color: var(--text-mid); }
+
+    /* Protocol cards — epithalon */
+    .proto-epi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
+    .proto-epi-card { background: var(--white); border: 1px solid #FECDD3; border-radius: 10px; overflow: hidden; }
+    .proto-epi-head { padding: 8px 12px; color: #fff; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 9pt; text-align: center; }
+    .ph-longa { background: linear-gradient(135deg, #4C0519, #881337); }
+    .ph-sono  { background: linear-gradient(135deg, #1E1B4B, #3730A3); }
+    .ph-imune { background: linear-gradient(135deg, #064E3B, #065F46); }
+    .proto-epi-body { padding: 9px 12px; }
+    .pi-row { display: flex; font-size: 7.5pt; padding: 3.5px 0; border-bottom: 1px dashed #FFE4E6; color: var(--text-mid); gap: 4px; line-height: 1.35; }
+    .pi-row:last-child { border-bottom: none; }
+    .pi-l { font-weight: 700; color: #4C0519; flex-shrink: 0; min-width: 55px; }
+    .pi-l.blue  { color: #1E3A5F; }
+    .pi-l.green { color: #14532D; }
+
+    /* Stack grid */
+    .stack-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+    .stack-card { background: var(--white); border: 1px solid #FECDD3; border-radius: 8px; padding: 9px 11px; display: flex; gap: 9px; align-items: flex-start; }
+    .stack-icon { font-size: 16px; flex-shrink: 0; margin-top: 2px; }
+    .stack-name { font-family: 'Montserrat', sans-serif; font-size: 9pt; font-weight: 800; color: #4C0519; margin-bottom: 2px; }
+    .stack-desc { font-size: 7.5pt; color: var(--text-mid); line-height: 1.4; }
+    .stack-dose { font-size: 7.5pt; font-weight: 700; color: #BE123C; margin-top: 3px; }
+
+    /* Alert / tip */
+    .tip-box { background: #F0FDF4; border: 1px solid #BBF7D0; border-left: 4px solid #16A34A; border-radius: 8px; padding: 9px 13px; font-size: 8pt; color: #14532D; line-height: 1.6; }
+    .tip-box strong { color: #15803D; }
+    .alert-box { background: #FFF7ED; border: 1px solid #FED7AA; border-left: 4px solid #F97316; border-radius: 8px; padding: 9px 13px; font-size: 8pt; color: #7C2D12; line-height: 1.6; }
+    .alert-box strong { color: #C2410C; }
+  </style>
+</head>
+<body>
+
+<!-- ═══ PÁGINA 1 — FRENTE ═══ -->
+<div class="page">
+  <div class="header">
+    <div class="header-inner">
+      <div class="header-logo"><img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" /></div>
+      <div class="header-center">
+        <div class="header-tag">Protocolo Clínico · Tetrapeptídeo Pineal · Anti-Aging · Telomerase</div>
+        <div class="header-title"><span class="hl">EPITHALON</span> 10mg</div>
+        <div class="header-subtitle">Ala-Glu-Asp-Gly · Protocolo Clínico Avançado · Reconstituição e Dosagem</div>
+      </div>
+      <div class="header-badges">
+        <div class="badge-box"><div class="b-label">Concentração</div><div class="b-val"><span>10</span> mg</div></div>
+        <div class="badge-box"><div class="b-label">Código</div><div class="b-val">EPITH-10-PFY</div></div>
+      </div>
+    </div>
+    <div class="header-bar"></div>
+  </div>
+
+  <div class="info-strip">
+    <span class="info-chip">TELOMERASE ATIVADOR</span>
+    <span class="info-chip dark">18+ ESTUDOS CLÍNICOS</span>
+    <span class="info-text">Epithalon — Tetrapeptídeo sintético derivado da glândula pineal bovina (Prof. Khavinson) · <strong>Ativa hTERT (telomerase)</strong> em células somáticas · Restaura melatonina endógena · Imunomodulação via NK cells</span>
+  </div>
+
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="st-icon">🧬</span><h2>O Que É o Epithalon?</h2><div class="st-line"></div></div>
+      <div class="intro-strip-red">
+        <div class="intro-icon-lg">🧬</div>
+        <div class="intro-body">
+          <div class="intro-title-red">Epithalon — O Peptídeo da Longevidade Celular (Ala-Glu-Asp-Gly)</div>
+          <div class="intro-desc-red">Tetrapeptídeo sintético derivado da glândula pineal bovina, descrito pelo Prof. Vladimir Khavinson (Instituto de Gerontologia de São Petersburgo). Ativa a enzima <strong>telomerase (hTERT)</strong> em células somáticas, elongando telômeros e retardando o envelhecimento celular. Simultaneamente, estimula a glândula pineal a restaurar a produção de <strong>melatonina endógena</strong> e modula a resposta imune via células NK e linfócitos T.</div>
+          <div class="intro-tags">
+            <span class="itag itag-red">Ativa Telomerase (hTERT)</span>
+            <span class="itag itag-gold">Restaura Melatonina</span>
+            <span class="itag itag-red">Imunomodulador</span>
+            <span class="itag itag-gold">Anti-Aging Profundo</span>
+            <span class="itag itag-red">18+ estudos clínicos</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="box-card supl">
+        <div class="box-title">⚡ Mecanismo de Ação</div>
+        <div class="supl-item"><span class="si-icon">1️⃣</span><div class="si-text"><strong>Ativa hTERT —</strong> Induz expressão do gene da telomerase → elongação de telômeros em células somáticas e fibroblastos</div></div>
+        <div class="supl-item"><span class="si-icon">2️⃣</span><div class="si-text"><strong>Proteção telomérica —</strong> Telômeros elongados → menos senescência celular → menor velocidade de envelhecimento</div></div>
+        <div class="supl-item"><span class="si-icon">3️⃣</span><div class="si-text"><strong>Pineal → Melatonina ↑ —</strong> Estimula glândula pineal calcificada a retomar produção → restaura ritmo circadiano</div></div>
+        <div class="supl-item"><span class="si-icon">4️⃣</span><div class="si-text"><strong>Imunomodulação —</strong> ↑ NK cells, ↑ IL-2, ↑ T-helper → resistência a vírus, câncer e infecções oportunistas</div></div>
+        <div class="supl-item"><span class="si-icon">5️⃣</span><div class="si-text"><strong>Oncoproteção —</strong> Controle do ciclo celular + ação antiproliferativa seletiva em células neoplásicas</div></div>
+      </div>
+
+      <div class="recon-box">
+        <div style="font-family:'Montserrat',sans-serif; font-size:8pt; font-weight:800; color:#BE123C; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:8px;">💧 Reconstituição — Vial 10mg + Água Bacteriostática</div>
+        <table class="recon-table">
+          <thead>
+            <tr><th>BAC Water</th><th>Conc.</th><th>Dose 2,5mg</th><th>Dose 5mg</th><th>Dose 10mg</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1 mL</td><td>10 mg/mL</td><td>0,25 mL / 25 UI</td><td>0,50 mL / 50 UI</td><td>1,0 mL / 100 UI</td></tr>
+            <tr class="recon-hl"><td>⭐ 2 mL</td><td>5 mg/mL</td><td>0,50 mL / 50 UI</td><td>1,0 mL / 100 UI</td><td>2,0 mL / 200 UI</td></tr>
+            <tr><td>4 mL</td><td>2,5 mg/mL</td><td>1,0 mL / 100 UI</td><td>2,0 mL / 200 UI</td><td>4,0 mL / 400 UI</td></tr>
+          </tbody>
+        </table>
+        <div class="ui-note">⭐ Recomendado: 2 mL BAC water → 5 mg/mL. Usar seringa de insulina U-100 (cada unidade = 0,01 mL). Dose 5mg = 100 UI na seringa.</div>
+        <div class="recon-steps">
+          <div class="recon-steps-title">📋 Como Reconstituir:</div>
+          <div class="recon-steps-text">
+            1. Injetar BAC water lentamente pela parede do frasco<br>
+            2. Girar suavemente até dissolução — <strong>nunca agitar</strong><br>
+            3. Solução deve ser límpida e incolor<br>
+            4. Conservar a 2–8 °C · Usar em até 28 dias
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📊</span><h2>Tabela de Doses por Perfil — Epithalon 10mg</h2><div class="st-line"></div></div>
+      <table class="dose-epi">
+        <thead>
+          <tr><th>Perfil</th><th>Dose / dia</th><th>Volume (2mL rec.)</th><th>Duração ciclo</th><th>Ciclos / ano</th><th>Via</th><th>Horário</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><span class="dose-badge db-init">Iniciante</span></td><td class="dose-hl">2,5 mg</td><td>0,5 mL / 50 UI</td><td>10–20 dias</td><td>2× / ano</td><td>SC</td><td>Noite (30 min antes dormir)</td></tr>
+          <tr><td><span class="dose-badge db-std">Padrão</span></td><td class="dose-hl">5 mg</td><td>1,0 mL / 100 UI</td><td>10 dias</td><td>2–3× / ano</td><td>SC / IV</td><td>Noite (30–60 min antes dormir)</td></tr>
+          <tr><td><span class="dose-badge db-adv">Avançado</span></td><td class="dose-hl">10 mg</td><td>2,0 mL / 200 UI</td><td>10 dias</td><td>3–4× / ano</td><td>SC / IV</td><td>Noite ou manhã em jejum</td></tr>
+          <tr><td><span class="dose-badge db-rus">Russo (EOD)</span></td><td class="dose-hl">10 mg</td><td>2,0 mL / 200 UI</td><td>Dias 1/5/9/13/17</td><td>1–2× / ano</td><td>SC</td><td>Noite — 5 injeções totais</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="two-col">
+      <div class="technique-box">
+        <div style="font-family:'Montserrat',sans-serif; font-size:8pt; font-weight:800; color:#BE123C; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:6px;">💉 Técnica de Injeção SC — Passo a Passo</div>
+        <div class="tech-steps">
+          <div class="tech-step"><div class="ts-num">1</div><div class="ts-text">Lavar as mãos e usar luvas. Limpar o septo do frasco com álcool 70% e aguardar secar</div></div>
+          <div class="tech-step"><div class="ts-num">2</div><div class="ts-text">Aspirar a dose calculada com seringa insulina <strong>29–31G × 8mm</strong>. Retirar bolhas de ar</div></div>
+          <div class="tech-step"><div class="ts-num">3</div><div class="ts-text">Limpar o sítio de injeção com álcool 70%. Pinçar <strong>prega cutânea</strong> entre polegar e indicador</div></div>
+          <div class="tech-step"><div class="ts-num">4</div><div class="ts-text">Inserir agulha a <strong>45°</strong> (prega fina) ou <strong>90°</strong> (abdômen). <em>Não aspirar</em> para injeção SC</div></div>
+          <div class="tech-step"><div class="ts-num">5</div><div class="ts-text">Injetar lentamente. Pausar <strong>2–3 segundos</strong> após empurrar o êmbolo completamente</div></div>
+          <div class="tech-step"><div class="ts-num">6</div><div class="ts-text">Retirar agulha e comprimir com gaze estéril por <strong>10–15 segundos</strong>. Não esfregar</div></div>
+        </div>
+      </div>
+
+      <div>
+        <div style="font-family:'Montserrat',sans-serif; font-size:8pt; font-weight:800; color:#BE123C; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:6px;">🔄 Rodízio de Sítios de Injeção</div>
+        <div class="sites-grid">
+          <div class="site-card"><div class="site-icon">🫃</div><div class="site-name">Abdômen</div><div class="site-desc">Mais comum · Evitar 5 cm ao redor do umbigo · Alta absorção</div></div>
+          <div class="site-card"><div class="site-icon">🦵</div><div class="site-name">Coxa Lateral</div><div class="site-desc">Terço médio externo · Boa absorção · Fácil acesso</div></div>
+          <div class="site-card"><div class="site-icon">💪</div><div class="site-name">Braço Post.</div><div class="site-desc">Porção posterior · Uso alternado · Menor absorção</div></div>
+        </div>
+        <div class="rodizio-note">
+          <strong>🔄 Regra de rodízio:</strong> Nunca repetir o mesmo ponto por 3 dias seguidos. Rodar sistematicamente entre os 3 sítios para evitar lipoatrofia local. Marcar os pontos usados se necessário.<br><br>
+          <strong>🕐 Horário ideal:</strong> 30–60 min antes de dormir — sincronia com o ciclo circadiano e pico fisiológico de melatonina. Evitar Semax/estimulantes no mesmo horário.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Peptídeos de Alta Performance</div>
+    <div class="footer-code">DOC: EPITH-10-PFY · Rev. Mar/2026</div>
+    <div class="footer-page">1 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+
+<!-- ═══ PÁGINA 2 — VERSO ═══ -->
+<div class="page">
+  <div class="header-small">
+    <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" />
+    <div>
+      <div class="hs-title"><span>EPITHALON</span> · Ciclos, Protocolos e Stacks</div>
+      <div class="hs-sub">Calendário Anual · 3 Protocolos Detalhados · Combinações Sinérgicas · Cuidados</div>
+    </div>
+    <div class="hs-right">
+      <div class="hs-title" style="font-size:9pt;color:rgba(255,255,255,0.5)">PHARMAFIT-PY</div>
+      <div class="hs-sub">Peptídeos de Alta Performance</div>
+    </div>
+  </div>
+  <div class="header-bar"></div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📅</span><h2>Calendário Anual de Ciclos — 3 Ciclos / Ano (Protocolo Padrão)</h2><div class="st-line"></div></div>
+      <div class="calendar-box">
+        <div class="calendar-note">💡 Cada bloco colorido = 10 dias de ciclo ativo · Amarelo = período de descanso / off (4–6 semanas mínimo entre ciclos)</div>
+        <div class="cal-grid">
+          <div class="cal-month cal-on">JAN<div class="cal-label">Ciclo 1</div></div>
+          <div class="cal-month cal-wait">FEV<div class="cal-label">Off</div></div>
+          <div class="cal-month cal-wait">MAR<div class="cal-label">Off</div></div>
+          <div class="cal-month cal-wait">ABR<div class="cal-label">Off</div></div>
+          <div class="cal-month cal-on">MAI<div class="cal-label">Ciclo 2</div></div>
+          <div class="cal-month cal-wait">JUN<div class="cal-label">Off</div></div>
+          <div class="cal-month cal-wait">JUL<div class="cal-label">Off</div></div>
+          <div class="cal-month cal-wait">AGO<div class="cal-label">Off</div></div>
+          <div class="cal-month cal-on">SET<div class="cal-label">Ciclo 3</div></div>
+          <div class="cal-month cal-wait">OUT<div class="cal-label">Off</div></div>
+          <div class="cal-month cal-wait">NOV<div class="cal-label">Off</div></div>
+          <div class="cal-month cal-off">DEZ<div class="cal-label">Descanso</div></div>
+        </div>
+        <div class="cal-legend">
+          <div class="leg-dot leg-on"></div><span class="leg-text">Ciclo ativo (10 dias · 5mg/dia SC)</span>
+          <div class="leg-dot leg-wait"></div><span class="leg-text">Período off (mín. 4–6 semanas)</span>
+          <div class="leg-dot leg-off"></div><span class="leg-text">Descanso final de ano</span>
+          <span style="font-size:7.5pt; color:var(--text-mid); margin-left:4px;">| Para 2 ciclos/ano: Jan + Jul · Para 4 ciclos: Jan + Abr + Jul + Out</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📋</span><h2>Protocolos de Aplicação por Objetivo</h2><div class="st-line"></div></div>
+      <div class="proto-epi-grid">
+        <div class="proto-epi-card">
+          <div class="proto-epi-head ph-longa">🔬 Longevidade Celular</div>
+          <div class="proto-epi-body">
+            <div class="pi-row"><span class="pi-l">Dose:</span> 5 mg / dia</div>
+            <div class="pi-row"><span class="pi-l">Volume:</span> 1,0 mL (100 UI) — 2mL rec.</div>
+            <div class="pi-row"><span class="pi-l">Ciclo:</span> 10 dias consecutivos</div>
+            <div class="pi-row"><span class="pi-l">Freq. ano:</span> 3× (Jan · Mai · Set)</div>
+            <div class="pi-row"><span class="pi-l">Horário:</span> Noite · 30–60 min antes dormir</div>
+            <div class="pi-row"><span class="pi-l">Via:</span> SC abdômen ou coxa</div>
+            <div class="pi-row"><span class="pi-l">Stack:</span> NAD+ + MOTS-c + SS-31</div>
+            <div class="pi-row"><span class="pi-l">Resultado:</span> ↑ telômeros · ↓ senescência</div>
+          </div>
+        </div>
+        <div class="proto-epi-card">
+          <div class="proto-epi-head ph-sono">🌙 Sono + Neuroendócrino</div>
+          <div class="proto-epi-body">
+            <div class="pi-row"><span class="pi-l blue">Dose:</span> 2,5–5 mg / dia</div>
+            <div class="pi-row"><span class="pi-l blue">Volume:</span> 0,5–1,0 mL / 50–100 UI</div>
+            <div class="pi-row"><span class="pi-l blue">Ciclo:</span> 20 dias consecutivos</div>
+            <div class="pi-row"><span class="pi-l blue">Freq. ano:</span> 2× (Jan + Jul)</div>
+            <div class="pi-row"><span class="pi-l blue">Horário:</span> 30 min antes de dormir</div>
+            <div class="pi-row"><span class="pi-l blue">Via:</span> SC — abdômen preferencial</div>
+            <div class="pi-row"><span class="pi-l blue">Stack:</span> BPC-157 / Selank (manhã)</div>
+            <div class="pi-row"><span class="pi-l blue">Resultado:</span> ↑ melatonina · sono profundo</div>
+          </div>
+        </div>
+        <div class="proto-epi-card">
+          <div class="proto-epi-head ph-imune">🛡️ Imunidade Avançada</div>
+          <div class="proto-epi-body">
+            <div class="pi-row"><span class="pi-l green">Dose:</span> 5 mg EOD</div>
+            <div class="pi-row"><span class="pi-l green">Volume:</span> 1,0 mL / 100 UI</div>
+            <div class="pi-row"><span class="pi-l green">Ciclo:</span> 10 injeções em 20 dias (EOD)</div>
+            <div class="pi-row"><span class="pi-l green">Freq. ano:</span> 2× (Mar + Set)</div>
+            <div class="pi-row"><span class="pi-l green">Horário:</span> Manhã em jejum</div>
+            <div class="pi-row"><span class="pi-l green">Via:</span> SC — rodar entre 3 sítios</div>
+            <div class="pi-row"><span class="pi-l green">Stack:</span> Thymalin + LL-37</div>
+            <div class="pi-row"><span class="pi-l green">Resultado:</span> ↑ NK cells · ↑ IL-2 · ↑ Th</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">⚗️</span><h2>Combinações Sinérgicas — Stacks Recomendados</h2><div class="st-line"></div></div>
+      <div class="stack-grid">
+        <div class="stack-card">
+          <div class="stack-icon">⚡</div>
+          <div>
+            <div class="stack-name">Epithalon + NAD+</div>
+            <div class="stack-desc">Combinação mais potente para longevidade. NAD+ restaura energia mitocondrial enquanto Epithalon protege os telômeros — atacam o envelhecimento por vias complementares</div>
+            <div class="stack-dose">NAD+ 100–500mg SC 2–3×/sem durante o ciclo do Epithalon</div>
+          </div>
+        </div>
+        <div class="stack-card">
+          <div class="stack-icon">🔋</div>
+          <div>
+            <div class="stack-name">Epithalon + MOTS-c + SS-31</div>
+            <div class="stack-desc">Stack mitocondrial triplo. MOTS-c ativa AMPK, SS-31 protege membrana mitocondrial, Epithalon protege o DNA telomérico — protocolo avançado de anti-aging</div>
+            <div class="stack-dose">MOTS-c 5mg 2×/sem · SS-31 5mg 3×/sem · Epithalon 5mg/dia (10d)</div>
+          </div>
+        </div>
+        <div class="stack-card">
+          <div class="stack-icon">✨</div>
+          <div>
+            <div class="stack-name">Epithalon + GHK-Cu</div>
+            <div class="stack-desc">Protocolo de rejuvenescimento dérmico + telomérico. GHK-Cu renova colágeno, elastina e inibe MMP; Epithalon renova o programa genético celular de base</div>
+            <div class="stack-dose">GHK-Cu 2mg SC 3×/sem · ciclos alternados ou simultâneos</div>
+          </div>
+        </div>
+        <div class="stack-card">
+          <div class="stack-icon">🛡️</div>
+          <div>
+            <div class="stack-name">Epithalon + Thymalin</div>
+            <div class="stack-desc">Stack imunológico histórico — combinação usada nos estudos russos de Khavinson. Thymalin restaura função tímica enquanto Epithalon recupera a vigilância imune via NK cells</div>
+            <div class="stack-dose">Thymalin 10mg SC 1×/dia por 10 dias · simultâneo ao Epithalon</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="tip-box">
+        <strong>✅ O que esperar por fase:</strong><br>
+        • <strong>Dias 1–5:</strong> Sono mais profundo, leve efeito calmante<br>
+        • <strong>Dias 5–10:</strong> Maior energia ao acordar, melhora da disposição<br>
+        • <strong>30–60 dias pós-ciclo:</strong> Pele mais luminosa, melhora de foco<br>
+        • <strong>3–6 meses:</strong> Resultados acumulativos de longevidade, imunidade<br>
+        • Telômeros: variação detectável em exames após 6–12 meses de uso regular
+      </div>
+      <div class="alert-box">
+        <strong>⚠️ Contraindicações e Cuidados:</strong><br>
+        • Neoplasias ativas — Epithalon ativa telomerase (cautela teórica)<br>
+        • Gestação e lactação — contraindicação absoluta<br>
+        • Doenças autoimunes ativas — pode amplificar resposta imune<br>
+        • Conservar a 2–8 °C após reconstituição · Usar em até 28 dias<br>
+        • Não combinar com imunossupressores sem avaliação médica
+      </div>
+    </div>
+
+    <div class="pharmafit-banner">
+      <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" class="pf-logo" />
+      <div class="pf-text">
+        <div class="pf-label">Estudo Clínico Elaborado por</div>
+        <div class="pf-brand">Pharmafit<span>-PY</span></div>
+        <div class="pf-tagline">Compostos injetáveis de alta pureza com qualidade farmacêutica.<br>Protocolos personalizados para saúde, performance e bem-estar.</div>
+      </div>
+      <a class="pf-cta" href="tel:+12142049853">📞 +1 (214) 204-9853</a>
+    </div>
+
+    <div class="box-card ref">
+      <div class="box-title">📚 Referências Científicas</div>
+      <ul class="ref-list">
+        <li data-n="1">Khavinson VKh, Morozov VG. (2003). <em>Peptides of pineal gland and thymus prolong human life.</em> Neuro Endocrinol Lett. 24(3-4):233–240.</li>
+        <li data-n="2">Khavinson VK et al. (2010). <em>Epitalon peptide induces telomerase activity and telomere elongation in human somatic cells.</em> Bull Exp Biol Med. 149(2):148–151.</li>
+        <li data-n="3">Anisimov VN et al. (2003). <em>Effect of Epitalon on biomarkers of aging, life span and spontaneous tumor incidence in female Swiss-derived SHR mice.</em> Biogerontology. 4(4):193–202.</li>
+        <li data-n="4">Kossoy G et al. (2006). <em>Epithalon and colon carcinogenesis: a pilot study.</em> Oncol Rep. 16(4):887–891.</li>
+        <li data-n="5">Sibarov DA et al. (2009). <em>The pineal gland peptide preparation Epitalon increases melatonin production by cultured human mammary gland cells.</em> Neuro Endocrinol Lett. 30(6):760–766.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Peptídeos de Alta Performance</div>
+    <div class="footer-code">DOC: EPITH-10-PFY · Rev. Mar/2026 · Uso Profissional</div>
+    <div class="footer-page">2 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+</body>
+</html>

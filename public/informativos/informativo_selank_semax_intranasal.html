@@ -1,0 +1,448 @@
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  INFORMATIVO TÉCNICO — TEMPLATE PHARMAFIT-PY                ║
+  ║  Produto: Selank + Semax Intranasal                         ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  ESTRUTURA GERAL (2 páginas .page):                         ║
+  ║  Pág 1: header → info-strip → "O Que É" → seções técnicas  ║
+  ║  Pág 2: header-small → seções avançadas → pharmafit-banner  ║
+  ║         → referências científicas → footer + footer-note    ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Informativo Técnico — Selank + Semax Intranasal | PharmaFit-PY</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/informativo.css" />
+  <style>
+    :root {
+      --petrol:      #4C1D95; --petrol-dark: #2E1065; --petrol-mid: #6D28D9;
+      --petrol-lite: #EDE9FE; --petrol-bg:   #F5F3FF;
+      --amber:       #1E3A5F; --amber-mid:   #2563EB;
+      --amber-lite:  #BFDBFE; --amber-bg:    #EFF6FF;
+      --gold:        #5B21B6; --gold-mid:    #7C3AED;
+      --gold-lite:   #DDD6FE; --gold-bg:     #F5F3FF;
+      --white:       #FFFFFF; --gray-1: #F4F6F7; --gray-2: #D5D8DC;
+      --text-dark:   #1A2530; --text-mid: #3D566E;
+      --shadow:      0 2px 12px rgba(46,16,101,0.10);
+      --header-bg:   linear-gradient(135deg, #2E1065 0%, #4C1D95 55%, #6D28D9 100%);
+      --header-small-bg: linear-gradient(135deg, #2E1065 0%, #4C1D95 55%, #6D28D9 100%);
+      --header-bar-bg: linear-gradient(90deg, #A78BFA 0%, #C4B5FD 50%, #A78BFA 100%);
+      --header-hl:   #C4B5FD;
+    }
+    body { background: #c8d8e4; }
+
+    /* Peptide dual cards */
+    .peptide-dual { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+    .peptide-card { border-radius: 10px; overflow: hidden; border: 1px solid var(--gray-2); box-shadow: var(--shadow); }
+    .peptide-card-header { padding: 10px 14px; display: flex; align-items: center; justify-content: space-between; }
+    .selank-header { background: linear-gradient(135deg, #4C1D95, #6D28D9); }
+    .semax-header  { background: linear-gradient(135deg, #1E3A5F, #2563EB); }
+    .pc-name  { font-family: 'Montserrat', sans-serif; font-size: 14pt; font-weight: 900; color: #fff; line-height: 1.1; }
+    .pc-class { font-size: 8pt; color: rgba(255,255,255,0.75); margin-top: 2px; }
+    .pc-seq   { background: rgba(255,255,255,0.15); color: #fff; font-size: 8pt; font-weight: 700; padding: 3px 8px; border-radius: 4px; font-family: monospace; letter-spacing: 1px; flex-shrink: 0; }
+    .peptide-card-body { background: var(--white); }
+    .pc-row { display: flex; justify-content: space-between; font-size: 8.5pt; padding: 4px 12px; border-bottom: 1px dashed var(--petrol-lite); }
+    .pc-row:last-child { border-bottom: none; }
+    .pc-label { color: var(--text-mid); }
+    .pc-value { font-weight: 700; color: var(--text-dark); text-align: right; }
+    .pc-value.violet { color: #6D28D9; }
+    .pc-value.blue   { color: #1D4ED8; }
+
+    /* Mechanism dual */
+    .mech-dual { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+    .mech-box { background: var(--white); border: 1px solid var(--petrol-lite); border-radius: 10px; padding: 12px 14px; }
+    .mech-box.blue-border { border-color: var(--amber-lite); }
+    .mech-head { font-family: 'Montserrat', sans-serif; font-size: 9pt; font-weight: 800; margin-bottom: 8px; }
+    .mech-head.violet { color: #4C1D95; }
+    .mech-head.blue   { color: #1E3A5F; }
+    .mech-step-mini { display: flex; align-items: flex-start; gap: 8px; padding: 4px 0; border-bottom: 1px dashed var(--gray-2); font-size: 8pt; color: var(--text-dark); line-height: 1.4; }
+    .mech-step-mini:last-child { border-bottom: none; }
+    .mech-dot { width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 8pt; font-weight: 800; flex-shrink: 0; margin-top: 1px; font-family: 'Montserrat', sans-serif; }
+    .dot-violet { background: linear-gradient(135deg, #6D28D9, #A78BFA); }
+    .dot-blue   { background: linear-gradient(135deg, #1E40AF, #38BDF8); }
+    .mech-bold { font-weight: 700; color: #2E1065; }
+
+    /* Benefits dual */
+    .benefits-dual { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+    .benefits-col { background: var(--white); border: 1px solid var(--petrol-lite); border-radius: 10px; padding: 12px 14px; }
+    .benefits-col.blue-b { border-color: var(--amber-lite); }
+    .benefits-head { font-family: 'Montserrat', sans-serif; font-size: 9pt; font-weight: 800; margin-bottom: 8px; }
+    .benefits-head.violet { color: #4C1D95; }
+    .benefits-head.blue   { color: #1E3A5F; }
+    .benefit-item { display: flex; align-items: flex-start; gap: 7px; padding: 4px 0; border-bottom: 1px dashed var(--gray-2); font-size: 8pt; color: var(--text-dark); line-height: 1.4; }
+    .benefit-item:last-child { border-bottom: none; }
+    .benefit-check-v { color: #7C3AED; font-weight: 800; flex-shrink: 0; }
+    .benefit-check-b { color: #1D4ED8; font-weight: 800; flex-shrink: 0; }
+    .benefit-title { font-weight: 700; color: #1E1B4B; }
+
+    /* Pipeline steps */
+    .pipeline-box { background: linear-gradient(135deg, var(--petrol-bg) 0%, var(--petrol-lite) 100%); border: 1px solid var(--gold-lite); border-left: 4px solid var(--petrol-mid); border-radius: 10px; padding: 14px 18px; margin-bottom: 14px; }
+    .pipeline-note { font-size: 8.5pt; color: #4C1D95; font-weight: 700; margin-bottom: 8px; }
+    .pipeline-steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 8px; }
+    .pipeline-step { background: var(--white); border: 1px solid var(--gold-lite); border-radius: 8px; padding: 10px 8px; text-align: center; }
+    .ps-icon  { font-size: 18px; margin-bottom: 4px; }
+    .ps-title { font-family: 'Montserrat', sans-serif; font-size: 7.5pt; font-weight: 800; color: #4C1D95; margin-bottom: 3px; }
+    .ps-desc  { font-size: 7pt; color: var(--text-mid); line-height: 1.4; }
+    .ps-hl    { display: inline-block; background: var(--petrol-lite); border: 1px solid var(--gold-lite); color: #5B21B6; font-size: 7pt; font-weight: 700; padding: 2px 6px; border-radius: 4px; margin-top: 4px; }
+
+    /* Concentration grid */
+    .conc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+    .conc-peptide-box { background: var(--white); border: 1px solid var(--gold-lite); border-radius: 10px; padding: 12px 14px; }
+    .conc-box-title { font-family: 'Montserrat', sans-serif; font-size: 9pt; font-weight: 800; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 2px solid; display: flex; align-items: center; gap: 6px; }
+    .selank-title { color: #4C1D95; border-color: #A78BFA; }
+    .semax-title  { color: #1E3A5F; border-color: #38BDF8; }
+    .conc-option { display: flex; align-items: flex-start; gap: 8px; padding: 5px 0; border-bottom: 1px dashed var(--gray-2); font-size: 8pt; }
+    .conc-option:last-child { border-bottom: none; }
+    .conc-label { background: var(--petrol-bg); border: 1px solid var(--gold-lite); color: #5B21B6; font-size: 7.5pt; font-weight: 800; padding: 2px 7px; border-radius: 20px; min-width: 55px; text-align: center; flex-shrink: 0; }
+    .conc-label.blue-l { background: var(--amber-bg); border-color: var(--amber-lite); color: #1D4ED8; }
+    .conc-text { color: var(--text-mid); line-height: 1.4; }
+    .conc-text strong { color: var(--text-dark); }
+    .conc-rec { margin-top: 6px; padding: 5px 8px; background: var(--petrol-bg); border-radius: 6px; font-size: 8pt; color: #5B21B6; }
+    .conc-rec.blue { background: var(--amber-bg); color: #1D4ED8; }
+
+    /* Rinosoro method */
+    .rinosoro-box { background: linear-gradient(135deg, #FDF4FF 0%, #FAE8FF 100%); border: 1px solid #F0ABFC; border-left: 4px solid #C026D3; border-radius: 10px; padding: 12px 16px; margin-bottom: 14px; }
+    .rinosoro-title { font-family: 'Montserrat', sans-serif; font-size: 9pt; font-weight: 800; color: #701A75; margin-bottom: 8px; }
+    .rinosoro-steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+    .rs-step { background: var(--white); border: 1px solid #F0ABFC; border-radius: 7px; padding: 8px 6px; text-align: center; }
+    .rs-num { background: linear-gradient(135deg, #C026D3, #A21CAF); color: #fff; font-size: 8.5pt; font-weight: 800; width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 4px; font-family: 'Montserrat', sans-serif; }
+    .rs-text { font-size: 8pt; color: var(--text-mid); line-height: 1.4; }
+    .rs-text strong { color: #701A75; }
+    .rinosoro-note { margin-top: 8px; font-size: 8pt; color: #701A75; }
+
+    /* Protocol cards — intranasal */
+    .proto-card-intra { background: var(--white); border: 1px solid var(--gold-lite); border-radius: 10px; overflow: hidden; margin-bottom: 8px; }
+    .proto-header-intra { padding: 8px 12px; font-family: 'Montserrat', sans-serif; font-size: 9pt; font-weight: 800; text-align: center; color: #fff; }
+    .ph-violet { background: linear-gradient(135deg, #4C1D95, #6D28D9); }
+    .ph-blue   { background: linear-gradient(135deg, #1E3A5F, #1E40AF); }
+    .ph-combo  { background: linear-gradient(135deg, #2E1065, #7C3AED, #1E40AF); }
+    .proto-body-intra { padding: 8px 12px; }
+    .proto-item-intra { display: flex; gap: 4px; font-size: 8pt; padding: 3px 0; border-bottom: 1px dashed var(--petrol-lite); color: var(--text-dark); line-height: 1.4; }
+    .proto-item-intra:last-child { border-bottom: none; }
+    .pl-intra { font-weight: 700; color: #2E1065; flex-shrink: 0; min-width: 60px; }
+
+    /* Alert / tip boxes */
+    .tip-box { background: #F0FDF4; border: 1px solid #BBF7D0; border-left: 4px solid #16A34A; border-radius: 8px; padding: 9px 13px; font-size: 8pt; color: #14532D; line-height: 1.6; }
+    .tip-box strong { color: #15803D; }
+    .alert-box { background: #FFF7ED; border: 1px solid #FED7AA; border-left: 4px solid #F97316; border-radius: 8px; padding: 9px 13px; font-size: 8pt; color: #7C2D12; line-height: 1.6; }
+    .alert-box strong { color: #C2410C; }
+  </style>
+</head>
+<body>
+
+<!-- ═══ PÁGINA 1 ═══ -->
+<div class="page">
+  <div class="header">
+    <div class="header-inner">
+      <div class="header-logo"><img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" /></div>
+      <div class="header-center">
+        <div class="header-tag">Informativo Técnico · Neuropeptídeos Cognitivos · Via Intranasal</div>
+        <div class="header-title"><span class="hl">SELANK + SEMAX</span></div>
+        <div class="header-subtitle">Peptídeos Ansiolítico &amp; Nootrópico · Formulação Intranasal a partir de Liofilizado</div>
+      </div>
+      <div class="header-badges">
+        <div class="badge-box"><div class="b-label">Via</div><div class="b-val">Intranasal</div></div>
+        <div class="badge-box"><div class="b-label">Forma</div><div class="b-val">Gotas / Spray</div></div>
+      </div>
+    </div>
+    <div class="header-bar"></div>
+  </div>
+
+  <div class="info-strip">
+    <span class="info-chip">SELANK</span>
+    <span class="info-chip dark">SEMAX</span>
+    <span class="info-text">Formulação de dois neuropeptídeos russos de alta performance para uso intranasal. <strong>Selank</strong> (heptapeptídeo ansiolítico) + <strong>Semax</strong> (análogo do ACTH nootrópico). Absorção direta pelo nervo olfatório — bypass da barreira hematoencefálica.</span>
+  </div>
+
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="st-icon">🧠</span><h2>O Que São Selank e Semax?</h2><div class="st-line"></div></div>
+      <div class="intro-strip">
+        <div class="intro-icon">🧠</div>
+        <div class="intro-text">
+          <strong>Selank</strong> (TPLGKTQ) é um heptapeptídeo análogo da Tuftsin desenvolvido no Instituto de Química Bioorgânica de Moscou. Age no eixo GABAérgico, potencializa GABA-A e eleva BDNF, produzindo efeito ansiolítico sem sedação ou dependência. <strong>Semax</strong> (MEHFPGP) é um análogo do ACTH(4–7) com efeito nootrópico via aumento de BDNF, NGF e turnover dopaminérgico — neuroproteção e foco. Via intranasal, ambos cruzam a barreira hematoencefálica pelo nervo olfatório em minutos.
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">💊</span><h2>Perfil dos Peptídeos</h2><div class="st-line"></div></div>
+      <div class="peptide-dual">
+        <div class="peptide-card">
+          <div class="peptide-card-header selank-header">
+            <div>
+              <div class="pc-name">SELANK</div>
+              <div class="pc-class">Ansiolítico · Imunomodulador · Nootrópico</div>
+            </div>
+            <div class="pc-seq">TPLGKTQ</div>
+          </div>
+          <div class="peptide-card-body">
+            <div class="pc-row"><span class="pc-label">Origem</span><span class="pc-value violet">Análogo da Tuftsin</span></div>
+            <div class="pc-row"><span class="pc-label">Estrutura</span><span class="pc-value">Heptapeptídeo</span></div>
+            <div class="pc-row"><span class="pc-label">Conc. russo (ref.)</span><span class="pc-value violet">0,15% (1,5 mg/mL)</span></div>
+            <div class="pc-row"><span class="pc-label">Dose nasal</span><span class="pc-value violet">200–400 mcg / dose</span></div>
+            <div class="pc-row"><span class="pc-label">Frequência</span><span class="pc-value">2–3× ao dia</span></div>
+            <div class="pc-row"><span class="pc-label">Ciclo</span><span class="pc-value">14 dias · descanso 2–4 sem</span></div>
+            <div class="pc-row"><span class="pc-label">Conservação</span><span class="pc-value">2–8 °C reconstituído</span></div>
+          </div>
+        </div>
+        <div class="peptide-card">
+          <div class="peptide-card-header semax-header">
+            <div>
+              <div class="pc-name">SEMAX</div>
+              <div class="pc-class">Nootrópico · Neuroprotetor · Estimulante BDNF</div>
+            </div>
+            <div class="pc-seq">MEHFPGP</div>
+          </div>
+          <div class="peptide-card-body">
+            <div class="pc-row"><span class="pc-label">Origem</span><span class="pc-value blue">Análogo ACTH (4–7)</span></div>
+            <div class="pc-row"><span class="pc-label">Estrutura</span><span class="pc-value">Heptapeptídeo</span></div>
+            <div class="pc-row"><span class="pc-label">Conc. russo (ref.)</span><span class="pc-value blue">0,1% (1 mg/mL)</span></div>
+            <div class="pc-row"><span class="pc-label">Dose nasal</span><span class="pc-value blue">200–600 mcg / dose</span></div>
+            <div class="pc-row"><span class="pc-label">Frequência</span><span class="pc-value">1–2× ao dia</span></div>
+            <div class="pc-row"><span class="pc-label">Ciclo</span><span class="pc-value">5–14 dias · descanso 2 sem</span></div>
+            <div class="pc-row"><span class="pc-label">Conservação</span><span class="pc-value">2–8 °C reconstituído</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">⚡</span><h2>Mecanismo de Ação</h2><div class="st-line"></div></div>
+      <div class="mech-dual">
+        <div class="mech-box">
+          <div class="mech-head violet">SELANK — Eixo GABAérgico / Imune</div>
+          <div class="mech-step-mini"><div class="mech-dot dot-violet">1</div><div><span class="mech-bold">GABA-A —</span> Potencializa receptor GABA-A → efeito ansiolítico sem sedação</div></div>
+          <div class="mech-step-mini"><div class="mech-dot dot-violet">2</div><div><span class="mech-bold">Encefalinas —</span> Inibe degrado de encefalinas endógenas → euforia suave</div></div>
+          <div class="mech-step-mini"><div class="mech-dot dot-violet">3</div><div><span class="mech-bold">IL-6 / Th1 —</span> Modula citocinas inflamatórias → imunomodulação</div></div>
+          <div class="mech-step-mini"><div class="mech-dot dot-violet">4</div><div><span class="mech-bold">BDNF ↑ —</span> Eleva fator neurotrófico → neuroplasticidade e memória</div></div>
+        </div>
+        <div class="mech-box blue-border">
+          <div class="mech-head blue">SEMAX — Eixo Dopaminérgico / BDNF</div>
+          <div class="mech-step-mini"><div class="mech-dot dot-blue">1</div><div><span class="mech-bold">BDNF / NGF ↑ —</span> Maior expressão de fatores neurotróficos → neuroproteção</div></div>
+          <div class="mech-step-mini"><div class="mech-dot dot-blue">2</div><div><span class="mech-bold">Dopamina ↑ —</span> Aumenta turnover dopaminérgico → foco e motivação</div></div>
+          <div class="mech-step-mini"><div class="mech-dot dot-blue">3</div><div><span class="mech-bold">Via nasal → SNC —</span> Absorção pelo nervo olfatório → bypass da BHE</div></div>
+          <div class="mech-step-mini"><div class="mech-dot dot-blue">4</div><div><span class="mech-bold">Anti-hipóxico —</span> Protege neurônios em situações de baixo oxigênio</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">🏥</span><h2>Indicações Clínicas</h2><div class="st-line"></div></div>
+      <div class="benefits-dual">
+        <div class="benefits-col">
+          <div class="benefits-head violet">SELANK — Indicações</div>
+          <div class="benefit-item"><span class="benefit-check-v">✓</span><div><span class="benefit-title">Ansiedade generalizada</span> — ansiolítico sem dependência ou sedação</div></div>
+          <div class="benefit-item"><span class="benefit-check-v">✓</span><div><span class="benefit-title">Distúrbios do sono</span> — melhora qualidade sem causar sonolência diurna</div></div>
+          <div class="benefit-item"><span class="benefit-check-v">✓</span><div><span class="benefit-title">Imunidade</span> — modula resposta imune, útil em pós-infecção</div></div>
+          <div class="benefit-item"><span class="benefit-check-v">✓</span><div><span class="benefit-title">Memória e foco</span> — melhora retenção e clareza mental</div></div>
+          <div class="benefit-item"><span class="benefit-check-v">✓</span><div><span class="benefit-title">Neuroproteção</span> — via BDNF, protege circuitos cognitivos</div></div>
+        </div>
+        <div class="benefits-col blue-b">
+          <div class="benefits-head blue">SEMAX — Indicações</div>
+          <div class="benefit-item"><span class="benefit-check-b">✓</span><div><span class="benefit-title">Performance cognitiva</span> — foco, concentração, velocidade de processamento</div></div>
+          <div class="benefit-item"><span class="benefit-check-b">✓</span><div><span class="benefit-title">Neuroproteção</span> — pós-AVC, trauma e estados hipóxicos</div></div>
+          <div class="benefit-item"><span class="benefit-check-b">✓</span><div><span class="benefit-title">ADHD / Neuroatípicos</span> — melhora atenção e função executiva</div></div>
+          <div class="benefit-item"><span class="benefit-check-b">✓</span><div><span class="benefit-title">Depressão leve</span> — via dopamina e BDNF, melhora humor</div></div>
+          <div class="benefit-item"><span class="benefit-check-b">✓</span><div><span class="benefit-title">Recuperação neurológica</span> — suporte pós-cirúrgico e pós-infecção viral</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📊</span><h2>Comparativo Rápido</h2><div class="st-line"></div></div>
+      <table class="moa">
+        <thead>
+          <tr><th>Característica</th><th>Selank</th><th>Semax</th><th>Uso Combinado</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Efeito principal</td><td>Ansiolítico / Imune</td><td>Cognitivo / Neuro</td><td>Ansiolítico + Foco</td></tr>
+          <tr><td>Perfil energético</td><td>Calmante, equilibrado</td><td>Estimulante suave</td><td>Foco calmo</td></tr>
+          <tr><td>Concentração nasal</td><td>0,15% (1,5 mg/mL)</td><td>0,1% (1 mg/mL)</td><td>Separados / 15 min</td></tr>
+          <tr><td>Ciclo ideal</td><td>14 dias</td><td>5–14 dias</td><td>Alternados ou juntos</td></tr>
+          <tr><td>Horário preferencial</td><td>Manhã e noite</td><td>Manhã e tarde</td><td>Manhã: ambos</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Peptídeos de Alta Performance</div>
+    <div class="footer-code">DOC: SELANK-SEMAX-PFY · Rev. Mar/2026</div>
+    <div class="footer-page">1 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+
+<!-- ═══ PÁGINA 2 ═══ -->
+<div class="page">
+  <div class="header-small">
+    <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" />
+    <div>
+      <div class="hs-title"><span>SELANK + SEMAX</span> · Protocolo Intranasal</div>
+      <div class="hs-sub">Reconstituição · Concentrações · Método com Rinosoro · Dose por Indicação</div>
+    </div>
+    <div class="hs-right">
+      <div class="hs-title" style="font-size:9pt;color:rgba(255,255,255,0.5)">PHARMAFIT-PY</div>
+      <div class="hs-sub">Neuropeptídeos de Alta Performance</div>
+    </div>
+  </div>
+  <div class="header-bar"></div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">💧</span><h2>Pipeline de Preparo — Do Frasco Liofilizado ao Frasco de Gotas</h2><div class="st-line"></div></div>
+      <div class="pipeline-box">
+        <div class="pipeline-note">⚠️ O peptídeo Pharmafit-PY é liofilizado — necessita reconstituição com Água Bacteriostática antes do uso intranasal</div>
+        <div class="pipeline-steps">
+          <div class="pipeline-step"><div class="ps-icon">🧊</div><div class="ps-title">1. Frasco Liofilizado</div><div class="ps-desc">Peptídeo em pó seco. Conservar a 2–8 °C ou -20 °C até o uso</div></div>
+          <div class="pipeline-step"><div class="ps-icon">💉</div><div class="ps-title">2. Reconstituir com BAC</div><div class="ps-desc">Injetar Água Bacteriostática pela parede do frasco. <em>Nunca agitar</em> — girar suavemente</div><div class="ps-hl">Água Bacteriostática</div></div>
+          <div class="pipeline-step"><div class="ps-icon">🔬</div><div class="ps-title">3. Solução Estoque</div><div class="ps-desc">Solução concentrada pronta. Pode usar diretamente ou diluir para ajustar concentração</div></div>
+          <div class="pipeline-step"><div class="ps-icon">🧴</div><div class="ps-title">4. Transferir para Conta-Gotas</div><div class="ps-desc">Aspirar com seringa e transferir para frasco conta-gotas estéril ou spray nasal de 10 mL</div><div class="ps-hl">Frasco conta-gotas estéril</div></div>
+          <div class="pipeline-step"><div class="ps-icon">👃</div><div class="ps-title">5. Aplicar nas Narinas</div><div class="ps-desc">2–3 gotas por narina. Cabeça levemente inclinada para trás. Inspirar suavemente</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">🧪</span><h2>Cálculo de Concentração — Selank 5mg e Semax 5mg (referência)</h2><div class="st-line"></div></div>
+      <div class="conc-grid">
+        <div class="conc-peptide-box">
+          <div class="conc-box-title selank-title">💜 SELANK 5mg — Concentrações Possíveis</div>
+          <div class="conc-option"><div class="conc-label">3,3 mL</div><div class="conc-text"><strong>1,5 mg/mL = 0,15%</strong> — Padrão russo (ref.). Cada gota ≈ 75 mcg. Dose 200 mcg = ~3 gotas/narina</div></div>
+          <div class="conc-option"><div class="conc-label">5 mL</div><div class="conc-text"><strong>1,0 mg/mL = 0,10%</strong> — Cada gota ≈ 50 mcg. Dose 200 mcg = ~4 gotas/narina</div></div>
+          <div class="conc-option"><div class="conc-label">10 mL</div><div class="conc-text"><strong>0,5 mg/mL = 0,05%</strong> — Mais diluído. Cada gota ≈ 25 mcg. Dose 200 mcg = ~8 gotas</div></div>
+          <div class="conc-rec"><strong>Recomendado:</strong> 3,3 mL BAC → 1,5 mg/mL · 2–3 gotas por narina · 2–3×/dia</div>
+        </div>
+        <div class="conc-peptide-box">
+          <div class="conc-box-title semax-title">💙 SEMAX 5mg — Concentrações Possíveis</div>
+          <div class="conc-option"><div class="conc-label blue-l">5 mL</div><div class="conc-text"><strong>1,0 mg/mL = 0,10%</strong> — Padrão russo (ref.). Cada gota ≈ 50 mcg. Dose 200 mcg = ~4 gotas/narina</div></div>
+          <div class="conc-option"><div class="conc-label blue-l">2,5 mL</div><div class="conc-text"><strong>2,0 mg/mL = 0,20%</strong> — Mais concentrado. Dose 200 mcg = ~2 gotas/narina</div></div>
+          <div class="conc-option"><div class="conc-label blue-l">10 mL</div><div class="conc-text"><strong>0,5 mg/mL = 0,05%</strong> — Mais diluído. Cada gota ≈ 25 mcg. Dose 200 mcg = ~8 gotas</div></div>
+          <div class="conc-rec blue"><strong>Recomendado:</strong> 5 mL BAC → 1,0 mg/mL · 2–4 gotas por narina · 1–2×/dia</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">🧴</span><h2>Método Alternativo com Rinosoro (Soro Fisiológico Nasal)</h2><div class="st-line"></div></div>
+      <div class="rinosoro-box">
+        <div class="rinosoro-title">🧴 Como Preparar Usando Rinosoro como Veículo Diluente</div>
+        <div class="rinosoro-steps">
+          <div class="rs-step"><div class="rs-num">1</div><div class="rs-text">Reconstituir o liofilizado com <strong>0,5–1 mL</strong> de Água Bacteriostática no frasco original</div></div>
+          <div class="rs-step"><div class="rs-num">2</div><div class="rs-text">Aspirar toda a solução com seringa de 1 mL e agulha fina (ou cânula)</div></div>
+          <div class="rs-step"><div class="rs-num">3</div><div class="rs-text">Injetar a solução dentro de um <strong>frasco conta-gotas estéril vazio</strong> de 5–10 mL</div></div>
+          <div class="rs-step"><div class="rs-num">4</div><div class="rs-text">Completar o volume com <strong>SF 0,9%</strong> (rinosoro de ampola) até atingir a concentração-alvo</div></div>
+          <div class="rs-step"><div class="rs-num">5</div><div class="rs-text">Tampar, identificar (produto + conc. + data), refrigerar. Validade: <strong>até 30 dias a 2–8 °C</strong></div></div>
+        </div>
+        <div class="rinosoro-note"><strong>⚠️ Atenção:</strong> Não misturar Selank e Semax no mesmo frasco — usar frascos separados e aplicar com intervalo de 15–30 min entre os dois peptídeos.</div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <div class="section-title" style="margin-bottom:10px;"><span class="st-icon">💊</span><h2>Dose por Indicação</h2><div class="st-line"></div></div>
+        <table class="dose-table">
+          <thead>
+            <tr><th>Indicação</th><th>Peptídeo</th><th>Dose / aplicação</th><th>Freq.</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Ansiedade</td><td style="font-weight:700; color:#4C1D95;">Selank</td><td style="font-weight:800; color:#6D28D9;">200–300 mcg</td><td>2–3×/dia</td></tr>
+            <tr><td>Sono / Relaxamento</td><td style="font-weight:700; color:#4C1D95;">Selank</td><td style="font-weight:800; color:#6D28D9;">200 mcg</td><td>1–2×/noite</td></tr>
+            <tr><td>Foco / Cognição</td><td style="font-weight:700; color:#1E3A5F;">Semax</td><td style="font-weight:800; color:#1D4ED8;">200–400 mcg</td><td>1–2×/dia</td></tr>
+            <tr><td>Neuroproteção</td><td style="font-weight:700; color:#1E3A5F;">Semax</td><td style="font-weight:800; color:#1D4ED8;">400–600 mcg</td><td>2×/dia</td></tr>
+            <tr><td>Imunidade</td><td style="font-weight:700; color:#4C1D95;">Selank</td><td style="font-weight:800; color:#6D28D9;">300 mcg</td><td>2×/dia</td></tr>
+            <tr><td>ADHD / Memória</td><td style="font-weight:700; color:#1E3A5F;">Semax</td><td style="font-weight:800; color:#1D4ED8;">300–600 mcg</td><td>1–2×/dia</td></tr>
+          </tbody>
+        </table>
+        <div class="tip-box" style="margin-top:10px;">
+          <strong>✅ Técnica de Aplicação Correta:</strong><br>
+          • Assoar suavemente antes de aplicar<br>
+          • Inclinar a cabeça levemente para trás<br>
+          • 2–3 gotas por narina — não exceder 0,15 mL/narina<br>
+          • Inspirar suavemente pelo nariz após as gotas<br>
+          • Aguardar 1–2 min antes de assoar ou engolir
+        </div>
+      </div>
+      <div>
+        <div class="section-title" style="margin-bottom:10px;"><span class="st-icon">📋</span><h2>Protocolos de Aplicação</h2><div class="st-line"></div></div>
+        <div class="proto-card-intra">
+          <div class="proto-header-intra ph-violet">Protocolo Ansiedade + Sono (Selank)</div>
+          <div class="proto-body-intra">
+            <div class="proto-item-intra"><span class="pl-intra">Manhã:</span> 2–3 gotas/narina → 200–300 mcg</div>
+            <div class="proto-item-intra"><span class="pl-intra">Noite:</span> 2 gotas/narina → 200 mcg antes de dormir</div>
+            <div class="proto-item-intra"><span class="pl-intra">Ciclo:</span> 14 dias seguidos · descanso 2–4 semanas</div>
+            <div class="proto-item-intra"><span class="pl-intra">Conc.:</span> 1,5 mg/mL (3,3 mL BAC para 5mg)</div>
+          </div>
+        </div>
+        <div class="proto-card-intra">
+          <div class="proto-header-intra ph-blue">Protocolo Cognitivo (Semax)</div>
+          <div class="proto-body-intra">
+            <div class="proto-item-intra"><span class="pl-intra">Manhã:</span> 2–4 gotas/narina → 200–400 mcg</div>
+            <div class="proto-item-intra"><span class="pl-intra">Tarde (opc.):</span> 2 gotas/narina → 200 mcg</div>
+            <div class="proto-item-intra"><span class="pl-intra">Ciclo:</span> 10–14 dias · descanso 2 semanas</div>
+            <div class="proto-item-intra"><span class="pl-intra">Conc.:</span> 1,0 mg/mL (5 mL BAC para 5mg)</div>
+          </div>
+        </div>
+        <div class="proto-card-intra">
+          <div class="proto-header-intra ph-combo">Protocolo Combinado (Selank + Semax)</div>
+          <div class="proto-body-intra">
+            <div class="proto-item-intra"><span class="pl-intra">Manhã:</span> Semax → aguardar 15–30 min → Selank</div>
+            <div class="proto-item-intra"><span class="pl-intra">Noite:</span> Selank → 2 gotas/narina</div>
+            <div class="proto-item-intra"><span class="pl-intra">Ciclo:</span> 14 dias · descanso 2 semanas</div>
+            <div class="proto-item-intra"><span class="pl-intra">Efeito:</span> Foco com calma, sem ansiedade de estimulante</div>
+          </div>
+        </div>
+        <div class="alert-box" style="margin-top:8px;">
+          <strong>⚠️ Cuidados Importantes:</strong><br>
+          • Nunca misturar Selank + Semax no mesmo frasco<br>
+          • Frasco conta-gotas deve ser estéril e identificado<br>
+          • Trocar frasco a cada 30 dias mesmo com resto<br>
+          • Não usar em caso de mucosa nasal inflamada/irritada<br>
+          • Semax não deve ser aplicado à noite (estimulante)
+        </div>
+      </div>
+    </div>
+
+    <div class="pharmafit-banner" style="margin-top:16px">
+      <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" class="pf-logo" />
+      <div class="pf-text">
+        <div class="pf-label">Estudo Clínico Elaborado por</div>
+        <div class="pf-brand">Pharmafit<span>-PY</span></div>
+        <div class="pf-tagline">Compostos injetáveis de alta pureza com qualidade farmacêutica.<br>Protocolos personalizados para saúde, performance e bem-estar.</div>
+      </div>
+      <a class="pf-cta" href="tel:+12142049853">📞 +1 (214) 204-9853</a>
+    </div>
+
+    <div class="box-card ref" style="margin-bottom:0">
+      <div class="box-title">Referências Científicas</div>
+      <ul class="ref-list">
+        <li data-n="1">Zozulya AA, et al. <em>Selank: A New Generation Anxiolytic Drug Without Sedation or Addiction.</em> Zh Nevrol Psikhiatr Im S S Korsakova. 2008.</li>
+        <li data-n="2">Semenova TP, et al. <em>Effect of Selank on the Processes of Learning and Memory in Rats with Genetic Predisposition to Pathological Anxiety.</em> Bull Exp Biol Med. 2010.</li>
+        <li data-n="3">Medvedev VE, et al. <em>Use of Selank in the Treatment of Anxiety Disorders.</em> Zh Nevrol Psikhiatr Im S S Korsakova. 2015.</li>
+        <li data-n="4">Dolotov OV, et al. <em>Semax, an Analog of ACTH(4-10) with Cognitive Effects, Regulates BDNF and trkB Expression in the Rat Hippocampus.</em> Brain Res. 2006.</li>
+        <li data-n="5">Grigoriev VV, et al. <em>Semax and Its Analogues Demonstrate Neuroprotective and Nootropic Effects.</em> Pharm Chem J. 2020.</li>
+        <li data-n="6">Agapova TI, et al. <em>Intranasal Administration of Semax: Brain Distribution and Neuroprotection.</em> J Pept Sci. 2007.</li>
+        <li data-n="7">Limborska SA, et al. <em>Analysis of Semax Pleiotropic Action — Regulatory Peptide Effects on Gene Expression.</em> Mol Genet Genomics. 2003.</li>
+        <li data-n="8">Yatsenko KA, et al. <em>Selank Modulates the Expression of Genes Involved in GABAergic Transmission and Immune Response.</em> Mol Biol (Mosk). 2015.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Neuropeptídeos de Alta Performance</div>
+    <div class="footer-code">DOC: SELANK-SEMAX-PFY · Rev. Mar/2026 · Uso Profissional</div>
+    <div class="footer-page">2 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+</body>
+</html>

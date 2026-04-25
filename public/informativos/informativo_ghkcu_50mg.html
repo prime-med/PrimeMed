@@ -1,0 +1,530 @@
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  INFORMATIVO TÉCNICO — TEMPLATE PHARMAFIT-PY                ║
+  ║  Produto: GHK-Cu 50mg                                       ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  ESTRUTURA GERAL (2 páginas .page):                         ║
+  ║  Pág 1: header → info-strip → "O Que É" → seções técnicas  ║
+  ║  Pág 2: header-small → seções avançadas → pharmafit-banner  ║
+  ║         → referências científicas → footer + footer-note    ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  O QUE CUSTOMIZAR POR PRODUTO:                              ║
+  ║  1. <title> — nome do produto                               ║
+  ║  2. :root — paleta de cores (ver abaixo)                    ║
+  ║     Tema azul/âmbar      → ex: Tirzepatida 120mg            ║
+  ║     Tema escuro/ouro     → ex: Durateston                   ║
+  ║  3. body { background } — cor do fundo externo da página    ║
+  ║  4. .header → textos: tag, título, subtítulo, badges        ║
+  ║  5. .info-strip → chips e texto de contexto                 ║
+  ║  6. Seção "O Que É..." → section-title + intro-text         ║
+  ║  7. Conteúdo das seções (componentes em informativo.css)    ║
+  ║  8. .header-small (pág 2) → título e subtítulo              ║
+  ║  9. .footer → brand text e código do documento              ║
+  ║  10. Referências científicas → .ref-list                    ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  NÃO ALTERAR (padronizado para todos os informativos):      ║
+  ║  • .pharmafit-banner — tagline e telefone da Pharmafit-PY   ║
+  ║  • .footer-note — aviso de uso profissional                 ║
+  ║  • Link para ../assets/css/informativo.css                  ║
+  ║  • Fontes: Montserrat + Lato (Google Fonts)                 ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Informativo Técnico — GHK-Cu 50mg | PharmaFit-PY</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/informativo.css" />
+  <style>
+    :root {
+      --petrol:     #1B4F72; --petrol-dark: #0D2B3E; --petrol-mid: #2471A3;
+      --petrol-lite:#D6EAF8; --petrol-bg:  #EBF5FB;
+      --amber:      #A0522D; --amber-mid:  #C1692A;
+      --amber-lite: #FDEBD0; --amber-bg:   #FEF5EC;
+      --gold:       #B7860B; --gold-mid:   #E67E22;
+      --gold-lite:  #FEF9E7; --gold-bg:    #FFFDE7;
+      --white:      #FFFFFF; --gray-1: #F4F6F7; --gray-2: #D5D8DC;
+      --text-dark:  #1A2530; --text-mid: #3D566E;
+      --shadow:     0 2px 12px rgba(13,43,62,0.10);
+      --header-bg:  linear-gradient(135deg, #0D2B3E 0%, #1B4F72 45%, #1a6090 75%, #1d5a7a 100%);
+      --header-bar-bg: linear-gradient(90deg, #A0522D 0%, #E67E22 25%, #E8A96A 50%, #2471A3 75%, #1B4F72 100%);
+      --header-small-bg: linear-gradient(135deg, #0D2B3E 0%, #1B4F72 60%, #1a6090 100%);
+      --header-hl:  #E8A96A;
+    }
+    body { background: #c8d8e4; }
+    .proto-head.p1 { background: linear-gradient(135deg, var(--amber) 0%, #C87941 100%); }
+    .proto-head.p2 { background: linear-gradient(135deg, var(--petrol) 0%, var(--petrol-mid) 100%); }
+    .proto-head.p3 { background: linear-gradient(135deg, #1E8449 0%, #27AE60 100%); }
+    .orb-copper { position: absolute; top: 8px; right: 160px; width: 80px; height: 80px; border-radius: 50%; background: radial-gradient(circle, rgba(193,105,42,0.25) 0%, transparent 70%); }
+    .header-title .copper-text { color: #E8A96A; text-shadow: 0 0 24px rgba(232,169,106,0.55); }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════
+     PÁGINA 1 — FRENTE
+════════════════════════════════════════════════════════ -->
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="orb-copper"></div>
+    <div class="header-inner">
+      <div class="header-logo">
+        <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" />
+      </div>
+      <div class="header-center">
+        <div class="header-tag">Informativo Técnico — Peptídeo de Alta Performance</div>
+        <div class="header-title">
+          <span class="copper-text">GHK</span>-Cu
+        </div>
+        <div class="header-subtitle">Glycyl-L-Histidyl-L-Lysine Copper Complex · Peptídeo de Regeneração e Rejuvenescimento</div>
+      </div>
+      <div class="header-badges">
+        <div class="badge-box">
+          <div class="b-label">Concentração</div>
+          <div class="b-val"><span>50</span> mg</div>
+        </div>
+        <div class="badge-box" style="margin-top:6px;">
+          <div class="b-label">Código</div>
+          <div class="b-val">GHKCU-50-PFY</div>
+        </div>
+      </div>
+    </div>
+    <div class="header-bar"></div>
+  </div>
+
+  <!-- CONTEÚDO -->
+  <div class="content">
+
+    <!-- SEÇÃO O QUE É + INTRO -->
+    <div class="section">
+      <div class="section-title"><span class="st-icon">🔬</span><h2>O Que É o GHK-Cu?</h2><div class="st-line"></div></div>
+    <div class="intro-strip">
+      <div class="intro-icon">🔬</div>
+      <div>
+      <div class="intro-text">
+        O <strong>GHK-Cu (Glycyl-L-Histidyl-L-Lysine Copper Complex)</strong> é um tripeptídeo de cobre isolado
+        primeiramente do soro humano por Pickart (1973). Atua como potente modulador da expressão gênica,
+        ativando mais de <strong>4.000 genes</strong> envolvidos em síntese de colágeno, reparo tecidual,
+        angiogênese e proteção antioxidante. É considerado o <strong>peptídeo anti-aging mais estudado</strong>
+        da medicina regenerativa moderna.
+      </div>
+      <div class="spec-grid">
+        <div class="spec-item"><div class="s-val">Gly-His-Lys</div><div class="s-lbl">Estrutura</div></div>
+        <div class="spec-item"><div class="s-val">340 Da</div><div class="s-lbl">Peso Molecular</div></div>
+        <div class="spec-item"><div class="s-val">Endógeno</div><div class="s-lbl">Origem</div></div>
+        <div class="spec-item"><div class="s-val">&gt;4.000</div><div class="s-lbl">Genes Ativados</div></div>
+        <div class="spec-item"><div class="s-val">~30 min</div><div class="s-lbl">Meia-vida</div></div>
+        <div class="spec-item"><div class="s-val">50 mg</div><div class="s-lbl">Concentração</div></div>
+      </div>
+      </div>
+    </div>
+    </div>
+
+    <!-- MECANISMO DE AÇÃO -->
+    <div class="section">
+      <div class="section-title"><span class="st-icon">⚡</span><h2>Mecanismo de Ação Científico</h2><div class="st-line"></div></div>
+      <table class="moa">
+        <thead>
+          <tr>
+            <th>Via de Ação</th>
+            <th>Efeito Biológico</th>
+            <th>Evidência</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Síntese de Colágeno</td>
+            <td>Ativa fibroblastos via TGF-β · aumenta colágeno tipo I, III e elastina · melhora firmeza e elasticidade dérmica</td>
+            <td><span class="tag">Alta</span></td>
+          </tr>
+          <tr>
+            <td>Reparo Tecidual</td>
+            <td>Acelera fechamento de feridas · estimula re-epitelização · reduz formação de cicatriz hipertrófica</td>
+            <td><span class="tag">Alta</span></td>
+          </tr>
+          <tr>
+            <td>Angiogênese</td>
+            <td>Estimula crescimento de novos vasos sanguíneos · melhora perfusão tecidual e oxigenação local</td>
+            <td><span class="tag">Alta</span></td>
+          </tr>
+          <tr>
+            <td>Ação Antioxidante</td>
+            <td>Neutraliza radicais livres via Cu²⁺ · upregula SOD e catalase · protege DNA contra danos oxidativos</td>
+            <td><span class="tag">Alta</span></td>
+          </tr>
+          <tr>
+            <td>Folículo Capilar</td>
+            <td>Estimula proliferação de células da papila dérmica · aumenta diâmetro do folículo · reduz miniaturização</td>
+            <td><span class="tag copper">Moderada-Alta</span></td>
+          </tr>
+          <tr>
+            <td>Anti-inflamatório</td>
+            <td>Inibe TNF-α, IL-6 e NFκB · modula resposta imune local · reduz eritema e edema pós-procedimento</td>
+            <td><span class="tag">Alta</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- DISSOLUÇÃO -->
+    <div class="section">
+      <div class="section-title"><span class="st-icon">💧</span><h2>Reconstituição — GHK-Cu 50mg / 2ml</h2><div class="st-line"></div></div>
+      <div class="diss-box">
+        <div class="diss-steps">
+          <div class="diss-step">
+            <div class="step-circle">1</div>
+            <div class="step-text"><strong>Higienizar</strong>Limpar a tampa com álcool 70%</div>
+          </div>
+          <div class="diss-step">
+            <div class="step-circle">2</div>
+            <div class="step-text"><strong>Preparar</strong>Aspirar 2ml de água bacteriostática</div>
+          </div>
+          <div class="diss-step">
+            <div class="step-circle">3</div>
+            <div class="step-text"><strong>Injetar</strong>Injetar lentamente na parede do frasco</div>
+          </div>
+          <div class="diss-step">
+            <div class="step-circle">4</div>
+            <div class="step-text"><strong>Girar</strong>Girar suavemente — nunca agitar</div>
+          </div>
+          <div class="diss-step">
+            <div class="step-circle">5</div>
+            <div class="step-text"><strong>Refrigerar</strong>2–8°C · Validade: 28 dias</div>
+          </div>
+        </div>
+
+        <table class="dose-table">
+          <thead>
+            <tr>
+              <th>Volume Aspirado</th>
+              <th>Dose GHK-Cu</th>
+              <th>Indicação Clínica</th>
+              <th>Via</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>0,04 ml</td>
+              <td>1 mg</td>
+              <td>Mesoterapia capilar / dose mínima</td>
+              <td>SC / IM</td>
+            </tr>
+            <tr>
+              <td>0,08 ml</td>
+              <td>2 mg</td>
+              <td>Rejuvenescimento e pele · dose padrão</td>
+              <td>SC / IM</td>
+            </tr>
+            <tr>
+              <td>0,12 ml</td>
+              <td>3 mg</td>
+              <td>Reparo tecidual intensivo</td>
+              <td>SC / IM</td>
+            </tr>
+            <tr>
+              <td>0,20 ml</td>
+              <td>5 mg</td>
+              <td>Protocolo de cicatrização avançada</td>
+              <td>SC / IM</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Peptídeos de Alta Performance</div>
+    <div class="footer-code">DOC: GHKCU-50-PFY · Rev. Mar/2026</div>
+    <div class="footer-page">1 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+
+</div><!-- /page 1 -->
+
+
+<!-- ═══════════════════════════════════════════════════════
+     PÁGINA 2 — VERSO
+════════════════════════════════════════════════════════ -->
+<div class="page">
+
+  <!-- HEADER PEQUENO -->
+  <div class="header-small">
+    <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" />
+    <div>
+      <div class="hs-title"><span>GHK</span>-Cu · Protocolos Clínicos</div>
+      <div class="hs-sub">Glycyl-L-Histidyl-L-Lysine Copper Complex · 50mg</div>
+    </div>
+    <div class="hs-right">
+      <div class="hs-title" style="font-size:9pt; color:rgba(255,255,255,0.5);">PHARMAFIT-PY</div>
+      <div class="hs-sub">Peptídeos de Alta Performance</div>
+    </div>
+  </div>
+  <div class="header-bar"></div>
+
+  <!-- CONTEÚDO VERSO -->
+  <div class="content">
+
+    <!-- PROTOCOLOS -->
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📋</span><h2>Protocolos de Uso Clínico</h2><div class="st-line"></div></div>
+      <div class="proto-grid">
+
+        <!-- PROTOCOLO 1 -->
+        <div class="proto-card">
+          <div class="proto-head p1">
+            <div class="p-num">Protocolo 01</div>
+            <div class="p-title">Rejuvenescimento & Anti-aging</div>
+            <div class="p-icon">✨</div>
+          </div>
+          <div class="proto-body">
+            <div class="proto-row">
+              <span class="pr-label">Objetivo</span>
+              <span class="pr-val">Colágeno · firmeza · luminosidade · redução de rugas</span>
+            </div>
+            <div class="proto-row">
+              <span class="pr-label">Dose</span>
+              <span class="pr-val"><strong>1–2mg</strong> (0,04–0,08ml)</span>
+            </div>
+            <div class="proto-row">
+              <span class="pr-label">Freq.</span>
+              <span class="pr-val">3x/semana</span>
+            </div>
+            <div class="proto-row">
+              <span class="pr-label">Via</span>
+              <span class="pr-val">SC abdominal ou IM</span>
+            </div>
+            <div class="proto-row">
+              <span class="pr-label">Duração</span>
+              <span class="pr-val"><strong>8–12 semanas</strong> ON · 4 OFF</span>
+            </div>
+            <div class="proto-row">
+              <span class="pr-label">Horário</span>
+              <span class="pr-val">Manhã ou noite</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- PROTOCOLO 2 -->
+        <div class="proto-card">
+          <div class="proto-head p2">
+            <div class="p-num">Protocolo 02</div>
+            <div class="p-title">Saúde & Crescimento Capilar</div>
+            <div class="p-icon">💆</div>
+          </div>
+          <div class="proto-body">
+            <div class="proto-row">
+              <span class="pr-label">Objetivo</span>
+              <span class="pr-val">Estimular folículo · espessamento · reduzir queda</span>
+            </div>
+            <div class="proto-row">
+              <span class="pr-label">Dose</span>
+              <span class="pr-val"><strong>1mg</strong> (0,04ml) por sessão</span>
+            </div>
+            <div class="proto-row">
+              <span class="pr-label">Freq.</span>
+              <span class="pr-val">1x/semana</span>
+            </div>
+            <div class="proto-row">
+              <span class="pr-label">Via</span>
+              <span class="pr-val">Mesoterapia capilar SC</span>
+            </div>
+            <div class="proto-row">
+              <span class="pr-label">Duração</span>
+              <span class="pr-val"><strong>10–12 semanas</strong></span>
+            </div>
+            <div class="proto-row">
+              <span class="pr-label">Obs.</span>
+              <span class="pr-val">Diluir em 2ml SF para mesoterapia</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- PROTOCOLO 3 -->
+        <div class="proto-card">
+          <div class="proto-head p3">
+            <div class="p-num">Protocolo 03</div>
+            <div class="p-title">Cicatrização & Reparo Tecidual</div>
+            <div class="p-icon">🩹</div>
+          </div>
+          <div class="proto-body">
+            <div class="proto-row">
+              <span class="pr-label">Objetivo</span>
+              <span class="pr-val">Reparo de feridas · pós-procedimento · cicatriz</span>
+            </div>
+            <div class="proto-row">
+              <span class="pr-label">Dose</span>
+              <span class="pr-val"><strong>2–3mg</strong> (0,08–0,12ml)</span>
+            </div>
+            <div class="proto-row">
+              <span class="pr-label">Freq.</span>
+              <span class="pr-val">1x/dia · 1as 2 semanas</span>
+            </div>
+            <div class="proto-row">
+              <span class="pr-label">Via</span>
+              <span class="pr-val">SC perilesional ou IM</span>
+            </div>
+            <div class="proto-row">
+              <span class="pr-label">Duração</span>
+              <span class="pr-val"><strong>4–6 semanas</strong> total</span>
+            </div>
+            <div class="proto-row">
+              <span class="pr-label">Manutenção</span>
+              <span class="pr-val">2mg · 3x/sem · semanas 3–6</span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /proto-grid -->
+    </div>
+
+    <!-- TABELA COMPARATIVA -->
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📊</span><h2>Comparativo dos Protocolos</h2><div class="st-line"></div></div>
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Parâmetro</th>
+            <th>✨ Rejuvenescimento</th>
+            <th>💆 Capilar</th>
+            <th>🩹 Cicatrização</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Dose por aplicação</td>
+            <td>1–2 mg</td>
+            <td>1 mg</td>
+            <td>2–3 mg</td>
+          </tr>
+          <tr>
+            <td>Frequência semanal</td>
+            <td>3x / semana</td>
+            <td>1x / semana</td>
+            <td>7x / semana (fase 1)</td>
+          </tr>
+          <tr>
+            <td>Duração do ciclo</td>
+            <td>8–12 semanas</td>
+            <td>10–12 semanas</td>
+            <td>4–6 semanas</td>
+          </tr>
+          <tr>
+            <td>Resultado esperado</td>
+            <td>4–6 semanas</td>
+            <td>6–8 semanas</td>
+            <td>1–2 semanas</td>
+          </tr>
+          <tr>
+            <td>Zinco obrigatório</td>
+            <td><span class="dot">✅</span></td>
+            <td><span class="dot">✅</span></td>
+            <td><span class="dot">✅</span></td>
+          </tr>
+          <tr>
+            <td>Vitamina C associada</td>
+            <td><span class="dot">✅</span></td>
+            <td><span class="dot">✅</span></td>
+            <td><span class="dot">✅</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SUPLEMENTAÇÃO + ADVERTÊNCIAS -->
+    <div class="two-col">
+
+      <div class="box-card supl">
+        <div class="box-title">⚗️ Suplementação Recomendada</div>
+        <div class="supl-item">
+          <span class="si-icon">🔵</span>
+          <div class="si-text"><strong>Zinco 30mg/dia</strong> — cofator essencial do GHK-Cu. O zinco potencializa a ação do Cu²⁺ na síntese de colágeno e na defesa antioxidante. <em>Obrigatório em todos os protocolos.</em></div>
+        </div>
+        <div class="supl-item">
+          <span class="si-icon">🟠</span>
+          <div class="si-text"><strong>Vitamina C 1g/dia</strong> — cofator da hidroxilação do colágeno. Sinergismo direto com GHK-Cu na formação da matriz extracelular.</div>
+        </div>
+        <div class="supl-item">
+          <span class="si-icon">🟡</span>
+          <div class="si-text"><strong>Biotina 5mg/dia</strong> — recomendada no Protocolo Capilar. Suporte à queratinização e ao metabolismo folicular.</div>
+        </div>
+        <div class="supl-item">
+          <span class="si-icon">🟢</span>
+          <div class="si-text"><strong>Colágeno Hidrolisado 10g/dia</strong> — amplifica a síntese dérmica. Potencializa resultado do Protocolo Anti-aging.</div>
+        </div>
+      </div>
+
+      <div class="box-card adv">
+        <div class="box-title">⚠️ Advertências & Contraindicações</div>
+        <div class="adv-item">
+          <span class="adv-icon">🔴</span>
+          <div class="adv-text"><strong>Hipersensibilidade ao cobre</strong> — contraindicação absoluta. Realizar teste de sensibilidade antes do primeiro uso.</div>
+        </div>
+        <div class="adv-item">
+          <span class="adv-icon">🔴</span>
+          <div class="adv-text"><strong>Doença de Wilson</strong> — contraindicado. Distúrbio de acúmulo de cobre.</div>
+        </div>
+        <div class="adv-item">
+          <span class="adv-icon">🟡</span>
+          <div class="adv-text"><strong>Gravidez e lactação</strong> — uso não recomendado por ausência de estudos clínicos controlados nessa população.</div>
+        </div>
+        <div class="adv-item">
+          <span class="adv-icon">🟡</span>
+          <div class="adv-text"><strong>Menores de 18 anos</strong> — não indicado sem avaliação médica especializada.</div>
+        </div>
+        <div class="adv-item">
+          <span class="adv-icon">⚪</span>
+          <div class="adv-text"><strong>Armazenamento</strong> — após reconstituição, refrigerar (2–8°C). Validade: 28 dias. Não congelar o produto reconstituído.</div>
+        </div>
+        <div class="adv-item">
+          <span class="adv-icon">⚪</span>
+          <div class="adv-text"><strong>Uso exclusivo</strong> — sob orientação e prescrição de profissional de saúde habilitado.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="pharmafit-banner" style="margin-top:16px">
+      <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" class="pf-logo" />
+      <div class="pf-text">
+        <div class="pf-label">Estudo Clínico Elaborado por</div>
+        <div class="pf-brand">Pharmafit<span>-PY</span></div>
+        <div class="pf-tagline">Compostos injetáveis de alta pureza com qualidade farmacêutica.<br>Protocolos personalizados para saúde, performance e bem-estar.</div>
+      </div>
+      <a class="pf-cta" href="tel:+12142049853">📞 +1 (214) 204-9853</a>
+    </div>
+
+    <!-- REFERÊNCIAS -->
+    <div class="box-card ref" style="margin-bottom:0">
+      <div class="box-title">📚 Referências Científicas</div>
+      <ul class="ref-list">
+        <li data-n="1">Pickart L. (1973). <em>Human serum copper tripeptide GHK-Cu and wound healing.</em> Nature. First isolation and characterization.</li>
+        <li data-n="2">Pickart L, Margolina A. (2018). <em>Regenerative and Protective Actions of the GHK-Cu Peptide in the Light of the New Gene Data.</em> Int J Mol Sci. 19(7):1987.</li>
+        <li data-n="3">Pickart L. (2008). <em>The Human Tri-Peptide GHK and Tissue Remodeling.</em> J Biomater Sci Polym Ed. 19(8):969–988.</li>
+        <li data-n="4">Gorouhi F, Maibach HI. (2009). <em>Role of topical peptides in preventing or treating aged skin.</em> Int J Cosmet Sci. 31(5):327–345.</li>
+        <li data-n="5">Łodej N et al. (2022). <em>Copper-binding tripeptide GHK-Cu and its role in hair growth stimulation.</em> Skin Pharmacol Physiol. 35(2):74–83.</li>
+        <li data-n="6">Hong Y et al. (2001). <em>Stimulation of wound contraction and collagen synthesis by the tripeptide-copper complex GHK-Cu.</em> J Biomater Sci. 12(3):225–237.</li>
+        <li data-n="7">Canapp SO Jr et al. (2003). <em>Effect of topical tripeptide-copper complex on healing of ischemic open wounds.</em> Vet Surg. 32(6):515–523.</li>
+      </ul>
+    </div>
+
+  </div><!-- /content -->
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Peptídeos de Alta Performance</div>
+    <div class="footer-code">DOC: GHKCU-50-PFY · Rev. Mar/2026 · Uso Profissional</div>
+    <div class="footer-page">2 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+
+</div><!-- /page 2 -->
+
+</body>
+</html>

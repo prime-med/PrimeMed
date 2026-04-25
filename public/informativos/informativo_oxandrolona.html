@@ -1,0 +1,395 @@
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  INFORMATIVO TÉCNICO — TEMPLATE PHARMAFIT-PY                ║
+  ║  Produto: Oxandrolona 5mg                                   ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  ESTRUTURA GERAL (2 páginas .page):                         ║
+  ║  Pág 1: header → info-strip → "O Que É" → seções técnicas  ║
+  ║  Pág 2: header-small → seções avançadas → pharmafit-banner  ║
+  ║         → referências científicas → footer + footer-note    ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  NÃO ALTERAR (padronizado para todos os informativos):      ║
+  ║  • .pharmafit-banner — tagline e telefone da Pharmafit-PY   ║
+  ║  • .footer-note — aviso de uso profissional                 ║
+  ║  • Link para ../assets/css/informativo.css                  ║
+  ║  • Fontes: Montserrat + Lato (Google Fonts)                 ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Informativo Técnico — Oxandrolona 5mg | PharmaFit-PY</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/informativo.css" />
+  <style>
+    :root {
+      --petrol:     #0F766E; --petrol-dark: #042F2E; --petrol-mid: #0D9488;
+      --petrol-lite:#CCFBF1; --petrol-bg:  #F0FDFA;
+      --amber:      #0F766E; --amber-mid:  #14B8A6;
+      --amber-lite: #99F6E4; --amber-bg:   #F0FDFA;
+      --gold:       #134E4A; --gold-mid:   #0F766E;
+      --gold-lite:  #CCFBF1; --gold-bg:    #F0FDFA;
+      --white:      #FFFFFF; --gray-1: #F4F6F7; --gray-2: #D5D8DC;
+      --text-dark:  #1A2530; --text-mid: #3D566E;
+      --shadow:     0 2px 12px rgba(4,47,46,0.12);
+      --header-bg:  linear-gradient(135deg, #030d0c 0%, #0f3330 40%, #0d9488 75%, #2dd4bf 95%, #5eead4 100%);
+      --header-small-bg: linear-gradient(135deg, #030d0c 0%, #0f3330 50%, #0f766e 100%);
+      --header-bar-bg: linear-gradient(90deg, #0f766e 0%, #0d9488 25%, #14b8a6 55%, #2dd4bf 80%, #0d9488 100%);
+      --header-hl:  #5EEAD4;
+    }
+    body { background: #c4d8d4; }
+    .proto-head.p1 { background: linear-gradient(135deg, var(--petrol-mid) 0%, var(--amber-mid) 100%); }
+    .proto-head.p2 { background: linear-gradient(135deg, var(--petrol) 0%, var(--petrol-mid) 100%); }
+    .proto-head.p3 { background: linear-gradient(135deg, var(--petrol-dark) 0%, var(--petrol) 100%); }
+    /* Ratio box único deste produto */
+    .ratio-box {
+      background: linear-gradient(135deg, #042f2e 0%, #0f3d3a 100%);
+      border-radius: 8px; padding: 11px 14px;
+      display: flex; align-items: center; gap: 14px;
+    }
+    .ratio-icon { font-size: 26px; flex-shrink: 0; }
+    .ratio-content { flex: 1; }
+    .ratio-title { font-size: 10px; font-weight: 800; color: #5eead4; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 5px; font-family: 'Montserrat', sans-serif; }
+    .ratio-bars { display: flex; flex-direction: column; gap: 5px; }
+    .ratio-row { display: flex; align-items: center; gap: 8px; }
+    .ratio-label { font-size: 8.5px; color: #99f6e4; font-weight: 700; width: 80px; flex-shrink: 0; font-family: 'Montserrat', sans-serif; }
+    .ratio-bar-track { flex: 1; height: 10px; background: rgba(255,255,255,0.08); border-radius: 5px; overflow: hidden; }
+    .ratio-bar-fill { height: 100%; border-radius: 5px; }
+    .fill-anabolic { background: linear-gradient(90deg, #0d9488, #2dd4bf); width: 85%; }
+    .fill-androgenic { background: linear-gradient(90deg, #6b7280, #9ca3af); width: 15%; }
+    .fill-test-anabolic { background: linear-gradient(90deg, #6b7280, #9ca3af); width: 26%; }
+    .fill-test-androgenic { background: linear-gradient(90deg, #6b7280, #9ca3af); width: 26%; }
+    .ratio-val { font-size: 9px; color: #f0fdfa; font-weight: 800; width: 38px; text-align: right; flex-shrink: 0; font-family: 'Montserrat', sans-serif; }
+    /* Dose gender grid */
+    .dose-gender { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .dose-card { border-radius: 8px; overflow: hidden; border: 1px solid #99f6e4; }
+    .dose-card-header {
+      padding: 7px 12px; background: linear-gradient(135deg, #0f766e, #0d9488);
+      color: #fff; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px;
+      display: flex; align-items: center; gap: 6px; font-family: 'Montserrat', sans-serif;
+    }
+    .dose-card-header.female { background: linear-gradient(135deg, #134e4a, #0f766e); }
+    .dose-card-body { padding: 8px 12px; background: #f0fdfa; }
+    .dose-row { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; border-bottom: 1px solid #ccfbf1; }
+    .dose-row:last-child { border-bottom: none; }
+    .dose-phase { font-size: 8.5px; font-weight: 700; color: #134e4a; font-family: 'Montserrat', sans-serif; }
+    .dose-amt   { font-size: 9px; font-weight: 800; color: #0f766e; font-family: 'Montserrat', sans-serif; }
+    .dose-dur   { font-size: 8px; color: #6b7280; font-family: 'Lato', sans-serif; }
+  </style>
+</head>
+<body>
+
+<!-- ═══ PÁGINA 1 ═══ -->
+<div class="page">
+  <div class="header">
+    <div class="header-inner">
+      <div class="header-logo"><img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" /></div>
+      <div class="header-center">
+        <div class="header-tag">Informativo Técnico · EAA Oral · DHT Derivado · Uso Masculino &amp; Feminino</div>
+        <div class="header-title">OXANDROLONA <span class="hl">5mg</span></div>
+        <div class="header-subtitle">17α-Metil-2-oxa-5α-dihidrotestosterona · Anavar® · Razão Anabólica 320:45 · Sem Aromatização</div>
+      </div>
+      <div class="header-badges">
+        <div class="badge-box"><div class="b-label">Comprimido</div><div class="b-val"><span>5</span> mg</div></div>
+        <div class="badge-box"><div class="b-label">Razão</div><div class="b-val">320:45 Anab/And</div></div>
+        <div class="badge-box"><div class="b-label">Código</div><div class="b-val">OXAN-5-PFY</div></div>
+      </div>
+    </div>
+    <div class="header-bar"></div>
+  </div>
+
+  <div class="info-strip">
+    <span class="info-chip">EAA ORAL · ANAVAR®</span>
+    <span class="info-chip dark">SEM AROMATIZAÇÃO · FEMININO SAFE</span>
+    <span class="info-text">Oxandrolona (Anavar®) — EAA oral derivado da DHT com <strong>razão anabólica 320:45</strong> vs testosterona (100:100). Não aromatiza em estrogênio, não causa retenção hídrica e possui a menor toxicidade hepática entre os 17α-alquilados. Uma das únicas EAA indicadas para uso feminino. Aprovada pela FDA para wasting syndrome (HIV/AIDS), queimados e osteoporose.</span>
+  </div>
+
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="st-icon">💊</span><h2>O Que É a Oxandrolona?</h2><div class="st-line"></div></div>
+      <div class="intro-strip">
+        <div class="intro-icon">💊</div>
+        <div class="intro-text">
+          A <strong>Oxandrolona</strong> (conhecida comercialmente como <em>Anavar®</em>) é um esteróide anabolizante oral sintético derivado da <strong>dihidrotestosterona (DHT)</strong>, com modificação estrutural na posição C-2 (substituição de carbono por oxigênio no anel A) que lhe confere excepcional estabilidade hepática e altíssima razão anabólica. Desenvolvida pela Searle Laboratories em 1964, é amplamente utilizada em contextos clínicos para recuperação de massa magra em pacientes com HIV/AIDS, queimados, osteoporose e síndrome de Turner. No contexto esportivo, é reconhecida por promover <strong>ganho de força de qualidade, definição muscular, lipólise seletiva e preservação de massa magra</strong> durante restrição calórica — sem retenção hídrica e sem aromatização, tornando-a uma das opções mais bem toleradas por <strong>homens e mulheres</strong>.
+          <div class="spec-grid">
+            <div class="spec-item"><div class="s-val">5mg</div><div class="s-lbl">Por Comprimido</div></div>
+            <div class="spec-item"><div class="s-val">320:45</div><div class="s-lbl">Anab:Androg</div></div>
+            <div class="spec-item"><div class="s-val">9–10h</div><div class="s-lbl">Meia-vida</div></div>
+            <div class="spec-item"><div class="s-val">Oral</div><div class="s-lbl">Administração</div></div>
+            <div class="spec-item"><div class="s-val">DHT</div><div class="s-lbl">Derivado</div></div>
+            <div class="spec-item"><div class="s-val">Não</div><div class="s-lbl">Aromatiza</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">⚖️</span><h2>Comparativo de Potência — Anabólico vs Androgênico</h2><div class="st-line"></div></div>
+      <div class="ratio-box">
+        <div class="ratio-icon">⚖️</div>
+        <div class="ratio-content">
+          <div class="ratio-title">Índice Anabólico/Androgênico — Oxandrolona vs Testosterona</div>
+          <div class="ratio-bars">
+            <div class="ratio-row">
+              <div class="ratio-label">Oxandrolona · Anab.</div>
+              <div class="ratio-bar-track"><div class="ratio-bar-fill fill-anabolic"></div></div>
+              <div class="ratio-val" style="color:#2dd4bf">320</div>
+            </div>
+            <div class="ratio-row">
+              <div class="ratio-label">Oxandrolona · Androg.</div>
+              <div class="ratio-bar-track"><div class="ratio-bar-fill fill-androgenic"></div></div>
+              <div class="ratio-val" style="color:#9ca3af">45</div>
+            </div>
+            <div class="ratio-row">
+              <div class="ratio-label">Testosterona · Anab.</div>
+              <div class="ratio-bar-track"><div class="ratio-bar-fill fill-test-anabolic"></div></div>
+              <div class="ratio-val" style="color:#9ca3af">100</div>
+            </div>
+            <div class="ratio-row">
+              <div class="ratio-label">Testosterona · Androg.</div>
+              <div class="ratio-bar-track"><div class="ratio-bar-fill fill-test-androgenic"></div></div>
+              <div class="ratio-val" style="color:#9ca3af">100</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">⚡</span><h2>Mecanismo de Ação</h2><div class="st-line"></div></div>
+      <div class="mec-grid">
+        <div class="mec-card">
+          <div class="mec-icon">💪</div>
+          <div class="mec-title">Síntese Proteica</div>
+          <div class="mec-text">Liga-se ao receptor androgênico (AR) no músculo esquelético com alta afinidade, ativando transcrição gênica anabólica. Eleva balanço nitrogenado positivo e estimula síntese de proteínas contráteis (actina e miosina).</div>
+        </div>
+        <div class="mec-card">
+          <div class="mec-icon">🔥</div>
+          <div class="mec-title">Lipólise Seletiva</div>
+          <div class="mec-text">Aumenta a sensibilidade de receptores β-adrenérgicos nos adipócitos e inibe lipoproteína lipase, favorecendo mobilização de ácidos graxos — especialmente gordura visceral e subcutânea.</div>
+        </div>
+        <div class="mec-card">
+          <div class="mec-icon">🦴</div>
+          <div class="mec-title">Anabolismo Ósseo e GH</div>
+          <div class="mec-text">Estimula secreção pulsátil de GH via receptor androgênico hipotalâmico, elevando IGF-1. Aumenta síntese de colágeno, melhora densidade mineral óssea e acelera reparo de tendões e ligamentos.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">✅</span><h2>Benefícios Clínicos e de Performance</h2><div class="st-line"></div></div>
+      <table class="moa">
+        <thead><tr><th>Área</th><th>Efeito Documentado</th><th style="width:13%;text-align:center">Evidência</th></tr></thead>
+        <tbody>
+          <tr><td>Força Muscular</td><td>↑ força máxima (1RM) sem proporcional aumento de massa — ideal para atletas de categorias de peso e esportes de combate</td><td style="text-align:center"><span class="tag-ev high">Alta</span></td></tr>
+          <tr><td>Composição Corporal</td><td>Preserva massa magra durante déficit calórico; ↓ gordura visceral e subcutânea; recomposição corporal sem retenção hídrica</td><td style="text-align:center"><span class="tag-ev high">Alta</span></td></tr>
+          <tr><td>Recuperação</td><td>Acelera reparo muscular e de colágeno pós-treino; reduz marcadores de catabolismo (cortisol, CK); melhora recuperação entre sessões</td><td style="text-align:center"><span class="tag-ev high">Alta</span></td></tr>
+          <tr><td>Uso Feminino</td><td>Uma das únicas EAA com risco virilizante baixo em doses terapêuticas (5–15mg/dia); melhora libido, força e definição em mulheres</td><td style="text-align:center"><span class="tag-ev mod">Mod.</span></td></tr>
+          <tr><td>Clínico / Terapêutico</td><td>Aprovada pelo FDA para wasting syndrome (HIV/AIDS), queimados, osteoporose; ganho de peso e massa em pacientes catabólicos</td><td style="text-align:center"><span class="tag-ev high">Alta</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📋</span><h2>Modo de Uso — Administração Oral</h2><div class="st-line"></div></div>
+      <div class="uso-steps">
+        <div class="uso-step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Divisão da dose diária em 2 tomadas</div>
+            <div class="step-text">Devido à meia-vida de 9–10h, divida a dose em <strong>2 tomadas equidistantes</strong> (ex.: 10h e 22h) para manter níveis plasmáticos estáveis e reduzir pico hepático.</div>
+          </div>
+        </div>
+        <div class="uso-step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Tomar com ou sem alimento</div>
+            <div class="step-text">Pode ser ingerida com alimento para reduzir desconforto gástrico eventual. A absorção não é significativamente afetada pela gordura alimentar. Evitar ingestão simultânea com hepatotóxicos.</div>
+          </div>
+        </div>
+        <div class="uso-step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Duração do ciclo e TPC</div>
+            <div class="step-text">Ciclos masculinos: <strong>6–8 semanas</strong>. Ciclos femininos: <strong>4–6 semanas</strong>. Recomenda-se TPC com Clomifeno ou Tamoxifeno em homens para restaurar o eixo HPTA.</div>
+          </div>
+        </div>
+        <div class="uso-step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <div class="step-title">Monitoramento laboratorial obrigatório</div>
+            <div class="step-text">Solicitar: <strong>TGO/TGP, colesterol total + frações (LDL/HDL), testosterona total, hemograma e glicemia</strong> — antes, durante (4 semanas) e após o ciclo. Oxandrolona pode reduzir HDL significativamente.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📊</span><h2>Dosagem — Masculino &amp; Feminino</h2><div class="st-line"></div></div>
+      <div class="dose-gender">
+        <div class="dose-card">
+          <div class="dose-card-header">♂ Masculino</div>
+          <div class="dose-card-body">
+            <div class="dose-row"><span class="dose-phase">Iniciante</span><span class="dose-amt">20–30mg/dia</span><span class="dose-dur">6 sem.</span></div>
+            <div class="dose-row"><span class="dose-phase">Intermediário</span><span class="dose-amt">40–60mg/dia</span><span class="dose-dur">6–8 sem.</span></div>
+            <div class="dose-row"><span class="dose-phase">Avançado</span><span class="dose-amt">60–80mg/dia</span><span class="dose-dur">6–8 sem.</span></div>
+            <div class="dose-row"><span class="dose-phase">Cutting stack</span><span class="dose-amt">40mg + Masteron</span><span class="dose-dur">8 sem.</span></div>
+          </div>
+        </div>
+        <div class="dose-card">
+          <div class="dose-card-header female">♀ Feminino</div>
+          <div class="dose-card-body">
+            <div class="dose-row"><span class="dose-phase">Iniciante</span><span class="dose-amt">5–10mg/dia</span><span class="dose-dur">4 sem.</span></div>
+            <div class="dose-row"><span class="dose-phase">Intermediário</span><span class="dose-amt">10–15mg/dia</span><span class="dose-dur">4–6 sem.</span></div>
+            <div class="dose-row"><span class="dose-phase">Avançado</span><span class="dose-amt">15–20mg/dia</span><span class="dose-dur">6 sem.</span></div>
+            <div class="dose-row"><span class="dose-phase">Terapêutico</span><span class="dose-amt">2,5–10mg/dia</span><span class="dose-dur">Prescrito</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Compostos de Alta Performance</div>
+    <div class="footer-code">DOC: OXAN-5-PFY · Rev. Mar/2026</div>
+    <div class="footer-page">1 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+<!-- ═══ PÁGINA 2 ═══ -->
+<div class="page">
+  <div class="header-small">
+    <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" />
+    <div>
+      <div class="hs-title">OXANDROLONA <span>5mg</span> · Protocolos</div>
+      <div class="hs-sub">EAA Oral · Masculino &amp; Feminino · DHT Derivado</div>
+    </div>
+    <div class="hs-right">
+      <div class="hs-title" style="font-size:9pt;color:rgba(255,255,255,0.5)">PHARMAFIT-PY</div>
+      <div class="hs-sub">Informativo Técnico · Página 2</div>
+    </div>
+  </div>
+  <div class="header-bar"></div>
+
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="st-icon">🗂️</span><h2>Protocolos de Uso Clínico</h2><div class="st-line"></div></div>
+      <div class="proto-grid">
+        <div class="proto-card">
+          <div class="proto-head p1"><div class="p-num">Protocolo 01</div><div class="p-title">Cutting &amp; Definição Muscular — Masculino</div><div class="p-icon">🔥</div></div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Perfil</span><span class="pr-val">Definição · lipólise · massa seca</span></div>
+            <div class="proto-row"><span class="pr-label">Dose</span><span class="pr-val"><strong>40mg/dia</strong> · 20mg 08h + 20mg 20h</span></div>
+            <div class="proto-row"><span class="pr-label">Duração</span><span class="pr-val"><strong>8 semanas</strong> · déficit –300 a –500kcal</span></div>
+            <div class="proto-row"><span class="pr-label">Stack</span><span class="pr-val">Tesamorelin 2mg/noite · MOTS-c 5mg 3×/sem</span></div>
+            <div class="proto-row"><span class="pr-label">TPC</span><span class="pr-val">4 semanas · Clomifeno + Tamoxifeno</span></div>
+            <div class="proto-row"><span class="pr-label">Resultado</span><span class="pr-val">↓ 4–8% gordura · ↑ Força 15–25% · Zero retenção</span></div>
+          </div>
+        </div>
+        <div class="proto-card">
+          <div class="proto-head p2"><div class="p-num">Protocolo 02</div><div class="p-title">Força &amp; Performance Atlética — Sem Ganho de Peso</div><div class="p-icon">⚡</div></div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Perfil</span><span class="pr-val">Lutadores · atletas de potência e velocidade</span></div>
+            <div class="proto-row"><span class="pr-label">Dose</span><span class="pr-val"><strong>30–50mg/dia</strong> · 2 tomadas equidistantes</span></div>
+            <div class="proto-row"><span class="pr-label">Duração</span><span class="pr-val"><strong>6 semanas</strong> · manutenção calórica ou +200kcal</span></div>
+            <div class="proto-row"><span class="pr-label">Stack</span><span class="pr-val">Creatina 5g/dia · BPC-157 · Beta-alanina 3,2g</span></div>
+            <div class="proto-row"><span class="pr-label">TPC</span><span class="pr-val">3 semanas pós-ciclo</span></div>
+            <div class="proto-row"><span class="pr-label">Resultado</span><span class="pr-val">↑ 1RM 20–30% · Sem retenção · ↑ Recuperação</span></div>
+          </div>
+        </div>
+        <div class="proto-card">
+          <div class="proto-head p3"><div class="p-num">Protocolo 03</div><div class="p-title">Feminino — Definição, Força &amp; Libido</div><div class="p-icon">♀</div></div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Perfil</span><span class="pr-val">Mulheres · definição · força funcional</span></div>
+            <div class="proto-row"><span class="pr-label">Dose</span><span class="pr-val"><strong>10mg/dia</strong> · 5mg 08h + 5mg 20h</span></div>
+            <div class="proto-row"><span class="pr-label">Duração</span><span class="pr-val"><strong>4–6 semanas</strong> · pausa obrigatória 6 semanas</span></div>
+            <div class="proto-row"><span class="pr-label">Monitorar</span><span class="pr-val">Suspender se acne, engrossamento de voz, clitoromegalia</span></div>
+            <div class="proto-row"><span class="pr-label">Stack</span><span class="pr-val">Colágeno 10g/dia · MOTS-c 2,5mg 2×/sem · Proteína 1,8–2g/kg</span></div>
+            <div class="proto-row"><span class="pr-label">Resultado</span><span class="pr-val">↑ Definição · ↓ Gordura localizada · ↑ Libido</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pct-box">
+      <div class="pct-title">🔄 Terapia Pós-Ciclo (TPC) — Masculino</div>
+      <div class="pct-grid">
+        <div class="pct-item">
+          <div class="pi-name">Clomifeno</div>
+          <div class="pi-dose">50mg/dia × 2 sem → 25mg/dia × 2 sem. Estimula LH/FSH → restaura testosterona endógena.</div>
+        </div>
+        <div class="pct-item">
+          <div class="pi-name">Tamoxifeno</div>
+          <div class="pi-dose">20mg/dia × 4 semanas. Alternativa ao Clomifeno; bloqueia estrogênio hipofisário → ↑ gonadotrofinas.</div>
+        </div>
+        <div class="pct-item">
+          <div class="pi-name">Suporte Hepático</div>
+          <div class="pi-dose">TUDCA 500mg/dia + NAC 600mg/dia durante e após ciclo para proteção e regeneração hepática.</div>
+        </div>
+      </div>
+      <div class="pct-note">⚠ TPC deve iniciar 24–48h após a última dose de Oxandrolona (meia-vida curta de 9–10h). Monitorar testosterona total e LH/FSH 4 semanas após TPC para confirmar recuperação do eixo HPTA.</div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📈</span><h2>Oxandrolona vs Outros EAA Orais</h2><div class="st-line"></div></div>
+      <table class="compare-table">
+        <thead>
+          <tr><th>Parâmetro</th><th>Oxandrolona</th><th>Stanozolol</th><th>Turinabol</th><th>Dianabol</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Segurança feminina</td><td><span class="check">✓✓</span></td><td><span class="partial">±</span></td><td><span class="partial">±</span></td><td><span class="cross">—</span></td></tr>
+          <tr><td>Sem aromatização</td><td><span class="check">✓✓</span></td><td><span class="check">✓✓</span></td><td><span class="check">✓✓</span></td><td><span class="cross">Aromatiza</span></td></tr>
+          <tr><td>Força sem peso</td><td><span class="check">✓✓</span></td><td><span class="check">✓✓</span></td><td><span class="partial">±</span></td><td><span class="cross">Ganha peso</span></td></tr>
+          <tr><td>Toxicidade hepática</td><td><span class="check">Baixa</span></td><td><span class="partial">Moderada</span></td><td><span class="partial">Moderada</span></td><td><span class="cross">Alta</span></td></tr>
+          <tr><td>Supressão HPTA</td><td><span class="check">Leve</span></td><td><span class="partial">Moderada</span></td><td><span class="partial">Moderada</span></td><td><span class="cross">Intensa</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="box-card adv">
+        <div class="box-title">⚠️ Contraindicações &amp; Precauções</div>
+        <div class="adv-item"><span class="adv-icon">🔴</span><div class="adv-text"><strong>Gestação</strong> — risco teratogênico comprovado (virilização fetal). Contraindicação absoluta.</div></div>
+        <div class="adv-item"><span class="adv-icon">🔴</span><div class="adv-text"><strong>Câncer hormônio-dependente</strong> — contraindicado. Consultar oncologista antes de qualquer uso.</div></div>
+        <div class="adv-item"><span class="adv-icon">🟡</span><div class="adv-text"><strong>TGO/TGP</strong> — monitorar a cada 4 semanas. Hepatotoxicidade possível em doses altas; reduzir dose se elevação &gt;3× normal.</div></div>
+        <div class="adv-item"><span class="adv-icon">🟡</span><div class="adv-text"><strong>↓ HDL significativo</strong> — suplementar com Ômega-3 4g/dia e evitar gorduras trans. Monitorar perfil lipídico.</div></div>
+        <div class="adv-item"><span class="adv-icon">🟡</span><div class="adv-text"><strong>Mulheres</strong> — suspender imediatamente ante sinais de virilização irreversível (voz, clitoromegalia).</div></div>
+        <div class="adv-item"><span class="adv-icon">⚪</span><div class="adv-text"><strong>Não combinar</strong> com outros 17α-alquilados (carga hepática cumulativa). Uso exclusivo sob supervisão médica.</div></div>
+      </div>
+
+    <div class="pharmafit-banner" style="margin-top:16px">
+      <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" class="pf-logo" />
+      <div class="pf-text">
+        <div class="pf-label">Estudo Clínico Elaborado por</div>
+        <div class="pf-brand">Pharmafit<span>-PY</span></div>
+        <div class="pf-tagline">Compostos injetáveis de alta pureza com qualidade farmacêutica.<br>Protocolos personalizados para saúde, performance e bem-estar.</div>
+      </div>
+      <a class="pf-cta" href="tel:+12142049853">📞 +1 (214) 204-9853</a>
+    </div>
+
+    <div class="box-card ref" style="margin-bottom:0">
+      <div class="box-title">📚 Referências Científicas</div>
+      <ul class="ref-list">
+        <li data-n="1">Orr R &amp; Singh MF. (2004). <em>The anabolic androgenic steroid oxandrolone in the treatment of wasting and catabolic disorders: review of efficacy and safety.</em> Drugs. 64(7):725–750.</li>
+        <li data-n="2">Demling RH &amp; DeSanti L. (1997). <em>Oxandrolone, an anabolic steroid, significantly increases the rate of weight gain in the recovery phase after major burns.</em> J Trauma. 43(1):47–51.</li>
+        <li data-n="3">Bhasin S et al. (2001). <em>The dose-dependent effects of testosterone on sexual function and on muscle mass and function.</em> J Clin Endocrinol Metab. 86(9):4078–4088.</li>
+        <li data-n="4">Hartgens F &amp; Kuipers H. (2004). <em>Effects of androgenic-anabolic steroids in athletes.</em> Sports Medicine. 34(8):513–554.</li>
+        <li data-n="5">Grunfeld C et al. (2006). <em>Oxandrolone in the treatment of HIV-associated weight loss in men: a randomized, double-blind, placebo-controlled study.</em> JAIDS. 41(3):304–314.</li>
+        <li data-n="6">Yeh SS et al. (2010). <em>Improvement in quality-of-life measures and stimulation of weight gain after treatment in geriatric cachexia.</em> J Am Geriatr Soc. 48(5):485–492.</li>
+        <li data-n="7">Bashin S et al. (2018). <em>Drug Insight: Testosterone and selective androgen receptor modulators as anabolic therapies for chronic illness and aging.</em> Nat Clin Pract Endocrinol Metab. 2(3):146–159.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Compostos de Alta Performance</div>
+    <div class="footer-code">DOC: OXAN-5-PFY · Rev. Mar/2026 · Uso Profissional</div>
+    <div class="footer-page">2 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+</body>
+</html>

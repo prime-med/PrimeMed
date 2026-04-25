@@ -1,0 +1,515 @@
+<!--
+  ╔══════════════════════════════════════════════════════════════════╗
+  ║  INFORMATIVO_TEMPLATE.html — BASE PARA NOVOS INFORMATIVOS       ║
+  ║  Pharmafit-PY · Uso interno                                     ║
+  ╠══════════════════════════════════════════════════════════════════╣
+  ║  COMO USAR:                                                     ║
+  ║  1. Copie este arquivo → renomeie para informativo_[produto].html║
+  ║  2. Troque todos os [PLACEHOLDERS] pelo conteúdo do produto     ║
+  ║  3. Ajuste as cores no bloco :root abaixo                       ║
+  ║  4. Escolha os componentes de conteúdo que precisa              ║
+  ║     (apague os que não usar, copie mais do mesmo tipo se precisar)
+  ║                                                                  ║
+  ║  REFERÊNCIAS DE TEMA DE CORES:                                  ║
+  ║  • Tema azul/âmbar  → informativo_tirzepatida_120mg.html        ║
+  ║  • Tema escuro/ouro → informativo_durateston.html               ║
+  ║                                                                  ║
+  ║  NÃO ALTERAR (igual em todos os informativos):                  ║
+  ║  • .pharmafit-banner (tagline e telefone Pharmafit)             ║
+  ║  • .footer-note (aviso de uso profissional)                     ║
+  ║  • <link> para informativo.css                                  ║
+  ║  • Fontes Montserrat + Lato                                     ║
+  ╚══════════════════════════════════════════════════════════════════╝
+-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Informativo Técnico — [NOME DO PRODUTO] | PharmaFit-PY</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/informativo.css" />
+  <style>
+    /*
+    ── PALETA DO PRODUTO ─────────────────────────────────────────────
+    Defina aqui as cores do produto. Todas as variáveis abaixo são
+    usadas pelo informativo.css — não remova nenhuma.
+
+    --petrol-*   → cor principal escura (fundo de cards dark, texto forte)
+    --amber-*    → cor de destaque/acento (bordas, chips)
+    --gold-*     → cor dourada/título (headers, ícones de seção)
+    --header-bg  → gradiente do header principal (página 1)
+    --header-small-bg → gradiente do mini-header (página 2)
+    --header-bar-bg   → barra fina decorativa abaixo do header
+    --header-hl       → cor do destaque no título do header (.hl)
+
+    Para temas escuros (ex: Durateston):
+      --petrol-dark próximo de #000, --amber e --gold em tons dourados.
+    Para temas claros (ex: Tirzepatida):
+      --petrol como azul-petróleo, --amber como laranja/âmbar.
+    ─────────────────────────────────────────────────────────────────
+    */
+    :root {
+      --petrol:      #1B4F72; /* tom principal */
+      --petrol-dark: #0D2B3E; /* tom escuro */
+      --petrol-mid:  #2471A3; /* tom médio */
+      --petrol-lite: #D6EAF8; /* fundo claro */
+      --petrol-bg:   #EBF5FB; /* background suave */
+
+      --amber:       #B7600A; /* acento principal */
+      --amber-mid:   #E67E22; /* acento médio */
+      --amber-lite:  #FAE5D3; /* fundo âmbar claro */
+      --amber-bg:    #FEF5EC; /* background âmbar */
+
+      --gold:        #9A7D0A; /* dourado principal */
+      --gold-mid:    #D4AC0D; /* dourado médio */
+      --gold-lite:   #FCF3CF; /* fundo dourado claro */
+      --gold-bg:     #FEFDE7; /* background dourado */
+
+      --white:       #FFFFFF;
+      --gray-1:      #F4F6F7;
+      --gray-2:      #D5D8DC;
+      --text-dark:   #1A2530;
+      --text-mid:    #3D566E;
+      --shadow:      0 2px 12px rgba(13,43,62,0.10);
+
+      /* Gradientes do header — ajuste para o tema do produto */
+      --header-bg:        linear-gradient(135deg, #0D2B3E 0%, #1A3A5C 30%, #7D4A0A 60%, #B7600A 80%, #E67E22 100%);
+      --header-small-bg:  linear-gradient(135deg, #0D2B3E 0%, #1B4F72 35%, #7D4A0A 70%, #B7600A 100%);
+      --header-bar-bg:    linear-gradient(90deg, #1B4F72 0%, #2471A3 40%, #B7600A 70%, #E67E22 100%);
+      --header-hl:        #FDEBD0; /* cor do span.hl no título */
+    }
+    body { background: #c8d8e4; /* fundo externo — mude para combinar com o tema */ }
+
+    /*
+    Overrides opcionais por produto — adicione aqui regras
+    que não podem ser expressas só com variáveis. Exemplos:
+      .proto-head.p1 { background: linear-gradient(...); }
+      .header-logo img { border: 2px solid rgba(212,175,55,0.5); }
+    */
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════
+     PÁGINA 1
+════════════════════════════════════════════════════════ -->
+<div class="page">
+
+  <!-- HEADER PRINCIPAL -->
+  <div class="header">
+    <div class="header-inner">
+      <div class="header-logo">
+        <img src="../img/logo_pharmafit.png" alt="PharmaFit-PY" />
+      </div>
+      <div class="header-center">
+        <div class="header-tag">[CATEGORIA] · [SUBCATEGORIA] · [INDICAÇÃO PRINCIPAL]</div>
+        <div class="header-title">[NOME DO <span class="hl">PRODUTO]</span></div>
+        <div class="header-subtitle">[Descrição curta — concentração · apresentação · via de administração]</div>
+      </div>
+      <div class="header-badges">
+        <div class="badge-box">
+          <div class="b-label">Concentração</div>
+          <div class="b-val"><span>[XXX]</span> mg</div>
+        </div>
+        <div class="badge-box">
+          <div class="b-label">[Label 2]</div>
+          <div class="b-val">[Valor 2]</div>
+        </div>
+        <div class="badge-box">
+          <div class="b-label">Código</div>
+          <div class="b-val">[PROD-PFY]</div>
+        </div>
+      </div>
+    </div>
+    <div class="header-bar"></div>
+  </div>
+
+  <!-- INFO STRIP — chips de contexto rápido -->
+  <div class="info-strip">
+    <span class="info-chip">[CHIP 1]</span>
+    <span class="info-chip dark">[CHIP 2]</span>
+    <span class="info-text"><strong>[Destaque]</strong> — texto de contexto rápido sobre o produto e indicação.</span>
+  </div>
+
+  <div class="content">
+
+    <!-- ── "O QUE É" — obrigatório em todos ─────────────────── -->
+    <div class="section">
+      <div class="section-title">
+        <span class="st-icon">🧬</span>
+        <h2>O Que É o [Nome do Produto]?</h2>
+        <div class="st-line"></div>
+      </div>
+      <div class="intro-strip">
+        <div class="intro-icon">[EMOJI]</div>
+        <div class="intro-text">
+          Texto descritivo do produto — o que é, como funciona, indicação principal, diferenciais.
+          Use <strong>negrito</strong> para destacar termos técnicos importantes.
+          <div class="spec-grid">
+            <div class="spec-item"><div class="s-val">[XXX]</div><div class="s-lbl">Label 1</div></div>
+            <div class="spec-item"><div class="s-val">[XXX]</div><div class="s-lbl">Label 2</div></div>
+            <div class="spec-item"><div class="s-val">[XXX]</div><div class="s-lbl">Label 3</div></div>
+            <div class="spec-item"><div class="s-val">[XXX]</div><div class="s-lbl">Label 4</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         COMPONENTES DISPONÍVEIS — use os que fizerem sentido
+         para o produto. Apague os que não usar.
+    ════════════════════════════════════════════════════════ -->
+
+    <!-- ── COMPONENTE: BLEND GRID (ésteres, composições múltiplas) -->
+    <div class="section">
+      <div class="section-title"><span class="st-icon">⚗️</span><h2>[Título da Seção]</h2><div class="st-line"></div></div>
+      <div class="blend-grid">
+        <div class="blend-card">
+          <div class="bc-ester">[Nome Éster]</div>
+          <div class="bc-dose">XX</div>
+          <div class="bc-unit">mg/mL</div>
+          <div class="bc-half">⏱ X–Y dias</div>
+          <div class="bc-type">[Tipo de ação]</div>
+        </div>
+        <div class="blend-card">
+          <div class="bc-ester">[Nome Éster]</div>
+          <div class="bc-dose">XX</div>
+          <div class="bc-unit">mg/mL</div>
+          <div class="bc-half">⏱ X–Y dias</div>
+          <div class="bc-type">[Tipo de ação]</div>
+        </div>
+        <!-- Repita .blend-card conforme necessário -->
+      </div>
+    </div>
+
+    <!-- ── COMPONENTE: TIMELINE (perfil de liberação plasmática) -->
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📈</span><h2>[Perfil de Liberação]</h2><div class="st-line"></div></div>
+      <div class="timeline-box">
+        <div class="tl-title">Perfil Plasmático ao Longo do Tempo</div>
+        <div class="tl-track">
+          <div class="tl-segment tl-seg1">Fase 1</div>
+          <div class="tl-segment tl-seg2">Fase 2</div>
+          <div class="tl-segment tl-seg3">Fase 3</div>
+          <div class="tl-segment tl-seg4">Fase 4</div>
+        </div>
+        <div class="tl-labels"><span>Dia 0</span><span>Dia X</span><span>Dia X</span><span>Dia X+</span></div>
+        <div class="tl-legend">
+          <div class="tl-leg-item"><div class="tl-dot" style="background:#D4AF37"></div>[Fase 1]</div>
+          <div class="tl-leg-item"><div class="tl-dot" style="background:#B4900F"></div>[Fase 2]</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── COMPONENTE: MEC GRID (mecanismo de ação em cards) -->
+    <div class="section">
+      <div class="section-title"><span class="st-icon">🔬</span><h2>Mecanismo de Ação</h2><div class="st-line"></div></div>
+      <div class="mec-grid">
+        <div class="mec-card">
+          <div class="mec-icon">🎯</div>
+          <div class="mec-title">[Ação 1]</div>
+          <div class="mec-text">Descrição do mecanismo 1.</div>
+        </div>
+        <div class="mec-card">
+          <div class="mec-icon">⚡</div>
+          <div class="mec-title">[Ação 2]</div>
+          <div class="mec-text">Descrição do mecanismo 2.</div>
+        </div>
+        <div class="mec-card">
+          <div class="mec-icon">🔄</div>
+          <div class="mec-title">[Ação 3]</div>
+          <div class="mec-text">Descrição do mecanismo 3.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── COMPONENTE: TABELA MOA (benefícios/ações em tabela) -->
+    <div class="section">
+      <div class="section-title"><span class="st-icon">✅</span><h2>[Benefícios Clínicos]</h2><div class="st-line"></div></div>
+      <table class="moa">
+        <thead><tr><th>Área</th><th>Efeito Clínico</th><th>Evidência</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>[Área]</td>
+            <td>[Efeito]</td>
+            <td><span class="tag-ev high">Alta</span></td>
+          </tr>
+          <tr>
+            <td>[Área]</td>
+            <td>[Efeito]</td>
+            <td><span class="tag-ev mod">Moderada</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ── COMPONENTE: CONC BOX (concentração + dados técnicos) -->
+    <div class="section">
+      <div class="section-title"><span class="st-icon">💊</span><h2>[Concentração & Dados Técnicos]</h2><div class="st-line"></div></div>
+      <div class="conc-box">
+        <div class="conc-main">
+          <div class="conc-val">[XXX]</div>
+          <div class="conc-unit">mg/mL</div>
+        </div>
+        <div class="conc-divider"></div>
+        <div class="conc-info">
+          <div class="conc-row"><span class="conc-lbl">Veículo</span><span class="conc-data">[ex: Óleo de amendoim]</span></div>
+          <div class="conc-row"><span class="conc-lbl">Conservante</span><span class="conc-data">[ex: Álcool benzílico 2%]</span></div>
+          <div class="conc-row"><span class="conc-lbl">Esterilização</span><span class="conc-data">[ex: Filtração 0,22μm]</span></div>
+          <div class="conc-row"><span class="conc-lbl">Validade</span><span class="conc-data">[ex: 24 meses]</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content pág 1 -->
+
+  <!-- FOOTER PÁGINA 1 -->
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · [Subtítulo da marca]</div>
+    <div class="footer-code">DOC: [PROD-PFY] · Rev. [Mês/Ano] · Uso Profissional</div>
+    <div class="footer-page">1 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+
+</div><!-- /page 1 -->
+
+
+<!-- ═══════════════════════════════════════════════════════
+     PÁGINA 2
+════════════════════════════════════════════════════════ -->
+<div class="page">
+
+  <!-- HEADER PEQUENO (pág 2) -->
+  <div class="header-small">
+    <img src="../img/logo_pharmafit.png" alt="PharmaFit-PY" />
+    <div>
+      <div class="hs-title">[NOME DO <span>PRODUTO]</span></div>
+      <div class="hs-sub">[Subtítulo curto]</div>
+    </div>
+    <div class="hs-right">
+      <div class="hs-sub">Informativo Técnico · Página 2</div>
+    </div>
+  </div>
+  <div class="header-bar"></div>
+
+  <div class="content">
+
+    <!-- ── COMPONENTE: USO STEPS (passos de aplicação) -->
+    <div class="section">
+      <div class="section-title"><span class="st-icon">💉</span><h2>[Modo de Aplicação]</h2><div class="st-line"></div></div>
+      <div class="uso-steps">
+        <div class="uso-step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">[Título do passo]</div>
+            <div class="step-text">Descrição do passo 1.</div>
+          </div>
+        </div>
+        <div class="uso-step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">[Título do passo]</div>
+            <div class="step-text">Descrição do passo 2.</div>
+          </div>
+        </div>
+        <div class="uso-step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">[Título do passo]</div>
+            <div class="step-text">Descrição do passo 3.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── COMPONENTE: DISS STEPS (reconstituição de pó liofilizado) -->
+    <!-- Use este para peptídeos em pó (ex: Tirzepatida, BPC-157, Epithalon) -->
+    <div class="section">
+      <div class="section-title"><span class="st-icon">💧</span><h2>[Reconstituição]</h2><div class="st-line"></div></div>
+      <div class="diss-box">
+        <div class="diss-steps">
+          <div class="diss-step"><div class="ds-num">1</div><div class="ds-label">[Passo 1]</div><div class="ds-sub">[Detalhe]</div></div>
+          <div class="diss-step"><div class="ds-num">2</div><div class="ds-label">[Passo 2]</div><div class="ds-sub">[Detalhe]</div></div>
+          <div class="diss-step"><div class="ds-num">3</div><div class="ds-label">[Passo 3]</div><div class="ds-sub">[Detalhe]</div></div>
+          <div class="diss-step"><div class="ds-num">4</div><div class="ds-label">[Passo 4]</div><div class="ds-sub">[Detalhe]</div></div>
+          <div class="diss-step"><div class="ds-num">5</div><div class="ds-label">[Passo 5]</div><div class="ds-sub">[Detalhe]</div></div>
+        </div>
+        <table class="moa">
+          <thead><tr><th>Volume Aspirado</th><th>Dose [Produto]</th><th>Fase do Protocolo</th><th>Via</th></tr></thead>
+          <tbody>
+            <tr><td>[0,Xml]</td><td>[X mg]</td><td>[Fase inicial]</td><td>SC</td></tr>
+            <tr><td>[0,Xml]</td><td>[X mg]</td><td>[Fase seguinte]</td><td>SC</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── COMPONENTE: ESCAL BOX (escalonamento de dose) -->
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📈</span><h2>[Escalonamento de Dose]</h2><div class="st-line"></div></div>
+      <div class="escal-box">
+        <div class="box-title" style="color:var(--amber)">📈 [Título do escalonamento]</div>
+        <div class="escal-track">
+          <div class="escal-step">
+            <div class="es-bubble" style="background:var(--gray-2);color:var(--text-dark)">[Dose]</div>
+            <div class="es-label">[X mg]</div>
+            <div class="es-sub">[Período]</div>
+            <div class="es-vol">[Volume]</div>
+          </div>
+          <!-- Repita .escal-step para cada nível de dose -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ── COMPONENTE: PROTO GRID (protocolos de uso clínico) -->
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📋</span><h2>Protocolos de Uso Clínico</h2><div class="st-line"></div></div>
+      <div class="proto-grid">
+        <div class="proto-card">
+          <div class="proto-head p1">
+            <div class="p-num">Protocolo 01</div>
+            <div class="p-title">[Nome do Protocolo]</div>
+            <div class="p-icon">[EMOJI]</div>
+          </div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Perfil</span><span class="pr-val">[Indicação]</span></div>
+            <div class="proto-row"><span class="pr-label">Início</span><span class="pr-val">[Dose inicial]</span></div>
+            <div class="proto-row"><span class="pr-label">Escalo</span><span class="pr-val">[Progressão]</span></div>
+            <div class="proto-row"><span class="pr-label">Meta</span><span class="pr-val"><strong>[Dose alvo]</strong></span></div>
+            <div class="proto-row"><span class="pr-label">Duração</span><span class="pr-val">[Período]</span></div>
+          </div>
+        </div>
+        <div class="proto-card">
+          <div class="proto-head p2">
+            <div class="p-num">Protocolo 02</div>
+            <div class="p-title">[Nome do Protocolo]</div>
+            <div class="p-icon">[EMOJI]</div>
+          </div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Perfil</span><span class="pr-val">[Indicação]</span></div>
+            <div class="proto-row"><span class="pr-label">Início</span><span class="pr-val">[Dose inicial]</span></div>
+            <div class="proto-row"><span class="pr-label">Escalo</span><span class="pr-val">[Progressão]</span></div>
+            <div class="proto-row"><span class="pr-label">Meta</span><span class="pr-val"><strong>[Dose alvo]</strong></span></div>
+            <div class="proto-row"><span class="pr-label">Duração</span><span class="pr-val">[Período]</span></div>
+          </div>
+        </div>
+        <div class="proto-card">
+          <div class="proto-head p3">
+            <div class="p-num">Protocolo 03</div>
+            <div class="p-title">[Nome do Protocolo]</div>
+            <div class="p-icon">[EMOJI]</div>
+          </div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Perfil</span><span class="pr-val">[Indicação]</span></div>
+            <div class="proto-row"><span class="pr-label">Início</span><span class="pr-val">[Dose inicial]</span></div>
+            <div class="proto-row"><span class="pr-label">Escalo</span><span class="pr-val">[Progressão]</span></div>
+            <div class="proto-row"><span class="pr-label">Meta</span><span class="pr-val"><strong>[Dose alvo]</strong></span></div>
+            <div class="proto-row"><span class="pr-label">Duração</span><span class="pr-val">[Período]</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── COMPONENTE: PCT BOX (terapia pós-ciclo) -->
+    <!-- Use para anabolizantes que requerem TPC -->
+    <div class="section">
+      <div class="section-title"><span class="st-icon">🔄</span><h2>Terapia Pós-Ciclo (TPC)</h2><div class="st-line"></div></div>
+      <div class="pct-box">
+        <div class="pct-title">⚠️ Protocolo Completo de TPC</div>
+        <div class="pct-grid">
+          <div class="pct-item">
+            <div class="pi-name">[Composto 1]</div>
+            <div class="pi-dose">[Dose e protocolo]</div>
+          </div>
+          <div class="pct-item">
+            <div class="pi-name">[Composto 2]</div>
+            <div class="pi-dose">[Dose e protocolo]</div>
+          </div>
+          <div class="pct-item">
+            <div class="pi-name">[Composto 3]</div>
+            <div class="pi-dose">[Dose e protocolo]</div>
+          </div>
+          <div class="pct-item">
+            <div class="pi-name">[Composto 4]</div>
+            <div class="pi-dose">[Dose e protocolo]</div>
+          </div>
+        </div>
+        <div class="pct-note">⚠ [Nota importante sobre timing/monitoramento da TPC]</div>
+      </div>
+    </div>
+
+    <!-- ── COMPONENTE: COMPARE TABLE (comparativo com outros produtos) -->
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📊</span><h2>[Produto] vs. Alternativas</h2><div class="st-line"></div></div>
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th>Critério</th>
+            <th>[Este produto]</th>
+            <th>[Alternativa 1]</th>
+            <th>[Alternativa 2]</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>[Critério 1]</td>
+            <td><span class="check">✓✓</span></td>
+            <td><span class="partial">±</span></td>
+            <td><span class="cross">✗</span></td>
+          </tr>
+          <tr>
+            <td>[Critério 2]</td>
+            <td><span class="check">✓✓</span></td>
+            <td><span class="check">✓</span></td>
+            <td><span class="partial">±</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ── COMPONENTE: TWO COL — advertências + referências ─── -->
+    <div class="two-col">
+      <div class="box-card adv">
+        <div class="box-title">⚠️ Contraindicações &amp; Precauções</div>
+        <div class="adv-item"><span class="adv-icon">🔴</span><div class="adv-text"><strong>[Contraindicação absoluta]</strong> — detalhe.</div></div>
+        <div class="adv-item"><span class="adv-icon">🟡</span><div class="adv-text"><strong>[Atenção]</strong> — detalhe.</div></div>
+        <div class="adv-item"><span class="adv-icon">⚪</span><div class="adv-text"><strong>[Observação geral]</strong> — detalhe.</div></div>
+      </div>
+    </div>
+
+    <!-- PHARMAFIT BANNER — não alterar conteúdo -->
+    <div class="pharmafit-banner">
+      <img src="../img/logo_pharmafit.png" alt="PharmaFit-PY" class="pf-logo" />
+      <div class="pf-text">
+        <div class="pf-label">Estudo Clínico Elaborado por</div>
+        <div class="pf-brand">Pharmafit<span>-PY</span></div>
+        <div class="pf-tagline">Compostos injetáveis de alta pureza com qualidade farmacêutica.<br>Protocolos personalizados para saúde, performance e bem-estar.</div>
+      </div>
+      <a class="pf-cta" href="tel:+12142049853">📞 +1 (214) 204-9853</a>
+    </div>
+
+    <!-- REFERÊNCIAS CIENTÍFICAS -->
+    <div class="box-card ref">
+      <div class="box-title">📚 Referências Científicas</div>
+      <ul class="ref-list">
+        <li data-n="1">[Autor et al. (Ano). <em>Título do estudo.</em> Periódico. Vol(N):pp–pp.]</li>
+        <li data-n="2">[Autor et al. (Ano). <em>Título do estudo.</em> Periódico. Vol(N):pp–pp.]</li>
+        <li data-n="3">[Autor et al. (Ano). <em>Título do estudo.</em> Periódico. Vol(N):pp–pp.]</li>
+      </ul>
+    </div>
+
+  </div><!-- /content pág 2 -->
+
+  <!-- FOOTER PÁGINA 2 -->
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · [Subtítulo da marca]</div>
+    <div class="footer-code">DOC: [PROD-PFY] · Rev. [Mês/Ano] · Uso Profissional</div>
+    <div class="footer-page">2 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+
+</div><!-- /page 2 -->
+
+</body>
+</html>

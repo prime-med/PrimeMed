@@ -1,0 +1,323 @@
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  INFORMATIVO TÉCNICO — TEMPLATE PHARMAFIT-PY                ║
+  ║  Produto: Line Body 55ml                                    ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  ESTRUTURA GERAL (2 páginas .page):                         ║
+  ║  Pág 1: header → info-strip → "O Que É" → seções técnicas  ║
+  ║  Pág 2: header-small → seções avançadas → pharmafit-banner  ║
+  ║         → referências científicas → footer + footer-note    ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  O QUE CUSTOMIZAR POR PRODUTO:                              ║
+  ║  1. <title> — nome do produto                               ║
+  ║  2. :root — paleta de cores (ver abaixo)                    ║
+  ║  3. body { background } — cor do fundo externo da página    ║
+  ║  4. .header → textos: tag, título, subtítulo, badges        ║
+  ║  5. .info-strip → chips e texto de contexto                 ║
+  ║  6. Seção "O Que É..." → section-title + intro-text         ║
+  ║  7. Conteúdo das seções (componentes em informativo.css)    ║
+  ║  8. .header-small (pág 2) → título e subtítulo              ║
+  ║  9. .footer → brand text e código do documento              ║
+  ║  10. Referências científicas → .ref-list                    ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  NÃO ALTERAR (padronizado para todos os informativos):      ║
+  ║  • .pharmafit-banner — tagline e telefone da Pharmafit-PY   ║
+  ║  • .footer-note — aviso de uso profissional                 ║
+  ║  • Link para ../assets/css/informativo.css                  ║
+  ║  • Fontes: Montserrat + Lato (Google Fonts)                 ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Informativo Técnico — Line Body 55ml | PharmaFit-PY</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/informativo.css" />
+  <style>
+    :root {
+      --petrol:      #6C3483; --petrol-dark: #4A1A5A; --petrol-mid: #9B59B6;
+      --petrol-lite: #E8DAEF; --petrol-bg:   #F5EEF8;
+      --amber:       #B7600A; --amber-mid:   #E67E22;
+      --amber-lite:  #FAE5D3; --amber-bg:    #FEF5EC;
+      --gold:        #9A7D0A; --gold-mid:    #D4AC0D;
+      --gold-lite:   #FCF3CF; --gold-bg:     #FEFDE7;
+      --white:       #FFFFFF; --gray-1: #F4F6F7; --gray-2: #D5D8DC;
+      --text-dark:   #1A2530; --text-mid: #3D566E;
+      --shadow:      0 2px 12px rgba(74,26,90,0.10);
+      --header-bg:   linear-gradient(135deg, #4A1A5A 0%, #6C3483 50%, #0D2B3E 100%);
+      --header-bar-bg: linear-gradient(90deg, #6C3483 0%, #9B59B6 35%, #F1948A 65%, #E67E22 100%);
+      --header-small-bg: linear-gradient(135deg, #4A1A5A 0%, #6C3483 60%, #0D2B3E 100%);
+      --header-hl:   #C39BD3;
+    }
+    body { background: #c8d8e4; }
+    .proto-head.p1 { background: linear-gradient(135deg, var(--petrol), var(--petrol-mid)); }
+    .proto-head.p2 { background: linear-gradient(135deg, var(--petrol-dark), var(--petrol)); }
+    .proto-head.p3 { background: linear-gradient(135deg, var(--amber), var(--amber-mid)); }
+    .spec-grid .s-val { font-size: 10pt; }
+    .box-card.adv { border-left: 5px solid var(--amber); }
+  </style>
+</head>
+<body>
+
+<!-- ═══ PÁGINA 1 ═══ -->
+<div class="page">
+  <div class="header">
+    <div class="header-inner">
+      <div class="header-logo"><img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" /></div>
+      <div class="header-center">
+        <div class="header-tag">Lipolítico Injectable · Remodelamento Corporal · Redução de Gordura Localizada</div>
+        <div class="header-title">Line Body <span class="hl">55ml</span></div>
+        <div class="header-subtitle">Fosfatidilcolina + Deoxicolato · Dissolução de Adipócitos · Corporal e Facial</div>
+      </div>
+      <div class="header-badges">
+        <div class="badge-box"><div class="b-label">Volume</div><div class="b-val">55ml</div></div>
+        <div class="badge-box"><div class="b-label">Via</div><div class="b-val">Injeção IL</div></div>
+        <div class="badge-box"><div class="b-label">Código</div><div class="b-val">LINEB-55-PFY</div></div>
+      </div>
+    </div>
+    <div class="header-bar"></div>
+  </div>
+
+  <div class="info-strip">
+    <span class="info-chip">StunMedical</span>
+    <span class="info-chip dark">Uso Estético Médico</span>
+    <span class="info-text"><strong>Line Body StunMedical</strong> — Lipolítico injectable à base de Fosfatidilcolina (PC) + Deoxicolato de Sódio (DC) · Formulação de uso estético médico · Aprovado uso no Paraguai e demais países da região</span>
+  </div>
+
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="st-icon">💉</span><h2>O Que É o Line Body?</h2><div class="st-line"></div></div>
+      <div class="intro-strip">
+        <div class="intro-icon">💉</div>
+        <div class="intro-text">
+          <strong>Line Body</strong> é um produto lipolítico injectable à base de <strong>Fosfatidilcolina (PC)</strong> e <strong>Deoxicolato de Sódio (DC)</strong>, formulados para dissolução mecânica e química de adipócitos em gorduras localizadas. A fosfatidilcolina desestrutura a membrana dos adipócitos, enquanto o deoxicolato de sódio (surfactante bile) rompe a membrana celular, resultando na liberação e metabolização dos lipídeos pelo sistema linfático. Indicado para liporredeução localizada em diversas regiões corporais e faciais.
+          <div class="spec-grid">
+            <div class="spec-item"><div class="s-val">55ml</div><div class="s-lbl">Volume</div></div>
+            <div class="spec-item"><div class="s-val">PC+DC</div><div class="s-lbl">Princípios ativos</div></div>
+            <div class="spec-item"><div class="s-val">IL</div><div class="s-lbl">Via</div></div>
+            <div class="spec-item"><div class="s-val">0,2ml</div><div class="s-lbl">Por ponto</div></div>
+            <div class="spec-item"><div class="s-val">30G×8mm</div><div class="s-lbl">Agulha</div></div>
+            <div class="spec-item"><div class="s-val">Permanente</div><div class="s-lbl">Resultado</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">⚗️</span><h2>Mecanismo de Ação</h2><div class="st-line"></div></div>
+      <table class="moa">
+        <thead>
+          <tr>
+            <th style="width:23%">Componente / Via</th>
+            <th style="width:59%">Ação Farmacológica</th>
+            <th style="width:18%">Sistema</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Fosfatidilcolina (PC)</td>
+            <td>Desestrutura membrana fosfolipídica do adipócito · emulsificação intralipídica · dissolução gradual da célula gorda</td>
+            <td>Membrana Lipídica</td>
+          </tr>
+          <tr>
+            <td>Deoxicolato de Sódio (DC)</td>
+            <td>Surfactante biliar · solubiliza a membrana do adipócito · lise celular · liberação de lipídeos para o interstício</td>
+            <td>Bile Salt</td>
+          </tr>
+          <tr>
+            <td>Metabolismo Linfático</td>
+            <td>Lipídeos liberados são captados pelo sistema linfático e transportados ao fígado para metabolização</td>
+            <td>Linfático/Hepático</td>
+          </tr>
+          <tr>
+            <td>Inflamação Controlada</td>
+            <td>Microinflamação local com posterior fibrose leve · efeito "tensionador" na pele · melhora laxidão</td>
+            <td>Fibroblasto</td>
+          </tr>
+          <tr>
+            <td>Redução de Volume</td>
+            <td>Destruição permanente de adipócitos tratados · resultado permanente se mantido estilo de vida</td>
+            <td>Mecânico</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">💧</span><h2>Técnica de Aplicação e Dosagem</h2><div class="st-line"></div></div>
+      <div class="diss-box">
+        <div class="diss-steps">
+          <div class="diss-step">
+            <div class="step-circle">1</div>
+            <div class="step-text"><strong>Marcação</strong> — Delimite a área a tratar com caneta dermográfica</div>
+          </div>
+          <div class="diss-step">
+            <div class="step-circle">2</div>
+            <div class="step-text"><strong>Antissepsia</strong> — Álcool 70% ou clorexidina alcoólica na área</div>
+          </div>
+          <div class="diss-step">
+            <div class="step-circle">3</div>
+            <div class="step-text"><strong>Seringa</strong> — Seringa de 5ml com agulha 30G × 8mm</div>
+          </div>
+          <div class="diss-step">
+            <div class="step-circle">4</div>
+            <div class="step-text"><strong>Aplicação</strong> — Injeção IL (intralipídica) de 0,2ml por ponto, espaçados 1cm</div>
+          </div>
+          <div class="diss-step">
+            <div class="step-circle">5</div>
+            <div class="step-text"><strong>Pós-aplicação</strong> — Massagem suave circular por 5 min pós-aplicação</div>
+          </div>
+        </div>
+        <table class="dose-table">
+          <thead>
+            <tr>
+              <th>Área de Tratamento</th>
+              <th>Volume/Sessão</th>
+              <th>Vol. por Ponto</th>
+              <th>Indicação</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Abdômen leve</td>
+              <td>10–20ml</td>
+              <td>0,2ml/ponto</td>
+              <td>Gordura superficial</td>
+            </tr>
+            <tr>
+              <td>Abdômen moderado</td>
+              <td>20–40ml</td>
+              <td>0,2ml/ponto</td>
+              <td>Acúmulo moderado</td>
+            </tr>
+            <tr>
+              <td>Flancos/Costas</td>
+              <td>10–20ml</td>
+              <td>0,2ml/ponto</td>
+              <td>Gordura localizada</td>
+            </tr>
+            <tr>
+              <td>Papada/Face</td>
+              <td>2–5ml</td>
+              <td>0,1ml/ponto</td>
+              <td>Área delicada</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Laboratorio Farmacéutico</div>
+    <div class="footer-code">DOC: LINEB-55-PFY · Rev. 2026</div>
+    <div class="footer-page">1 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+<!-- ═══ PÁGINA 2 ═══ -->
+<div class="page">
+  <div class="header-small">
+    <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" />
+    <div>
+      <div class="hs-title">Line Body <span>55ml</span> · Protocolos Clínicos</div>
+      <div class="hs-sub">Lipolítico PC+DC · Redução de Gordura Localizada</div>
+    </div>
+    <div class="hs-right">
+      <div class="hs-title" style="font-size:9pt;color:rgba(255,255,255,0.5)">PHARMAFIT-PY</div>
+      <div class="hs-sub">Laboratorio Farmacéutico</div>
+    </div>
+  </div>
+  <div class="header-bar"></div>
+
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📋</span><h2>Protocolos Clínicos</h2><div class="st-line"></div></div>
+      <div class="proto-grid">
+        <div class="proto-card">
+          <div class="proto-head p1"><div class="p-num">Protocolo 01</div><div class="p-title">Abdômen e Flancos</div><div class="p-icon">🏃</div></div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Volume</span><span class="pr-val">20–40ml/sessão</span></div>
+            <div class="proto-row"><span class="pr-label">Sessões</span><span class="pr-val">3–5 sessões</span></div>
+            <div class="proto-row"><span class="pr-label">Intervalo</span><span class="pr-val">3–4 semanas</span></div>
+            <div class="proto-row"><span class="pr-label">Pós-sessão</span><span class="pr-val">Drenagem 48h</span></div>
+            <div class="proto-row"><span class="pr-label">Pontos</span><span class="pr-val">0,2ml/ponto IL · 1cm espaçados</span></div>
+            <div class="proto-row"><span class="pr-label">Resultado</span><span class="pr-val">Redução de medidas e volume abdominal</span></div>
+          </div>
+        </div>
+        <div class="proto-card">
+          <div class="proto-head p2"><div class="p-num">Protocolo 02</div><div class="p-title">Papada Submentoniana</div><div class="p-icon">😌</div></div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Volume</span><span class="pr-val">2–5ml/sessão</span></div>
+            <div class="proto-row"><span class="pr-label">Sessões</span><span class="pr-val">2–3 sessões</span></div>
+            <div class="proto-row"><span class="pr-label">Intervalo</span><span class="pr-val">6–8 semanas</span></div>
+            <div class="proto-row"><span class="pr-label">Objetivo</span><span class="pr-val">Duplo queixo</span></div>
+            <div class="proto-row"><span class="pr-label">Pontos</span><span class="pr-val">0,1ml/ponto · área delicada</span></div>
+            <div class="proto-row"><span class="pr-label">Cuidado</span><span class="pr-val">Anatomia vascular — técnica precisa</span></div>
+          </div>
+        </div>
+        <div class="proto-card">
+          <div class="proto-head p3"><div class="p-num">Protocolo 03</div><div class="p-title">Liporredeução Corporal Ampla</div><div class="p-icon">🌿</div></div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Volume total</span><span class="pr-val">40–55ml/sessão</span></div>
+            <div class="proto-row"><span class="pr-label">Sessões</span><span class="pr-val">4–6 sessões</span></div>
+            <div class="proto-row"><span class="pr-label">Intervalo</span><span class="pr-val">Mensal</span></div>
+            <div class="proto-row"><span class="pr-label">Áreas</span><span class="pr-val">Braços+costas+flancos</span></div>
+            <div class="proto-row"><span class="pr-label">Pós-sessão</span><span class="pr-val">Drenagem linfática + compressão</span></div>
+            <div class="proto-row"><span class="pr-label">Resultado</span><span class="pr-val">Remodelamento corporal global</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="box-card adv">
+        <div class="box-title">⚠️ Precauções e Contraindicações</div>
+        <div class="adv-item"><span class="adv-icon">🚫</span><div class="adv-text"><strong>Não aplicar</strong> em áreas com infecção ativa, queloides ou sobre musculatura diretamente</div></div>
+        <div class="adv-item"><span class="adv-icon">🔴</span><div class="adv-text"><strong>Reações esperadas:</strong> hematoma, edema e eritema locais por 3–7 dias — informar o paciente previamente</div></div>
+        <div class="adv-item"><span class="adv-icon">🤰</span><div class="adv-text"><strong>Contraindicado</strong> em gravidez, lactação, dislipidemia grave e alergia a soja (PC derivado de soja)</div></div>
+        <div class="adv-item"><span class="adv-icon">🫀</span><div class="adv-text"><strong>Não aplicar</strong> próximo a estruturas vasculonervosas — conhecer anatomia antes de tratar</div></div>
+        <div class="adv-item"><span class="adv-icon">☀️</span><div class="adv-text"><strong>Evitar exposição solar</strong> na área tratada por 2 semanas após sessão</div></div>
+      </div>
+
+    <div class="pharmafit-banner" style="margin-top:16px">
+      <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" class="pf-logo" />
+      <div class="pf-text">
+        <div class="pf-label">Estudo Clínico Elaborado por</div>
+        <div class="pf-brand">Pharmafit<span>-PY</span></div>
+        <div class="pf-tagline">Compostos injetáveis de alta pureza com qualidade farmacêutica.<br>Protocolos personalizados para saúde, performance e bem-estar.</div>
+      </div>
+      <a class="pf-cta" href="tel:+12142049853">📞 +1 (214) 204-9853</a>
+    </div>
+
+    <div class="box-card ref" style="margin-bottom:0">
+      <div class="box-title">📋 Referências e Dados Técnicos</div>
+      <ul class="ref-list">
+        <li data-n="1">Fabricante: StunMedical — Line Body</li>
+        <li data-n="2">Princípio ativo: PC (Fosfatidilcolina) + DC (Deoxicolato)</li>
+        <li data-n="3">Volume: 55ml por frasco</li>
+        <li data-n="4">Apresentação: Solução injectable</li>
+        <li data-n="5">Agulha recomendada: 30G × 8mm</li>
+        <li data-n="6">Volume por ponto: 0,1–0,2ml IL</li>
+        <li data-n="7">Conservar: temperatura ambiente (15–25°C)</li>
+        <li data-n="8">Evitar luz direta e calor excessivo</li>
+        <li data-n="9">Uso exclusivo de médicos e cirurgiões</li>
+        <li data-n="10">Rotstein H et al. "Phosphatidylcholine and sodium deoxycholate for fat dissolving." <em>Dermatol Surg.</em> 2009; 35(3):468–474.</li>
+        <li data-n="11">Salti G et al. "A new method of treating localized fat: phosphatidylcholine injection." <em>Aesthet Surg J.</em> 2008; 28(5):512–514.</li>
+        <li data-n="12">Código: LINEB-55-PFY · PharmaFit-PY</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Laboratorio Farmacéutico</div>
+    <div class="footer-code">DOC: LINEB-55-PFY · Rev. 2026 · Uso Profissional</div>
+    <div class="footer-page">2 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+</body>
+</html>

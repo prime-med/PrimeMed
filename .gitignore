@@ -1,0 +1,21 @@
+# Node / local tooling
+node_modules/
+.env
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Secrets (never commit)
+secrets.json
+
+# Dev-only files (not deployed)
+_dev/
+
+# Local config with real SHEETS_URL (placeholder version is in public/)
+/assets/

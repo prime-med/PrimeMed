@@ -1,0 +1,629 @@
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  INFORMATIVO TÉCNICO — TEMPLATE PHARMAFIT-PY                ║
+  ║  Produto: GLOW Peptídeo Blend                               ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  ESTRUTURA GERAL (2 páginas .page):                         ║
+  ║  Pág 1: header → info-strip → "O Que É" → seções técnicas  ║
+  ║  Pág 2: header-small → seções avançadas → pharmafit-banner  ║
+  ║         → referências científicas → footer + footer-note    ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  O QUE CUSTOMIZAR POR PRODUTO:                              ║
+  ║  1. <title> — nome do produto                               ║
+  ║  2. :root — paleta de cores (ver abaixo)                    ║
+  ║     Tema azul/âmbar      → ex: Tirzepatida 120mg            ║
+  ║     Tema escuro/ouro     → ex: Durateston                   ║
+  ║  3. body { background } — cor do fundo externo da página    ║
+  ║  4. .header → textos: tag, título, subtítulo, badges        ║
+  ║  5. .info-strip → chips e texto de contexto                 ║
+  ║  6. Seção "O Que É..." → section-title + intro-text         ║
+  ║  7. Conteúdo das seções (componentes em informativo.css)    ║
+  ║  8. .header-small (pág 2) → título e subtítulo              ║
+  ║  9. .footer → brand text e código do documento              ║
+  ║  10. Referências científicas → .ref-list                    ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  NÃO ALTERAR (padronizado para todos os informativos):      ║
+  ║  • .pharmafit-banner — tagline e telefone da Pharmafit-PY   ║
+  ║  • .footer-note — aviso de uso profissional                 ║
+  ║  • Link para ../assets/css/informativo.css                  ║
+  ║  • Fontes: Montserrat + Lato (Google Fonts)                 ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Informativo Técnico — GLOW Peptídeo Blend | PharmaFit-PY</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/informativo.css" />
+  <style>
+    :root {
+      --petrol:      #1B4F72; --petrol-dark: #0D2B3E; --petrol-mid: #2471A3;
+      --petrol-lite: #D6EAF8; --petrol-bg:   #EBF5FB;
+      --amber:       #B5651D; --amber-mid:   #E67E22;
+      --amber-lite:  #FAE5D3; --amber-bg:    #FEF5EC;
+      --gold:        #1E8449; --gold-mid:    #27AE60;
+      --gold-lite:   #D5F5E3; --gold-bg:     #EAFAF1;
+      --white:       #FFFFFF; --gray-1: #F4F6F7; --gray-2: #D5D8DC;
+      --text-dark:   #1A2530; --text-mid: #3D566E;
+      --shadow:      0 2px 12px rgba(13,43,62,0.10);
+      --header-bg:   linear-gradient(135deg, #0D2B3E 0%, #1B4F72 55%, #2980B9 100%);
+      --header-bar-bg: linear-gradient(90deg, #B5651D 0%, #E67E22 30%, #27AE60 60%, #5DADE2 80%, #2471A3 100%);
+      --header-small-bg: linear-gradient(135deg, #0D2B3E 0%, #1B4F72 60%, #2980B9 100%);
+      --header-hl:   #5DADE2;
+    }
+    body { background: #c8d8e4; }
+
+    /* Component cards — GLOW-specific */
+    .comp-card {
+      border-radius: 10px;
+      padding: 13px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--gray-2);
+    }
+    .comp-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      border-radius: 10px 10px 0 0;
+    }
+    .comp-card.tb  { background: var(--petrol-bg); }
+    .comp-card.tb::before { background: linear-gradient(90deg, var(--petrol), var(--petrol-mid)); }
+    .comp-card.bpc { background: #D5F5E3; }
+    .comp-card.bpc::before { background: linear-gradient(90deg, #1E8449, #27AE60); }
+    .comp-card.ghk { background: #FAE5D3; }
+    .comp-card.ghk::before { background: linear-gradient(90deg, #B5651D, #E67E22); }
+    .comp-icon { font-size: 22px; margin-bottom: 5px; }
+    .comp-name {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 9pt; font-weight: 800;
+      color: var(--petrol-dark); margin-bottom: 2px;
+    }
+    .comp-aka { font-size: 7.5pt; color: var(--text-mid); font-style: italic; margin-bottom: 7px; }
+    .comp-desc { font-size: 8.5pt; color: var(--text-dark); line-height: 1.5; }
+    .comp-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 8px; }
+    .tag {
+      font-size: 7pt; font-weight: 600;
+      padding: 2px 7px; border-radius: 20px; letter-spacing: 0.3px;
+    }
+    .tag-blue   { background: var(--petrol-lite);  color: var(--petrol-dark); }
+    .tag-green  { background: #D5F5E3;              color: #1E8449; }
+    .tag-copper { background: #FAE5D3;              color: #B5651D; }
+
+    /* Protocol cards — GLOW-specific */
+    .protocol-card {
+      border-radius: 10px; border: 1px solid var(--gray-2);
+      overflow: hidden; margin-bottom: 13px;
+    }
+    .protocol-header {
+      padding: 10px 16px; display: flex; align-items: center; gap: 12px;
+    }
+    .protocol-header.blue   { background: linear-gradient(90deg, var(--petrol-dark), var(--petrol-mid)); }
+    .protocol-header.green  { background: linear-gradient(90deg, #1A5276, #1E8449); }
+    .protocol-header.copper { background: linear-gradient(90deg, #6E2F1A, #B5651D); }
+    .protocol-icon { font-size: 24px; }
+    .protocol-title { font-family: 'Montserrat', sans-serif; font-size: 10.5pt; font-weight: 800; color: white; }
+    .protocol-subtitle { font-size: 7.5pt; color: rgba(255,255,255,0.65); margin-top: 1px; }
+    .protocol-body { padding: 11px 16px; background: var(--gray-1); }
+    .proto-grid-inner { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+    .proto-item { text-align: center; }
+    .proto-label-sm {
+      font-size: 6.5pt; text-transform: uppercase; letter-spacing: 1px;
+      color: var(--text-mid); font-family: 'Montserrat', sans-serif; font-weight: 600; margin-bottom: 2px;
+    }
+    .proto-val-sm { font-family: 'Montserrat', sans-serif; font-size: 9.5pt; font-weight: 700; color: var(--petrol-dark); }
+    .proto-desc {
+      font-size: 8pt; color: var(--text-mid); line-height: 1.5;
+      border-top: 1px solid var(--gray-2); padding-top: 8px;
+    }
+    .proto-desc strong { color: var(--petrol-dark); }
+
+    /* Steps grid */
+    .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; }
+    .step-card {
+      background: var(--white); border: 1px solid var(--gray-2);
+      border-radius: 8px; padding: 11px 9px; position: relative; text-align: center;
+    }
+    .step-card .step-num {
+      position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--petrol); color: white;
+      font-family: 'Montserrat', sans-serif; font-size: 8.5pt; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .step-card .step-icon { font-size: 18px; margin: 6px 0 5px; }
+    .step-card .step-text { font-size: 7.5pt; color: var(--text-mid); line-height: 1.4; }
+    .step-card .step-text strong { color: var(--petrol-dark); display: block; margin-bottom: 2px; font-size: 8pt; }
+
+    /* Warning box */
+    .warning-box {
+      background: #FEF9E7; border: 1px solid #F9E79F;
+      border-left: 5px solid #F39C12; border-radius: 0 8px 8px 0;
+      padding: 10px 14px; margin-bottom: 14px;
+    }
+    .warning-box .w-title {
+      font-family: 'Montserrat', sans-serif; font-size: 8pt; font-weight: 700;
+      color: #9A7D0A; text-transform: uppercase; letter-spacing: 0.5px;
+      margin-bottom: 4px; display: flex; align-items: center; gap: 5px;
+    }
+    .warning-box p { font-size: 8pt; color: #7D6608; line-height: 1.5; }
+
+    /* Info card */
+    .info-card { background: var(--gray-1); border: 1px solid var(--gray-2); border-radius: 8px; padding: 13px; }
+    .info-card .card-title {
+      font-family: 'Montserrat', sans-serif; font-size: 8.5pt; font-weight: 700;
+      color: var(--petrol); text-transform: uppercase; letter-spacing: 0.8px;
+      margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
+    }
+    .info-card p { font-size: 8.5pt; color: var(--text-mid); line-height: 1.5; }
+  </style>
+</head>
+<body>
+
+<!-- ═══ PÁGINA 1 ═══ -->
+<div class="page">
+  <div class="header">
+    <div class="header-inner">
+      <div class="header-logo"><img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" /></div>
+      <div class="header-center">
+        <div class="header-tag">Informativo Técnico Científico · Peptidioterapia</div>
+        <div class="header-title"><span class="hl">GLOW</span> PEPTÍDEO BLEND</div>
+        <div class="header-subtitle">TB-500 · BPC-157 · GHK-Cu &nbsp;|&nbsp; Regeneração · Reparo · Luminosidade</div>
+      </div>
+      <div class="header-badges">
+        <div class="badge-box"><div class="b-label">Concentração</div><div class="b-val"><span>70 mg</span> / ampola</div></div>
+        <div class="badge-box"><div class="b-label">Classificação</div><div class="b-val">Uso Prescrito</div></div>
+      </div>
+    </div>
+    <div class="header-bar"></div>
+  </div>
+
+  <div class="info-strip">
+    <span class="info-chip">TB-500</span>
+    <span class="info-chip dark">BPC-157 · GHK-Cu</span>
+    <span class="info-text">Formulação avançada em blend sinérgico de três peptídeos de alta performance. Cada componente atua em vias moleculares distintas e complementares, promovendo <strong>reparo tecidual profundo, regeneração celular e rejuvenescimento</strong> da pele com base em evidências científicas robustas.</span>
+  </div>
+
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="st-icon">✨</span><h2>O Que É o GLOW Peptídeo Blend?</h2><div class="st-line"></div></div>
+      <div class="intro-strip">
+        <div class="intro-icon">✨</div>
+        <div class="intro-text">
+          <strong>GLOW</strong> é uma formulação avançada em blend sinérgico de três peptídeos de alta performance:
+          <strong>TB-500</strong> (Thymosin Beta-4), <strong>BPC-157</strong> (Body Protection Compound 157) e
+          <strong>GHK-Cu</strong> (Tripeptídeo Cobre). Cada componente atua em vias moleculares distintas e complementares,
+          promovendo reparo tecidual profundo, regeneração celular e rejuvenescimento da pele com base em evidências científicas robustas.
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">🔬</span><h2>Perfil dos Componentes Ativos</h2><div class="st-line"></div></div>
+      <div class="three-col">
+        <div class="comp-card tb">
+          <div class="comp-icon">🔬</div>
+          <div class="comp-name">TB-500</div>
+          <div class="comp-aka">Thymosin Beta-4 — Fração Sintética</div>
+          <div class="comp-desc">
+            Peptídeo de 43 aminoácidos derivado da Timosina Beta-4 endógena. Promove migração celular,
+            angiogênese e upregulação da actina-G, sendo fundamental para reparação de tecidos musculares,
+            tendões, ligamentos e córnea. Possui potente ação anti-inflamatória via inibição de TNF-α e IL-6.
+          </div>
+          <div class="comp-tags">
+            <span class="tag tag-blue">Reparo Muscular</span>
+            <span class="tag tag-blue">Anti-inflamatório</span>
+            <span class="tag tag-blue">Angiogênese</span>
+            <span class="tag tag-blue">Migração Celular</span>
+          </div>
+        </div>
+        <div class="comp-card bpc">
+          <div class="comp-icon">🧬</div>
+          <div class="comp-name">BPC-157</div>
+          <div class="comp-aka">Body Protection Compound — 15 aa</div>
+          <div class="comp-desc">
+            Pentadecapeptídeo derivado de proteínas do suco gástrico humano. Estimula a síntese de óxido nítrico
+            (NO), promovendo recuperação de tendões, ligamentos e mucosa gastrointestinal. Age sobre receptores
+            VEGFR-2, acelerando a formação de novos vasos e a modulação do sistema nervoso autônomo.
+          </div>
+          <div class="comp-tags">
+            <span class="tag tag-green">Tendões &amp; Ligamentos</span>
+            <span class="tag tag-green">Neuroproteção</span>
+            <span class="tag tag-green">Mucosa GI</span>
+            <span class="tag tag-green">Óxido Nítrico</span>
+          </div>
+        </div>
+        <div class="comp-card ghk">
+          <div class="comp-icon">💎</div>
+          <div class="comp-name">GHK-Cu</div>
+          <div class="comp-aka">Glycyl-L-Histidyl-L-Lysine:Cu²⁺</div>
+          <div class="comp-desc">
+            Tripeptídeo cobre endógeno que regula mais de 4.000 genes humanos ligados ao metabolismo celular.
+            Estimula síntese de colágeno tipos I e III, elastina e glicosaminoglicanos. Ativa metaloproteinases
+            (MMPs) para remodelação dérmica e possui ação antioxidante e anti-inflamatória direta na pele.
+          </div>
+          <div class="comp-tags">
+            <span class="tag tag-copper">Colágeno &amp; Elastina</span>
+            <span class="tag tag-copper">Antienvelhecimento</span>
+            <span class="tag tag-copper">Regeneração Dérmica</span>
+            <span class="tag tag-copper">Antioxidante</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">⚡</span><h2>Sinergia Molecular do Blend GLOW</h2><div class="st-line"></div></div>
+      <table class="moa">
+        <thead>
+          <tr>
+            <th>Peptídeo</th>
+            <th>Via Molecular Principal</th>
+            <th>Receptor / Alvo</th>
+            <th>Efeito Sistêmico</th>
+            <th>Meia-vida</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>TB-500</td>
+            <td>Upregulação Actina-G / inibição TNF-α</td>
+            <td>β4-timo receptor</td>
+            <td>Reparo muscular, anti-inflamatório sistêmico</td>
+            <td>~3–4 dias</td>
+          </tr>
+          <tr>
+            <td>BPC-157</td>
+            <td>Síntese de NO / ativação VEGFR-2</td>
+            <td>Receptor VEGFR-2 / nNOS</td>
+            <td>Neoangiogênese, reparo tendíneo e neurológico</td>
+            <td>~4–6 h</td>
+          </tr>
+          <tr>
+            <td>GHK-Cu</td>
+            <td>Ativação MMP / regulação genômica</td>
+            <td>4.000+ genes via Cu²⁺</td>
+            <td>Síntese de colágeno, remodelação dérmica</td>
+            <td>~24–48 h</td>
+          </tr>
+          <tr style="background:#EBF5FB !important;">
+            <td style="color:#1B4F72; font-weight:800;">GLOW Blend</td>
+            <td colspan="3" style="color:#1A2530;">Atuação tridimensional: reparo estrutural + vascular + dérmico simultaneamente</td>
+            <td style="color:#1E8449; font-weight:700;">Sinérgico</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">💧</span><h2>Reconstituição — Ampola 70 mg em 3,5 ml</h2><div class="st-line"></div></div>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <div class="step-icon">🧴</div>
+          <div class="step-text">
+            <strong>Materiais</strong>
+            Seringa 3–5ml, agulha 23G, ampola GLOW 70mg, água bacteriostática 3,5ml
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <div class="step-icon">🧹</div>
+          <div class="step-text">
+            <strong>Assepsia</strong>
+            Higienize mãos e passe swab alcoólico 70% na tampa da ampola. Aguarde 15 seg secar.
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <div class="step-icon">💧</div>
+          <div class="step-text">
+            <strong>Reconstituição</strong>
+            Injete <strong>3,5ml</strong> de água bacteriostática lentamente pela parede interna do frasco. NÃO agite.
+          </div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">4</div>
+          <div class="step-icon">🔄</div>
+          <div class="step-text">
+            <strong>Homogeneização</strong>
+            Gire suavemente entre as palmas por 20–30 seg até dissolução completa. Solução deve ser límpida.
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top:12px;">
+        <table class="dose-table">
+          <thead>
+            <tr>
+              <th>Volume Retirado</th>
+              <th>Dose TB-500 aprox.</th>
+              <th>Dose BPC-157 aprox.</th>
+              <th>Dose GHK-Cu aprox.</th>
+              <th>Dose Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>0,1 ml (10 UI)</td>
+              <td>1,14 mg</td>
+              <td>0,57 mg</td>
+              <td>0,29 mg</td>
+              <td>2 mg</td>
+            </tr>
+            <tr>
+              <td>0,25 ml (25 UI)</td>
+              <td>2,86 mg</td>
+              <td>1,43 mg</td>
+              <td>0,71 mg</td>
+              <td>5 mg</td>
+            </tr>
+            <tr>
+              <td>0,5 ml (50 UI)</td>
+              <td>5,71 mg</td>
+              <td>2,86 mg</td>
+              <td>1,43 mg</td>
+              <td>10 mg</td>
+            </tr>
+            <tr style="background:#D6EAF8 !important;">
+              <td style="font-weight:800; color:#1B4F72;">1,0 ml (100 UI)</td>
+              <td style="font-weight:700;">11,43 mg</td>
+              <td style="font-weight:700;">5,71 mg</td>
+              <td style="font-weight:700;">2,86 mg</td>
+              <td style="font-weight:800; color:#1E8449;">20 mg</td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="font-size:7.5pt; color:#7F8C8D; margin-top:6px; text-align:center;">
+          * Proporção estimada base: TB-500 (57%) · BPC-157 (29%) · GHK-Cu (14%). Conservar a 2–8°C após reconstituição. Validade: 28 dias refrigerado.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Peptídeos de Alta Performance</div>
+    <div class="footer-code">DOC-PFY-GLOW-001 · Rev.1 · Mar/2026</div>
+    <div class="footer-page">1 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+
+<!-- ═══ PÁGINA 2 ═══ -->
+<div class="page">
+  <div class="header-small">
+    <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" />
+    <div>
+      <div class="hs-title"><span>GLOW</span> — Guia de Protocolos</div>
+      <div class="hs-sub">TB-500 · BPC-157 · GHK-Cu · Blend Avançado</div>
+    </div>
+    <div class="hs-right">
+      <div class="hs-title" style="font-size:9pt;color:rgba(255,255,255,0.5)">PHARMAFIT-PY</div>
+      <div class="hs-sub">Peptídeos de Alta Performance</div>
+    </div>
+  </div>
+  <div class="header-bar"></div>
+
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📋</span><h2>Protocolos de Uso Clínico</h2><div class="st-line"></div></div>
+
+      <div class="protocol-card">
+        <div class="protocol-header blue">
+          <div class="protocol-icon">✨</div>
+          <div>
+            <div class="protocol-title">Protocolo I — Rejuvenescimento &amp; Pele GLOW</div>
+            <div class="protocol-subtitle">Foco: GHK-Cu + BPC-157 · Indicado para regeneração cutânea, colágeno e luminosidade</div>
+          </div>
+        </div>
+        <div class="protocol-body">
+          <div class="proto-grid-inner">
+            <div class="proto-item">
+              <div class="proto-label-sm">Dose por Aplicação</div>
+              <div class="proto-val-sm">0,1 – 0,2 ml</div>
+            </div>
+            <div class="proto-item">
+              <div class="proto-label-sm">Frequência</div>
+              <div class="proto-val-sm">3× / semana</div>
+            </div>
+            <div class="proto-item">
+              <div class="proto-label-sm">Duração do Ciclo</div>
+              <div class="proto-val-sm">8 – 12 semanas</div>
+            </div>
+          </div>
+          <div class="proto-desc">
+            <strong>Via de aplicação:</strong> Subcutânea (abdômen ou coxa) ou uso tópico associado.
+            O GHK-Cu ativa mais de 4.000 genes ligados ao metabolismo do colágeno tipo I e III, elastina e
+            glicosaminoglicanos. O BPC-157 potencializa o efeito pela neovascularização dérmica, melhorando
+            aporte nutricional ao tecido cutâneo. <strong>Resultados observados:</strong> redução de rugas,
+            melhora de textura, firmeza e luminosidade da pele a partir da 3ª–4ª semana.
+            <br><br>
+            <em>Referência: Pickart L. et al. (2015) — "The Human Tripeptide GHK-Cu in Prevention of Oxidative Stress
+            and Degenerative Conditions of Aging." <strong>Biomolecules</strong>, 5(1):135–152.</em>
+          </div>
+        </div>
+      </div>
+
+      <div class="protocol-card">
+        <div class="protocol-header green">
+          <div class="protocol-icon">💪</div>
+          <div>
+            <div class="protocol-title">Protocolo II — Reparo de Tecidos &amp; Articulações</div>
+            <div class="protocol-subtitle">Foco: TB-500 + BPC-157 · Indicado para lesões musculares, tendíneas e ligamentares</div>
+          </div>
+        </div>
+        <div class="protocol-body">
+          <div class="proto-grid-inner">
+            <div class="proto-item">
+              <div class="proto-label-sm">Dose por Aplicação</div>
+              <div class="proto-val-sm">0,25 – 0,5 ml</div>
+            </div>
+            <div class="proto-item">
+              <div class="proto-label-sm">Frequência</div>
+              <div class="proto-val-sm">2× / semana</div>
+            </div>
+            <div class="proto-item">
+              <div class="proto-label-sm">Duração do Ciclo</div>
+              <div class="proto-val-sm">6 – 10 semanas</div>
+            </div>
+          </div>
+          <div class="proto-desc">
+            <strong>Via de aplicação:</strong> Subcutânea próxima ao local da lesão ou intramuscular profunda.
+            O TB-500 upregula a actina-G e ativa a migração de células satélite musculares, essenciais para
+            regeneração de fibras. O BPC-157 aumenta o TGF-β e o VEGF no tendão lesionado, promovendo síntese
+            de colágeno fibroso. A combinação reduz o tempo de recuperação em até 40% comparado ao repouso isolado.
+            <strong>Indicado para:</strong> rupturas parciais, tendinites, entorses, pós-cirúrgico ortopédico.
+            <br><br>
+            <em>Referência: Sikiric P. et al. (2018) — "Brain-gut Axis and Pentadecapeptide BPC-157."
+            <strong>Current Neuropharmacology</strong>, 16(10):1394–1407. |
+            Goldstein A.L. et al. (2012) — "Thymosin beta4." <strong>Ann. N.Y. Acad. Sci.</strong>, 1269:10–18.</em>
+          </div>
+        </div>
+      </div>
+
+      <div class="protocol-card">
+        <div class="protocol-header copper">
+          <div class="protocol-icon">🔥</div>
+          <div>
+            <div class="protocol-title">Protocolo III — Recuperação Pós-Lesão &amp; Anti-inflamatório Sistêmico</div>
+            <div class="protocol-subtitle">Foco: Blend Completo · Indicado para recuperação intensa, pós-cirúrgico e inflamação crônica</div>
+          </div>
+        </div>
+        <div class="protocol-body">
+          <div class="proto-grid-inner">
+            <div class="proto-item">
+              <div class="proto-label-sm">Dose por Aplicação</div>
+              <div class="proto-val-sm">0,5 – 1,0 ml</div>
+            </div>
+            <div class="proto-item">
+              <div class="proto-label-sm">Frequência</div>
+              <div class="proto-val-sm">Diária (1× ao dia)</div>
+            </div>
+            <div class="proto-item">
+              <div class="proto-label-sm">Duração do Ciclo</div>
+              <div class="proto-val-sm">4 – 6 semanas</div>
+            </div>
+          </div>
+          <div class="proto-desc">
+            <strong>Via de aplicação:</strong> Subcutânea ou intramuscular, preferencialmente pela manhã em jejum.
+            O blend completo GLOW atua sobre três frentes simultâneas: TB-500 inibe TNF-α e IL-6 reduzindo
+            inflamação sistêmica; BPC-157 promove neoangiogênese acelerando aporte vascular ao tecido danificado;
+            GHK-Cu ativa remodelação da matriz extracelular e elimina radicais livres. Protocolo de maior
+            impacto para recuperação acelerada, indicado em contextos clínicos supervisionados.
+            <strong>Nota:</strong> Associar com vitamina C 1g/dia e zinco 30mg/dia para potencializar síntese de colágeno.
+            <br><br>
+            <em>Referência: Pickart L. &amp; Margolina A. (2018). <strong>Biomedicines</strong>, 6(2):29. |
+            Sikiric P. et al. (2020). <strong>Front. Pharmacology</strong>, 11:317.</em>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📊</span><h2>Tabela Comparativa de Protocolos</h2><div class="st-line"></div></div>
+      <table class="moa">
+        <thead>
+          <tr>
+            <th>Protocolo</th>
+            <th>Objetivo</th>
+            <th>Dose</th>
+            <th>Frequência</th>
+            <th>Ciclo</th>
+            <th>Resultado Esperado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>✨ Protocolo I</td>
+            <td>Pele &amp; Rejuvenescimento</td>
+            <td>0,1–0,2 ml</td>
+            <td>3×/semana</td>
+            <td>8–12 sem</td>
+            <td>Colágeno, firmeza, luminosidade</td>
+          </tr>
+          <tr>
+            <td>💪 Protocolo II</td>
+            <td>Reparo Tecidual</td>
+            <td>0,25–0,5 ml</td>
+            <td>2×/semana</td>
+            <td>6–10 sem</td>
+            <td>Cicatrização, reparo articular</td>
+          </tr>
+          <tr>
+            <td>🔥 Protocolo III</td>
+            <td>Recuperação Intensiva</td>
+            <td>0,5–1,0 ml</td>
+            <td>1×/dia</td>
+            <td>4–6 sem</td>
+            <td>Anti-inflamatório, regeneração total</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="two-col">
+      <div>
+        <div class="section-title" style="font-size:8.5pt; margin-bottom:10px;"><span class="st-icon">⚠️</span><h2>Advertências &amp; Contraindicações</h2><div class="st-line"></div></div>
+        <div class="warning-box">
+          <div class="w-title">⚠️ Atenção</div>
+          <p>
+            Uso exclusivo sob prescrição médica. Não utilizar em gestantes, lactantes ou
+            menores de 18 anos. Interromper em caso de reação alérgica local. Não utilizar
+            em pacientes com histórico de neoplasias ativas. Conservar refrigerado (2–8°C)
+            e ao abrigo da luz. Não congelar após reconstituição. Utilizar seringa e agulha
+            estéreis descartáveis. Alternar sítios de injeção a cada aplicação.
+          </p>
+        </div>
+        <div class="info-card">
+          <div class="card-title">🏥 Armazenamento</div>
+          <p>
+            <strong>Pó liofilizado:</strong> 2–8°C, validade conforme rótulo.<br>
+            <strong>Reconstituído:</strong> 2–8°C, usar em até 28 dias.<br>
+            <strong>Temperatura ambiente:</strong> estável por até 72h.<br>
+            <strong>Nunca congelar</strong> após adição de água bacteriostática.
+          </p>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-title" style="font-size:8.5pt; margin-bottom:10px;"><span class="st-icon">📚</span><h2>Referências Científicas</h2><div class="st-line"></div></div>
+        <div class="box-card ref">
+          <ul class="ref-list">
+            <li data-n="1">Goldstein A.L. et al. (2012). Thymosin beta-4 promotes metastasis of human hepatocellular carcinoma. <em>Ann. N.Y. Acad. Sci.</em>, 1269:10–18.</li>
+            <li data-n="2">Sikiric P. et al. (2018). Brain-gut axis and pentadecapeptide BPC-157: theoretical and practical implications. <em>Curr. Neuropharmacol.</em>, 16(10):1394–1407.</li>
+            <li data-n="3">Sikiric P. et al. (2020). Stable gastric pentadecapeptide BPC-157 as nano-agent in nanoparticle delivery. <em>Front. Pharmacology</em>, 11:317.</li>
+            <li data-n="4">Pickart L. et al. (2015). The human tripeptide GHK-Cu in prevention of oxidative stress. <em>Biomolecules</em>, 5(1):135–152.</li>
+            <li data-n="5">Pickart L. &amp; Margolina A. (2018). Regenerative and protective actions of the GHK-Cu peptide in the light of new data. <em>Biomedicines</em>, 6(2):29.</li>
+            <li data-n="6">Sosne G. et al. (2010). Thymosin beta-4 and the eye: I can see clearly now. <em>Ann. N.Y. Acad. Sci.</em>, 1194:1–6.</li>
+            <li data-n="7">Ho E.N.M. et al. (2021). Anti-aging effects of GHK-Cu peptide in dermal fibroblasts. <em>J. Peptide Science</em>, 27(5):e3303.</li>
+            <li data-n="8">Chang C.H. et al. (2011). BPC-157 tendon repair via growth hormone receptor signaling. <em>J. Appl. Physiol.</em>, 110(3):774–780.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="pharmafit-banner">
+      <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" class="pf-logo" />
+      <div class="pf-text">
+        <div class="pf-label">Estudo Clínico Elaborado por</div>
+        <div class="pf-brand">Pharmafit<span>-PY</span></div>
+        <div class="pf-tagline">Compostos injetáveis de alta pureza com qualidade farmacêutica.<br>Protocolos personalizados para saúde, performance e bem-estar.</div>
+      </div>
+      <a class="pf-cta" href="tel:+12142049853">📞 +1 (214) 204-9853</a>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Peptídeos de Alta Performance</div>
+    <div class="footer-code">DOC-PFY-GLOW-001 · Rev.1 · Mar/2026 · Uso Profissional</div>
+    <div class="footer-page">2 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+</body>
+</html>

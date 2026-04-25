@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Informativo Técnico — CJC-1295 + Ipamorelin | PharmaFit-PY</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/informativo.css" />
+  <style>
+    :root {
+      --petrol:      #1B4F72; --petrol-dark: #0D2B3E; --petrol-mid: #2471A3;
+      --petrol-lite: #D6EAF8; --petrol-bg:   #EBF5FB;
+      --amber:       #1E8449; --amber-mid:   #27AE60;
+      --amber-lite:  #D5F5E3; --amber-bg:    #EAFAF1;
+      --gold:        #B7950B; --gold-mid:    #D4AC0D;
+      --gold-lite:   #FCF3CF; --gold-bg:     #FEFDE7;
+      --white:       #FFFFFF; --gray-1: #F4F6F7; --gray-2: #D5D8DC;
+      --text-dark:   #1A2530; --text-mid: #3D566E;
+      --shadow:      0 2px 12px rgba(13,43,62,0.10);
+      --header-bg:   linear-gradient(135deg, #0D2B3E 0%, #1B4F72 60%, #2980B9 100%);
+      --header-bar-bg: linear-gradient(90deg, #1E8449 0%, #27AE60 40%, #5DADE2 70%, #2471A3 100%);
+      --header-small-bg: linear-gradient(135deg, #0D2B3E 0%, #1B4F72 60%, #2980B9 100%);
+      --header-hl:   #5DADE2;
+    }
+    body { background: #c8d8e4; }
+
+    /* Info cards — CJC-specific */
+    .info-card {
+      background: var(--gray-1); border: 1px solid var(--gray-2);
+      border-radius: 8px; padding: 14px;
+    }
+    .info-card .card-title {
+      font-family: 'Montserrat', sans-serif; font-size: 8.5pt; font-weight: 700;
+      color: var(--petrol); text-transform: uppercase; letter-spacing: 0.8px;
+      margin-bottom: 8px; display: flex; align-items: center; gap: 6px;
+    }
+    .info-card p { font-size: 9pt; color: var(--text-mid); line-height: 1.55; }
+    .info-card .mechanism {
+      background: var(--petrol-lite); border-radius: 5px; padding: 7px 10px; margin-top: 9px;
+      font-size: 8.5pt; color: var(--petrol-dark); font-style: italic; border-left: 3px solid var(--petrol);
+    }
+
+    /* Steps grid */
+    .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .step-card {
+      background: var(--white); border: 1px solid var(--gray-2);
+      border-radius: 8px; padding: 12px; position: relative; text-align: center;
+    }
+    .step-card .step-num {
+      position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--petrol); color: white;
+      font-family: 'Montserrat', sans-serif; font-size: 8.5pt; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 2px 6px rgba(27,79,114,0.4);
+    }
+    .step-card .step-icon { font-size: 22px; margin: 10px 0 6px; }
+    .step-card .step-text { font-size: 8.5pt; color: var(--text-mid); line-height: 1.45; }
+    .step-card .step-text strong { color: var(--petrol-dark); display: block; margin-bottom: 2px; }
+
+    /* Result box */
+    .result-box {
+      background: linear-gradient(135deg, var(--petrol-dark), var(--petrol));
+      border-radius: 8px; padding: 14px 18px; color: white;
+      text-align: center; margin: 14px 0 0;
+      display: flex; align-items: center; justify-content: space-around; gap: 10px;
+    }
+    .result-box .r-item { text-align: center; }
+    .result-box .r-label { font-size: 7.5pt; opacity: 0.65; font-family: 'Montserrat', sans-serif; letter-spacing: 1px; text-transform: uppercase; }
+    .result-box .r-val { font-family: 'Montserrat', sans-serif; font-size: 14pt; font-weight: 800; color: #5DADE2; }
+    .result-box .r-desc { font-size: 8pt; opacity: 0.75; margin-top: 2px; }
+    .result-box .divider { width: 1px; height: 40px; background: rgba(255,255,255,0.2); }
+
+    /* Protocol cards — CJC-specific */
+    .protocol-card {
+      border-radius: 10px; overflow: hidden; margin-bottom: 16px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+    .protocol-header {
+      padding: 12px 16px; display: flex; align-items: center; gap: 12px;
+    }
+    .protocol-header.sleep  { background: linear-gradient(90deg, #1B2A4A, #2471A3); }
+    .protocol-header.muscle { background: linear-gradient(90deg, #145A32, #1E8449); }
+    .protocol-header.perf   { background: linear-gradient(90deg, #4A235A, #6C3483); }
+    .proto-icon { width: 44px; height: 44px; border-radius: 10px; background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+    .proto-title-block { flex: 1; }
+    .proto-label { font-size: 7pt; color: rgba(255,255,255,0.55); font-family: 'Montserrat', sans-serif; letter-spacing: 2px; text-transform: uppercase; }
+    .proto-title { font-family: 'Montserrat', sans-serif; font-size: 13pt; font-weight: 800; color: white; line-height: 1.15; }
+    .proto-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+    .proto-badge { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); border-radius: 20px; padding: 3px 9px; font-size: 7.5pt; color: white; font-family: 'Montserrat', sans-serif; font-weight: 600; }
+    .protocol-body { background: var(--gray-1); padding: 14px 16px; display: grid; grid-template-columns: 1.1fr 1fr; gap: 14px; }
+    .proto-table { font-size: 8.5pt; }
+    .proto-table table thead tr { background: var(--petrol-dark); }
+    .proto-table table thead th { font-size: 7.5pt; padding: 6px 9px; color: #fff; }
+    .proto-table table tbody td { padding: 6px 9px; font-size: 8.5pt; }
+    .proto-science { background: white; border-radius: 7px; padding: 11px 13px; border-left: 4px solid var(--petrol-mid); }
+    .proto-science .ps-title { font-family: 'Montserrat', sans-serif; font-size: 7.5pt; font-weight: 700; color: var(--petrol); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 7px; }
+    .proto-science ul { padding-left: 14px; font-size: 8.5pt; color: var(--text-mid); line-height: 1.6; }
+    .proto-science li { margin-bottom: 3px; }
+    .proto-note { margin-top: 9px; background: var(--petrol-lite); border-radius: 5px; padding: 6px 10px; font-size: 8pt; color: var(--petrol-dark); font-style: italic; }
+
+    /* Safety */
+    .safety-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .safety-card { border-radius: 8px; overflow: hidden; }
+    .safety-card .sc-head { padding: 8px 12px; font-family: 'Montserrat', sans-serif; font-size: 8pt; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; }
+    .sc-head.warning { background: #FDEBD0; color: #784212; }
+    .sc-head.danger  { background: #FADBD8; color: #641E16; }
+    .safety-card table thead { display: none; }
+    .safety-card table tbody tr { background: white; }
+    .safety-card table tbody tr:nth-child(even) { background: #FDFEFE; }
+    .safety-card table tbody td { border-bottom: 1px solid var(--gray-2); font-size: 8.5pt; padding: 6px 10px; }
+    .safety-card table tbody td:first-child { font-weight: 600; color: var(--petrol-dark); }
+
+    /* Checklist */
+    .checklist { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+    .check-item { display: flex; align-items: center; gap: 9px; background: var(--gray-1); border: 1px solid var(--gray-2); border-radius: 6px; padding: 7px 11px; font-size: 8.5pt; color: var(--text-dark); }
+    .check-item .cb { width: 16px; height: 16px; border: 2px solid var(--petrol-mid); border-radius: 3px; flex-shrink: 0; }
+
+    /* Disclaimer */
+    .disclaimer { background: var(--petrol-bg); border: 1px solid var(--petrol-lite); border-radius: 8px; padding: 12px 16px; margin-bottom: 20px; display: flex; gap: 12px; align-items: flex-start; }
+    .disclaimer .disc-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+    .disclaimer p { font-size: 8.5pt; color: var(--text-mid); line-height: 1.55; }
+    .disclaimer p strong { color: var(--petrol-dark); }
+
+    .highlight-row td { background: #D5F5E3 !important; font-weight: 700; }
+    .highlight-row td:first-child { color: #1E8449; }
+    .divider-line { height: 1px; background: linear-gradient(90deg, transparent, var(--gray-2), transparent); margin: 18px 0; }
+
+    @media print {
+      body { background: white; }
+      .page { margin: 0; box-shadow: none; width: 210mm; min-height: 297mm; }
+      @page { size: A4; margin: 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════ PAGE 1 ══ -->
+<div class="page">
+
+  <div class="header">
+    <div class="header-inner">
+      <div class="header-logo">
+        <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" />
+      </div>
+      <div class="header-center">
+        <div class="header-tag">Informativo Técnico-Científico</div>
+        <div class="header-title">CJC-1295 + <span class="hl">Ipamorelin</span></div>
+        <div class="header-subtitle">Secretagogos de GH · Protocolos Clínicos · Reconstituição · Evidências</div>
+      </div>
+      <div class="header-badges">
+        <div class="badge-box"><div class="b-label">Versão</div><div class="b-val">1.0 · Mar/2026</div></div>
+        <div class="badge-box"><div class="b-label">Classificação</div><div class="b-val">GHS · Peptídeo</div></div>
+      </div>
+    </div>
+    <div class="header-bar"></div>
+  </div>
+
+  <div class="info-strip">
+    <span class="info-chip">GHS · Secretagogo</span>
+    <span class="info-chip dark">Sinergia GH 10×</span>
+    <span class="info-text">O <strong>CJC-1295</strong> e o <strong>Ipamorelin</strong> são secretagogos de GH de segunda geração que atuam em vias complementares. Quando combinados, produzem um efeito sinérgico que pode elevar o pico de GH em até <strong>10× em relação ao uso isolado</strong>, com perfil de segurança altamente favorável — sem impacto sobre cortisol ou prolactina.</span>
+  </div>
+
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="st-icon">🧬</span><h2>O Que São o CJC-1295 e o Ipamorelin?</h2><div class="st-line"></div></div>
+      <div class="intro-strip">
+        <div class="intro-icon">🧬</div>
+        <div class="intro-text">
+          O <strong>CJC-1295</strong> e o <strong>Ipamorelin</strong> são secretagogos de GH de segunda geração que atuam em vias complementares para potencializar a liberação endógena de hormônio do crescimento. Quando combinados, produzem um efeito sinérgico que pode elevar o pico de GH em até <strong>10× em relação ao uso isolado</strong>, com perfil de segurança altamente favorável — sem impacto sobre cortisol ou prolactina.
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">⚗️</span><h2>Mecanismo de Ação &amp; Perfil Farmacológico</h2><div class="st-line"></div></div>
+      <div class="two-col">
+        <div class="info-card">
+          <div class="card-title">⚗️ CJC-1295 (Mod-GRF 1-29)</div>
+          <p>Análogo sintético do <strong>GHRH</strong> (Hormônio Liberador de GH), composto por 29 aminoácidos. Mimetiza o sinal hipotalâmico que instrui a hipófise anterior a secretar GH. Sem DAC, a meia-vida é de 20–30 min, simulando um pulso fisiológico natural.</p>
+          <div class="mechanism">⟶ Liga-se ao receptor GHRH na pituitária → estimula síntese e secreção de GH → ativa eixo GH/IGF-1</div>
+        </div>
+        <div class="info-card">
+          <div class="card-title">💊 Ipamorelin</div>
+          <p>Pentapeptídeo mimético de grelina, classe GHRP. Considerado o secretagogo de GH com o <strong>perfil de seletividade mais limpo</strong> disponível — não eleva cortisol, prolactina nem ACTH, diferentemente do GHRP-2 e GHRP-6.</p>
+          <div class="mechanism">⟶ Liga-se ao receptor GHS-R1a → amplifica o pulso de GH gerado pelo CJC-1295 → efeito sinérgico máximo</div>
+        </div>
+      </div>
+
+      <div style="margin-top:12px;">
+        <table class="moa">
+          <thead>
+            <tr>
+              <th>Parâmetro</th>
+              <th>CJC-1295 (sem DAC)</th>
+              <th>Ipamorelin</th>
+              <th>Combinação</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Classe</td><td>Análogo GHRH</td><td>GHRP / Mimético Grelina</td><td>Sinergia completa</td></tr>
+            <tr><td>Aminoácidos</td><td>29</td><td>5</td><td>—</td></tr>
+            <tr><td>Meia-vida</td><td>20–30 min</td><td>~120 min</td><td>Complementar</td></tr>
+            <tr><td>Pico plasmático</td><td>15–30 min pós dose</td><td>30–60 min pós dose</td><td>Janela de 60 min</td></tr>
+            <tr class="highlight-row"><td>Pico de GH</td><td>+++</td><td>++</td><td>+++++ (até 10×)</td></tr>
+            <tr><td>Eleva cortisol</td><td>Não</td><td>Não</td><td>Não</td></tr>
+            <tr><td>Eleva prolactina</td><td>Não</td><td>Não</td><td>Não</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">💧</span><h2>Reconstituição — Ampola 10 mg + 2 mL Água Bacteriostática</h2><div class="st-line"></div></div>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <div class="step-icon">🧼</div>
+          <div class="step-text"><strong>Higienização</strong>Lave as mãos. Limpe a tampa da ampola e do frasco com álcool 70%. Aguarde secar completamente.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <div class="step-icon">💉</div>
+          <div class="step-text"><strong>Aspiração</strong>Com a seringa de insulina, aspire 1 mL de água bacteriostática (= 100 unidades).</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <div class="step-icon">🔬</div>
+          <div class="step-text"><strong>Injeção pela parede</strong>Direcione o líquido pela parede interna. <u>Nunca</u> jogue diretamente sobre o pó.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">4</div>
+          <div class="step-icon">🔄</div>
+          <div class="step-text"><strong>Homogeneização</strong>Gire suavemente entre os dedos por 20–30 seg. <u>Nunca agite</u> — desnatura o peptídeo.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">5</div>
+          <div class="step-icon">➕</div>
+          <div class="step-text"><strong>Completar volume</strong>Repita o processo com o 2° mL de água bacteriostática.</div>
+        </div>
+        <div class="step-card">
+          <div class="step-num">6</div>
+          <div class="step-icon">❄️</div>
+          <div class="step-text"><strong>Armazenamento</strong>Geladeira 2–8°C, protegido da luz. Estável por até <strong>30 dias</strong> após reconstituição.</div>
+        </div>
+      </div>
+
+      <div class="result-box">
+        <div class="r-item">
+          <div class="r-label">Concentração final</div>
+          <div class="r-val">5.000 mcg/mL</div>
+          <div class="r-desc">10 mg ÷ 2 mL</div>
+        </div>
+        <div class="divider"></div>
+        <div class="r-item">
+          <div class="r-label">1 unidade na seringa</div>
+          <div class="r-val">= 50 mcg</div>
+          <div class="r-desc">Seringa 100U / 1 mL</div>
+        </div>
+        <div class="divider"></div>
+        <div class="r-item">
+          <div class="r-label">Dose 200 mcg</div>
+          <div class="r-val">4 unidades</div>
+          <div class="r-desc">= 0,04 mL na seringa</div>
+        </div>
+        <div class="divider"></div>
+        <div class="r-item">
+          <div class="r-label">200+200 mcg juntos</div>
+          <div class="r-val">8 unidades</div>
+          <div class="r-desc">Mesma seringa</div>
+        </div>
+      </div>
+
+      <div style="margin-top:14px;">
+        <table class="dose-table">
+          <thead>
+            <tr>
+              <th>Dose desejada (por peptídeo)</th>
+              <th>Unidades na seringa</th>
+              <th>Volume em mL</th>
+              <th>CJC + Ipam juntos</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>100 mcg</td><td>2 unidades</td><td>0,02 mL</td><td>4 unidades</td></tr>
+            <tr><td>150 mcg</td><td>3 unidades</td><td>0,03 mL</td><td>6 unidades</td></tr>
+            <tr class="highlight-row"><td>200 mcg ★</td><td>4 unidades</td><td>0,04 mL</td><td>8 unidades</td></tr>
+            <tr><td>250 mcg</td><td>5 unidades</td><td>0,05 mL</td><td>10 unidades</td></tr>
+            <tr><td>300 mcg</td><td>6 unidades</td><td>0,06 mL</td><td>12 unidades</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Peptídeos de Alta Performance</div>
+    <div class="footer-code">Informativo Técnico-Científico · CJC-1295 + Ipamorelin · Versão 1.0 · Março 2026</div>
+    <div class="footer-page">1 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════ PAGE 2 ══ -->
+<div class="page">
+
+  <div class="header-small">
+    <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" />
+    <div>
+      <div class="hs-title">CJC-1295 + <span>Ipamorelin</span> · Protocolos</div>
+      <div class="hs-sub">Três objetivos · Base científica referenciada · Perfil de segurança</div>
+    </div>
+    <div class="hs-right">
+      <div class="hs-title" style="font-size:9pt;color:rgba(255,255,255,0.5)">PHARMAFIT-PY</div>
+      <div class="hs-sub">Peptídeos de Alta Performance</div>
+    </div>
+  </div>
+  <div class="header-bar"></div>
+
+  <div class="content">
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📋</span><h2>Protocolos de Uso — 3 Objetivos Clínicos</h2><div class="st-line"></div></div>
+
+      <div class="protocol-card">
+        <div class="protocol-header sleep">
+          <div class="proto-icon">🌙</div>
+          <div class="proto-title-block">
+            <div class="proto-label">Protocolo 01</div>
+            <div class="proto-title">Sono Reparador &amp; Recuperação Sistêmica</div>
+          </div>
+          <div class="proto-badges">
+            <span class="proto-badge">8–12 semanas</span>
+            <span class="proto-badge">5×/semana</span>
+            <span class="proto-badge">Noturno</span>
+          </div>
+        </div>
+        <div class="protocol-body">
+          <div class="proto-table">
+            <table>
+              <thead><tr><th>Parâmetro</th><th>Especificação</th></tr></thead>
+              <tbody>
+                <tr><td>Dose CJC-1295</td><td>100–150 mcg</td></tr>
+                <tr><td>Dose Ipamorelin</td><td>100–150 mcg</td></tr>
+                <tr><td>Horário</td><td>30–45 min antes de dormir</td></tr>
+                <tr><td>Frequência</td><td>5× por semana</td></tr>
+                <tr><td>Duração do ciclo</td><td>8–12 semanas</td></tr>
+                <tr class="highlight-row"><td>Jejum pré-dose</td><td>Mín. 2 horas sem CHO/gordura</td></tr>
+              </tbody>
+            </table>
+            <div class="proto-note">💡 A insulina elevada bloqueia competitivamente a secreção de GH. Respeitar o jejum é essencial para maximizar o pico noturno.</div>
+          </div>
+          <div class="proto-science">
+            <div class="ps-title">📚 Benefícios evidenciados</div>
+            <ul>
+              <li>Potencializa o pico natural de GH na fase NREM (N3)</li>
+              <li>Melhora da arquitetura do sono e sono profundo</li>
+              <li>Redução do cortisol noturno</li>
+              <li>Aceleração do reparo muscular e articular</li>
+              <li>Melhora em cognição e estado de humor</li>
+              <li>Recuperação imunológica e neurológica</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="protocol-card">
+        <div class="protocol-header muscle">
+          <div class="proto-icon">💪</div>
+          <div class="proto-title-block">
+            <div class="proto-label">Protocolo 02</div>
+            <div class="proto-title">Ganho de Massa Muscular &amp; Remodelamento Corporal</div>
+          </div>
+          <div class="proto-badges">
+            <span class="proto-badge">12–16 semanas</span>
+            <span class="proto-badge">5×/semana</span>
+            <span class="proto-badge">2× ao dia</span>
+          </div>
+        </div>
+        <div class="protocol-body">
+          <div class="proto-table">
+            <table>
+              <thead><tr><th>Parâmetro</th><th>Especificação</th></tr></thead>
+              <tbody>
+                <tr><td>Dose CJC-1295</td><td>200–300 mcg / aplicação</td></tr>
+                <tr><td>Dose Ipamorelin</td><td>200–300 mcg / aplicação</td></tr>
+                <tr><td>Horário</td><td>Manhã em jejum + antes de dormir</td></tr>
+                <tr><td>Frequência</td><td>5× por semana</td></tr>
+                <tr><td>Duração do ciclo</td><td>12–16 semanas</td></tr>
+                <tr class="highlight-row"><td>Off entre ciclos</td><td>4–8 semanas</td></tr>
+              </tbody>
+            </table>
+            <div class="proto-note">📊 Eleva IGF-1 sérico em 20–50% (Alba et al., 2006). Monitorar IGF-1 basal e após 6 semanas.</div>
+          </div>
+          <div class="proto-science">
+            <div class="ps-title">📚 Benefícios evidenciados</div>
+            <ul>
+              <li>Aumento de IGF-1 sérico de 20–50%</li>
+              <li>Hipertrofia muscular com preservação de massa magra</li>
+              <li>Lipólise via receptor GH nos adipócitos</li>
+              <li>Melhora da densidade óssea e tecido conjuntivo</li>
+              <li>Recuperação acelerada de lesões articulares</li>
+              <li>Ativação das vias mTOR / PI3K-Akt</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="protocol-card">
+        <div class="protocol-header perf">
+          <div class="proto-icon">⚡</div>
+          <div class="proto-title-block">
+            <div class="proto-label">Protocolo 03</div>
+            <div class="proto-title">Performance Esportiva &amp; Treinos de Alta Intensidade</div>
+          </div>
+          <div class="proto-badges">
+            <span class="proto-badge">10–12 semanas</span>
+            <span class="proto-badge">Dias de treino</span>
+            <span class="proto-badge">Pré-treino</span>
+          </div>
+        </div>
+        <div class="protocol-body">
+          <div class="proto-table">
+            <table>
+              <thead><tr><th>Parâmetro</th><th>Especificação</th></tr></thead>
+              <tbody>
+                <tr><td>Dose CJC-1295</td><td>150–200 mcg</td></tr>
+                <tr><td>Dose Ipamorelin</td><td>150–200 mcg</td></tr>
+                <tr><td>Horário</td><td>30–45 min pré-treino</td></tr>
+                <tr><td>Dose noturna add.</td><td>100–150 mcg cada (opcional)</td></tr>
+                <tr><td>Frequência</td><td>Apenas nos dias de treino</td></tr>
+                <tr class="highlight-row"><td>Duração do ciclo</td><td>10–12 semanas</td></tr>
+              </tbody>
+            </table>
+            <div class="proto-note">🏋️ Força: priorizar dose noturna. Resistência/CrossFit: priorizar pré-treino.</div>
+          </div>
+          <div class="proto-science">
+            <div class="ps-title">📚 Benefícios evidenciados</div>
+            <ul>
+              <li>Maior oxidação de gordura como combustível</li>
+              <li>Redução do lactato em esforços sub-máximos</li>
+              <li>Melhora no VO₂ máx em atletas treinados</li>
+              <li>Síntese proteica pós-treino aumentada</li>
+              <li>Redução de DOMS (dor muscular tardia)</li>
+              <li>Poupança de glicogênio muscular</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📚</span><h2>Base Científica — Estudos de Referência</h2><div class="st-line"></div></div>
+      <table class="moa">
+        <thead>
+          <tr>
+            <th style="width:28%">Estudo</th>
+            <th>Achado Principal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Alba M. et al. (2006)<br/><em>J Clin Endocrinol Metab</em></td><td>CJC-1295 elevou GH em 2–10× e IGF-1 em 1,5–3× em adultos saudáveis, com perfil de segurança favorável em dose única e múltipla.</td></tr>
+          <tr><td>Ionescu M. &amp; Frohman LA. (2006)<br/><em>J Clin Endocrinol Metab</em></td><td>Secreção pulsátil de GH mantida durante estimulação contínua com CJC-1295, preservando a fisiologia do eixo GH/IGF-1 sem dessensibilização.</td></tr>
+          <tr><td>Raun K. et al. (1998)<br/><em>Eur J Endocrinol</em></td><td>Ipamorelin demonstrou ser o GHRP mais seletivo disponível — sem efeitos sobre cortisol, prolactina ou ACTH, mesmo em doses suprafisiológicas.</td></tr>
+          <tr><td>Johansen PB. et al. (1999)<br/><em>Growth</em></td><td>Ipamorelin induziu crescimento ósseo e aumento de IGF-1 com eficácia comparável ao GH recombinante, sem efeitos adversos metabólicos.</td></tr>
+          <tr><td>Steiger A. (2007)<br/><em>Sleep Med Rev</em></td><td>GH e GHRH exercem papel fundamental no sono de ondas lentas (SWS), com maior secreção durante fase NREM — validando a dose noturna.</td></tr>
+          <tr><td>Velloso CP. (2008)<br/><em>Br J Pharmacol</em></td><td>Eixo GH/IGF-1 ativa vias PI3K/Akt e mTOR em células musculares, diretamente associadas à hipertrofia e síntese proteica.</td></tr>
+          <tr><td>Godfrey RJ. et al. (2003)<br/><em>Sports Med</em></td><td>Exercício de alta intensidade é o maior estimulador endógeno de GH; secretagogos potencializam este pico em 2–4× em atletas treinados.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">🛡️</span><h2>Segurança, Efeitos Colaterais &amp; Contraindições</h2><div class="st-line"></div></div>
+      <div class="safety-grid">
+        <div class="safety-card">
+          <div class="sc-head warning">⚠️ Efeitos Colaterais (leves e transitórios)</div>
+          <table>
+            <tbody>
+              <tr><td>Rubor facial (flushing)</td><td>Passageiro, resolve em minutos</td></tr>
+              <tr><td>Sonolência pós-dose</td><td>Esperado e benéfico (dose noturna)</td></tr>
+              <tr><td>Cefaleia leve</td><td>Aumentar hidratação</td></tr>
+              <tr><td>Retenção hídrica leve</td><td>Reduzir dose</td></tr>
+              <tr><td>Formigamento</td><td>Raro — reduzir dose</td></tr>
+              <tr><td>Hipoglicemia leve</td><td>Respeitar jejum pré-dose</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="safety-card">
+          <div class="sc-head danger">🚫 Contraindições Absolutas</div>
+          <table>
+            <tbody>
+              <tr><td>Gestação e amamentação</td><td>Contraindicado</td></tr>
+              <tr><td>Neoplasias ativas</td><td>Contraindicado</td></tr>
+              <tr><td>Histórico recente de câncer</td><td>Contraindicado</td></tr>
+              <tr><td>Retinopatia diabética proliferativa</td><td>Contraindicado</td></tr>
+              <tr><td>Hipersensibilidade conhecida</td><td>Contraindicado</td></tr>
+              <tr><td>DM tipo 1 / DM tipo 2</td><td>Requer avaliação médica</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">✅</span><h2>Checklist Pré-Início</h2><div class="st-line"></div></div>
+      <div class="checklist">
+        <div class="check-item"><div class="cb"></div>Exames basais: IGF-1, GH, glicemia, perfil hormonal</div>
+        <div class="check-item"><div class="cb"></div>Água bacteriostática + seringas de insulina adquiridas</div>
+        <div class="check-item"><div class="cb"></div>Protocolo definido conforme objetivo clínico</div>
+        <div class="check-item"><div class="cb"></div>Armazenamento adequado (geladeira 2–8°C, sem luz)</div>
+        <div class="check-item"><div class="cb"></div>Ciclo datado com previsão de off programado</div>
+        <div class="check-item"><div class="cb"></div>Monitoramento de IGF-1 após 6 semanas de ciclo</div>
+      </div>
+    </div>
+
+    <div class="disclaimer">
+      <div class="disc-icon">ℹ️</div>
+      <p><strong>Nota técnica:</strong> Este documento tem caráter técnico-educacional e destina-se a profissionais habilitados e usuários informados. O uso de peptídeos secretagogos de GH fora de contexto clínico supervisionado é de responsabilidade individual. Recomenda-se a realização de <strong>exames laboratoriais basais</strong> antes e durante o uso. A <strong>PharmaFit-PY</strong> disponibiliza este material como suporte informativo ao paciente, não substituindo a orientação de um profissional de saúde habilitado.</p>
+    </div>
+
+    <div class="pharmafit-banner">
+      <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" class="pf-logo" />
+      <div class="pf-text">
+        <div class="pf-label">Estudo Clínico Elaborado por</div>
+        <div class="pf-brand">Pharmafit<span>-PY</span></div>
+        <div class="pf-tagline">Compostos injetáveis de alta pureza com qualidade farmacêutica.<br>Protocolos personalizados para saúde, performance e bem-estar.</div>
+      </div>
+      <a class="pf-cta" href="tel:+12142049853">📞 +1 (214) 204-9853</a>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Peptídeos de Alta Performance</div>
+    <div class="footer-code">Informativo Técnico-Científico · CJC-1295 + Ipamorelin · Versão 1.0 · Março 2026 · Uso Profissional</div>
+    <div class="footer-page">2 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+</body>
+</html>

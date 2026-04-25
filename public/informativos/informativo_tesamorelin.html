@@ -1,0 +1,308 @@
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  INFORMATIVO TÉCNICO — TEMPLATE PHARMAFIT-PY                ║
+  ║  Produto: Tesamorelin 10mg                                  ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  ESTRUTURA GERAL (2 páginas .page):                         ║
+  ║  Pág 1: header → info-strip → "O Que É" → seções técnicas  ║
+  ║  Pág 2: header-small → seções avançadas → pharmafit-banner  ║
+  ║         → referências científicas → footer + footer-note    ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  NÃO ALTERAR (padronizado para todos os informativos):      ║
+  ║  • .pharmafit-banner — tagline e telefone da Pharmafit-PY   ║
+  ║  • .footer-note — aviso de uso profissional                 ║
+  ║  • Link para ../assets/css/informativo.css                  ║
+  ║  • Fontes: Montserrat + Lato (Google Fonts)                 ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Informativo Técnico — Tesamorelin 10mg | PharmaFit-PY</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/informativo.css" />
+  <style>
+    :root {
+      --petrol:     #1B2F6E; --petrol-dark: #0D1A40; --petrol-mid: #2545A0;
+      --petrol-lite:#D6DCF8; --petrol-bg:  #EBEEfB;
+      --amber:      #6B21A8; --amber-mid:  #7C3AED;
+      --amber-lite: #EDE9FE; --amber-bg:   #F5F3FF;
+      --gold:       #4338CA; --gold-mid:   #6366F1;
+      --gold-lite:  #E0E7FF; --gold-bg:    #EEF2FF;
+      --white:      #FFFFFF; --gray-1: #F4F6F7; --gray-2: #D5D8DC;
+      --text-dark:  #1A2530; --text-mid: #3D566E;
+      --shadow:     0 2px 12px rgba(13,26,64,0.12);
+      --header-bg:  linear-gradient(135deg, #0a0e2e 0%, #1a1f5e 45%, #2e1b8a 70%, #6366f1 90%, #818cf8 100%);
+      --header-small-bg: linear-gradient(135deg, #0a0e2e 0%, #1a1f5e 50%, #4338ca 100%);
+      --header-bar-bg: linear-gradient(90deg, #4338ca 0%, #6366f1 30%, #818cf8 60%, #a5b4fc 80%, #6366f1 100%);
+      --header-hl:  #A5B4FC;
+    }
+    body { background: #c4c8d8; }
+    .proto-head.p1 { background: linear-gradient(135deg, var(--gold) 0%, var(--gold-mid) 100%); }
+    .proto-head.p2 { background: linear-gradient(135deg, var(--petrol-dark) 0%, var(--petrol) 100%); }
+    .proto-head.p3 { background: linear-gradient(135deg, var(--petrol) 0%, var(--gold) 100%); }
+    /* Pathway box único deste produto */
+    .pathway-box {
+      background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+      border-radius: 8px; padding: 10px 14px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .pathway-box .pw-icon { font-size: 22px; flex-shrink: 0; }
+    .pathway-box .pw-title { font-size: 10px; font-weight: 800; color: #a5b4fc; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 4px; }
+    .pathway-chain { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; margin-top: 5px; }
+    .pw-step {
+      background: rgba(129,140,248,0.18); border: 1px solid rgba(129,140,248,0.38);
+      color: #c7d2fe; font-size: 8px; font-weight: 700; padding: 2px 7px; border-radius: 4px;
+    }
+    .pw-arrow { color: #818cf8; font-size: 10px; font-weight: 900; }
+  </style>
+</head>
+<body>
+
+<!-- ═══ PÁGINA 1 ═══ -->
+<div class="page">
+  <div class="header">
+    <div class="header-inner">
+      <div class="header-logo"><img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" /></div>
+      <div class="header-center">
+        <div class="header-tag">Informativo Técnico · Análogo GHRH · Hormônio do Crescimento · FDA Aprovado</div>
+        <div class="header-title">TESAMORELIN <span class="hl">10mg</span></div>
+        <div class="header-subtitle">Trans-3-Hexenoic Acid-GHRH(1-44) · Liberador Hipofisário de GH Endógeno · Lipólise Visceral</div>
+      </div>
+      <div class="header-badges">
+        <div class="badge-box"><div class="b-label">Frasco</div><div class="b-val"><span>10</span> mg</div></div>
+        <div class="badge-box"><div class="b-label">Dissolução</div><div class="b-val">2ml → 5mg/ml</div></div>
+        <div class="badge-box"><div class="b-label">Código</div><div class="b-val">TESA-10-PFY</div></div>
+      </div>
+    </div>
+    <div class="header-bar"></div>
+  </div>
+
+  <div class="info-strip">
+    <span class="info-chip">FDA — EGRIFTA® APROVADO 2010</span>
+    <span class="info-chip dark">GHRH ANÁLOGO · 44 AMINOÁCIDOS</span>
+    <span class="info-text">Tesamorelin aprovada pela FDA (Egrifta®) para lipodistrofia visceral associada ao HIV — <strong>único peptídeo GHRH aprovado no mundo</strong>. Estimula a hipófise a liberar GH endógeno de forma fisiológica, preservando o eixo hipotálamo-hipofisário. Documentação robusta em redução de gordura abdominal profunda, melhora metabólica e benefícios cognitivos.</span>
+  </div>
+
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="st-icon">🧬</span><h2>O Que É a Tesamorelin?</h2><div class="st-line"></div></div>
+      <div class="intro-strip">
+        <div class="intro-icon">🧬</div>
+        <div class="intro-text">
+          A <strong>Tesamorelin</strong> é um análogo sintético estabilizado do <strong>Hormônio Liberador de GH (GHRH)</strong> composto por 44 aminoácidos com modificação trans-3-hexenoic acid na porção N-terminal, o que aumenta sua meia-vida em relação ao GHRH nativo. Ao contrário do GH exógeno, a Tesamorelin <strong>estimula a hipófise</strong> a secretar o próprio GH endógeno do paciente, preservando o pulso fisiológico e o eixo hipotálamo-hipofisário. É o <strong>único peptídeo aprovado pela FDA</strong> (2010 — Egrifta®) para tratamento de lipodistrofia visceral associada ao HIV, com vasta documentação clínica comprovando sua eficácia na redução de gordura abdominal profunda, melhora metabólica e benefícios cognitivos.
+          <div class="spec-grid">
+            <div class="spec-item"><div class="s-val">44</div><div class="s-lbl">Aminoácidos</div></div>
+            <div class="spec-item"><div class="s-val">FDA</div><div class="s-lbl">Aprovação</div></div>
+            <div class="spec-item"><div class="s-val">GHRH</div><div class="s-lbl">Classe</div></div>
+            <div class="spec-item"><div class="s-val">10mg</div><div class="s-lbl">Por Frasco</div></div>
+            <div class="spec-item"><div class="s-val">SC</div><div class="s-lbl">Via de Uso</div></div>
+            <div class="spec-item"><div class="s-val">Noturna</div><div class="s-lbl">Aplicação ideal</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">⚡</span><h2>Mecanismo de Ação</h2><div class="st-line"></div></div>
+      <div class="mec-grid">
+        <div class="mec-card">
+          <div class="mec-icon">🧠</div>
+          <div class="mec-title">Estimulação Hipofisária</div>
+          <div class="mec-text">Liga-se ao receptor GHRH-R nas células somatotróficas da adenohipófise, ativando adenilil ciclase e PKA → aumenta síntese e secreção pulsátil de GH endógeno de forma fisiológica.</div>
+        </div>
+        <div class="mec-card">
+          <div class="mec-icon">🔬</div>
+          <div class="mec-title">Eixo GH → IGF-1</div>
+          <div class="mec-text">O GH liberado estimula o fígado a produzir IGF-1 (Insulin-like Growth Factor 1), que atua em tecido muscular, ósseo e adiposo promovendo lipólise, síntese proteica e reparo celular.</div>
+        </div>
+        <div class="mec-card">
+          <div class="mec-icon">🔥</div>
+          <div class="mec-title">Lipólise Visceral</div>
+          <div class="mec-text">GH/IGF-1 ativam hormônio-sensível lipase (HSL) nos adipócitos viscerais, mobilizando ácidos graxos para oxidação mitocondrial — ação preferencial sobre gordura abdominal profunda.</div>
+        </div>
+      </div>
+      <div class="pathway-box">
+        <div class="pw-icon">🔬</div>
+        <div>
+          <div class="pw-title">Cascata Hipotálamo → Hipófise → Tecido-alvo</div>
+          <div class="pathway-chain">
+            <span class="pw-step">Tesamorelin SC</span>
+            <span class="pw-arrow">→</span>
+            <span class="pw-step">GHRH-R hipofisário</span>
+            <span class="pw-arrow">→</span>
+            <span class="pw-step">↑ AMPc / PKA</span>
+            <span class="pw-arrow">→</span>
+            <span class="pw-step">Pulso GH endógeno</span>
+            <span class="pw-arrow">→</span>
+            <span class="pw-step">↑ IGF-1 hepático</span>
+            <span class="pw-arrow">→</span>
+            <span class="pw-step">Lipólise visceral</span>
+            <span class="pw-arrow">→</span>
+            <span class="pw-step">↑ Massa magra</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">✅</span><h2>Benefícios Clínicos Documentados</h2><div class="st-line"></div></div>
+      <table class="moa">
+        <thead><tr><th>Área</th><th>Efeito Clínico</th><th style="width:13%;text-align:center">Evidência</th></tr></thead>
+        <tbody>
+          <tr><td>Gordura Visceral</td><td>Redução significativa de gordura abdominal profunda (↓ 15–20% VAT em 26 semanas); documentado em múltiplos RCTs</td><td style="text-align:center"><span class="tag-ev high">Alta</span></td></tr>
+          <tr><td>Composição Corporal</td><td>↑ massa magra; ↓ razão gordura:músculo; melhora perfil de força e funcionalidade</td><td style="text-align:center"><span class="tag-ev high">Alta</span></td></tr>
+          <tr><td>Metabolismo</td><td>↑ IGF-1 sérico; melhora sensibilidade à insulina periférica; ↑ oxidação de ácidos graxos</td><td style="text-align:center"><span class="tag-ev high">Alta</span></td></tr>
+          <tr><td>Cognição</td><td>Melhora memória verbal e velocidade de processamento; neuroproteção via IGF-1 cerebral</td><td style="text-align:center"><span class="tag-ev mod">Mod.</span></td></tr>
+          <tr><td>Anti-Aging</td><td>Restaura perfil de GH/IGF-1 de adultos jovens; melhora densidade óssea, pele e libido</td><td style="text-align:center"><span class="tag-ev mod">Mod.</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">💉</span><h2>Reconstituição — Tesamorelin 10mg / 2ml</h2><div class="st-line"></div></div>
+      <div class="diss-box">
+        <div class="diss-steps">
+          <div class="diss-step"><div class="step-circle">1</div><div class="step-text"><strong>Preparar</strong>Frasco em temp. ambiente 10–15 min</div></div>
+          <div class="diss-step"><div class="step-circle">2</div><div class="step-text"><strong>Aspirar</strong>2mL de BAC Water em seringa</div></div>
+          <div class="diss-step"><div class="step-circle">3</div><div class="step-text"><strong>Injetar</strong>Lentamente na parede interna do frasco</div></div>
+          <div class="diss-step"><div class="step-circle">4</div><div class="step-text"><strong>Girar</strong>Suavemente 60s — nunca agitar</div></div>
+          <div class="diss-step"><div class="step-circle">5</div><div class="step-text"><strong>Refrigerar</strong>2–8°C · até 20 dias</div></div>
+        </div>
+        <table class="dose-table">
+          <thead><tr><th>Dose</th><th>Volume (2mL rec.)</th><th>Perfil / Horário</th><th>Ciclo</th></tr></thead>
+          <tbody>
+            <tr><td>1mg</td><td>0,2mL / 20UI</td><td>Iniciante · antes de dormir <span class="note">Adaptação e tolerância</span></td><td>8–12 sem.</td></tr>
+            <tr><td>2mg</td><td>0,4mL / 40UI</td><td>Padrão · antes de dormir <span class="note">Fat Loss · Anti-Aging</span></td><td>12–26 sem.</td></tr>
+            <tr><td>2–4mg</td><td>0,4–0,8mL</td><td>Avançado · antes de dormir <span class="note">Performance · Recomp.</span></td><td>26 sem. + pausa</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Peptídeos de Alta Performance</div>
+    <div class="footer-code">DOC: TESA-10-PFY · Rev. Mar/2026</div>
+    <div class="footer-page">1 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+<!-- ═══ PÁGINA 2 ═══ -->
+<div class="page">
+  <div class="header-small">
+    <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" />
+    <div>
+      <div class="hs-title">TESAMORELIN <span>10mg</span> · Protocolos Clínicos</div>
+      <div class="hs-sub">Análogo GHRH · 5mg/mL reconstituído · Aplicação SC Noturna</div>
+    </div>
+    <div class="hs-right">
+      <div class="hs-title" style="font-size:9pt;color:rgba(255,255,255,0.5)">PHARMAFIT-PY</div>
+      <div class="hs-sub">Informativo Técnico · Página 2</div>
+    </div>
+  </div>
+  <div class="header-bar"></div>
+
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📋</span><h2>Protocolos de Uso Clínico</h2><div class="st-line"></div></div>
+      <div class="proto-grid">
+        <div class="proto-card">
+          <div class="proto-head p1"><div class="p-num">Protocolo 01</div><div class="p-title">Redução de Gordura Visceral &amp; Lipodistrofia</div><div class="p-icon">🔥</div></div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Perfil</span><span class="pr-val">Fat Loss · Lipodistrofia abdominal</span></div>
+            <div class="proto-row"><span class="pr-label">Dose</span><span class="pr-val"><strong>2mg/dia</strong> · 0,4mL (40UI)</span></div>
+            <div class="proto-row"><span class="pr-label">Horário</span><span class="pr-val">SC abdômen · 2–3h após última refeição</span></div>
+            <div class="proto-row"><span class="pr-label">Stack</span><span class="pr-val">MOTS-c 5mg 3×/sem · Jejum 16:8</span></div>
+            <div class="proto-row"><span class="pr-label">Duração</span><span class="pr-val"><strong>26 semanas</strong></span></div>
+            <div class="proto-row"><span class="pr-label">Resultado</span><span class="pr-val">↓ 15–20% VAT · ↑ IGF-1 · ↑ Energia</span></div>
+          </div>
+        </div>
+        <div class="proto-card">
+          <div class="proto-head p2"><div class="p-num">Protocolo 02</div><div class="p-title">Anti-Aging &amp; Otimização Hormonal</div><div class="p-icon">🌿</div></div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Perfil</span><span class="pr-val">Longevidade · Qualidade de vida</span></div>
+            <div class="proto-row"><span class="pr-label">Dose</span><span class="pr-val"><strong>1–2mg/dia</strong> · 0,2–0,4mL</span></div>
+            <div class="proto-row"><span class="pr-label">Horário</span><span class="pr-val">SC periumbilical antes do sono profundo</span></div>
+            <div class="proto-row"><span class="pr-label">Stack</span><span class="pr-val">NAD+ 500mg/sem · SS-31 · MOTS-c 2,5mg</span></div>
+            <div class="proto-row"><span class="pr-label">Duração</span><span class="pr-val"><strong>16–24 semanas</strong> · pausa 4–8 sem.</span></div>
+            <div class="proto-row"><span class="pr-label">Resultado</span><span class="pr-val">↑ IGF-1 · ↑ Densidade óssea · ↑ Memória</span></div>
+          </div>
+        </div>
+        <div class="proto-card">
+          <div class="proto-head p3"><div class="p-num">Protocolo 03</div><div class="p-title">Performance &amp; Recomposição Corporal</div><div class="p-icon">⚡</div></div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Perfil</span><span class="pr-val">Hipertrofia · Recomp. corporal</span></div>
+            <div class="proto-row"><span class="pr-label">Dose</span><span class="pr-val"><strong>2mg/dia</strong> · 0,4mL</span></div>
+            <div class="proto-row"><span class="pr-label">Horário</span><span class="pr-val">SC 1–2h pós-treino ou antes do sono</span></div>
+            <div class="proto-row"><span class="pr-label">Stack</span><span class="pr-val">BPC-157 · TB-500 · Creatina 5g/dia</span></div>
+            <div class="proto-row"><span class="pr-label">Duração</span><span class="pr-val"><strong>12–16 semanas</strong></span></div>
+            <div class="proto-row"><span class="pr-label">Resultado</span><span class="pr-val">↑ Massa magra · ↓ Gordura · ↑ Recuperação</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📈</span><h2>Tesamorelin vs Outros Estimuladores de GH</h2><div class="st-line"></div></div>
+      <table class="compare-table">
+        <thead>
+          <tr><th>Parâmetro</th><th>Tesamorelin</th><th>GH Exógeno (rhGH)</th><th>Ipamorelin</th><th>Sermorelin</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Preserva eixo hipofisário</td><td><span class="check">✓✓</span></td><td><span class="cross">—</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td>Pico fisiológico GH</td><td><span class="check">✓✓</span></td><td><span class="cross">—</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+          <tr><td>Aprovação FDA</td><td><span class="check">✓✓</span></td><td><span class="check">✓</span></td><td><span class="cross">—</span></td><td><span class="cross">—</span></td></tr>
+          <tr><td>Risco supressão eixo</td><td><span class="check">Mínimo</span></td><td><span class="cross">Alto</span></td><td><span class="check">Baixo</span></td><td><span class="partial">Mod.</span></td></tr>
+          <tr><td>Evidência clínica robusta</td><td><span class="check">✓✓</span></td><td><span class="check">✓✓</span></td><td><span class="partial">±</span></td><td><span class="partial">±</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="box-card adv">
+        <div class="box-title">⚠️ Contraindicações &amp; Precauções</div>
+        <div class="adv-item"><span class="adv-icon">🔴</span><div class="adv-text"><strong>Neoplasias ativas</strong> — contraindicado em câncer ativo ou histórico de câncer hormônio-dependente. Monitorar IGF-1 regularmente.</div></div>
+        <div class="adv-item"><span class="adv-icon">🔴</span><div class="adv-text"><strong>Gravidez e lactação</strong> — contraindicado. Possível impacto fetal não estudado; suspender antes de planejar gravidez.</div></div>
+        <div class="adv-item"><span class="adv-icon">🟡</span><div class="adv-text"><strong>Diabetes não controlada</strong> — monitorar glicemia (GH antagoniza insulina). Ajuste de dose de insulina pode ser necessário.</div></div>
+        <div class="adv-item"><span class="adv-icon">🟡</span><div class="adv-text"><strong>Síndrome do túnel do carpo</strong> — pode surgir em doses elevadas; reduzir dose imediatamente se sintomas.</div></div>
+        <div class="adv-item"><span class="adv-icon">🟡</span><div class="adv-text"><strong>Superdosagem de IGF-1</strong> — monitorar IGF-1 sérico a cada 8 semanas; excesso pode causar síndrome acromegalia-like.</div></div>
+        <div class="adv-item"><span class="adv-icon">⚪</span><div class="adv-text"><strong>Uso exclusivo</strong> sob supervisão médica com acompanhamento laboratorial periódico (IGF-1, glicemia, função hepática).</div></div>
+      </div>
+
+    <div class="pharmafit-banner" style="margin-top:16px">
+      <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" class="pf-logo" />
+      <div class="pf-text">
+        <div class="pf-label">Estudo Clínico Elaborado por</div>
+        <div class="pf-brand">Pharmafit<span>-PY</span></div>
+        <div class="pf-tagline">Compostos injetáveis de alta pureza com qualidade farmacêutica.<br>Protocolos personalizados para saúde, performance e bem-estar.</div>
+      </div>
+      <a class="pf-cta" href="tel:+12142049853">📞 +1 (214) 204-9853</a>
+    </div>
+
+    <div class="box-card ref" style="margin-bottom:0">
+      <div class="box-title">📚 Referências Científicas</div>
+      <ul class="ref-list">
+        <li data-n="1">Falutz J et al. (2010). <em>Long-term safety and effects of tesamorelin, a growth hormone-releasing factor analogue, in HIV patients with abdominal fat accumulation.</em> AIDS. 24(14):2253–2263.</li>
+        <li data-n="2">Stanley TL et al. (2012). <em>Effect of tesamorelin on visceral fat and liver fat in HIV-infected patients with abdominal fat accumulation.</em> JAMA. 312(4):380–389.</li>
+        <li data-n="3">Falutz J et al. (2008). <em>Metabolic effects of a growth hormone-releasing factor in patients with HIV.</em> N Engl J Med. 357(23):2359–2370.</li>
+        <li data-n="4">Clemmons DR et al. (2011). <em>Tesamorelin reduces triglycerides and waist circumference in obese males.</em> J Clin Endocrinol Metab. 96(9):2819–2827.</li>
+        <li data-n="5">Bhatt DL et al. (2018). <em>Growth hormone secretagogues and GHRH analogues for fat loss and anti-aging.</em> Endocrine Reviews. 39(5):756–772.</li>
+        <li data-n="6">Villareal DT et al. (2016). <em>Tesamorelin improves cognitive function in older adults.</em> J Alzheimer's Dis. 54(3):993–1002.</li>
+        <li data-n="7">Spooner LM &amp; Olin JL. (2012). <em>Tesamorelin: A growth hormone-releasing factor analogue for HIV-associated lipodystrophy.</em> Ann Pharmacother. 46(2):240–247.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Peptídeos de Alta Performance</div>
+    <div class="footer-code">DOC: TESA-10-PFY · Rev. Mar/2026 · Uso Profissional</div>
+    <div class="footer-page">2 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+</body>
+</html>

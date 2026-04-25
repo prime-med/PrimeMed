@@ -1,0 +1,269 @@
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  INFORMATIVO TÉCNICO — TEMPLATE PHARMAFIT-PY                ║
+  ║  Produto: Dysport 500UI                                     ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  ESTRUTURA GERAL (2 páginas .page):                         ║
+  ║  Pág 1: header → info-strip → "O Que É" → seções técnicas  ║
+  ║  Pág 2: header-small → seções avançadas → pharmafit-banner  ║
+  ║         → referências científicas → footer + footer-note    ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  NÃO ALTERAR (padronizado para todos os informativos):      ║
+  ║  • .pharmafit-banner — tagline e telefone da Pharmafit-PY   ║
+  ║  • .footer-note — aviso de uso profissional                 ║
+  ║  • Link para ../assets/css/informativo.css                  ║
+  ║  • Fontes: Montserrat + Lato (Google Fonts)                 ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Informativo Técnico — Dysport 500UI | PharmaFit-PY</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/informativo.css" />
+  <style>
+    :root {
+      --petrol:      #312E81; --petrol-dark: #1E1B4B; --petrol-mid: #4338CA;
+      --petrol-lite: #EEF2FF; --petrol-bg:   #F5F3FF;
+      --amber:       #4F46E5; --amber-mid:   #6366F1;
+      --amber-lite:  #E0E7FF; --amber-bg:    #EEF2FF;
+      --gold:        #818CF8; --gold-mid:    #A5B4FC;
+      --gold-lite:   #C7D2FE; --gold-bg:     #E0E7FF;
+      --white:       #FFFFFF; --gray-1: #F4F6F7; --gray-2: #D5D8DC;
+      --text-dark:   #1A2530; --text-mid: #3D566E;
+      --shadow:      0 2px 12px rgba(30,27,75,0.14);
+      --header-bg:        linear-gradient(135deg, #1E1B4B 0%, #312E81 40%, #4338CA 70%, #818CF8 100%);
+      --header-small-bg:  linear-gradient(135deg, #1E1B4B 0%, #312E81 50%, #4338CA 100%);
+      --header-bar-bg:    linear-gradient(90deg, #312E81 0%, #4338CA 30%, #818CF8 60%, #C7D2FE 80%, #818CF8 100%);
+      --header-hl:        #C7D2FE;
+    }
+    body { background: #c0c0d4; }
+    .proto-head.p1 { background: linear-gradient(135deg, #4338CA 0%, #818CF8 100%); }
+    .proto-head.p2 { background: linear-gradient(135deg, #312E81 0%, #4338CA 100%); }
+    .proto-head.p3 { background: linear-gradient(135deg, #1E1B4B 0%, #4338CA 100%); }
+  </style>
+</head>
+<body>
+
+<!-- ═══ PÁGINA 1 ═══ -->
+<div class="page">
+  <div class="header">
+    <div class="header-inner">
+      <div class="header-logo"><img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" /></div>
+      <div class="header-center">
+        <div class="header-tag">Informativo Técnico · AbobotulinumtoxinA · Alta Difusão · Grandes Áreas</div>
+        <div class="header-title">DYSPORT <span class="hl">500UI</span></div>
+        <div class="header-subtitle">AbobotulinumtoxinA · Ipsen · Alta Difusão · Grandes Grupos Musculares · Hiperhidrose</div>
+      </div>
+      <div class="header-badges">
+        <div class="badge-box"><div class="b-label">Apresentação</div><div class="b-val"><span>500</span> UI</div></div>
+        <div class="badge-box"><div class="b-label">Ratio vs Botox</div><div class="b-val">2,5–3 : 1</div></div>
+        <div class="badge-box"><div class="b-label">Código</div><div class="b-val">DYS-500-PFY</div></div>
+      </div>
+    </div>
+    <div class="header-bar"></div>
+  </div>
+
+  <div class="info-strip">
+    <span class="info-chip">ABOBOTULINUM · IPSEN</span>
+    <span class="info-chip dark">ALTA DIFUSÃO · GRANDES ÁREAS</span>
+    <span class="info-text"><strong>ATENÇÃO:</strong> 1UI Botox ≠ 1UI Dysport. Fator de conversão: <strong>2,5–3UI Dysport ≈ 1UI Botox</strong>. Vantagem em grandes áreas musculares e hiperhidrose. Efeito visível em 3–5 dias, duração 3–6 meses. <strong>500UI Dysport ≈ 150–200UI Botox Allergan</strong>.</span>
+  </div>
+
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="st-icon">💉</span><h2>O Que É o Dysport?</h2><div class="st-line"></div></div>
+      <div class="intro-strip">
+        <div class="intro-icon">🧠</div>
+        <div class="intro-text">
+          O <strong>Dysport</strong> é a <strong>AbobotulinumtoxinA</strong> produzida pela Ipsen (França). Toxina botulínica tipo A com difusão ligeiramente maior que a OnabotulinumtoxinA — vantagem em grandes áreas musculares e hiperhidrose. Age pela mesma via da Botox: clivagem da proteína SNAP-25, bloqueio da liberação de acetilcolina e paralisia muscular reversível. Indicada para rugas faciais, hiperhidrose axilar, espasticidade e grandes grupos musculares. Fator de conversão obrigatório: <strong>2,5–3UI Dysport ≈ 1UI Botox Allergan</strong>.
+          <div class="spec-grid">
+            <div class="spec-item"><div class="s-val">500UI</div><div class="s-lbl">Por frasco</div></div>
+            <div class="spec-item"><div class="s-val">IM/SC</div><div class="s-lbl">Via</div></div>
+            <div class="spec-item"><div class="s-val">SF 0,9%</div><div class="s-lbl">Diluente</div></div>
+            <div class="spec-item"><div class="s-val">2,5–3:1</div><div class="s-lbl">Ratio vs Botox</div></div>
+            <div class="spec-item"><div class="s-val">3–6 meses</div><div class="s-lbl">Duração</div></div>
+            <div class="spec-item"><div class="s-val">Alta</div><div class="s-lbl">Difusão</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">⚡</span><h2>Mecanismo de Ação</h2><div class="st-line"></div></div>
+      <div class="mec-grid">
+        <div class="mec-card">
+          <div class="mec-icon">🧠</div>
+          <div class="mec-title">Clivagem SNAP-25</div>
+          <div class="mec-text">O Dysport age pela mesma via da OnabotulinumtoxinA: clivagem da proteína SNAP-25 do complexo SNARE, bloqueio da liberação de acetilcolina e paralisia muscular reversível na junção neuromuscular.</div>
+        </div>
+        <div class="mec-card">
+          <div class="mec-icon">📡</div>
+          <div class="mec-title">Maior Difusão Molecular</div>
+          <div class="mec-text">A diferença está no perfil molecular: a AbobotulinumtoxinA tem maior tendência à difusão a partir do ponto de injeção. Isso a torna ideal para grandes grupos musculares e áreas extensas como hiperhidrose axilar e espasticidade.</div>
+        </div>
+        <div class="mec-card">
+          <div class="mec-icon">⚖️</div>
+          <div class="mec-title">Conversão Obrigatória</div>
+          <div class="mec-text">As unidades do Dysport NÃO são equivalentes ao Botox. Fator de conversão: 2,5–3UI Dysport ≈ 1UI Botox. Confusão de unidades pode resultar em subdosagem ou efeitos adversos. Sempre calcular antes do procedimento.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">🧪</span><h2>Reconstituição</h2><div class="st-line"></div></div>
+      <div class="uso-steps">
+        <div class="uso-step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Diluição padrão — 500UI</div>
+            <div class="step-text">Adicionar <strong>2,5ml de SF 0,9% estéril sem conservante</strong> → 200UI/ml (equivalente prático). Para maior diluição: 5ml → 100UI/ml. Use SF refrigerado (4–8°C).</div>
+          </div>
+        </div>
+        <div class="uso-step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Técnica de reconstituição</div>
+            <div class="step-text">SF gelado (refrigerado) reduz desnaturação. Injetar lentamente pela <strong>parede do frasco</strong> — a pressão negativa puxa o diluente. Não aspirar com agulha no meio do pó.</div>
+          </div>
+        </div>
+        <div class="uso-step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Não agitar</div>
+            <div class="step-text">Girar suavemente o frasco. Solução deve ser <strong>límpida e incolor</strong>. Nunca agitar — desnatura a toxina e reduz eficácia. Não usar vórtex.</div>
+          </div>
+        </div>
+        <div class="uso-step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <div class="step-title">Usar em até 4 horas</div>
+            <div class="step-text">Após reconstituição, usar em até <strong>4 horas</strong> mantendo a 2–8°C durante o procedimento. Descartar sobras adequadamente conforme normas de biossegurança.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📊</span><h2>Tabela de Doses — Dysport (com Conversão para Botox)</h2><div class="st-line"></div></div>
+      <table class="moa">
+        <thead><tr><th>Área</th><th>Dose Dysport</th><th>Equiv. Botox</th><th>Pontos</th><th style="width:12%;text-align:center">Duração</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Glabela</strong></td><td><strong>50–70UI</strong></td><td>≈20–25UI Btx</td><td>5 pontos</td><td style="text-align:center">3–4 meses</td></tr>
+          <tr><td><strong>Testa</strong></td><td><strong>30–50UI</strong></td><td>≈12–18UI Btx</td><td>4–6 pontos</td><td style="text-align:center">3–4 meses</td></tr>
+          <tr><td><strong>Pés de galinha</strong></td><td><strong>30–60UI</strong></td><td>≈12–20UI Btx</td><td>3–4/lado</td><td style="text-align:center">3–4 meses</td></tr>
+          <tr><td><strong>Axilas (hiperhidrose)</strong></td><td><strong>150UI/axila</strong></td><td>≈50UI Btx</td><td>15 pontos × 10UI</td><td style="text-align:center">6–9 meses</td></tr>
+          <tr><td><strong>Espasticidade</strong></td><td><strong>500UI total</strong></td><td>≈150–200UI Btx</td><td>Múltiplos</td><td style="text-align:center">3–6 meses</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Toxinas Botulínicas Premium</div>
+    <div class="footer-code">DOC: DYS-500-PFY · Rev. Mar/2026</div>
+    <div class="footer-page">1 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+<!-- ═══ PÁGINA 2 ═══ -->
+<div class="page">
+  <div class="header-small">
+    <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" />
+    <div>
+      <div class="hs-title">DYSPORT <span>500UI</span> · Protocolos</div>
+      <div class="hs-sub">AbobotulinumtoxinA · Ipsen · Alta Difusão</div>
+    </div>
+    <div class="hs-right">
+      <div class="hs-title" style="font-size:9pt;color:rgba(255,255,255,0.5)">PHARMAFIT-PY</div>
+      <div class="hs-sub">Informativo Técnico · Página 2</div>
+    </div>
+  </div>
+  <div class="header-bar"></div>
+
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="st-icon">🗂️</span><h2>Protocolos de Aplicação Clínica</h2><div class="st-line"></div></div>
+      <div class="proto-grid">
+        <div class="proto-card">
+          <div class="proto-head p1"><div class="p-num">Protocolo 01</div><div class="p-title">Face Completa Anti-rugas</div><div class="p-icon">✨</div></div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Total</span><span class="pr-val"><strong>150–200UI Dysport</strong> por sessão</span></div>
+            <div class="proto-row"><span class="pr-label">Glabela</span><span class="pr-val">50–70UI · 5 pontos</span></div>
+            <div class="proto-row"><span class="pr-label">Testa</span><span class="pr-val">30–50UI · 4–6 pontos</span></div>
+            <div class="proto-row"><span class="pr-label">Pés de galinha</span><span class="pr-val">30–60UI · 3–4 pontos/lado</span></div>
+            <div class="proto-row"><span class="pr-label">Conversão</span><span class="pr-val">Sempre usar ratio 2,5–3:1 vs Botox</span></div>
+            <div class="proto-row"><span class="pr-label">Atenção</span><span class="pr-val">Difusão maior: evitar periorbital inferior</span></div>
+          </div>
+        </div>
+        <div class="proto-card">
+          <div class="proto-head p2"><div class="p-num">Protocolo 02</div><div class="p-title">Hiperhidrose Axilar</div><div class="p-icon">💧</div></div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Dose</span><span class="pr-val"><strong>150UI/axila</strong> · grade 15 pontos × 10UI</span></div>
+            <div class="proto-row"><span class="pr-label">Técnica</span><span class="pr-val">Intradérmica papular · Teste Minor antes</span></div>
+            <div class="proto-row"><span class="pr-label">Vantagem</span><span class="pr-val">Maior difusão = cobertura mais uniforme</span></div>
+            <div class="proto-row"><span class="pr-label">Pontos</span><span class="pr-val">Pode reduzir nº de pontos vs Botox</span></div>
+            <div class="proto-row"><span class="pr-label">Duração</span><span class="pr-val"><strong>6–9 meses</strong> de efeito</span></div>
+            <div class="proto-row"><span class="pr-label">Resultado</span><span class="pr-val">Alta satisfação do paciente · cobertura ampla</span></div>
+          </div>
+        </div>
+        <div class="proto-card">
+          <div class="proto-head p3"><div class="p-num">Protocolo 03</div><div class="p-title">Espasticidade — Grandes Grupos Musculares</div><div class="p-icon">⚕️</div></div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Dose total</span><span class="pr-val"><strong>Até 500UI</strong> por sessão</span></div>
+            <div class="proto-row"><span class="pr-label">Indicações</span><span class="pr-val">Espasticidade pós-AVC · distonia cervical</span></div>
+            <div class="proto-row"><span class="pr-label">Hipertrofia</span><span class="pr-val">Grandes grupos (ex: panturrilha)</span></div>
+            <div class="proto-row"><span class="pr-label">Guiagem</span><span class="pr-val">EMG ou ultrassom guiado recomendado</span></div>
+            <div class="proto-row"><span class="pr-label">Distribuição</span><span class="pr-val">Múltiplos sítios de injeção</span></div>
+            <div class="proto-row"><span class="pr-label">Duração</span><span class="pr-val"><strong>3–6 meses</strong></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="box-card adv">
+        <div class="box-title">⚠️ Advertências &amp; Contraindicações</div>
+        <div class="adv-item"><span class="adv-icon">🔴</span><div class="adv-text"><strong>CRÍTICO — Fator de conversão 2,5–3:1</strong> vs Botox. Confusão de unidades pode resultar em subdosagem ou paralisia excessiva. Sempre calcular antes.</div></div>
+        <div class="adv-item"><span class="adv-icon">🔴</span><div class="adv-text"><strong>Alta difusão</strong> — cuidado extremo em áreas com músculos ptóticos ou elevadores delicados (ex: pálpebra, fronte inferior).</div></div>
+        <div class="adv-item"><span class="adv-icon">🔴</span><div class="adv-text"><strong>Gestação e amamentação</strong> — contraindicado. Doenças neuromusculares (miastenia, ELA) — contraindicação absoluta.</div></div>
+        <div class="adv-item"><span class="adv-icon">🟡</span><div class="adv-text"><strong>Hipersensibilidade</strong> à toxina botulínica ou proteínas do leite bovino (excipiente da formulação Dysport) — contraindicado.</div></div>
+        <div class="adv-item"><span class="adv-icon">🟡</span><div class="adv-text"><strong>Conservação</strong> — 2–8°C. Usar em até 4h após reconstituição. Profissional habilitado obrigatório — frasco de uso único (500UI).</div></div>
+        <div class="adv-item"><span class="adv-icon">⚪</span><div class="adv-text"><strong>Retorno</strong> em 14 dias para avaliação de resultado. Reduzir dose 15–20% vs Botox equivalente nas primeiras sessões.</div></div>
+      </div>
+
+    <div class="pharmafit-banner">
+      <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" class="pf-logo" />
+      <div class="pf-text">
+        <div class="pf-label">Estudo Clínico Elaborado por</div>
+        <div class="pf-brand">Pharmafit<span>-PY</span></div>
+        <div class="pf-tagline">Compostos injetáveis de alta pureza com qualidade farmacêutica.<br>Protocolos personalizados para saúde, performance e bem-estar.</div>
+      </div>
+      <a class="pf-cta" href="tel:+12142049853">📞 +1 (214) 204-9853</a>
+    </div>
+
+    <div class="box-card ref">
+      <div class="box-title">📚 Referências Científicas</div>
+      <ul class="ref-list">
+        <li data-n="1">Ascher B et al. (2010). <em>Efficacy and safety of AbobotulinumtoxinA (Dysport) for glabellar lines.</em> Dermatol Surg. 36(s4):2051–2060.</li>
+        <li data-n="2">Lowe NJ et al. (2009). <em>AbobotulinumtoxinA (Dysport) for the frown lines: review of clinical evidence.</em> Dermatol Surg. 35(s1):562–571.</li>
+        <li data-n="3">Naumann M et al. (2001). <em>Botulinum toxin type A for axillary hyperhidrose: randomized trial.</em> NEJM. 344(7):488–493.</li>
+        <li data-n="4">Montecucco C, Molgo J. (2005). <em>Botulinal neurotoxins: revival of an old killer.</em> Curr Opin Pharmacol. 5(3):274–279.</li>
+        <li data-n="5">Bhidayasiri R, Truong DD. (2005). <em>Expanding use of botulinum toxin.</em> J Neurol Sci. 235(1–2):1–9.</li>
+        <li data-n="6">Ranoux D et al. (2008). <em>Botulinum toxin type A induces direct analgesic effects in chronic neuropathic pain.</em> Ann Neurol. 64(3):274–283.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Toxinas Botulínicas Premium</div>
+    <div class="footer-code">DOC: DYS-500-PFY · Rev. Mar/2026 · Uso Profissional</div>
+    <div class="footer-page">2 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+</body>
+</html>

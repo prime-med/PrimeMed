@@ -1,0 +1,286 @@
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  INFORMATIVO TÉCNICO — TEMPLATE PHARMAFIT-PY                ║
+  ║  Produto: Nabota 100UI/150UI                                ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  ESTRUTURA GERAL (2 páginas .page):                         ║
+  ║  Pág 1: header → info-strip → "O Que É" → seções técnicas  ║
+  ║  Pág 2: header-small → seções avançadas → pharmafit-banner  ║
+  ║         → referências científicas → footer + footer-note    ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  NÃO ALTERAR (padronizado para todos os informativos):      ║
+  ║  • .pharmafit-banner — tagline e telefone da Pharmafit-PY   ║
+  ║  • .footer-note — aviso de uso profissional                 ║
+  ║  • Link para ../assets/css/informativo.css                  ║
+  ║  • Fontes: Montserrat + Lato (Google Fonts)                 ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Informativo Técnico — Nabota 100UI/150UI | PharmaFit-PY</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/informativo.css" />
+  <style>
+    :root {
+      --petrol:      #1E3A5F; --petrol-dark: #0A1628; --petrol-mid: #1D4ED8;
+      --petrol-lite: #EFF6FF; --petrol-bg:   #F5F9FF;
+      --amber:       #1D4ED8; --amber-mid:   #3B82F6;
+      --amber-lite:  #DBEAFE; --amber-bg:    #EFF6FF;
+      --gold:        #3B82F6; --gold-mid:    #60A5FA;
+      --gold-lite:   #BFDBFE; --gold-bg:     #DBEAFE;
+      --white:       #FFFFFF; --gray-1: #F4F6F7; --gray-2: #D5D8DC;
+      --text-dark:   #1A2530; --text-mid: #3D566E;
+      --shadow:      0 2px 12px rgba(10,22,40,0.14);
+      --header-bg:        linear-gradient(135deg, #0A1628 0%, #1E3A5F 40%, #1D4ED8 70%, #3B82F6 100%);
+      --header-small-bg:  linear-gradient(135deg, #0A1628 0%, #1E3A5F 50%, #1D4ED8 100%);
+      --header-bar-bg:    linear-gradient(90deg, #1E3A5F 0%, #1D4ED8 30%, #3B82F6 60%, #60A5FA 80%, #3B82F6 100%);
+      --header-hl:        #93C5FD;
+    }
+    body { background: #b8c8d8; }
+    .proto-head.p1 { background: linear-gradient(135deg, #1D4ED8 0%, #3B82F6 100%); }
+    .proto-head.p2 { background: linear-gradient(135deg, #1D4ED8 0%, #60A5FA 100%); }
+    .proto-head.p3 { background: linear-gradient(135deg, #1E3A5F 0%, #1D4ED8 100%); }
+    table.compare-table thead tr { background: linear-gradient(90deg, #1E3A5F 0%, #1D4ED8 100%); }
+  </style>
+</head>
+<body>
+
+<!-- ═══ PÁGINA 1 ═══ -->
+<div class="page">
+  <div class="header">
+    <div class="header-inner">
+      <div class="header-logo"><img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" /></div>
+      <div class="header-center">
+        <div class="header-tag">Informativo Técnico · Toxina Botulínica Tipo A · Daewoong · Perfil Allergan-Equivalente</div>
+        <div class="header-title">NABOTA <span class="hl">100UI / 150UI</span></div>
+        <div class="header-subtitle">OnabotulinumtoxinA-like Purificada · Daewoong Pharmaceutical · Rugas · Hiperhidrose · Bruxismo</div>
+      </div>
+      <div class="header-badges">
+        <div class="badge-box"><div class="b-label">Frasco Padrão</div><div class="b-val"><span>100</span> UI</div></div>
+        <div class="badge-box"><div class="b-label">Frasco Grande</div><div class="b-val"><span>150</span> UI</div></div>
+        <div class="badge-box"><div class="b-label">Código</div><div class="b-val">NAB-PFY</div></div>
+      </div>
+    </div>
+    <div class="header-bar"></div>
+  </div>
+
+  <div class="info-strip">
+    <span class="info-chip">ONABOTULINUM-LIKE · DAEWOONG</span>
+    <span class="info-chip dark">PURIFICADO · ~1:1 VS BOTOX</span>
+    <span class="info-text">OnabotulinumtoxinA-like purificada por cristalização — perfil de segurança e eficácia comparável ao Botox Allergan. Ratio vs Botox: <strong>~1:1</strong>. Efeito visível em <strong>3–5 dias</strong>, pico em 2 semanas, duração 3–6 meses. Disponível em frasco de 100UI e 150UI.</span>
+  </div>
+
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="st-icon">💉</span><h2>O Que É o Nabota?</h2><div class="st-line"></div></div>
+      <div class="intro-strip">
+        <div class="intro-icon">🔬</div>
+        <div class="intro-text">
+          O <strong>Nabota</strong> é uma <strong>toxina botulínica tipo A purificada (OnabotulinumtoxinA-like)</strong> produzida pela Daewoong Pharmaceutical (Coreia do Sul). Apresenta perfil de segurança e eficácia comparável ao Botox Allergan, com purificação por cristalização — técnica que resulta em alta pureza e estabilidade. Bloqueia a liberação de acetilcolina na junção neuromuscular (JNM) promovendo paralisia muscular temporária e seletiva. Indicado para rugas dinâmicas faciais, hiperhidrose axilar e bruxismo/hipertrofia de masseter.
+          <div class="spec-grid">
+            <div class="spec-item"><div class="s-val">100UI</div><div class="s-lbl">Frasco padrão</div></div>
+            <div class="spec-item"><div class="s-val">150UI</div><div class="s-lbl">Frasco grande</div></div>
+            <div class="spec-item"><div class="s-val">IM/SC</div><div class="s-lbl">Via</div></div>
+            <div class="spec-item"><div class="s-val">SF 0,9%</div><div class="s-lbl">Diluente</div></div>
+            <div class="spec-item"><div class="s-val">2–8°C</div><div class="s-lbl">Conservação</div></div>
+            <div class="spec-item"><div class="s-val">~1:1</div><div class="s-lbl">Ratio vs Botox</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">⚡</span><h2>Mecanismo de Ação</h2><div class="st-line"></div></div>
+      <div class="mec-grid">
+        <div class="mec-card">
+          <div class="mec-icon">🔬</div>
+          <div class="mec-title">Clivagem SNAP-25 / SNARE</div>
+          <div class="mec-text">A toxina botulínica tipo A cliva a proteína SNAP-25 do complexo SNARE, impedindo a fusão das vesículas sinápticas com a membrana pré-sináptica. Sem a fusão, a acetilcolina não é liberada na JNM.</div>
+        </div>
+        <div class="mec-card">
+          <div class="mec-icon">💎</div>
+          <div class="mec-title">Purificação por Cristalização</div>
+          <div class="mec-text">O Nabota utiliza tecnologia de purificação por cristalização (processo patenteado Daewoong), resultando em toxina de alta pureza com mínimas proteínas complexantes — redução potencial de imunogenicidade a longo prazo.</div>
+        </div>
+        <div class="mec-card">
+          <div class="mec-icon">⚖️</div>
+          <div class="mec-title">Perfil Allergan-Equivalente</div>
+          <div class="mec-text">Estudos clínicos comparativos confirmam eficácia e segurança equivalentes ao Botox Allergan. Ratio ~1:1: doses são intercambiáveis com OnabotulinumtoxinA. Duração 3–6 meses conforme área e dose aplicada.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">🧪</span><h2>Reconstituição</h2><div class="st-line"></div></div>
+      <div class="uso-steps">
+        <div class="uso-step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Escolher diluição conforme indicação</div>
+            <div class="step-text">SF 0,9% estéril sem conservante. Volume depende da indicação: <strong>1ml</strong> (100UI/ml) · <strong>2ml</strong> (50UI/ml) · <strong>3ml</strong> (33UI/ml). Preferir SF refrigerado para menor desnaturação.</div>
+          </div>
+        </div>
+        <div class="uso-step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Injetar diluente na parede do frasco</div>
+            <div class="step-text">Injetar SF lentamente pela <strong>parede do frasco</strong>. A pressão negativa puxa a solução. Não aspirar com agulha diretamente no pó seco — preserva a integridade da proteína.</div>
+          </div>
+        </div>
+        <div class="uso-step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Não agitar</div>
+            <div class="step-text">Girar suavemente o frasco. NUNCA agitar — desnatura a proteína e reduz eficácia. Solução deve ser <strong>límpida e incolor</strong> após dissolução completa.</div>
+          </div>
+        </div>
+        <div class="uso-step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <div class="step-title">Usar em até 4 horas</div>
+            <div class="step-text">Após reconstituição, usar em até <strong>4 horas</strong>. Conservar a 2–8°C durante o procedimento. Descartar sobras — não recongelar frasco reconstituído.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📊</span><h2>Tabela de Doses por Área</h2><div class="st-line"></div></div>
+      <table class="moa">
+        <thead><tr><th>Área / Indicação</th><th>Dose Total</th><th>Pontos</th><th>Técnica</th><th style="width:12%;text-align:center">Duração</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Glabela</strong></td><td><strong>20–30UI</strong></td><td>5 pontos</td><td>IM profissional</td><td style="text-align:center">3–4 meses</td></tr>
+          <tr><td><strong>Testa (frontal)</strong></td><td><strong>10–20UI</strong></td><td>4–6 pontos</td><td>IM superficial</td><td style="text-align:center">3–4 meses</td></tr>
+          <tr><td><strong>Pés de galinha</strong></td><td><strong>12–24UI</strong></td><td>3–4/lado</td><td>SC periorbital</td><td style="text-align:center">3–4 meses</td></tr>
+          <tr><td><strong>Axilas (hiperhidrose)</strong></td><td><strong>50UI/axila</strong></td><td>25 pontos × 2UI</td><td>Intradérmica</td><td style="text-align:center">6–9 meses</td></tr>
+          <tr><td><strong>Masseter (bruxismo)</strong></td><td><strong>20–30UI/lado</strong></td><td>3–5 pontos</td><td>IM profunda</td><td style="text-align:center">4–6 meses</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Toxinas Botulínicas Premium</div>
+    <div class="footer-code">DOC: NAB-PFY · Rev. Mar/2026</div>
+    <div class="footer-page">1 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+<!-- ═══ PÁGINA 2 ═══ -->
+<div class="page">
+  <div class="header-small">
+    <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" />
+    <div>
+      <div class="hs-title">NABOTA <span>100UI/150UI</span> · Protocolos</div>
+      <div class="hs-sub">OnabotulinumtoxinA-like · Daewoong Pharmaceutical</div>
+    </div>
+    <div class="hs-right">
+      <div class="hs-title" style="font-size:9pt;color:rgba(255,255,255,0.5)">PHARMAFIT-PY</div>
+      <div class="hs-sub">Informativo Técnico · Página 2</div>
+    </div>
+  </div>
+  <div class="header-bar"></div>
+
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="st-icon">🗂️</span><h2>Protocolos de Aplicação Clínica</h2><div class="st-line"></div></div>
+      <div class="proto-grid">
+        <div class="proto-card">
+          <div class="proto-head p1"><div class="p-num">Protocolo 01</div><div class="p-title">Face Completa Anti-rugas</div><div class="p-icon">✨</div></div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Total</span><span class="pr-val"><strong>50–80UI</strong> por sessão</span></div>
+            <div class="proto-row"><span class="pr-label">Glabela</span><span class="pr-val">20–30UI · 5 pontos (corrugador + procerus)</span></div>
+            <div class="proto-row"><span class="pr-label">Testa</span><span class="pr-val">10–20UI · linha horizontal medial/lateral</span></div>
+            <div class="proto-row"><span class="pr-label">Periorbital</span><span class="pr-val">12–24UI · leque orbital 3–4 pontos/lado</span></div>
+            <div class="proto-row"><span class="pr-label">Pós-proc.</span><span class="pr-val">Não deitar 4h · evitar exercício 24h</span></div>
+            <div class="proto-row"><span class="pr-label">Retorno</span><span class="pr-val">15 dias para avaliação e retoques</span></div>
+          </div>
+        </div>
+        <div class="proto-card">
+          <div class="proto-head p2"><div class="p-num">Protocolo 02</div><div class="p-title">Lifting Não-cirúrgico</div><div class="p-icon">🌿</div></div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Total</span><span class="pr-val"><strong>10–30UI</strong> complementares</span></div>
+            <div class="proto-row"><span class="pr-label">DAO</span><span class="pr-val">2–3UI/ponto bilateral — eleva canto labial</span></div>
+            <div class="proto-row"><span class="pr-label">Frontalis</span><span class="pr-val">Lateral — levanta sobrancelha lateral</span></div>
+            <div class="proto-row"><span class="pr-label">Nefertiti</span><span class="pr-val">Platisma em linha mandibular</span></div>
+            <div class="proto-row"><span class="pr-label">Indicações</span><span class="pr-val">Canto oral descaído · ptose leve · flacidez cervical</span></div>
+            <div class="proto-row"><span class="pr-label">Resultado</span><span class="pr-val">Arco sobrancelha definido · contorno mandibular</span></div>
+          </div>
+        </div>
+        <div class="proto-card">
+          <div class="proto-head p3"><div class="p-num">Protocolo 03</div><div class="p-title">Hiperhidrose e Bruxismo — Sessão Única</div><div class="p-icon">⚕️</div></div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Hiperhidrose</span><span class="pr-val"><strong>50UI/axila</strong> · grade 25 pontos × 2UI</span></div>
+            <div class="proto-row"><span class="pr-label">Técnica</span><span class="pr-val">Intradérmica papular · Teste Minor antes</span></div>
+            <div class="proto-row"><span class="pr-label">Bruxismo</span><span class="pr-val"><strong>20–30UI/masseter</strong> · 3–5 pontos IM profunda</span></div>
+            <div class="proto-row"><span class="pr-label">Bilateral</span><span class="pr-val">Aplicar simultaneamente nos dois lados</span></div>
+            <div class="proto-row"><span class="pr-label">Slimming</span><span class="pr-val">Efeito estético (slimming facial) em 4–6 semanas</span></div>
+            <div class="proto-row"><span class="pr-label">Duração</span><span class="pr-val"><strong>6–9 meses</strong> hiperhidrose · 4–6 meses masseter</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📊</span><h2>Comparativo dos Protocolos</h2><div class="st-line"></div></div>
+      <table class="compare-table">
+        <thead>
+          <tr><th>Parâmetro</th><th>✨ Face Anti-rugas</th><th>🌿 Lifting</th><th>⚕️ Hiperhidrose + Bruxismo</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Dose total</td><td>50–80UI/sessão</td><td>10–30UI complementares</td><td>50UI/axila + 25UI/masseter</td></tr>
+          <tr><td>Área principal</td><td>Glabela · Testa · Periorbital</td><td>DAO · Frontalis · Nefertiti</td><td>Axilas · Masseter bilateral</td></tr>
+          <tr><td>Técnica</td><td>IM / SC periorbital</td><td>IM superficial lateral</td><td>ID papular · IM profunda</td></tr>
+          <tr><td>Duração</td><td>3–4 meses</td><td>3–4 meses</td><td>6–9m hiperhidrose</td></tr>
+          <tr><td>Frasco indicado</td><td>100UI ou 150UI</td><td>100UI</td><td>100–150UI</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="box-card adv">
+        <div class="box-title">⚠️ Advertências &amp; Contraindicações</div>
+        <div class="adv-item"><span class="adv-icon">🔴</span><div class="adv-text"><strong>Aplicação exclusiva</strong> por médico ou profissional de saúde habilitado em procedimentos injetáveis estéticos e terapêuticos.</div></div>
+        <div class="adv-item"><span class="adv-icon">🔴</span><div class="adv-text"><strong>Gestação e amamentação</strong> — contraindicado. Distúrbios neuromusculares (miastenia gravis, ELA, síndrome de Eaton-Lambert) — contraindicação absoluta.</div></div>
+        <div class="adv-item"><span class="adv-icon">🔴</span><div class="adv-text"><strong>Hipersensibilidade</strong> conhecida à toxina botulínica tipo A ou albumina humana (excipiente) — contraindicado absolutamente.</div></div>
+        <div class="adv-item"><span class="adv-icon">🟡</span><div class="adv-text"><strong>Área com infecção ativa</strong> ou inflamação local — não aplicar. Aguardar resolução completa antes do procedimento.</div></div>
+        <div class="adv-item"><span class="adv-icon">🟡</span><div class="adv-text"><strong>Conservação</strong> — 2–8°C antes da reconstituição · não congelar. Frasco reconstituído: usar em até 4 horas. Descartar sobras.</div></div>
+        <div class="adv-item"><span class="adv-icon">⚪</span><div class="adv-text"><strong>Ratio ~1:1 vs Botox</strong> — doses são intercambiáveis com OnabotulinumtoxinA. Verificar frasco (100UI ou 150UI) antes de calcular dose.</div></div>
+      </div>
+
+    <div class="pharmafit-banner" style="margin-top:16px">
+      <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" class="pf-logo" />
+      <div class="pf-text">
+        <div class="pf-label">Estudo Clínico Elaborado por</div>
+        <div class="pf-brand">Pharmafit<span>-PY</span></div>
+        <div class="pf-tagline">Compostos injetáveis de alta pureza com qualidade farmacêutica.<br>Protocolos personalizados para saúde, performance e bem-estar.</div>
+      </div>
+      <a class="pf-cta" href="tel:+12142049853">📞 +1 (214) 204-9853</a>
+    </div>
+
+    <div class="box-card ref" style="margin-bottom:0">
+      <div class="box-title">📚 Referências Científicas</div>
+      <ul class="ref-list">
+        <li data-n="1">Jankovic J, Brin MF. (1991). <em>Therapeutic uses of botulinum toxin.</em> N Engl J Med. 324(17):1186–1194.</li>
+        <li data-n="2">Hexsel D et al. (2018). <em>Nabota (botulinum toxin type A) for aesthetic indications.</em> J Drugs Dermatol. 17(10):1100–1106.</li>
+        <li data-n="3">Carruthers A, Carruthers J. (1998). <em>History of the cosmetic use of botulinum A exotoxin.</em> Dermatol Surg. 24(11):1168–1170.</li>
+        <li data-n="4">Dressler D, Bhidayasiri R, Bhatt D. (2005). <em>Botulinum toxin therapy in movement disorder.</em> Neurology. 65(9):1368–1378.</li>
+        <li data-n="5">Colhado OC et al. (2009). <em>Botulinum toxin in pain treatment.</em> Rev Bras Anestesiol. 59(3):366–381.</li>
+        <li data-n="6">Bae GY et al. (2016). <em>Efficacy and safety of botulinum toxin type A (Nabota) for forehead wrinkles.</em> Ann Dermatol. 28(3):320–325.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Toxinas Botulínicas Premium</div>
+    <div class="footer-code">DOC: NAB-PFY · Rev. Mar/2026 · Uso Profissional</div>
+    <div class="footer-page">2 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+</body>
+</html>

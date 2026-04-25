@@ -1,0 +1,313 @@
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  INFORMATIVO TÉCNICO — TEMPLATE PHARMAFIT-PY                ║
+  ║  Produto: MOMM IV Cocktail                                  ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  ESTRUTURA GERAL (2 páginas .page):                         ║
+  ║  Pág 1: header → info-strip → "O Que É" → seções técnicas  ║
+  ║  Pág 2: header-small → seções avançadas → pharmafit-banner  ║
+  ║         → referências científicas → footer + footer-note    ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  NÃO ALTERAR (padronizado para todos os informativos):      ║
+  ║  • .pharmafit-banner — tagline e telefone da Pharmafit-PY   ║
+  ║  • .footer-note — aviso de uso profissional                 ║
+  ║  • Link para ../assets/css/informativo.css                  ║
+  ║  • Fontes: Montserrat + Lato (Google Fonts)                 ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Informativo Técnico — MOMM IV Cocktail | PharmaFit-PY</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/informativo.css" />
+  <style>
+    :root {
+      --petrol:      #0E6655;
+      --petrol-dark: #0D2B3E;
+      --petrol-mid:  #17A589;
+      --petrol-lite: #D1F2EB;
+      --petrol-bg:   #E8F8F5;
+      --amber:       #B7600A;
+      --amber-mid:   #E67E22;
+      --amber-lite:  #FAE5D3;
+      --amber-bg:    #FEF5EC;
+      --gold:        #0E6655;
+      --gold-mid:    #17A589;
+      --gold-lite:   #D1F2EB;
+      --gold-bg:     #E8F8F5;
+      --white:       #FFFFFF;
+      --gray-1:      #F4F6F7;
+      --gray-2:      #D5D8DC;
+      --text-dark:   #1A2530;
+      --text-mid:    #3D566E;
+      --shadow:      0 2px 12px rgba(14,102,85,0.10);
+      --header-bg:   linear-gradient(135deg, #0E6655 0%, #1B4F72 50%, #0D2B3E 100%);
+      --header-small-bg: linear-gradient(135deg, #0D2B3E 0%, #0E6655 50%, #17A589 100%);
+      --header-bar-bg: linear-gradient(90deg, #17A589 0%, #76D7C4 35%, #D4AC0D 65%, #2471A3 100%);
+      --header-hl:   #76D7C4;
+    }
+    body { background: #c8d8e4; }
+    .proto-head .ph-num {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 6pt; font-weight: 600; letter-spacing: 2px;
+      opacity: 0.7; text-transform: uppercase; margin-bottom: 2px;
+    }
+    .proto-head .ph-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 8.5pt; font-weight: 800; line-height: 1.2;
+    }
+    .proto-head.p1 { background: linear-gradient(135deg, #0E6655, #17A589); }
+    .proto-head.p2 { background: linear-gradient(135deg, #0D2B3E, #2471A3); }
+    .proto-head.p3 { background: linear-gradient(135deg, #4A235A, #6C3483); }
+    table.compare-table thead tr { background: linear-gradient(90deg, #0D2B3E 0%, #0E6655 100%); }
+  </style>
+</head>
+<body>
+
+<!-- ═══ PÁGINA 1 ═══ -->
+<div class="page">
+  <div class="header">
+    <div class="header-inner">
+      <div class="header-logo">
+        <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" />
+      </div>
+      <div class="header-center">
+        <div class="header-tag">Terapia IV · Otimização Metabólica e Imune · Micronutrientes Essenciais</div>
+        <div class="header-title"><span class="hl">MOMM</span> IV Cocktail</div>
+        <div class="header-subtitle">Megadose IV de Vitaminas, Minerais e Aminoácidos · Energia · Imunidade · Recuperação</div>
+      </div>
+      <div class="header-badges">
+        <div class="badge-box"><div class="b-label">Volume</div><div class="b-val">100ml bag</div></div>
+        <div class="badge-box"><div class="b-label">Via</div><div class="b-val">IV lenta (30–60 min)</div></div>
+        <div class="badge-box"><div class="b-label">Código</div><div class="b-val">MOMM-100-PFY</div></div>
+      </div>
+    </div>
+    <div class="header-bar"></div>
+  </div>
+
+  <div class="info-strip">
+    <span class="info-chip">IV THERAPY</span>
+    <span class="info-chip dark">Uso Médico Exclusivo</span>
+    <span class="info-text"><strong>MOMM IV Cocktail</strong> — Formulação composta de micronutrientes essenciais: Vitamina C Megadose · Complexo B · Magnésio · Glutationa · Zinco. Administração IV exclusivamente sob supervisão médica/enfermagem.</span>
+  </div>
+
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="st-icon">💉</span><h2>O Que É o MOMM IV Cocktail?</h2><div class="st-line"></div></div>
+      <div class="intro-strip">
+        <div class="intro-icon">💉</div>
+        <div class="intro-text">
+          <strong>MOMM</strong> é um cocktail IV de alta concentração desenvolvido para otimização metabólica rápida e profunda. Combina megadoses de vitamina C (antioxidante e imunoestimulante), complexo B completo (cofatores metabólicos), magnésio (relaxamento muscular e neurológico), zinco e glutationa reduzida (detox celular). A administração IV garante <strong>biodisponibilidade de 100%</strong> — impossível de alcançar por via oral — com efeitos perceptíveis em 30–60 minutos após a infusão.
+          <div class="spec-grid">
+            <div class="spec-item"><div class="s-val">100ml</div><div class="s-lbl">Volume</div></div>
+            <div class="spec-item"><div class="s-val">IV Lenta</div><div class="s-lbl">Via</div></div>
+            <div class="spec-item"><div class="s-val">100%</div><div class="s-lbl">Biodisp.</div></div>
+            <div class="spec-item"><div class="s-val">10–25g</div><div class="s-lbl">Vit C/sessão</div></div>
+            <div class="spec-item"><div class="s-val">30–60 min</div><div class="s-lbl">Duração</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">⚡</span><h2>Mecanismo de Ação</h2><div class="st-line"></div></div>
+      <table class="moa">
+        <thead>
+          <tr>
+            <th style="width:26%">Componente</th>
+            <th style="width:56%">Ação Farmacológica</th>
+            <th style="width:18%">Sistema</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Vitamina C (10–25g)</td><td>Síntese de colágeno · produção de norepinefrina · função imune · neutralização de radicais livres</td><td>Antioxidante</td></tr>
+          <tr><td>Complexo B (B1–B12)</td><td>Cofatores do ciclo de Krebs · produção de energia (ATP) · síntese de neurotransmissores</td><td>Energético</td></tr>
+          <tr><td>Magnésio (500–1000mg)</td><td>Cofator de 300+ enzimas · relaxamento muscular · condução nervosa · sono e recuperação</td><td>Enzimático</td></tr>
+          <tr><td>Glutationa Reduzida</td><td>Master antioxidante · detox hepático · regeneração celular · proteção mitocondrial</td><td>Antioxidante</td></tr>
+          <tr><td>Zinco + Selênio</td><td>Imunomodulação · proteção celular · função tireoideana · fertilidade</td><td>Oligoelementos</td></tr>
+          <tr><td>Hidratação IV</td><td>Restaura equilíbrio eletrolítico · melhora circulação · perfusão tecidual imediata</td><td>Hídrico</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📋</span><h2>Preparo e Administração</h2><div class="st-line"></div></div>
+      <div class="diss-box">
+        <div class="diss-steps">
+          <div class="diss-step">
+            <div class="step-circle">1</div>
+            <div class="step-text"><strong>Verificar</strong><br>Bag: transparência, validade, integridade</div>
+          </div>
+          <div class="diss-step">
+            <div class="step-circle">2</div>
+            <div class="step-text"><strong>Temperatura</strong><br>Aqueça a 37°C antes de administrar</div>
+          </div>
+          <div class="diss-step">
+            <div class="step-circle">3</div>
+            <div class="step-text"><strong>Acesso</strong><br>Equipo com filtro 0,22μm · AVP</div>
+          </div>
+          <div class="diss-step">
+            <div class="step-circle">4</div>
+            <div class="step-text"><strong>Velocidade</strong><br>30–60 min · máx. 2ml/min</div>
+          </div>
+          <div class="diss-step">
+            <div class="step-circle">5</div>
+            <div class="step-text"><strong>Monitorar</strong><br>PA, FC e sintomas durante infusão</div>
+          </div>
+        </div>
+        <table class="dose-table">
+          <thead>
+            <tr>
+              <th>Indicação</th>
+              <th>Volume/Dose</th>
+              <th>Frequência</th>
+              <th>Objetivo</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Manutenção</td><td>100ml / 1 bag</td><td>1×/semana</td><td>Suporte geral</td></tr>
+            <tr><td>Intensivo</td><td>100ml / 1 bag</td><td>2–3×/semana</td><td>Estresse · pós-doença</td></tr>
+            <tr><td>Pós-performance</td><td>100ml / 1 bag</td><td>Pós-competição</td><td>Recuperação atlética</td></tr>
+            <tr><td>Detox Intensivo</td><td>100ml / 1 bag</td><td>Diário × 5 dias</td><td>Detox · Burnout</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Laboratorio Farmacéutico</div>
+    <div class="footer-code">MOMM-100-PFY · Rev. 2026</div>
+    <div class="footer-page">1 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+<!-- ═══ PÁGINA 2 ═══ -->
+<div class="page">
+  <div class="header-small">
+    <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" />
+    <div>
+      <div class="hs-title"><span>MOMM</span> IV Cocktail · Protocolos</div>
+      <div class="hs-sub">Megadose IV · Vitaminas, Minerais e Aminoácidos</div>
+    </div>
+    <div class="hs-right">
+      <div class="hs-title" style="font-size:9pt;color:rgba(255,255,255,0.5)">PHARMAFIT-PY</div>
+      <div class="hs-sub">Laboratorio Farmacéutico</div>
+    </div>
+  </div>
+  <div class="header-bar"></div>
+
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="st-icon">🗂️</span><h2>Protocolos Clínicos</h2><div class="st-line"></div></div>
+      <div class="proto-grid">
+        <div class="proto-card">
+          <div class="proto-head p1">
+            <div class="ph-num">Protocolo 01</div>
+            <div class="ph-title">Imunidade e Prevenção</div>
+            <div class="p-icon">🏥</div>
+          </div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Frequência</span><span class="pr-val">1 bag/semana</span></div>
+            <div class="proto-row"><span class="pr-label">Duração</span><span class="pr-val">4–8 semanas</span></div>
+            <div class="proto-row"><span class="pr-label">Indicação</span><span class="pr-val">Gripe · Estresse · Prevenção</span></div>
+            <div class="proto-row"><span class="pr-label">Componente chave</span><span class="pr-val">Vit C 10g + Zinco</span></div>
+            <div class="proto-row"><span class="pr-label">Complementar</span><span class="pr-val">Vitamina D oral 5.000UI</span></div>
+            <div class="proto-row"><span class="pr-label">Resultado</span><span class="pr-val">↑ Imunidade · ↓ fadiga crônica</span></div>
+          </div>
+        </div>
+        <div class="proto-card">
+          <div class="proto-head p2">
+            <div class="ph-num">Protocolo 02</div>
+            <div class="ph-title">Recuperação e Performance</div>
+            <div class="p-icon">⚡</div>
+          </div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Timing</span><span class="pr-val">24–48h pós-evento</span></div>
+            <div class="proto-row"><span class="pr-label">Volume</span><span class="pr-val">1 bag único (100ml)</span></div>
+            <div class="proto-row"><span class="pr-label">Indicação</span><span class="pr-val">Pós-competição · overtraining</span></div>
+            <div class="proto-row"><span class="pr-label">Componente chave</span><span class="pr-val">Magnésio + Complexo B</span></div>
+            <div class="proto-row"><span class="pr-label">Objetivo</span><span class="pr-val">Reidratação · reposição ATP</span></div>
+            <div class="proto-row"><span class="pr-label">Resultado</span><span class="pr-val">↑ Recuperação muscular · energia</span></div>
+          </div>
+        </div>
+        <div class="proto-card">
+          <div class="proto-head p3">
+            <div class="ph-num">Protocolo 03</div>
+            <div class="ph-title">Detox Intensivo</div>
+            <div class="p-icon">🌿</div>
+          </div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Frequência</span><span class="pr-val">1 bag/dia</span></div>
+            <div class="proto-row"><span class="pr-label">Duração</span><span class="pr-val">5 dias consecutivos</span></div>
+            <div class="proto-row"><span class="pr-label">Indicação</span><span class="pr-val">Burnout · overtraining · detox</span></div>
+            <div class="proto-row"><span class="pr-label">Componente chave</span><span class="pr-val">Glutationa + Vit C 25g</span></div>
+            <div class="proto-row"><span class="pr-label">Supervisão</span><span class="pr-val">Médica obrigatória</span></div>
+            <div class="proto-row"><span class="pr-label">Resultado</span><span class="pr-val">↓ estresse oxidativo · detox</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📊</span><h2>Comparativo dos Protocolos</h2><div class="st-line"></div></div>
+      <table class="compare-table">
+        <thead>
+          <tr><th>Parâmetro</th><th>🏥 Imunidade</th><th>⚡ Performance</th><th>🌿 Detox</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Frequência</td><td>1 bag/semana</td><td>1 bag pós-evento</td><td>1 bag/dia × 5</td></tr>
+          <tr><td>Duração</td><td>4–8 semanas</td><td>Sessão única</td><td>5 dias</td></tr>
+          <tr><td>Componente chave</td><td>Vit C + Zinco</td><td>Magnésio + B</td><td>Glutationa + Vit C</td></tr>
+          <tr><td>Indicação principal</td><td>Gripe · Estresse</td><td>Pós-competição</td><td>Burnout · Overtraining</td></tr>
+          <tr><td>Monitoramento</td><td>Rotina</td><td>Rotina</td><td>PA e FC contínuos</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="box-card adv">
+      <div class="box-title">⚠️ Precauções e Contraindicações</div>
+      <div class="adv-item"><span class="adv-icon">🔴</span><div class="adv-text"><strong>Administração IV exclusivamente</strong> por profissional qualificado (médico/enfermeiro) — NUNCA autoaplicar.</div></div>
+      <div class="adv-item"><span class="adv-icon">🔴</span><div class="adv-text"><strong>Contraindicado</strong> em insuficiência cardíaca congestiva descompensada (risco de sobrecarga hídrica).</div></div>
+      <div class="adv-item"><span class="adv-icon">🟡</span><div class="adv-text"><strong>Monitorar glicemia</strong> em pacientes diabéticos (formulação contém glicose como veículo).</div></div>
+      <div class="adv-item"><span class="adv-icon">🟡</span><div class="adv-text"><strong>IRC:</strong> reduzir magnésio e potássio conforme função renal. Solicitar creatinina antes do protocolo intensivo.</div></div>
+      <div class="adv-item"><span class="adv-icon">⚪</span><div class="adv-text"><strong>Hipersensibilidade:</strong> ter epinefrina disponível durante a infusão. Manter paciente em observação 30 min pós-infusão.</div></div>
+    </div>
+
+    <div class="pharmafit-banner" style="margin-top:16px">
+      <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" class="pf-logo" />
+      <div class="pf-text">
+        <div class="pf-label">Estudo Clínico Elaborado por</div>
+        <div class="pf-brand">Pharmafit<span>-PY</span></div>
+        <div class="pf-tagline">Compostos injetáveis de alta pureza com qualidade farmacêutica.<br>Protocolos personalizados para saúde, performance e bem-estar.</div>
+      </div>
+      <a class="pf-cta" href="tel:+12142049853">📞 +1 (214) 204-9853</a>
+    </div>
+
+    <div class="box-card ref" style="margin-bottom:0">
+      <div class="box-title">📚 Referências Científicas</div>
+      <ul class="ref-list">
+        <li data-n="1">Padayatty SJ et al. (2004). <em>Vitamin C pharmacokinetics: implications for oral and intravenous use.</em> Ann Intern Med. 140(7):533–537.</li>
+        <li data-n="2">Carr AC &amp; Maggini S. (2017). <em>Vitamin C and immune function.</em> Nutrients. 9(11):1211.</li>
+        <li data-n="3">Volpe SL. (2013). <em>Magnesium in disease prevention and overall health.</em> Adv Nutr. 4(3):378S–383S.</li>
+        <li data-n="4">Pizzorno J. (2014). <em>Glutathione!</em> Integr Med (Encinitas). 13(1):8–12.</li>
+        <li data-n="5">Prasad AS. (2008). <em>Zinc in human health: effect of zinc on immune cells.</em> Mol Med. 14(5–6):353–357.</li>
+        <li data-n="6">Kennedy DO. (2016). <em>B vitamins and the brain: mechanisms, dose and efficacy.</em> Nutrients. 8(2):68.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Laboratorio Farmacéutico</div>
+    <div class="footer-code">MOMM-100-PFY · Rev. 2026 · Uso Profissional</div>
+    <div class="footer-page">2 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+</body>
+</html>

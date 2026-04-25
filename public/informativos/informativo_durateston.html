@@ -1,0 +1,405 @@
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  INFORMATIVO TÉCNICO — TEMPLATE PHARMAFIT-PY                ║
+  ║  Produto: Durateston Plus Gold 10ml                         ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  ESTRUTURA GERAL (2 páginas .page):                         ║
+  ║  Pág 1: header → info-strip → "O Que É" → seções técnicas  ║
+  ║  Pág 2: header-small → seções avançadas → pharmafit-banner  ║
+  ║         → referências científicas → footer + footer-note    ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  O QUE CUSTOMIZAR POR PRODUTO:                              ║
+  ║  1. <title> — nome do produto                               ║
+  ║  2. :root — paleta de cores (ver abaixo)                    ║
+  ║     Tema escuro/dourado  → ex: Durateston (este arquivo)    ║
+  ║     Tema azul/âmbar      → ex: Tirzepatida 120mg            ║
+  ║  3. body { background } — cor do fundo externo da página    ║
+  ║  4. .header → .header-tag, .header-title, .header-subtitle  ║
+  ║     .header-badges → concentração / frasco / código         ║
+  ║  5. .info-strip → chips (.info-chip) e texto de contexto    ║
+  ║  6. Seção "O Que É..." → section-title + intro-text         ║
+  ║     + spec-grid (dados rápidos do produto)                  ║
+  ║  7. Conteúdo das seções (usar componentes do CSS):          ║
+  ║     blend-grid, timeline-box, mec-grid, conc-box,           ║
+  ║     diss-steps, uso-steps, escal-box, proto-grid,           ║
+  ║     pct-box, compare-table, two-col + box-cards             ║
+  ║  8. .header-small (pág 2) → título e subtítulo              ║
+  ║  9. .footer → brand text e código do documento              ║
+  ║  10. Referências científicas → .ref-list                    ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  NÃO ALTERAR (padronizado para todos os informativos):      ║
+  ║  • .pharmafit-banner — tagline e telefone da Pharmafit-PY   ║
+  ║  • .footer-note — aviso de uso profissional                 ║
+  ║  • Link para ../assets/css/informativo.css                  ║
+  ║  • Fontes: Montserrat + Lato (Google Fonts)                 ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Informativo Técnico — Durateston Plus Gold 10ml | PharmaFit-PY</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/informativo.css" />
+  <style>
+    :root {
+      --petrol:     #78350F; --petrol-dark: #1F1500; --petrol-mid: #92650A;
+      --petrol-lite:#FEF3C7; --petrol-bg:  #FFFBEB;
+      --amber:      #D4AF37; --amber-mid:  #F5C842;
+      --amber-lite: #FDE68A; --amber-bg:   #FFFBEB;
+      --gold:       #92650A; --gold-mid:   #D4AF37;
+      --gold-lite:  #FEF3C7; --gold-bg:    #FFF9E7;
+      --white:      #FFFFFF; --gray-1: #F9FAFB; --gray-2: #E5E7EB;
+      --text-dark:  #1F2937; --text-mid: #374151;
+      --shadow:     0 2px 12px rgba(31,21,0,0.12);
+      --header-bg:  linear-gradient(135deg, #0a0700 0%, #1f1500 45%, #2d1f00 65%, #d4af37 88%, #f5c842 100%);
+      --header-bar-bg: linear-gradient(90deg, #92650a 0%, #b8860b 20%, #d4af37 50%, #f5c842 75%, #d4af37 100%);
+      --header-small-bg: linear-gradient(135deg, #0a0700 0%, #1f1500 45%, #2d1f00 65%, #d4af37 100%);
+      --header-hl:  #F5C842;
+    }
+    body { background: #c8c8b8; }
+    .proto-head.p1 { background: linear-gradient(135deg, var(--gold) 0%, var(--gold-mid) 100%); }
+    .proto-head.p2 { background: linear-gradient(135deg, var(--petrol-dark) 0%, var(--petrol) 100%); }
+    .proto-head.p3 { background: linear-gradient(135deg, var(--petrol) 0%, var(--gold) 100%); }
+  </style>
+</head>
+<body>
+
+<!-- ═══ PÁGINA 1 ═══ -->
+<div class="page">
+  <div class="header">
+    <div class="header-inner">
+      <div class="header-logo"><img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" /></div>
+      <div class="header-center">
+        <div class="header-tag">Informativo Técnico · Blend 4 Ésteres · TRT &amp; Performance</div>
+        <div class="header-title">DURATESTON <span class="hl">Plus Gold</span></div>
+        <div class="header-subtitle">Blend 4 Ésteres de Testosterona · 250mg/mL · Liberação Bifásica Prolongada · 10mL</div>
+      </div>
+      <div class="header-badges">
+        <div class="badge-box"><div class="b-label">Concentração</div><div class="b-val"><span>250</span> mg/mL</div></div>
+        <div class="badge-box"><div class="b-label">Frasco</div><div class="b-val">10mL · 2.500mg</div></div>
+        <div class="badge-box"><div class="b-label">Código</div><div class="b-val">DURA-PG-PFY</div></div>
+      </div>
+    </div>
+    <div class="header-bar"></div>
+  </div>
+
+  <div class="info-strip">
+    <span class="info-chip">TRT · HIPOGONADISMO</span>
+    <span class="info-chip dark">4 ÉSTERES · LIBERAÇÃO BIFÁSICA</span>
+    <span class="info-text">Blend premium de testosterona com liberação bifásica sustentada — pico rápido (Propionato) e manutenção prolongada (Decanoato). <strong>Duração ativa de 3–4 semanas</strong> por aplicação. Formulação oleosa estéril de alta pureza.</span>
+  </div>
+
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="st-icon">💉</span><h2>O Que É o Durateston Plus Gold?</h2><div class="st-line"></div></div>
+    <div class="intro-strip">
+      <div class="intro-icon">💉</div>
+      <div class="intro-text">
+        O <strong>Durateston Plus Gold</strong> é um blend premium de <strong>4 ésteres de testosterona</strong> em formulação oleosa injetável de <strong>250mg/mL</strong> — frasco multidose de 10mL (2.500mg totais). Combina ésteres de ação rápida, intermediária e prolongada para garantir <strong>liberação bifásica sustentada</strong>: pico plasmático rápido nas primeiras horas, seguido de manutenção elevada de testosterona por até 3–4 semanas. Indicado para <strong>Terapia de Reposição de Testosterona (TRT)</strong> em homens com hipogonadismo, e amplamente utilizado em contextos de performance para ganho de massa muscular, aumento de força e bem-estar geral.
+        <div class="spec-grid">
+          <div class="spec-item"><div class="s-val">250mg</div><div class="s-lbl">por mL</div></div>
+          <div class="spec-item"><div class="s-val">10mL</div><div class="s-lbl">Frasco</div></div>
+          <div class="spec-item"><div class="s-val">2.500mg</div><div class="s-lbl">Total</div></div>
+          <div class="spec-item"><div class="s-val">4</div><div class="s-lbl">Ésteres</div></div>
+          <div class="spec-item"><div class="s-val">IM/SC</div><div class="s-lbl">Via</div></div>
+          <div class="spec-item"><div class="s-val">~21 dias</div><div class="s-lbl">Duração ativa</div></div>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">⚗️</span><h2>Composição do Blend — 4 Ésteres de Testosterona</h2><div class="st-line"></div></div>
+      <div class="blend-grid">
+        <div class="blend-card">
+          <div class="bc-ester">Propionato</div>
+          <div class="bc-dose">30</div>
+          <div class="bc-unit">mg/mL</div>
+          <div class="bc-half">⏱ <span>1–2 dias</span></div>
+          <div class="bc-type">Início imediato</div>
+        </div>
+        <div class="blend-card">
+          <div class="bc-ester">Fenilpropionato</div>
+          <div class="bc-dose">60</div>
+          <div class="bc-unit">mg/mL</div>
+          <div class="bc-half">⏱ <span>3–5 dias</span></div>
+          <div class="bc-type">Ação rápida-média</div>
+        </div>
+        <div class="blend-card">
+          <div class="bc-ester">Isocaproato</div>
+          <div class="bc-dose">60</div>
+          <div class="bc-unit">mg/mL</div>
+          <div class="bc-half">⏱ <span>7–9 dias</span></div>
+          <div class="bc-type">Ação intermediária</div>
+        </div>
+        <div class="blend-card">
+          <div class="bc-ester">Decanoato</div>
+          <div class="bc-dose">100</div>
+          <div class="bc-unit">mg/mL</div>
+          <div class="bc-half">⏱ <span>14–16 dias</span></div>
+          <div class="bc-type">Liberação prolongada</div>
+        </div>
+      </div>
+      <div class="timeline-box">
+        <div class="tl-title">📊 Perfil de Liberação Plasmática dos 4 Ésteres</div>
+        <div class="tl-track">
+          <div class="tl-segment tl-seg1">Prop.</div>
+          <div class="tl-segment tl-seg2">Fenil-Prop.</div>
+          <div class="tl-segment tl-seg3">Isocaproato</div>
+          <div class="tl-segment tl-seg4">Decanoato (liberação prolongada)</div>
+        </div>
+        <div class="tl-labels"><span>Dia 0</span><span>Dia 3</span><span>Dia 7</span><span>Dia 14</span><span>Dia 21+</span></div>
+        <div class="tl-legend">
+          <div class="tl-leg-item"><div class="tl-dot" style="background:#d4af37"></div>Propionato 30mg</div>
+          <div class="tl-leg-item"><div class="tl-dot" style="background:#b8860b"></div>Fenilpropionato 60mg</div>
+          <div class="tl-leg-item"><div class="tl-dot" style="background:#92650a"></div>Isocaproato 60mg</div>
+          <div class="tl-leg-item"><div class="tl-dot" style="background:#64460a"></div>Decanoato 100mg</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">⚡</span><h2>Mecanismo de Ação da Testosterona</h2><div class="st-line"></div></div>
+      <div class="mec-grid">
+        <div class="mec-card">
+          <div class="mec-icon">💪</div>
+          <div class="mec-title">Anabolismo Muscular</div>
+          <div class="mec-text">Liga-se ao receptor androgênico (AR) nas células musculares → ativa transcrição gênica → ↑ síntese proteica (actina/miosina), ↑ retenção nitrogenada, ↑ IGF-1 → hipertrofia muscular real e durável.</div>
+        </div>
+        <div class="mec-card">
+          <div class="mec-icon">🧠</div>
+          <div class="mec-title">Eixo Neuroendócrino</div>
+          <div class="mec-text">Atua no hipotálamo e hipófise regulando humor, libido, motivação e função cognitiva. Reduz cortisol (hormônio catabólico), melhora qualidade do sono e bem-estar geral — efeito andrógeno direto e via aromatização em estrogênio.</div>
+        </div>
+        <div class="mec-card">
+          <div class="mec-icon">🔬</div>
+          <div class="mec-title">Hematopoiese &amp; Metabolismo</div>
+          <div class="mec-text">Estimula produção de eritropoietina (EPO) renal → ↑ hemácias e hemoglobina → maior transporte de O₂. Melhora sensibilidade à insulina, reduz gordura visceral e melhora perfil cardiometabólico em homens com hipogonadismo.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">✅</span><h2>Benefícios Clínicos Documentados</h2><div class="st-line"></div></div>
+      <table class="moa">
+        <thead><tr><th>Área</th><th>Efeito Clínico</th><th style="width:10%;text-align:center">Evidência</th></tr></thead>
+        <tbody>
+          <tr><td>Massa Muscular</td><td>↑ 2–5kg de massa magra em 12 semanas (TRT); performance: 5–10kg dependendo de dose e protocolo alimentar</td><td style="text-align:center"><span class="tag-ev high">Alta</span></td></tr>
+          <tr><td>Força &amp; Potência</td><td>↑ 20–40% força máxima (1RM) em 8–12 semanas; melhora recrutamento de unidades motoras via receptor androgênico muscular</td><td style="text-align:center"><span class="tag-ev high">Alta</span></td></tr>
+          <tr><td>Libido &amp; Bem-estar</td><td>Normaliza testosterona sérica → restaura libido, ereções matinais, humor, energia e motivação em hipogonadismo</td><td style="text-align:center"><span class="tag-ev high">Alta</span></td></tr>
+          <tr><td>Composição Corporal</td><td>↓ gordura visceral e subcutânea; ↑ densidade mineral óssea; melhora razão músculo:gordura de forma sustentada</td><td style="text-align:center"><span class="tag-ev high">Alta</span></td></tr>
+          <tr><td>Hematopoiese</td><td>↑ hemoglobina e hematócrito → maior capacidade aeróbica, oxigenação muscular e recuperação pós-treino</td><td style="text-align:center"><span class="tag-ev mod">Mod.</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Compostos Injetáveis Premium</div>
+    <div class="footer-code">DOC: DURA-PG-PFY · Rev. Mar/2026</div>
+    <div class="footer-page">1 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+<!-- ═══ PÁGINA 2 ═══ -->
+<div class="page">
+  <div class="header-small">
+    <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" />
+    <div>
+      <div class="hs-title">DURATESTON <span>Plus Gold</span> · Protocolos</div>
+      <div class="hs-sub">Blend 4 Ésteres · 250mg/mL · 10mL</div>
+    </div>
+    <div class="hs-right">
+      <div class="hs-title" style="font-size:9pt;color:rgba(255,255,255,0.5)">PHARMAFIT-PY</div>
+      <div class="hs-sub">Compostos Injetáveis Premium</div>
+    </div>
+  </div>
+  <div class="header-bar"></div>
+
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📋</span><h2>Modo de Aplicação — Injeção IM / SC</h2><div class="st-line"></div></div>
+      <div class="uso-steps">
+        <div class="uso-step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Preparação asséptica</div>
+            <div class="step-text">Higienize mãos, limpe o septo com álcool 70% e deixe secar. Use seringa de 3mL com agulha <strong>23G × 25mm (IM)</strong> ou 25G × 16mm (SC). Aspire a dose calculada e elimine bolhas de ar.</div>
+          </div>
+        </div>
+        <div class="uso-step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Locais de aplicação</div>
+            <div class="step-text"><strong>IM:</strong> glúteo (quadrante superoexterno), vasto lateral da coxa ou deltoide. <strong>SC:</strong> abdômen inferior ou glúteo (menor volume por vez). Rodízio obrigatório entre sítios para evitar fibrose.</div>
+          </div>
+        </div>
+        <div class="uso-step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Aquecer o frasco</div>
+            <div class="step-text">Aqueça entre as mãos ou em água morna (35–40°C) por 1–2 minutos para reduzir viscosidade do óleo e facilitar a injeção. <strong>Nunca use fogo ou microondas.</strong></div>
+          </div>
+        </div>
+        <div class="uso-step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <div class="step-title">Injetar lentamente</div>
+            <div class="step-text">Injete em <strong>30–60 segundos</strong> para 1mL; mais devagar para volumes maiores. Massageie suavemente após a aplicação para melhor dispersão do óleo no tecido.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="conc-box">
+      <div class="conc-main">
+        <div class="conc-val">250mg</div>
+        <div class="conc-unit">por mL</div>
+      </div>
+      <div class="conc-divider"></div>
+      <div class="conc-info">
+        <div class="conc-row"><span class="conc-lbl">Frasco total</span><span class="conc-data">10mL = 2.500mg de testosterona</span></div>
+        <div class="conc-row"><span class="conc-lbl">TRT 125mg = 0,5mL</span><span class="conc-data">— 1–2× por semana (Seg/Qui)</span></div>
+        <div class="conc-row"><span class="conc-lbl">TRT 250mg = 1,0mL</span><span class="conc-data">— 1× a cada 2 semanas</span></div>
+        <div class="conc-row"><span class="conc-lbl">Performance 500mg = 2,0mL</span><span class="conc-data">— dividido em 2× por semana</span></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📊</span><h2>Tabela de Dosagem</h2><div class="st-line"></div></div>
+      <table class="dose-table">
+        <thead><tr><th>Objetivo</th><th>Dose/semana</th><th>Volume</th><th>Frequência</th><th>Duração</th><th>TPC</th></tr></thead>
+        <tbody>
+          <tr><td><span class="dose-badge dose-trt">TRT</span></td><td>125–200mg</td><td>0,5–0,8mL</td><td>1–2× / sem.</td><td>Contínuo</td><td>Não necessária</td></tr>
+          <tr><td><span class="dose-badge dose-init">Iniciante</span></td><td>250–300mg</td><td>1,0–1,2mL</td><td>1× / sem.</td><td>10–12 sem.</td><td>Sim</td></tr>
+          <tr><td><span class="dose-badge dose-std">Performance</span></td><td>400–500mg</td><td>0,8–1,0mL 2×</td><td>2× / sem.</td><td>12–16 sem.</td><td>Sim</td></tr>
+          <tr><td><span class="dose-badge dose-adv">Avançado</span></td><td>600–1000mg</td><td>1,2–2,0mL 2×</td><td>2–3× / sem.</td><td>12 sem.</td><td>Obrigatória</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">🗂️</span><h2>Protocolos de Uso Clínico</h2><div class="st-line"></div></div>
+      <div class="proto-grid">
+        <div class="proto-card">
+          <div class="proto-head p1"><div class="p-num">Protocolo 01</div><div class="p-title">TRT — Reposição de Testosterona</div><div class="p-icon">🏥</div></div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Perfil</span><span class="pr-val">Hipogonadismo · déficit androgênico</span></div>
+            <div class="proto-row"><span class="pr-label">Dose</span><span class="pr-val"><strong>125–200mg/sem</strong> · 0,5–0,8mL</span></div>
+            <div class="proto-row"><span class="pr-label">Esquema</span><span class="pr-val">125mg Seg + Qui (ou 250mg quinzenal)</span></div>
+            <div class="proto-row"><span class="pr-label">Alvo</span><span class="pr-val">Testosterona sérica: 600–900 ng/dL</span></div>
+            <div class="proto-row"><span class="pr-label">Monitor.</span><span class="pr-val">PSA · Hematócrito · Estradiol (3/3 meses)</span></div>
+            <div class="proto-row"><span class="pr-label">Duração</span><span class="pr-val"><strong>Contínuo</strong> · sem TPC necessária</span></div>
+          </div>
+        </div>
+        <div class="proto-card">
+          <div class="proto-head p2"><div class="p-num">Protocolo 02</div><div class="p-title">Ciclo de Ganho — Bulking</div><div class="p-icon">💪</div></div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Perfil</span><span class="pr-val">Massa muscular · força máxima</span></div>
+            <div class="proto-row"><span class="pr-label">Dose</span><span class="pr-val"><strong>500mg/sem</strong> · 1,0mL 2×</span></div>
+            <div class="proto-row"><span class="pr-label">Esquema</span><span class="pr-val">250mg Segunda + 250mg Quinta</span></div>
+            <div class="proto-row"><span class="pr-label">Stack</span><span class="pr-val">Anastrozol 0,5mg 2×/sem · Proteína ≥2,5g/kg</span></div>
+            <div class="proto-row"><span class="pr-label">Duração</span><span class="pr-val"><strong>12 semanas</strong></span></div>
+            <div class="proto-row"><span class="pr-label">TPC</span><span class="pr-val">4 sem. pós-ciclo · Clomifeno + Tamoxifeno</span></div>
+          </div>
+        </div>
+        <div class="proto-card">
+          <div class="proto-head p3"><div class="p-num">Protocolo 03</div><div class="p-title">Recomposição &amp; Anti-Aging</div><div class="p-icon">🌿</div></div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Perfil</span><span class="pr-val">Recomp. corporal · qualidade de vida</span></div>
+            <div class="proto-row"><span class="pr-label">Dose</span><span class="pr-val"><strong>250–350mg/sem</strong></span></div>
+            <div class="proto-row"><span class="pr-label">Esquema</span><span class="pr-val">125–175mg Seg + Qui · déficit –200kcal</span></div>
+            <div class="proto-row"><span class="pr-label">Stack</span><span class="pr-val">Tesamorelin 2mg/noite · MOTS-c 5mg 3×/sem</span></div>
+            <div class="proto-row"><span class="pr-label">Duração</span><span class="pr-val"><strong>16 semanas</strong></span></div>
+            <div class="proto-row"><span class="pr-label">Pós-ciclo</span><span class="pr-val">TPC ou migrar para TRT (avaliar com médico)</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pct-box">
+      <div class="pct-title">🔄 Terapia Pós-Ciclo (TPC) — Protocolo Completo</div>
+      <div class="pct-grid">
+        <div class="pct-item">
+          <div class="pi-name">Clomifeno</div>
+          <div class="pi-dose">50mg/dia 2 sem → 25mg/dia 2 sem. Estimula LH/FSH hipofisário.</div>
+        </div>
+        <div class="pct-item">
+          <div class="pi-name">Tamoxifeno</div>
+          <div class="pi-dose">20mg/dia × 4 semanas. Bloqueia estrogênio hipofisário → ↑ gonadotrofinas.</div>
+        </div>
+        <div class="pct-item">
+          <div class="pi-name">HCG</div>
+          <div class="pi-dose">500–1000UI 3×/sem × 3 semanas. Iniciar na última semana do ciclo.</div>
+        </div>
+        <div class="pct-item">
+          <div class="pi-name">Suporte Geral</div>
+          <div class="pi-dose">Ômega-3 4g/dia · Zinco 30mg · Vitamina D 5.000UI · NAC 600mg.</div>
+        </div>
+      </div>
+      <div class="pct-note">⚠ Iniciar TPC 14–18 dias após a última aplicação (aguardar eliminação do Decanoato). Monitorar testosterona total + LH/FSH 4–6 semanas após a TPC para confirmar recuperação do eixo HPTA.</div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📈</span><h2>Durateston vs. Outras Formas de Testosterona</h2><div class="st-line"></div></div>
+      <table class="compare-table">
+        <thead>
+          <tr><th>Parâmetro</th><th>Durateston (blend)</th><th>Cipionato</th><th>Enantato</th><th>Propionato</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Liberação bifásica</td><td><span class="check">✓✓</span></td><td><span class="cross">—</span></td><td><span class="cross">—</span></td><td><span class="cross">—</span></td></tr>
+          <tr><td>Meia-vida prolongada</td><td><span class="check">✓✓</span></td><td><span class="check">✓✓</span></td><td><span class="check">✓✓</span></td><td><span class="cross">Curta</span></td></tr>
+          <tr><td>Frequência de injeção</td><td><span class="check">1–2×/sem</span></td><td><span class="check">1×/sem</span></td><td><span class="check">1–2×/sem</span></td><td><span class="cross">EOD</span></td></tr>
+          <tr><td>Pico inicial rápido</td><td><span class="check">✓✓</span></td><td><span class="partial">±</span></td><td><span class="partial">±</span></td><td><span class="check">✓✓</span></td></tr>
+          <tr><td>Estabilidade plasmática</td><td><span class="check">✓✓</span></td><td><span class="check">✓✓</span></td><td><span class="check">✓</span></td><td><span class="partial">Picos</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="box-card adv">
+      <div class="box-title">⚠️ Contraindicações &amp; Precauções</div>
+      <div class="adv-item"><span class="adv-icon">🔴</span><div class="adv-text"><strong>Câncer de próstata ou mama masculino</strong> — contraindicação absoluta. Contraindicado também em mulheres (virilização).</div></div>
+      <div class="adv-item"><span class="adv-icon">🔴</span><div class="adv-text"><strong>Hematócrito &gt; 52%</strong> — reduzir dose ou suspender. Risco trombótico aumentado; monitorar regularmente.</div></div>
+      <div class="adv-item"><span class="adv-icon">🔴</span><div class="adv-text"><strong>Adolescentes</strong> — não usar em indivíduos com epífises abertas. Risco de fechamento prematuro ósseo.</div></div>
+      <div class="adv-item"><span class="adv-icon">🟡</span><div class="adv-text"><strong>Estradiol elevado</strong> — usar anastrozol 0,25–0,5mg 2×/sem conforme exames. Não bloquear excessivamente.</div></div>
+      <div class="adv-item"><span class="adv-icon">🟡</span><div class="adv-text"><strong>Hiperplasia prostática</strong> — monitorar PSA trimestralmente. Contraindicado em HPB grave.</div></div>
+      <div class="adv-item"><span class="adv-icon">⚪</span><div class="adv-text"><strong>Uso exclusivo</strong> sob prescrição e acompanhamento médico especializado (endocrinologista / urologista).</div></div>
+    </div>
+
+    <div class="pharmafit-banner" style="margin-top:16px">
+      <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" class="pf-logo" />
+      <div class="pf-text">
+        <div class="pf-label">Estudo Clínico Elaborado por</div>
+        <div class="pf-brand">Pharmafit<span>-PY</span></div>
+        <div class="pf-tagline">Compostos injetáveis de alta pureza com qualidade farmacêutica.<br>Protocolos personalizados para saúde, performance e bem-estar.</div>
+      </div>
+      <a class="pf-cta" href="tel:+12142049853">📞 +1 (214) 204-9853</a>
+    </div>
+
+    <div class="box-card ref">
+      <div class="box-title">📚 Referências Científicas</div>
+      <ul class="ref-list">
+          <li data-n="1">Bhasin S et al. (2010). <em>Testosterone Therapy in Men with Androgen Deficiency Syndromes: An Endocrine Society Clinical Practice Guideline.</em> J Clin Endocrinol Metab. 95(6):2536–2559.</li>
+          <li data-n="2">Nieschlag E &amp; Behre HM. (2004). <em>Testosterone: Action, Deficiency, Substitution.</em> 3rd ed. Cambridge University Press.</li>
+          <li data-n="3">Kaufman JM &amp; Vermeulen A. (2005). <em>The decline of androgen levels in elderly men and its clinical and therapeutic implications.</em> Endocr Rev. 26(6):833–876.</li>
+          <li data-n="4">Bhasin S et al. (2001). <em>Dose-dependent effects of testosterone on sexual function and on muscle mass in hypogonadal men.</em> J Clin Endocrinol Metab. 86(9):4078–4088.</li>
+          <li data-n="5">Storer TW et al. (2003). <em>Testosterone dose-dependently increases maximal voluntary strength and leg power.</em> Med Sci Sports Exerc. 35(11):1842–1848.</li>
+          <li data-n="6">Saad F et al. (2011). <em>Long-term treatment of hypogonadal men with testosterone produces substantial and sustained weight loss.</em> Obesity. 21(10):1975–1981.</li>
+          <li data-n="7">Corona G et al. (2016). <em>Testosterone supplementation and body composition: meta-analysis.</em> Eur J Endocrinol. 174(3):R99–R116.</li>
+        </ul>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Compostos Injetáveis Premium</div>
+    <div class="footer-code">DOC: DURA-PG-PFY · Rev. Mar/2026 · Uso Profissional</div>
+    <div class="footer-page">2 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+</body>
+</html>

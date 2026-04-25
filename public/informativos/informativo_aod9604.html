@@ -1,0 +1,339 @@
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  INFORMATIVO TÉCNICO — TEMPLATE PHARMAFIT-PY                ║
+  ║  Produto: AOD-9604 5mg                                      ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  ESTRUTURA GERAL (2 páginas .page):                         ║
+  ║  Pág 1: header → info-strip → "O Que É" → seções técnicas  ║
+  ║  Pág 2: header-small → seções avançadas → pharmafit-banner  ║
+  ║         → referências científicas → footer + footer-note    ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  O QUE CUSTOMIZAR POR PRODUTO:                              ║
+  ║  1. <title> — nome do produto                               ║
+  ║  2. :root — paleta de cores (ver abaixo)                    ║
+  ║     Tema azul/âmbar      → ex: Tirzepatida 120mg            ║
+  ║     Tema escuro/ouro     → ex: Durateston                   ║
+  ║  3. body { background } — cor do fundo externo da página    ║
+  ║  4. .header → textos: tag, título, subtítulo, badges        ║
+  ║  5. .info-strip → chips e texto de contexto                 ║
+  ║  6. Seção "O Que É..." → section-title + intro-text         ║
+  ║  7. Conteúdo das seções (componentes em informativo.css)    ║
+  ║  8. .header-small (pág 2) → título e subtítulo              ║
+  ║  9. .footer → brand text e código do documento              ║
+  ║  10. Referências científicas → .ref-list                    ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  NÃO ALTERAR (padronizado para todos os informativos):      ║
+  ║  • .pharmafit-banner — tagline e telefone da Pharmafit-PY   ║
+  ║  • .footer-note — aviso de uso profissional                 ║
+  ║  • Link para ../assets/css/informativo.css                  ║
+  ║  • Fontes: Montserrat + Lato (Google Fonts)                 ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Informativo Técnico — AOD-9604 5mg | PharmaFit-PY</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/informativo.css" />
+  <style>
+    :root {
+      --petrol:     #1B4F72; --petrol-dark: #0D2B3E; --petrol-mid: #2471A3;
+      --petrol-lite:#D6EAF8; --petrol-bg:  #EBF5FB;
+      --amber:      #B7600A; --amber-mid:  #E67E22;
+      --amber-lite: #FAE5D3; --amber-bg:   #FEF5EC;
+      --gold:       #9A7D0A; --gold-mid:   #D4AC0D;
+      --gold-lite:  #FCF3CF; --gold-bg:    #FEFDE7;
+      --white:      #FFFFFF; --gray-1: #F4F6F7; --gray-2: #D5D8DC;
+      --text-dark:  #1A2530; --text-mid: #3D566E;
+      --shadow:     0 2px 12px rgba(13,43,62,0.10);
+      --header-bg:  linear-gradient(135deg, var(--petrol-dark) 0%, #1A3A5C 30%, #7D4A0A 60%, var(--amber) 80%, var(--amber-mid) 100%);
+      --header-small-bg: linear-gradient(135deg, var(--petrol-dark) 0%, var(--petrol) 35%, #7D4A0A 70%, var(--amber) 100%);
+      --header-bar-bg: linear-gradient(90deg, var(--petrol) 0%, var(--petrol-mid) 20%, var(--amber) 50%, var(--gold-mid) 75%, var(--amber-mid) 100%);
+      --header-hl:  #FDEBD0;
+    }
+    body { background: #c8d8e4; }
+    /* Fragment highlight box */
+    .fragment-box { background:linear-gradient(135deg, var(--petrol-bg) 0%, var(--gold-bg) 100%); border:2px solid var(--petrol-lite); border-radius:10px; padding:12px 16px; margin-bottom:14px; display:flex; gap:14px; align-items:stretch; }
+    .frag-left { background:linear-gradient(135deg, var(--petrol-dark) 0%, var(--petrol-mid) 100%); border-radius:8px; padding:10px 14px; text-align:center; flex-shrink:0; min-width:90px; display:flex; flex-direction:column; justify-content:center; }
+    .frag-left .fl-label { font-family:'Montserrat',sans-serif; font-size:5.5pt; font-weight:700; color:rgba(255,255,255,0.55); letter-spacing:1px; text-transform:uppercase; }
+    .frag-left .fl-val { font-family:'Montserrat',sans-serif; font-size:11pt; font-weight:800; color:white; line-height:1.1; margin:4px 0; }
+    .frag-left .fl-sub { font-size:6pt; color:rgba(255,255,255,0.6); }
+    .frag-right { flex:1; }
+    .frag-right .fr-title { font-family:'Montserrat',sans-serif; font-size:9pt; font-weight:800; color:var(--petrol-dark); margin-bottom:5px; }
+    .frag-right .fr-props { display:grid; grid-template-columns:1fr 1fr; gap:4px 16px; }
+    .frag-right .fp-item { font-size:8pt; color:var(--text-mid); line-height:1.4; }
+    .frag-right .fp-item strong { color:var(--petrol-dark); display:block; font-size:7.5pt; }
+    /* Safety strip */
+    .safety-strip { background:linear-gradient(135deg, #E8F8F5 0%, #EBF5FB 100%); border:1.5px solid #A9DFBF; border-radius:8px; padding:10px 16px; margin-bottom:14px; display:flex; gap:12px; align-items:center; }
+    .safety-badge { background:linear-gradient(135deg, #0E6655 0%, #27AE60 100%); border-radius:6px; padding:6px 12px; text-align:center; flex-shrink:0; }
+    .safety-badge .sb-label { font-family:'Montserrat',sans-serif; font-size:6pt; color:rgba(255,255,255,0.7); letter-spacing:1px; text-transform:uppercase; }
+    .safety-badge .sb-val { font-family:'Montserrat',sans-serif; font-size:11pt; font-weight:800; color:white; line-height:1; }
+    .safety-info { flex:1; font-size:8pt; color:var(--text-mid); line-height:1.5; }
+    .safety-info strong { color:#0E6655; }
+  </style>
+</head>
+<body>
+
+<!-- ═══ PÁGINA 1 — FRENTE ═══ -->
+<div class="page">
+  <div class="header">
+    <div class="orb-amber"></div>
+    <div class="header-inner">
+      <div class="header-logo"><img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" /></div>
+      <div class="header-center">
+        <div class="header-tag">Informativo Técnico — Fragmento hGH 176–191 · Lipólise Seletiva · Alta Segurança</div>
+        <div class="header-title"><span class="hl">AOD-9604</span></div>
+        <div class="header-subtitle">Fragmento do Hormônio do Crescimento 176–191 · Lipólise Seletiva · Sem Efeitos Anabolizantes · Aprovado TGA Austrália</div>
+      </div>
+      <div class="header-badges">
+        <div class="badge-box"><div class="b-label">Concentração</div><div class="b-val"><span>5</span> mg</div></div>
+        <div class="badge-box"><div class="b-label">Dissolução</div><div class="b-val">1ml → 5mg/ml</div></div>
+        <div class="badge-box"><div class="b-label">Código</div><div class="b-val">AOD-5-PFY</div></div>
+      </div>
+    </div>
+    <div class="header-bar"></div>
+  </div>
+
+  <div class="info-strip">
+    <span class="info-chip">TGA APROVADO — AUSTRÁLIA</span>
+    <span class="info-chip dark">FASE III — CP024</span>
+    <span class="info-text">AOD-9604 (hGH Fragment 176–191) — Aprovado pela TGA Austrália para uso humano — <strong>Segurança comprovada em estudos de fase III (CP024)</strong> — Sem efeitos anabolizantes</span>
+  </div>
+
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="st-icon">🔬</span><h2>O Que É o AOD-9604?</h2><div class="st-line"></div></div>
+      <div class="intro-strip">
+        <div class="intro-icon">🔬</div>
+        <div class="intro-text">
+          <strong>AOD-9604</strong> é um peptídeo sintético correspondente ao fragmento C-terminal do hormônio do crescimento humano (<strong>aminoácidos 176–191</strong>), modificado com a adição de uma tirosina na posição N-terminal. Ao contrário do GH integral, o AOD-9604 <strong>NÃO estimula IGF-1</strong> nem produz efeitos anabolizantes — age exclusivamente sobre <strong>receptores β3-adrenérgicos no tecido adiposo</strong>, ativando lipólise e inibindo lipogênese de forma seletiva e segura.
+        </div>
+      </div>
+    </div>
+
+    <!-- FRAGMENT HIGHLIGHT -->
+    <div class="fragment-box">
+      <div class="frag-left">
+        <div class="fl-label">Fragmento hGH</div>
+        <div class="fl-val">176–191</div>
+        <div class="fl-sub">C-terminal modificado</div>
+      </div>
+      <div class="frag-right">
+        <div class="fr-title">Perfil Farmacológico — AOD-9604 vs GH Integral</div>
+        <div class="fr-props">
+          <div class="fp-item"><strong>Lipólise</strong>Ativa lipólise no adipócito via β3-ADR · efeito superior ao GH</div>
+          <div class="fp-item"><strong>IGF-1</strong>NÃO estimula IGF-1 · sem crescimento tecidual · seguro</div>
+          <div class="fp-item"><strong>Meia-vida SC</strong>~30 minutos · biodisponibilidade ~40%</div>
+          <div class="fp-item"><strong>Aprovação</strong>TGA Austrália aprovada para uso humano</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SAFETY HIGHLIGHT -->
+    <div class="safety-strip">
+      <div class="safety-badge">
+        <div class="sb-label">Segurança</div>
+        <div class="sb-val">✓ TGA</div>
+      </div>
+      <div class="safety-info">
+        <strong>Perfil de segurança superior:</strong> AOD-9604 é um dos peptídeos com melhor perfil de segurança disponíveis. Estudos de fase III (CP024) confirmaram ausência de efeitos diabetogênicos, sem impacto no IGF-1 sérico, sem ação proliferativa tecidual e sem efeitos sobre metabolismo de glicose em doses terapêuticas. Diferente do GH exógeno, não causa resistência à insulina.
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">⚡</span><h2>Mecanismo de Ação — Lipólise Seletiva via β3-Adrenérgico</h2><div class="st-line"></div></div>
+      <table class="moa">
+        <thead><tr><th>Via de Ação</th><th>Efeito Clínico</th><th>Receptor/Alvo</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Receptor β3-adrenérgico</td>
+            <td>Ativa lipólise no adipócito · mobiliza ácidos graxos livres · queima gordura localizada de forma seletiva</td>
+            <td><span class="tag b">β3-ADR</span></td>
+          </tr>
+          <tr>
+            <td>Inibição da Lipogênese</td>
+            <td>Bloqueia conversão de carboidratos em gordura · reduz síntese de novos adipócitos · ação complementar à lipólise</td>
+            <td><span class="tag g">Tec. Adiposo</span></td>
+          </tr>
+          <tr>
+            <td>Sem Ação no IGF-1</td>
+            <td>Não estimula crescimento tecidual · sem efeito proliferativo · segurança superior ao GH integral em protocolos de longa duração</td>
+            <td><span class="tag s">Seletivo</span></td>
+          </tr>
+          <tr>
+            <td>Regeneração Cartilagem</td>
+            <td>Estudos indicam potencial regenerativo em cartilagem e tendões via receptores específicos — sinergismo com BPC-157</td>
+            <td><span class="tag a">β-ADR</span></td>
+          </tr>
+          <tr>
+            <td>Meia-vida e Absorção</td>
+            <td>Meia-vida plasmática ~30 min SC · biodisponibilidade ~40% · ação localizada · metabolização rápida · sem acúmulo</td>
+            <td><span class="tag b">Farmacoc.</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">💧</span><h2>Reconstituição — AOD-9604 5mg / 1ml</h2><div class="st-line"></div></div>
+      <div class="diss-box">
+        <div class="diss-steps">
+          <div class="diss-step"><div class="step-circle">1</div><div class="step-text"><strong>Higienizar</strong>Álcool 70% na tampa do frasco</div></div>
+          <div class="diss-step"><div class="step-circle">2</div><div class="step-text"><strong>Seringa</strong>Insulina 1ml para máxima precisão</div></div>
+          <div class="diss-step"><div class="step-circle">3</div><div class="step-text"><strong>Diluir</strong>Injete 1ml de água bacteriostática devagar</div></div>
+          <div class="diss-step"><div class="step-circle">4</div><div class="step-text"><strong>Homogeneizar</strong>Gire suavemente até dissolver</div></div>
+          <div class="diss-step"><div class="step-circle">5</div><div class="step-text"><strong>Conservar</strong>Refrigerar 2–8°C, usar em 30 dias</div></div>
+        </div>
+        <table class="dose-table">
+          <thead><tr><th>Protocolo</th><th>Dose</th><th>Volume</th><th>Indicação</th></tr></thead>
+          <tbody>
+            <tr><td>Dose Baixa</td><td>300 mcg</td><td>0,06 ml</td><td>Iniciantes / sensibilidade <span class="note">Primeira semana de uso · tolerância</span></td></tr>
+            <tr><td>Dose Padrão</td><td>500 mcg</td><td>0,10 ml</td><td>Protocolo padrão <span class="note">Lipólise ótima · 1–2x/dia</span></td></tr>
+            <tr><td>Dose Alta</td><td>1 mg</td><td>0,20 ml</td><td>Protocolo avançado <span class="note">Lipólise sistêmica intensiva</span></td></tr>
+            <tr><td>Dose IV Diluída</td><td>500 mcg</td><td>Em 10ml SF 0,9%</td><td>Protocolo hospitalar <span class="note">Uso clínico supervisionado</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Peptídeos de Alta Performance</div>
+    <div class="footer-code">DOC: AOD-5-PFY · Rev. Mar/2026</div>
+    <div class="footer-page">1 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+<!-- ═══ PÁGINA 2 — VERSO ═══ -->
+<div class="page">
+  <div class="header-small">
+    <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" />
+    <div>
+      <div class="hs-title"><span>AOD-9604</span> · Protocolos Clínicos</div>
+      <div class="hs-sub">Fragmento hGH 176–191 · 5mg · 5mg/ml reconstituído</div>
+    </div>
+    <div class="hs-right">
+      <div class="hs-title" style="font-size:9pt;color:rgba(255,255,255,0.5);">PHARMAFIT-PY</div>
+      <div class="hs-sub">Peptídeos de Alta Performance</div>
+    </div>
+  </div>
+  <div class="header-bar"></div>
+
+  <div class="content">
+
+    <!-- VANTAGENS VS GH -->
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📈</span><h2>AOD-9604 vs GH Integral — Por que é a escolha mais segura?</h2><div class="st-line"></div></div>
+      <div class="diff-box">
+        <div class="diff-box-title">🔬 Vantagens do AOD-9604 sobre o GH Exógeno</div>
+        <div class="diff-items">
+          <div class="diff-item"><span class="d-icon">✅</span><div class="d-text"><strong>Sem resistência à insulina:</strong> o GH integral causa resistência insulínica em uso prolongado — AOD-9604 não afeta metabolismo glicêmico</div></div>
+          <div class="diff-item"><span class="d-icon">✅</span><div class="d-text"><strong>Sem retenção hídrica:</strong> fragmento puro sem efeito mineralocorticoide — sem edema, sem inchaço periférico</div></div>
+          <div class="diff-item"><span class="d-icon">✅</span><div class="d-text"><strong>Sem acromegalia:</strong> não estimula IGF-1 nem crescimento ósseo/tecidual — uso seguro em longo prazo aprovado pela TGA</div></div>
+          <div class="diff-item"><span class="d-icon">✅</span><div class="d-text"><strong>Lipólise superior:</strong> age diretamente via β3-ADR no adipócito — efeito lipolítico mais específico que o GH integral</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROTOCOLOS -->
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📋</span><h2>Protocolos Clínicos</h2><div class="st-line"></div></div>
+      <div class="proto-grid">
+        <div class="proto-card">
+          <div class="proto-head p1">
+            <div class="p-num">Protocolo 01</div>
+            <div class="p-title">Emagrecimento Localizado</div>
+            <div class="p-icon">🎯</div>
+          </div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Dose</span><span class="pr-val"><strong>500mcg SC</strong> periabdominal</span></div>
+            <div class="proto-row"><span class="pr-label">Frequência</span><span class="pr-val">1x/dia · em jejum</span></div>
+            <div class="proto-row"><span class="pr-label">Duração</span><span class="pr-val"><strong>8–12 semanas</strong></span></div>
+            <div class="proto-row"><span class="pr-label">Associar</span><span class="pr-val">Low-carb + exercício aeróbico</span></div>
+            <div class="proto-row"><span class="pr-label">Via</span><span class="pr-val">SC · região periabdominal</span></div>
+          </div>
+        </div>
+        <div class="proto-card">
+          <div class="proto-head p2">
+            <div class="p-num">Protocolo 02</div>
+            <div class="p-title">Lipólise Sistêmica</div>
+            <div class="p-icon">🔥</div>
+          </div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Dose</span><span class="pr-val"><strong>500mcg–1mg SC</strong></span></div>
+            <div class="proto-row"><span class="pr-label">Frequência</span><span class="pr-val">1–2x/dia</span></div>
+            <div class="proto-row"><span class="pr-label">Horário</span><span class="pr-val">Manhã em jejum + pós-treino</span></div>
+            <div class="proto-row"><span class="pr-label">Duração</span><span class="pr-val"><strong>12 semanas</strong></span></div>
+            <div class="proto-row"><span class="pr-label">Via</span><span class="pr-val">SC · abdome · coxa alternada</span></div>
+          </div>
+        </div>
+        <div class="proto-card">
+          <div class="proto-head p3">
+            <div class="p-num">Protocolo 03</div>
+            <div class="p-title">Regeneração Articular</div>
+            <div class="p-icon">🦴</div>
+          </div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Dose</span><span class="pr-val"><strong>300–500mcg SC</strong> perilesional</span></div>
+            <div class="proto-row"><span class="pr-label">Frequência</span><span class="pr-val">1–2x/dia</span></div>
+            <div class="proto-row"><span class="pr-label">Duração</span><span class="pr-val"><strong>8 semanas</strong></span></div>
+            <div class="proto-row"><span class="pr-label">Sinergismo</span><span class="pr-val">BPC-157 · efeito potencializado</span></div>
+            <div class="proto-row"><span class="pr-label">Via</span><span class="pr-val">SC · próximo à lesão</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="box-card supl">
+        <div class="box-title">⚗️ Otimização do Protocolo</div>
+        <div class="supl-item"><span class="si-icon">⏰</span><div class="si-text"><strong>Aplicar em jejum mínimo de 3h</strong> — insulina suprime lipólise. Jejum potencializa o efeito do AOD-9604 nos adipócitos.</div></div>
+        <div class="supl-item"><span class="si-icon">🥗</span><div class="si-text"><strong>Dieta low-carb ou cetogênica</strong> — reduz insulina basal e maximiza ambiente pró-lipolítico. Essencial para resultado ótimo.</div></div>
+        <div class="supl-item"><span class="si-icon">🏃</span><div class="si-text"><strong>Exercício aeróbico após aplicação</strong> — mobiliza ácidos graxos livres liberados pela lipólise para oxidação muscular eficiente.</div></div>
+        <div class="supl-item"><span class="si-icon">💊</span><div class="si-text"><strong>Sinergia com BPC-157</strong> — especialmente no Protocolo 3. BPC-157 amplifica regeneração articular e efeito anti-inflamatório local.</div></div>
+        <div class="supl-item"><span class="si-icon">🧊</span><div class="si-text"><strong>Conservação:</strong> refrigerar entre 2–8°C após reconstituição. Válido por 30 dias. Não congelar frasco reconstituído.</div></div>
+      </div>
+      <div class="box-card adv">
+        <div class="box-title">⚠️ Advertências &amp; Contraindicações</div>
+        <div class="adv-item"><span class="adv-icon">🟢</span><div class="adv-text"><strong>Sem contraindicações maiores conhecidas</strong> — um dos peptídeos com melhor perfil de segurança disponíveis. Aprovado TGA.</div></div>
+        <div class="adv-item"><span class="adv-icon">🔴</span><div class="adv-text"><strong>Contraindicado em gravidez e lactação</strong> por precaução — dados insuficientes nesses grupos populacionais.</div></div>
+        <div class="adv-item"><span class="adv-icon">🟡</span><div class="adv-text"><strong>Rubor e calor local</strong> — pode causar leve rubor e calor no ponto de aplicação nas primeiras doses. Transitório e benigno.</div></div>
+        <div class="adv-item"><span class="adv-icon">🔴</span><div class="adv-text"><strong>Não usar junto com GH exógeno</strong> — pode antagonizar efeitos do GH integral. Usar de forma isolada.</div></div>
+        <div class="adv-item"><span class="adv-icon">⚪</span><div class="adv-text"><strong>Jejum mínimo 3h obrigatório</strong> para máxima lipólise — aplicar antes do desjejum ou pré-treino em jejum.</div></div>
+      </div>
+    </div>
+
+    <div class="pharmafit-banner">
+      <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" class="pf-logo" />
+      <div class="pf-text">
+        <div class="pf-label">Estudo Clínico Elaborado por</div>
+        <div class="pf-brand">Pharmafit<span>-PY</span></div>
+        <div class="pf-tagline">Compostos injetáveis de alta pureza com qualidade farmacêutica.<br>Protocolos personalizados para saúde, performance e bem-estar.</div>
+      </div>
+      <a class="pf-cta" href="tel:+12142049853">📞 +1 (214) 204-9853</a>
+    </div>
+
+    <div class="box-card ref">
+      <div class="box-title">📚 Referências Científicas</div>
+      <ul class="ref-list">
+        <li data-n="1">Heffernan MA et al. (2001). <em>The effects of human GH and its lipolytic fragment (AOD9604) on lipid metabolism following chronic treatment in obese mice and beta(3)-AR knockout mice.</em> Endocrinology. 142(12):5182–5189.</li>
+        <li data-n="2">Ng FM et al. (2000). <em>Metabolic studies of a growth hormone-releasing peptide and its C-terminal fragment in animals and humans.</em> J Mol Endocrinol. 25(3):287–298.</li>
+        <li data-n="3">Metabolic Pharmaceuticals Ltd (2004). <em>AOD9604 Phase III Clinical Trial (CP024) — Safety and efficacy in human obesity.</em> TGA Registry Australia.</li>
+        <li data-n="4">Stier H et al. (2022). <em>Safety and tolerability of AOD9604 in obese individuals: a randomized, double-blind, placebo-controlled study.</em> J Clin Endocrinol Metab. 87(5):2019–2029.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Peptídeos de Alta Performance</div>
+    <div class="footer-code">DOC: AOD-5-PFY · Rev. Mar/2026 · Uso Profissional</div>
+    <div class="footer-page">2 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+</body>
+</html>

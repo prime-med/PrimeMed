@@ -1,0 +1,325 @@
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  INFORMATIVO TÉCNICO — PHARMAFIT-PY                         ║
+  ║  Produto: KLOW 80mg (GHK-Cu · BPC-157 · TB-500 · KPV)      ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  Template 2026 · Montserrat + Lato · informativo.css        ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Informativo Técnico — KLOW 80mg | PharmaFit-PY</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/informativo.css" />
+  <style>
+    :root {
+      --petrol:      #7A3B1E; --petrol-dark: #4A1E08; --petrol-mid: #A0522D;
+      --petrol-lite: #F5DDD0; --petrol-bg:   #FDF0E8;
+      --amber:       #B5570A; --amber-mid:   #D4742A;
+      --amber-lite:  #F5DDD0; --amber-bg:    #FDF0E8;
+      --gold:        #8B4513; --gold-mid:    #CD6B1C;
+      --gold-lite:   #F0D5BE; --gold-bg:     #FBF0E5;
+      --white:       #FFFFFF; --gray-1: #F4F6F7; --gray-2: #D5D8DC;
+      --text-dark:   #2E1005; --text-mid: #5C2F10;
+      --shadow:      0 2px 12px rgba(74,30,8,0.12);
+      --header-bg:   linear-gradient(135deg, #4A1E08 0%, #7A3B1E 35%, #A0522D 65%, #D4742A 100%);
+      --header-small-bg: linear-gradient(135deg, #4A1E08 0%, #7A3B1E 50%, #A0522D 100%);
+      --header-bar-bg: linear-gradient(90deg, #4A1E08 0%, #A0522D 30%, #D4742A 60%, #CD6B1C 100%);
+      --header-hl:   #F5DDD0;
+    }
+    body { background: #d8c0b0; }
+
+    /* Blend grid para KLOW — dark copper cards */
+    .klow-blend-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-bottom: 12px; }
+    .klow-blend-card { border-radius: 8px; overflow: hidden; text-align: center; box-shadow: var(--shadow); }
+    .klow-blend-header { padding: 10px 8px; }
+    .klow-blend-body { background: var(--white); padding: 8px; }
+    .kbc-name { font-family: 'Montserrat', sans-serif; font-size: 10pt; font-weight: 900; line-height: 1; margin-bottom: 3px; }
+    .kbc-dose { font-size: 8pt; font-weight: 700; }
+    .kbc-pct  { font-size: 7pt; opacity: 0.7; }
+    .kbc-row  { font-size: 7.5pt; color: var(--text-mid); padding: 2px 0; border-bottom: 1px solid var(--gray-2); line-height: 1.3; }
+    .kbc-row:last-child { border-bottom: none; }
+    .kbc-row strong { font-weight: 700; color: var(--text-dark); display: block; }
+    /* GHK-Cu */
+    .k-ghk .klow-blend-header { background: linear-gradient(135deg, #4A1E08, #B5570A); }
+    .k-ghk .kbc-name { color: #F5DDD0; }
+    .k-ghk .kbc-dose { color: #D4742A; }
+    /* BPC-157 */
+    .k-bpc .klow-blend-header { background: linear-gradient(135deg, #064e3b, #059669); }
+    .k-bpc .kbc-name { color: #a7f3d0; }
+    .k-bpc .kbc-dose { color: #34d399; }
+    /* TB-500 */
+    .k-tb .klow-blend-header { background: linear-gradient(135deg, #1e3a5f, #2563eb); }
+    .k-tb .kbc-name { color: #bfdbfe; }
+    .k-tb .kbc-dose { color: #93c5fd; }
+    /* KPV */
+    .k-kpv .klow-blend-header { background: linear-gradient(135deg, #3b0764, #7c3aed); }
+    .k-kpv .kbc-name { color: #ddd6fe; }
+    .k-kpv .kbc-dose { color: #c4b5fd; }
+    /* Concentração por componente */
+    .conc-component-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-top: 10px; }
+    .conc-comp-card { background: var(--white); border: 1px solid var(--amber-lite); border-radius: 6px; padding: 7px; text-align: center; }
+    .cc-name { font-family: 'Montserrat', sans-serif; font-size: 8pt; font-weight: 800; margin-bottom: 3px; }
+    .cc-val  { font-size: 13pt; font-weight: 900; color: var(--text-dark); line-height: 1; }
+    .cc-unit { font-size: 7pt; color: var(--text-mid); }
+  </style>
+</head>
+<body>
+
+<!-- ═══ PÁGINA 1 — FRENTE ═══ -->
+<div class="page">
+  <div class="header">
+    <div class="orb-amber"></div>
+    <div class="header-inner">
+      <div class="header-logo"><img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" /></div>
+      <div class="header-center">
+        <div class="header-tag">Informativo Técnico · Blend Multi-Peptídeo · Regeneração &amp; Anti-Aging · Sinérgico</div>
+        <div class="header-title"><span class="hl">KLOW</span></div>
+        <div class="header-subtitle">GHK-Cu 50mg · BPC-157 10mg · TB-500 10mg · KPV 10mg · Regeneração · Anti-Aging · Anti-Inflamatório</div>
+      </div>
+      <div class="header-badges">
+        <div class="badge-box"><div class="b-label">Total do Blend</div><div class="b-val"><span>80</span> mg</div></div>
+        <div class="badge-box"><div class="b-label">Componentes</div><div class="b-val">4 peptídeos ativos</div></div>
+        <div class="badge-box"><div class="b-label">Código</div><div class="b-val">KLW-PFY-26</div></div>
+      </div>
+    </div>
+    <div class="header-bar"></div>
+  </div>
+
+  <div class="info-strip">
+    <span class="info-chip">BLEND SINÉRGICO</span>
+    <span class="info-chip gold">4 MECANISMOS ATIVOS</span>
+    <span class="info-text">KLOW é um <strong>blend de 4 peptídeos com ação sinérgica</strong> cuidadosamente formulado: <strong>GHK-Cu</strong> (colágeno, regeneração celular), <strong>BPC-157</strong> (reparo tecidual, intestino), <strong>TB-500</strong> (angiogênese, cicatrização) e <strong>KPV</strong> (anti-inflamatório via NF-κB). Ação simultânea em múltiplas vias — impossível de replicar com um único peptídeo.</span>
+  </div>
+
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="st-icon">🔬</span><h2>O Que É o KLOW</h2><div class="st-line"></div></div>
+      <div class="intro-strip">
+        <div class="intro-icon">⚗️</div>
+        <div class="intro-text">O <strong>KLOW 80mg</strong> representa a evolução dos protocolos de regeneração: ao combinar quatro peptídeos com mecanismos complementares em uma única ampola, elimina a necessidade de múltiplas reconstituições e maximiza a sinergia biológica. O <strong>GHK-Cu (62,5% da fórmula)</strong> lidera a ação anti-aging e remodelamento da matriz extracelular, enquanto BPC-157 e TB-500 atuam na reparação de tecidos lesionados e KPV suprime a inflamação crônica de base. Indicado para <strong>recuperação de lesões, anti-aging sistêmico, saúde intestinal e inflamação crônica</strong>.</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">🧬</span><h2>Composição do Blend — 4 Peptídeos Ativos</h2><div class="st-line"></div></div>
+      <div class="klow-blend-grid">
+        <div class="klow-blend-card k-ghk">
+          <div class="klow-blend-header">
+            <div class="kbc-name">GHK-Cu</div>
+            <div class="kbc-dose">50 mg</div>
+            <div class="kbc-pct" style="color:#F5DDD0;">62,5% do blend</div>
+          </div>
+          <div class="klow-blend-body">
+            <div class="kbc-row"><strong>Glicil-L-Histidil-L-Lisina-Cobre</strong></div>
+            <div class="kbc-row">Anti-aging · colágeno · elastina</div>
+            <div class="kbc-row">Regeneração cutânea e vascular</div>
+            <div class="kbc-row">Modula +4.000 genes</div>
+          </div>
+        </div>
+        <div class="klow-blend-card k-bpc">
+          <div class="klow-blend-header">
+            <div class="kbc-name">BPC-157</div>
+            <div class="kbc-dose">10 mg</div>
+            <div class="kbc-pct" style="color:#a7f3d0;">12,5% do blend</div>
+          </div>
+          <div class="klow-blend-body">
+            <div class="kbc-row"><strong>Body Protective Compound-157</strong></div>
+            <div class="kbc-row">Reparo tendão · ligamento · músculo</div>
+            <div class="kbc-row">Proteção e cura intestinal</div>
+            <div class="kbc-row">Angiogênese via VEGF</div>
+          </div>
+        </div>
+        <div class="klow-blend-card k-tb">
+          <div class="klow-blend-header">
+            <div class="kbc-name">TB-500</div>
+            <div class="kbc-dose">10 mg</div>
+            <div class="kbc-pct" style="color:#bfdbfe;">12,5% do blend</div>
+          </div>
+          <div class="klow-blend-body">
+            <div class="kbc-row"><strong>Thymosin Beta-4 sintético</strong></div>
+            <div class="kbc-row">Migração celular · cicatrização</div>
+            <div class="kbc-row">Reparo cardíaco e muscular</div>
+            <div class="kbc-row">Reduz fibrose tecidual</div>
+          </div>
+        </div>
+        <div class="klow-blend-card k-kpv">
+          <div class="klow-blend-header">
+            <div class="kbc-name">KPV</div>
+            <div class="kbc-dose">10 mg</div>
+            <div class="kbc-pct" style="color:#ddd6fe;">12,5% do blend</div>
+          </div>
+          <div class="klow-blend-body">
+            <div class="kbc-row"><strong>Lys-Pro-Val (tripeptídeo)</strong></div>
+            <div class="kbc-row">Inibe NF-κB · reduz IL-1β, TNF-α</div>
+            <div class="kbc-row">Anti-inflamatório intestinal</div>
+            <div class="kbc-row">Proteção da mucosa</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">⚗️</span><h2>Mecanismo de Ação Sinérgico</h2><div class="st-line"></div></div>
+      <table class="moa">
+        <thead><tr><th>Peptídeo</th><th>Via Principal · Efeito Biológico</th><th>Evidência</th></tr></thead>
+        <tbody>
+          <tr><td>GHK-Cu</td><td><strong>Modulação Genômica</strong> — Regula mais de 4.000 genes humanos · ativa síntese de colágeno, elastina e GAGs · reverte expressão gênica envelhecida para padrão jovem · antioxidante e neuroprotetor</td><td><span class="tag a">Alta</span></td></tr>
+          <tr><td>BPC-157</td><td><strong>Angiogênese / VEGF</strong> — Estimula receptores VEGFR2 · promove angiogênese e migração de fibroblastos · cura tendões, ligamentos, mucosa gástrica e intestinal · ativa via NO</td><td><span class="tag a">Alta</span></td></tr>
+          <tr><td>TB-500</td><td><strong>Actina / Migração Celular</strong> — Sequestra actina-G · promove migração e proliferação celular · reduz inflamação aguda · acelera cicatrização de feridas e lesões musculares · anti-fibrótico</td><td><span class="tag a">Alta</span></td></tr>
+          <tr><td>KPV</td><td><strong>NF-κB / Citocinas</strong> — Inibe NF-κB diretamente no núcleo · bloqueia IL-1β, IL-6, TNF-α · reduz inflamação intestinal (DII, Crohn, colite) · potencializa ação anti-inflamatória</td><td><span class="tag a">Alta</span></td></tr>
+          <tr><td>SINERGIA</td><td><strong>Multi-Via Combinada</strong> — GHK-Cu reestrutura a MEC · BPC-157 vasculariza o tecido reparado · TB-500 recruta células reparadoras · KPV controla inflamação — ação coordenada impossível com único peptídeo</td><td><span class="tag g">Mod-Alta</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">💧</span><h2>Reconstituição — 80mg + 3mL Água Bacteriostática</h2><div class="st-line"></div></div>
+      <div class="diss-box">
+        <div class="diss-steps">
+          <div class="diss-step"><div class="step-circle">1</div><div class="step-text"><strong>Higienizar</strong>Álcool 70% na tampa</div></div>
+          <div class="diss-step"><div class="step-circle">2</div><div class="step-text"><strong>Diluir</strong>80mg + 3mL ABW → 26,7mg/mL</div></div>
+          <div class="diss-step"><div class="step-circle">3</div><div class="step-text"><strong>Injetar</strong>Lentamente pela parede interna</div></div>
+          <div class="diss-step"><div class="step-circle">4</div><div class="step-text"><strong>Girar</strong>Suavemente — nunca agitar</div></div>
+          <div class="diss-step"><div class="step-circle">5</div><div class="step-text"><strong>Armazenar</strong>2–8°C · 14–28 dias</div></div>
+        </div>
+        <div class="conc-component-grid">
+          <div class="conc-comp-card"><div class="cc-name" style="color:#B5570A;">GHK-Cu</div><div class="cc-val">16,67</div><div class="cc-unit">mg/mL</div></div>
+          <div class="conc-comp-card"><div class="cc-name" style="color:#059669;">BPC-157</div><div class="cc-val">3,33</div><div class="cc-unit">mg/mL</div></div>
+          <div class="conc-comp-card"><div class="cc-name" style="color:#2563eb;">TB-500</div><div class="cc-val">3,33</div><div class="cc-unit">mg/mL</div></div>
+          <div class="conc-comp-card"><div class="cc-name" style="color:#7c3aed;">KPV</div><div class="cc-val">3,33</div><div class="cc-unit">mg/mL</div></div>
+        </div>
+        <table class="dose-table" style="margin-top:10px;">
+          <thead><tr><th>Volume SC</th><th>Total blend</th><th>GHK-Cu</th><th>BPC+TB+KPV (cada)</th><th>Perfil de uso</th></tr></thead>
+          <tbody>
+            <tr><td>0,05 mL (5U)</td><td>1,33 mg</td><td>833 mcg</td><td>167 mcg</td><td>Iniciante · titulação <span class="note">1ª semana</span></td></tr>
+            <tr><td>0,10 mL (10U)</td><td><strong>2,67 mg</strong></td><td><strong>1,67 mg</strong></td><td><strong>333 mcg</strong></td><td><strong>Dose padrão · manutenção · longevidade</strong></td></tr>
+            <tr><td>0,15 mL (15U)</td><td>4,00 mg</td><td>2,50 mg</td><td>500 mcg</td><td>Performance · lesões ativas · inflamação</td></tr>
+            <tr><td>0,20 mL (20U)</td><td><strong>5,34 mg</strong></td><td><strong>3,34 mg</strong></td><td><strong>667 mcg</strong></td><td><strong>Carga intensiva · recuperação acelerada</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Peptídeos de Alta Performance</div>
+    <div class="footer-code">DOC: KLW-PFY-26 · Rev. Abr/2026</div>
+    <div class="footer-page">1 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+<!-- ═══ PÁGINA 2 — VERSO ═══ -->
+<div class="page">
+  <div class="header-small">
+    <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" />
+    <div>
+      <div class="hs-title"><span>KLOW</span> · Protocolos Clínicos</div>
+      <div class="hs-sub">GHK-Cu 50mg · BPC-157 10mg · TB-500 10mg · KPV 10mg · Blend 80mg Total</div>
+    </div>
+    <div class="hs-right">
+      <div class="hs-title" style="font-size:9pt;color:rgba(255,255,255,0.5)">PHARMAFIT-PY</div>
+      <div class="hs-sub">Peptídeos de Alta Performance</div>
+    </div>
+  </div>
+  <div class="header-bar"></div>
+
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📋</span><h2>Protocolos de Uso Clínico</h2><div class="st-line"></div></div>
+      <div class="proto-grid">
+        <div class="proto-card">
+          <div class="proto-head p1"><div class="p-num">Protocolo 01</div><div class="p-title">Regeneração &amp; Recuperação de Lesões</div><div class="p-icon">🔧</div></div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Objetivo</span><span class="pr-val">Tendão · ligamento · músculo · articulação · pós-cirurgia</span></div>
+            <div class="proto-row"><span class="pr-label">Dose</span><span class="pr-val"><strong>0,15–0,20 mL</strong> (15–20U) · 4–5,34mg</span></div>
+            <div class="proto-row"><span class="pr-label">Timing</span><span class="pr-val">Manhã em jejum · próximo à área lesionada</span></div>
+            <div class="proto-row"><span class="pr-label">Frequência</span><span class="pr-val">1x/dia · 5x/semana</span></div>
+            <div class="proto-row"><span class="pr-label">Ciclo</span><span class="pr-val"><strong>8–12 semanas</strong> · off: 4 semanas</span></div>
+            <div class="proto-row"><span class="pr-label">Via</span><span class="pr-val">SC próximo à lesão ou abdominal</span></div>
+            <div class="proto-row"><span class="pr-label">Sinergia</span><span class="pr-val">SS-31 · BPC-157 isolado</span></div>
+          </div>
+        </div>
+        <div class="proto-card">
+          <div class="proto-head p2"><div class="p-num">Protocolo 02</div><div class="p-title">Anti-Aging &amp; Longevidade Sistêmica</div><div class="p-icon">✨</div></div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Objetivo</span><span class="pr-val">Rejuvenescimento · colágeno · pele · cabelo · anti-aging celular</span></div>
+            <div class="proto-row"><span class="pr-label">Dose</span><span class="pr-val"><strong>0,10 mL</strong> (10U) · 2,67mg</span></div>
+            <div class="proto-row"><span class="pr-label">Timing</span><span class="pr-val">Manhã em jejum</span></div>
+            <div class="proto-row"><span class="pr-label">Frequência</span><span class="pr-val">3–5x/semana</span></div>
+            <div class="proto-row"><span class="pr-label">Ciclo</span><span class="pr-val"><strong>12 semanas</strong> · off: 4 semanas</span></div>
+            <div class="proto-row"><span class="pr-label">Via</span><span class="pr-val">SC abdominal</span></div>
+            <div class="proto-row"><span class="pr-label">Sinergia</span><span class="pr-val">NAD+ · Resveratrol · Colágeno 15g</span></div>
+          </div>
+        </div>
+        <div class="proto-card">
+          <div class="proto-head p3"><div class="p-num">Protocolo 03</div><div class="p-title">Inflamação Crônica &amp; Saúde Intestinal</div><div class="p-icon">🛡️</div></div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Objetivo</span><span class="pr-val">DII · colite · Crohn · intestino permeável · inflamação sistêmica</span></div>
+            <div class="proto-row"><span class="pr-label">Dose</span><span class="pr-val"><strong>0,10–0,15 mL</strong> (10–15U)</span></div>
+            <div class="proto-row"><span class="pr-label">Timing</span><span class="pr-val">Manhã em jejum · 30min antes do café</span></div>
+            <div class="proto-row"><span class="pr-label">Frequência</span><span class="pr-val">1x/dia · 5–7x/semana</span></div>
+            <div class="proto-row"><span class="pr-label">Ciclo</span><span class="pr-val"><strong>8–16 semanas</strong> · avaliação clínica</span></div>
+            <div class="proto-row"><span class="pr-label">Via</span><span class="pr-val">SC abdominal (baixo ventre)</span></div>
+            <div class="proto-row"><span class="pr-label">Sinergia</span><span class="pr-val">Glutamina 5g/dia · Probióticos</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="box-card supl">
+        <div class="box-title">💊 Suplementação &amp; Sinergias</div>
+        <div class="supl-item"><span class="si-icon">🟠</span><div class="si-text"><strong>NAD+ 50mg SC</strong> — sinergia máxima com GHK-Cu em longevidade: GHK-Cu modula genes anti-aging, NAD+ fornece energia mitocondrial para executá-los</div></div>
+        <div class="supl-item"><span class="si-icon">🟡</span><div class="si-text"><strong>Vitamina C 1.000mg/dia</strong> — cofator essencial na síntese de colágeno ativada pelo GHK-Cu · potencializa a hidroxilação de prolina e lisina</div></div>
+        <div class="supl-item"><span class="si-icon">🟢</span><div class="si-text"><strong>Zinco 30mg/dia</strong> — cofator do GHK-Cu (complexo cobre-peptídeo) · suporte à cicatrização e à síntese proteica tecidual</div></div>
+        <div class="supl-item"><span class="si-icon">🔵</span><div class="si-text"><strong>Glutamina 5g/dia</strong> — suporte à barreira intestinal · sinérgica com KPV + BPC-157 no protocolo de saúde intestinal</div></div>
+      </div>
+      <div class="box-card adv">
+        <div class="box-title">⚠️ Advertências &amp; Contraindicações</div>
+        <div class="adv-item"><span class="adv-icon">🔴</span><div class="adv-text"><strong>Gestação e lactação</strong> — contraindicação absoluta para todos os componentes do blend</div></div>
+        <div class="adv-item"><span class="adv-icon">🔴</span><div class="adv-text"><strong>Neoplasias ativas</strong> — GHK-Cu e BPC-157 estimulam angiogênese · avaliar individualmente com oncologista antes do uso</div></div>
+        <div class="adv-item"><span class="adv-icon">🟡</span><div class="adv-text"><strong>Hiperpigmentação transitória</strong> — GHK-Cu pode causar escurecimento focal da pele no local da injeção · reversível após suspensão</div></div>
+        <div class="adv-item"><span class="adv-icon">🟡</span><div class="adv-text"><strong>Estabilidade pós-reconstituição</strong> — usar em até 14–28 dias · o TB-500 é o componente mais sensível à degradação após reconstituição</div></div>
+        <div class="adv-item"><span class="adv-icon">⚪</span><div class="adv-text"><strong>Rotação de pontos obrigatória</strong> — GHK-Cu em altas concentrações pode causar lipoatrofia local com aplicações repetidas no mesmo ponto</div></div>
+      </div>
+    </div>
+
+    <div class="pharmafit-banner">
+      <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" class="pf-logo" />
+      <div class="pf-text">
+        <div class="pf-label">Estudo Clínico Elaborado por</div>
+        <div class="pf-brand">Pharmafit<span>-PY</span></div>
+        <div class="pf-tagline">Compostos injetáveis de alta pureza com qualidade farmacêutica.<br>Protocolos personalizados para saúde, performance e bem-estar.</div>
+      </div>
+      <a class="pf-cta" href="tel:+12142049853">📞 +1 (214) 204-9853</a>
+    </div>
+
+    <div class="box-card ref">
+      <div class="box-title">📚 Referências Científicas</div>
+      <ul class="ref-list">
+        <li data-n="1">Pickart L, Margolina A. (2018). <em>Regenerative and Protective Actions of the GHK-Cu Peptide in the Light of the New Gene Data.</em> Int J Mol Sci. 19(7):1987.</li>
+        <li data-n="2">Pickart L. (2008). <em>The human tri-peptide GHK and tissue remodeling.</em> J Biomater Sci Polym Ed. 19(8):969–988.</li>
+        <li data-n="3">Sikiric P et al. (2018). <em>Stable gastric pentadecapeptide BPC 157: novel therapy in gastrointestinal tract.</em> Curr Pharm Des. 24(18):1990–2001.</li>
+        <li data-n="4">Goldstein AL et al. (2012). <em>Thymosin beta4: a multi-functional regenerative peptide. Basic properties and clinical applications.</em> Expert Opin Biol Ther. 12(1):37–51.</li>
+        <li data-n="5">Bhattacharya A et al. (2021). <em>KPV tripeptide inhibits NF-κB-mediated inflammatory signaling in colitis.</em> Am J Physiol Gastrointest Liver Physiol. 320(6):G891–G900.</li>
+        <li data-n="6">Pickart L, Vasquez-Soltero JM, Margolina A. (2015). <em>GHK-Cu may prevent oxidative stress in skin by regulating copper and modifying expression of numerous antioxidant genes.</em> Cosmetics. 2(3):236–247.</li>
+        <li data-n="7">Smart N et al. (2010). <em>Thymosin beta-4 induces cardiomyocyte survival and generation of cardiac progenitors from adult hearts.</em> Ann N Y Acad Sci. 1194:92–97.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Peptídeos de Alta Performance</div>
+    <div class="footer-code">DOC: KLW-PFY-26 · Rev. Abr/2026 · Uso Profissional</div>
+    <div class="footer-page">2 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+</body>
+</html>

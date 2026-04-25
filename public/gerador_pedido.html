@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+<title>Gerador de Pedido — PharmaFit</title>
+  <link rel="stylesheet" href="assets/css/theme.css"/>
+  <link rel="stylesheet" href="assets/css/gerador_pedido.css"/>
+</head>
+<body>
+
+<header>
+  <div class="left"><div><h1>🧬 Gerador de Pedido</h1><span>Ferramenta interna — PharmaFit-PY</span></div></div>
+  <button class="btn-voltar" id="btn-voltar" onclick="voltarInicio()">← Voltar ao Inicio</button>
+</header>
+
+<div class="container">
+
+  <!-- ══ TELA 1: ESCOLHA ══ -->
+  <div id="tela-inicio" class="tela-inicial">
+    <div><h2>O que deseja fazer?</h2><p>Selecione uma opcao para comecar</p></div>
+    <div class="modo-btns">
+      <div class="modo-btn" onclick="iniciarModo('novo')"><div class="icon">📝</div><div class="title">Novo Pedido</div><div class="desc">Criar um pedido do zero.<br/>Selecione um cliente ou cadastre um novo.</div></div>
+      <div class="modo-btn" onclick="iniciarModo('corrigir')"><div class="icon">✏️</div><div class="title">Corrigir Pedido</div><div class="desc">Editar um pedido existente.<br/>Veja os ultimos pedidos ou busque por cliente.</div></div>
+    </div>
+  </div>
+
+  <!-- ══ TELA 2A: CLIENTES ══ -->
+  <div id="tela-clientes" class="hidden">
+    <span class="modo-badge novo">Novo Pedido</span>
+    <div class="card">
+      <div class="section-title">👥 Selecione o Cliente</div>
+      <div class="busca-bar"><input type="text" id="busca_cliente" placeholder="🔍 Buscar por nome, telefone, CPF/CNPJ ou e-mail..." oninput="filtrarClientes()"/></div>
+      <div id="clientes-grid" class="clientes-grid"><div class="loading-box">⏳ Carregando clientes...</div></div>
+      <div class="status-msg" id="clientes-status"></div>
+    </div>
+  </div>
+
+  <!-- ══ TELA 2B: CORRIGIR — TABS ══ -->
+  <div id="tela-pedidos" class="hidden">
+    <span class="modo-badge corrigir">Corrigir Pedido</span>
+    <div class="card">
+      <div class="tabs">
+        <button class="tab-btn active" id="tab-pedidos" onclick="trocarTab('pedidos')">📦 Por Pedido</button>
+        <button class="tab-btn" id="tab-clientes-corr" onclick="trocarTab('clientes-corr')">👤 Por Cliente</button>
+      </div>
+      <!-- TAB: PEDIDOS -->
+      <div id="tab-content-pedidos">
+        <div class="busca-bar"><input type="text" id="busca_pedido" placeholder="🔍 Filtrar por cliente, telefone, data..." oninput="filtrarPedidos()"/></div>
+        <div id="pedidos-grid" class="pedidos-grid"><div class="loading-box">⏳ Carregando pedidos...</div></div>
+        <div class="status-msg" id="pedidos-status"></div>
+      </div>
+      <!-- TAB: CLIENTES -->
+      <div id="tab-content-clientes-corr" class="hidden">
+        <div class="busca-bar"><input type="text" id="busca_cli_corr" placeholder="🔍 Buscar cliente por nome, telefone, CPF..." oninput="filtrarClientesCorr()"/></div>
+        <div id="clientes-corr-grid" class="clientes-grid"><div class="loading-box">⏳ Carregando clientes...</div></div>
+        <div class="status-msg" id="clientes-corr-status"></div>
+        <!-- Pedidos do cliente selecionado -->
+        <div id="pedidos-cliente-section" class="hidden" style="margin-top:16px">
+          <div class="section-title" id="pedidos-cli-titulo">📦 Pedidos de ...</div>
+          <div id="pedidos-cliente-grid" class="pedidos-grid"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ TELA 3: EDITOR ══ -->
+  <div id="tela-editor" class="hidden">
+    <span class="modo-badge novo hidden" id="badge-novo">Novo Pedido</span>
+    <span class="modo-badge corrigir hidden" id="badge-corrigir">Corrigir Pedido</span>
+
+    <div class="card">
+      <div class="section-title">📋 Dados do Cliente</div>
+      <div class="row">
+        <div class="field"><label>Nome / Clinica</label><input type="text" id="c_nome" placeholder="Ex: Dra. Ana Souza" oninput="gerarMensagem()"/></div>
+        <div class="field" style="max-width:200px"><label>Telefone (com DDD)</label><input type="text" id="c_telefone" placeholder="11999999999" oninput="gerarMensagem()"/></div>
+      </div>
+      <div class="row" style="margin-top:10px">
+        <div class="field" style="max-width:200px"><label>Forma de Pagamento</label>
+          <select id="c_pagamento" onchange="onPagamentoChange()">
+            <option value="">— Nao informado —</option><option>PIX</option><option>Transferencia Bancaria</option><option>Cartao de Credito</option><option>Boleto Bancario</option>
+          </select>
+        </div>
+        <div class="field parcelas-row hidden" id="parcelas-field" style="max-width:240px"><label>Parcelas</label>
+          <select id="c_parcelas" onchange="gerarMensagem()"><option value="">Carregando...</option></select>
+        </div>
+      </div>
+      <div class="row" style="margin-top:10px">
+        <div class="field"><label id="lbl-obs">Observacao</label><input type="text" id="c_obs" placeholder="Ex: cliente solicitou entrega expressa" oninput="gerarMensagem()"/></div>
+      </div>
+
+      <!-- CUPOM -->
+      <div class="cupom-box">
+        <div class="section-title" style="margin-bottom:10px">🎟️ Cupom de Bonificação</div>
+        <div class="cupom-row">
+          <input type="text" id="c_cupom" placeholder="EX: BONUS10" oninput="this.value=this.value.toUpperCase()" onkeydown="if(event.key==='Enter')aplicarCupom()"/>
+          <button class="btn-cupom" id="btn-aplicar-cupom" onclick="aplicarCupom()">Aplicar</button>
+          <button class="btn-rm-cupom hidden" id="btn-remover-cupom" onclick="removerCupom()">✕ Remover</button>
+        </div>
+        <div class="cupom-status" id="cupom-status"></div>
+      </div>
+
+      <!-- FRETE -->
+      <div class="frete-box">
+        <div class="section-title" style="margin-bottom:10px">📦 Frete / Entrega</div>
+        <div class="frete-row">
+          <div class="field" style="max-width:140px"><label>CEP</label><input type="text" id="f_cep" placeholder="00000-000" maxlength="9" oninput="mascaraCep(this)"/></div>
+          <button class="btn-calc" onclick="calcularFrete()">Calcular Frete</button>
+        </div>
+        <div class="frete-status" id="frete-status"></div>
+        <div class="frete-endereco-txt" id="frete-endereco-txt"></div>
+        <div class="frete-opcoes" id="frete-opcoes" style="display:none"></div>
+        <div class="frete-gratis" id="frete-gratis" style="display:none"></div>
+      </div>
+
+    </div>
+
+    <!-- CARRINHO + CATALOGO -->
+    <div class="layout">
+      <div><div class="card" style="position:sticky;top:20px">
+        <div class="section-title">🛒 Itens do Pedido</div>
+        <div id="cart-list"><div class="cart-empty">Adicione produtos do catalogo →</div></div>
+        <div class="cart-total" id="cart-total" style="display:none">
+          <div class="sub-row"><span>Subtotal</span><span id="subtotal-amount">R$ 0,00</span></div>
+          <div class="sub-row" id="frete-row" style="display:none"><span>Frete (<span id="frete-metodo-label"></span>)</span><span id="frete-valor-label">R$ 0,00</span></div>
+          <div class="sub-row" id="cupom-desc-row" style="display:none"><span>Desconto (<span id="cupom-codigo-label"></span>)</span><span id="cupom-desc-label" style="color:var(--green)">− R$ 0,00</span></div>
+          <div class="juros-info" id="juros-info" style="display:none"></div>
+          <div class="total-row" style="margin-top:8px"><span class="label">Total</span><span class="amount" id="total-amount">R$ 0,00</span></div>
+        </div>
+      </div></div>
+      <div><div class="card">
+        <div class="section-title">💊 Adicionar Produto</div>
+        <input type="search" class="search-bar" id="busca_cat" placeholder="🔍 Buscar produto no catalogo..." oninput="filtrarProdutos()"/>
+        <div id="cat-grid" class="cat-grid"><div class="loading-box">⏳ Carregando catalogo...</div></div>
+      </div></div>
+    </div>
+
+    <!-- MENSAGEM -->
+    <div class="card">
+      <div class="section-title">💬 Mensagem do Pedido</div>
+      <div class="msg-hint">✏️ Voce pode editar o texto abaixo antes de enviar</div>
+      <textarea class="msg-textarea" id="msg-preview" placeholder="Monte o pedido acima para gerar a mensagem..."></textarea>
+      <div class="msg-actions">
+        <button class="btn btn-save" id="btn-save" onclick="salvarPedido()" disabled>💾 Salvar no Sheets</button>
+        <button class="btn btn-copy" id="btn-copy" onclick="copiarMensagem()" disabled>📋 Copiar</button>
+        <button class="btn btn-wa" id="btn-wa" onclick="enviarWhatsApp()" disabled>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Enviar no WhatsApp
+        </button>
+        <button class="btn btn-reset" onclick="gerarMensagem()">🔄 Regenerar</button>
+        <button class="btn btn-clear" onclick="limparPedido()">🗑️ Limpar Pedido</button>
+      </div>
+      <div class="save-status" id="save-status"></div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CADASTRO -->
+<div class="modal-overlay" id="modal-cadastro"><div class="modal">
+  <h3>➕ Cadastrar Novo Cliente</h3>
+  <div class="row"><div class="field"><label>Nome / Clinica *</label><input type="text" id="nc_nome"/></div></div>
+  <div class="row"><div class="field"><label>Responsavel</label><input type="text" id="nc_responsavel"/></div><div class="field"><label>Cargo</label><input type="text" id="nc_cargo"/></div></div>
+  <div class="row"><div class="field"><label>Telefone *</label><input type="text" id="nc_telefone"/></div><div class="field"><label>E-mail</label><input type="text" id="nc_email"/></div></div>
+  <div class="row"><div class="field"><label>CPF/CNPJ</label><input type="text" id="nc_cpf"/></div></div>
+  <div class="row"><div class="field"><label>Cidade</label><input type="text" id="nc_cidade"/></div><div class="field" style="max-width:100px"><label>Estado</label><input type="text" id="nc_estado" maxlength="2"/></div></div>
+  <div class="row"><div class="field"><label>Endereco</label><input type="text" id="nc_endereco"/></div></div>
+  <div class="status-msg" id="cadastro-status" style="color:#FCA5A5"></div>
+  <div class="modal-actions"><button class="btn-modal secondary" onclick="fecharModal()">Cancelar</button><button class="btn-modal primary" id="btn-salvar-cliente" onclick="salvarNovoCliente()">Cadastrar</button></div>
+</div></div>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/frete.js"></script>
+<script src="assets/js/gerador_pedido.js"></script>
+</body>
+</html>

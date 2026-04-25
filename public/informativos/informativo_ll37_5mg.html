@@ -1,0 +1,269 @@
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  INFORMATIVO TÉCNICO — TEMPLATE PHARMAFIT-PY                ║
+  ║  Produto: LL-37 5mg                                         ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  ESTRUTURA GERAL (2 páginas .page):                         ║
+  ║  Pág 1: header → info-strip → "O Que É" → seções técnicas  ║
+  ║  Pág 2: header-small → seções avançadas → pharmafit-banner  ║
+  ║         → referências científicas → footer + footer-note    ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  O QUE CUSTOMIZAR POR PRODUTO:                              ║
+  ║  1. <title> — nome do produto                               ║
+  ║  2. :root — paleta de cores (ver abaixo)                    ║
+  ║     Tema azul/âmbar      → ex: Tirzepatida 120mg            ║
+  ║     Tema escuro/ouro     → ex: Durateston                   ║
+  ║  3. body { background } — cor do fundo externo da página    ║
+  ║  4. .header → textos: tag, título, subtítulo, badges        ║
+  ║  5. .info-strip → chips e texto de contexto                 ║
+  ║  6. Seção "O Que É..." → section-title + intro-text         ║
+  ║  7. Conteúdo das seções (componentes em informativo.css)    ║
+  ║  8. .header-small (pág 2) → título e subtítulo              ║
+  ║  9. .footer → brand text e código do documento              ║
+  ║  10. Referências científicas → .ref-list                    ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  NÃO ALTERAR (padronizado para todos os informativos):      ║
+  ║  • .pharmafit-banner — tagline e telefone da Pharmafit-PY   ║
+  ║  • .footer-note — aviso de uso profissional                 ║
+  ║  • Link para ../assets/css/informativo.css                  ║
+  ║  • Fontes: Montserrat + Lato (Google Fonts)                 ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Informativo Técnico — LL-37 5mg | PharmaFit-PY</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/informativo.css" />
+  <style>
+    :root {
+      --petrol:     #1B4F72; --petrol-dark: #0D2B3E; --petrol-mid: #2471A3;
+      --petrol-lite:#D6EAF8; --petrol-bg:  #EBF5FB;
+      --amber:      #2980B9; --amber-mid:  #85C1E9;
+      --amber-lite: #D6EAF8; --amber-bg:   #EBF5FB;
+      --gold:       #AEB6BF; --gold-mid:   #85C1E9;
+      --gold-lite:  #EAECEE; --gold-bg:    #F2F3F4;
+      --white:      #FFFFFF; --gray-1: #F4F6F7; --gray-2: #D5D8DC;
+      --text-dark:  #1A2530; --text-mid: #3D566E;
+      --shadow:     0 2px 12px rgba(13,43,62,0.10);
+      --header-bg:  linear-gradient(135deg, #0D2B3E 0%, #1B4F72 40%, #1A5276 70%, #2980B9 100%);
+      --header-bar-bg: linear-gradient(90deg, #0D2B3E 0%, #2471A3 25%, #2980B9 55%, #85C1E9 80%, #AEB6BF 100%);
+      --header-small-bg: linear-gradient(135deg, #0D2B3E 0%, #1B4F72 50%, #1A5276 80%, #2980B9 100%);
+      --header-hl:  #85C1E9;
+    }
+    body { background: #c8d8e4; }
+    .proto-head.p1 { background: linear-gradient(135deg, #1A5276 0%, var(--amber) 100%); }
+    .proto-head.p2 { background: linear-gradient(135deg, #0D2B3E 0%, #2471A3 100%); }
+    .proto-head.p3 { background: linear-gradient(135deg, #1C2833 0%, #566573 100%); }
+    table.compare-table thead tr { background: linear-gradient(90deg, #1B4F72 0%, #2471A3 100%); }
+    .orb-sky { position: absolute; top: 10px; right: 155px; width: 90px; height: 90px; border-radius: 50%; background: radial-gradient(circle, rgba(41,128,185,0.35) 0%, transparent 70%); }
+    .orb-silver { position: absolute; bottom: 5px; left: 120px; width: 60px; height: 60px; border-radius: 50%; background: radial-gradient(circle, rgba(174,182,191,0.25) 0%, transparent 70%); }
+    .header-title .sky-text { color: #85C1E9; text-shadow: 0 0 24px rgba(133,193,233,0.7); }
+  </style>
+</head>
+<body>
+
+<!-- PÁGINA 1 — FRENTE -->
+<div class="page">
+  <div class="header">
+    <div class="orb-sky"></div>
+    <div class="orb-silver"></div>
+    <div class="header-inner">
+      <div class="header-logo"><img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" /></div>
+      <div class="header-center">
+        <div class="header-tag">Informativo Técnico — Peptídeo Imunológico &amp; Antimicrobiano</div>
+        <div class="header-title"><span class="sky-text">LL</span>-37</div>
+        <div class="header-subtitle">Cathelicidin Human Antimicrobial Peptide · Defesa Imune, Antimicrobiano &amp; Cicatrização</div>
+      </div>
+      <div class="header-badges">
+        <div class="badge-box"><div class="b-label">Concentração</div><div class="b-val"><span>5</span> mg</div></div>
+        <div class="badge-box"><div class="b-label">Código</div><div class="b-val">LL37-5-PFY</div></div>
+      </div>
+    </div>
+    <div class="header-bar"></div>
+  </div>
+
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="st-icon">🛡️</span><h2>O Que É o LL-37?</h2><div class="st-line"></div></div>
+    <div class="intro-strip">
+      <div class="intro-icon">🛡️</div>
+      <div>
+      <div class="intro-text">
+        O <strong>LL-37 (Cathelicidin Human Antimicrobial Peptide)</strong> é o único membro da família das catelicidinas em humanos, composto por 37 aminoácidos derivado da proteína CAP18 presente em neutrófilos. Considerado a primeira linha de defesa imune inata, age simultaneamente como <strong>agente antimicrobiano de amplo espectro, imunomodulador, promotor de cicatrização e destruidor de biofilme</strong> — com eficácia 100 a 1000x superior a antibióticos isolados contra biofilmes bacterianos.
+      </div>
+      <div class="spec-grid">
+        <div class="spec-item"><div class="s-val">37 aa</div><div class="s-lbl">Aminoácidos</div></div>
+        <div class="spec-item"><div class="s-val">4.493 Da</div><div class="s-lbl">Peso Molecular</div></div>
+        <div class="spec-item"><div class="s-val">Neutrófilos</div><div class="s-lbl">Origem</div></div>
+        <div class="spec-item"><div class="s-val">~3 h SC</div><div class="s-lbl">Meia-vida</div></div>
+        <div class="spec-item"><div class="s-val">Alta SC</div><div class="s-lbl">Biodisponib.</div></div>
+        <div class="spec-item"><div class="s-val">5 mg</div><div class="s-lbl">Concentração</div></div>
+      </div>
+      </div>
+    </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">⚡</span><h2>Mecanismo de Ação Científico</h2><div class="st-line"></div></div>
+      <table class="moa">
+        <thead><tr><th>Via de Ação</th><th>Efeito Biológico</th><th>Evidência</th></tr></thead>
+        <tbody>
+          <tr><td>Antimicrobiano (Membrana)</td><td>Destrói membranas lipídicas de bactérias gram+ e gram− por formação de poros transmembrana · ação bactericida rápida e direta</td><td><span class="tag">Alta</span></td></tr>
+          <tr><td>Imunomodulação</td><td>Ativa células dendríticas, macrófagos e células NK · modula receptor TLR4 · amplifica resposta imune adaptativa</td><td><span class="tag">Alta</span></td></tr>
+          <tr><td>Cicatrização &amp; Reparo</td><td>Estimula migração de queratinócitos e fibroblastos · upregula VEGF e EGF · acelera reepitelização e angiogênese local</td><td><span class="tag">Alta</span></td></tr>
+          <tr><td>Anti-biofilme</td><td>Destrói matriz de biofilme bacteriano · 100–1000x mais eficaz que antibióticos isolados · impede recolonização</td><td><span class="tag">Alta</span></td></tr>
+          <tr><td>Antiviral</td><td>Inibe replicação de vírus envelopados (Influenza, HSV, HIV) via disrupção do envelope viral lipídico</td><td><span class="tag silver">Moderada-Alta</span></td></tr>
+          <tr><td>Anti-inflamatório Seletivo</td><td>Inibe NFκB · reduz IL-6 e TNF-α em contexto infeccioso sem suprimir imunidade adaptativa global</td><td><span class="tag">Alta</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">💧</span><h2>Reconstituição — LL-37 5mg / 2ml</h2><div class="st-line"></div></div>
+      <div class="diss-box">
+        <div class="diss-steps">
+          <div class="diss-step"><div class="step-circle">1</div><div class="step-text"><strong>Higienizar</strong>Álcool 70% na tampa</div></div>
+          <div class="diss-step"><div class="step-circle">2</div><div class="step-text"><strong>Preparar</strong>Aspirar 2ml de água bacteriostática</div></div>
+          <div class="diss-step"><div class="step-circle">3</div><div class="step-text"><strong>Injetar</strong>Lentamente na parede do frasco</div></div>
+          <div class="diss-step"><div class="step-circle">4</div><div class="step-text"><strong>Girar</strong>Suavemente — nunca agitar</div></div>
+          <div class="diss-step"><div class="step-circle">5</div><div class="step-text"><strong>Refrigerar</strong>2–8°C · 28 dias</div></div>
+        </div>
+        <table class="dose-table">
+          <thead><tr><th>Volume Aspirado</th><th>Dose LL-37</th><th>Indicação Clínica</th><th>Via</th></tr></thead>
+          <tbody>
+            <tr><td>0,10 ml</td><td>250 mcg</td><td>Dose mínima · teste de sensibilidade</td><td>SC</td></tr>
+            <tr><td>0,20 ml</td><td>500 mcg</td><td>Dose padrão · protocolo imune</td><td>SC</td></tr>
+            <tr><td>0,40 ml</td><td>1 mg</td><td>Protocolo infeccioso · cicatrização</td><td>SC perilesional</td></tr>
+            <tr><td>0,80 ml</td><td>2 mg</td><td>Protocolo intensivo · anti-biofilme</td><td>SC / uso local</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Peptídeos de Alta Performance</div>
+    <div class="footer-code">DOC: LL37-5-PFY · Rev. Mar/2026</div>
+    <div class="footer-page">1 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+<!-- PÁGINA 2 — VERSO -->
+<div class="page">
+  <div class="header-small">
+    <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" />
+    <div><div class="hs-title"><span>LL</span>-37 · Protocolos Clínicos</div><div class="hs-sub">Cathelicidin Human Antimicrobial Peptide · 5mg</div></div>
+    <div class="hs-right"><div class="hs-title" style="font-size:9pt;color:rgba(255,255,255,0.5);">PHARMAFIT-PY</div><div class="hs-sub">Peptídeos de Alta Performance</div></div>
+  </div>
+  <div class="header-bar"></div>
+
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📋</span><h2>Protocolos de Uso Clínico</h2><div class="st-line"></div></div>
+      <div class="proto-grid">
+        <div class="proto-card">
+          <div class="proto-head p1"><div class="p-num">Protocolo 01</div><div class="p-title">Imunidade &amp; Prevenção</div><div class="p-icon">🛡️</div></div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Objetivo</span><span class="pr-val">Reforço imune · prevenção de infecções recorrentes</span></div>
+            <div class="proto-row"><span class="pr-label">Dose</span><span class="pr-val"><strong>500mcg</strong> (0,20ml)</span></div>
+            <div class="proto-row"><span class="pr-label">Freq.</span><span class="pr-val">3x/semana</span></div>
+            <div class="proto-row"><span class="pr-label">Via</span><span class="pr-val">SC abdominal · manhã</span></div>
+            <div class="proto-row"><span class="pr-label">Duração</span><span class="pr-val"><strong>6–8 semanas</strong></span></div>
+            <div class="proto-row"><span class="pr-label">Obs.</span><span class="pr-val">Associar Vit D3 + Zinco para sinergismo</span></div>
+          </div>
+        </div>
+        <div class="proto-card">
+          <div class="proto-head p2"><div class="p-num">Protocolo 02</div><div class="p-title">Infecção Crônica &amp; Anti-biofilme</div><div class="p-icon">🦠</div></div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Objetivo</span><span class="pr-val">Erradicar biofilme · infecções resistentes</span></div>
+            <div class="proto-row"><span class="pr-label">Dose</span><span class="pr-val"><strong>1mg</strong> (0,40ml)</span></div>
+            <div class="proto-row"><span class="pr-label">Freq.</span><span class="pr-val">2x/dia · manhã + noite</span></div>
+            <div class="proto-row"><span class="pr-label">Via</span><span class="pr-val">SC perilesional ou local</span></div>
+            <div class="proto-row"><span class="pr-label">Duração</span><span class="pr-val"><strong>2–4 semanas</strong></span></div>
+            <div class="proto-row"><span class="pr-label">Obs.</span><span class="pr-val">Uso simultâneo a antibiótico potencializa ação</span></div>
+          </div>
+        </div>
+        <div class="proto-card">
+          <div class="proto-head p3"><div class="p-num">Protocolo 03</div><div class="p-title">Cicatrização &amp; Reparo de Pele</div><div class="p-icon">🩹</div></div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Objetivo</span><span class="pr-val">Úlceras · feridas crônicas · pós-cirúrgico</span></div>
+            <div class="proto-row"><span class="pr-label">Dose</span><span class="pr-val"><strong>500mcg–1mg</strong> (0,20–0,40ml)</span></div>
+            <div class="proto-row"><span class="pr-label">Freq.</span><span class="pr-val">1x/dia</span></div>
+            <div class="proto-row"><span class="pr-label">Via</span><span class="pr-val">SC perilesional</span></div>
+            <div class="proto-row"><span class="pr-label">Duração</span><span class="pr-val"><strong>4–6 semanas</strong></span></div>
+            <div class="proto-row"><span class="pr-label">Obs.</span><span class="pr-val">Combinar com GHK-Cu para reparo máximo</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📊</span><h2>Comparativo dos Protocolos</h2><div class="st-line"></div></div>
+      <table class="compare-table">
+        <thead><tr><th>Parâmetro</th><th>🛡️ Imunidade</th><th>🦠 Anti-biofilme</th><th>🩹 Cicatrização</th></tr></thead>
+        <tbody>
+          <tr><td>Dose por aplicação</td><td>500 mcg</td><td>1.000 mcg (1mg)</td><td>500–1.000 mcg</td></tr>
+          <tr><td>Frequência diária</td><td>3x/semana</td><td>2x/dia</td><td>1x/dia</td></tr>
+          <tr><td>Duração do ciclo</td><td>6–8 semanas</td><td>2–4 semanas</td><td>4–6 semanas</td></tr>
+          <tr><td>Via preferencial</td><td>SC abdominal</td><td>SC perilesional</td><td>SC perilesional</td></tr>
+          <tr><td>Sinergia recomendada</td><td>Vit D3 + Zinco</td><td>Antibiótico + Probiótico</td><td>GHK-Cu + Vit C</td></tr>
+          <tr><td>Vitamina D3 obrigatória</td><td>✅</td><td>✅</td><td>✅</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="two-col">
+      <div class="box-card supl">
+        <div class="box-title">⚗️ Suplementação Recomendada</div>
+        <div class="supl-item"><span class="si-icon">🔵</span><div class="si-text"><strong>Zinco 30mg/dia</strong> — cofator imune essencial. Potencializa a resposta antimicrobiana e imunomoduladora do LL-37 em todos os protocolos.</div></div>
+        <div class="supl-item"><span class="si-icon">🟡</span><div class="si-text"><strong>Vitamina D3 5.000 UI/dia</strong> — regula diretamente a expressão endógena do LL-37. Deficiência de D3 reduz produção natural de catelicidina.</div></div>
+        <div class="supl-item"><span class="si-icon">🟠</span><div class="si-text"><strong>Vitamina C 1g/dia</strong> — suporte antioxidante e à síntese de colágeno. Sinergia nos protocolos de cicatrização e infecção.</div></div>
+        <div class="supl-item"><span class="si-icon">🟢</span><div class="si-text"><strong>Probiótico com Lactobacillus</strong> — sinergia com microbioma intestinal. Bactérias comensais estimulam produção de LL-37 na mucosa.</div></div>
+      </div>
+      <div class="box-card adv">
+        <div class="box-title">⚠️ Advertências &amp; Contraindicações</div>
+        <div class="adv-item"><span class="adv-icon">🔴</span><div class="adv-text"><strong>Reação alérgica local (rara)</strong> — iniciar sempre com dose mínima (250mcg) para teste de sensibilidade antes de escalar.</div></div>
+        <div class="adv-item"><span class="adv-icon">🔴</span><div class="adv-text"><strong>Gravidez e lactação</strong> — contraindicado por ausência de estudos de segurança nessa população.</div></div>
+        <div class="adv-item"><span class="adv-icon">🟡</span><div class="adv-text"><strong>Doenças autoimunes ativas</strong> — usar com cautela. O efeito imunoativador pode amplificar resposta autoimune.</div></div>
+        <div class="adv-item"><span class="adv-icon">🟡</span><div class="adv-text"><strong>Imunossupressores</strong> — não usar concomitantemente sem avaliação médica. Atividade oposta pode reduzir eficácia terapêutica.</div></div>
+        <div class="adv-item"><span class="adv-icon">⚪</span><div class="adv-text"><strong>Armazenamento</strong> — após reconstituição: refrigerar 2–8°C, validade 28 dias. Não congelar após reconstituição.</div></div>
+      </div>
+    </div>
+
+    <div class="pharmafit-banner" style="margin-top:16px">
+      <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" class="pf-logo" />
+      <div class="pf-text">
+        <div class="pf-label">Estudo Clínico Elaborado por</div>
+        <div class="pf-brand">Pharmafit<span>-PY</span></div>
+        <div class="pf-tagline">Compostos injetáveis de alta pureza com qualidade farmacêutica.<br>Protocolos personalizados para saúde, performance e bem-estar.</div>
+      </div>
+      <a class="pf-cta" href="tel:+12142049853">📞 +1 (214) 204-9853</a>
+    </div>
+
+    <div class="box-card ref" style="margin-bottom:0">
+      <div class="box-title">📚 Referências Científicas</div>
+      <ul class="ref-list">
+        <li data-n="1">Koczulla R et al. (2003). <em>An angiogenic role for the human peptide antibiotic LL-37/hCAP-18.</em> J Clin Invest. 111(11):1665–1672.</li>
+        <li data-n="2">Nijnik A, Hancock REW. (2009). <em>Host defence peptides: antimicrobial and immunomodulatory activity and potential applications for tackling antibiotic-resistant infections.</em> Emerg Health Threats J. 2:e1.</li>
+        <li data-n="3">Mookherjee N et al. (2020). <em>Antimicrobial host defence peptides: functions and clinical potential.</em> Nat Rev Drug Discov. 19(5):311–332.</li>
+        <li data-n="4">Vandamme D et al. (2012). <em>A comprehensive summary of LL-37, the factotum human cathelicidin peptide.</em> Cell Immunol. 280(1):22–35.</li>
+        <li data-n="5">Fabisiak A et al. (2016). <em>LL-37: Cathelicidin-Related Antimicrobial Peptide with Pleiotropic Activity.</em> Pharmaceuticals. 9(3):40.</li>
+        <li data-n="6">Wang G. (2014). <em>Human antimicrobial peptides and proteins.</em> Pharmaceuticals. 7(5):545–594.</li>
+        <li data-n="7">Bucki R et al. (2010). <em>Cathelicidin LL-37: A Multitask Antimicrobial Peptide.</em> Arch Immunol Ther Exp. 58(1):15–25.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Peptídeos de Alta Performance</div>
+    <div class="footer-code">DOC: LL37-5-PFY · Rev. Mar/2026 · Uso Profissional</div>
+    <div class="footer-page">2 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,279 @@
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  INFORMATIVO TÉCNICO — TEMPLATE PHARMAFIT-PY                ║
+  ║  Produto: Israderm BTX 150UI                                ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  ESTRUTURA GERAL (2 páginas .page):                         ║
+  ║  Pág 1: header → info-strip → "O Que É" → seções técnicas  ║
+  ║  Pág 2: header-small → seções avançadas → pharmafit-banner  ║
+  ║         → referências científicas → footer + footer-note    ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  NÃO ALTERAR (padronizado para todos os informativos):      ║
+  ║  • .pharmafit-banner — tagline e telefone da Pharmafit-PY   ║
+  ║  • .footer-note — aviso de uso profissional                 ║
+  ║  • Link para ../assets/css/informativo.css                  ║
+  ║  • Fontes: Montserrat + Lato (Google Fonts)                 ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Informativo Técnico — Israderm BTX 150UI | PharmaFit-PY</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/informativo.css" />
+  <style>
+    :root {
+      --petrol:     #065f46; --petrol-dark: #022c22; --petrol-mid: #059669;
+      --petrol-lite:#d1fae5; --petrol-bg:  #ecfdf5;
+      --amber:      #34d399; --amber-mid:  #6ee7b7;
+      --amber-lite: #a7f3d0; --amber-bg:   #ecfdf5;
+      --gold:       #059669; --gold-mid:   #34d399;
+      --gold-lite:  #d1fae5; --gold-bg:    #ecfdf5;
+      --white:      #FFFFFF; --gray-1: #F9FAFB; --gray-2: #E5E7EB;
+      --text-dark:  #1f2937; --text-mid: #374151;
+      --shadow:     0 2px 12px rgba(6,95,70,0.12);
+      --header-bg:  linear-gradient(135deg, #022c22 0%, #065f46 45%, #064e3b 100%);
+      --header-bar-bg: linear-gradient(90deg, #065f46 0%, #059669 35%, #34d399 65%, #6ee7b7 100%);
+      --header-small-bg: linear-gradient(135deg, #022c22 0%, #065f46 60%, #064e3b 100%);
+      --header-hl:  #6ee7b7;
+    }
+    body { background: #c8d8c8; }
+    .proto-head.p1 { background: linear-gradient(135deg, var(--petrol-mid), var(--amber-mid)); }
+    .proto-head.p2 { background: linear-gradient(135deg, var(--petrol-mid), #6ee7b7); }
+    .proto-head.p3 { background: linear-gradient(135deg, var(--petrol-dark), var(--petrol)); }
+    table.compare-table thead tr { background: linear-gradient(90deg, #065f46 0%, #059669 100%); }
+  </style>
+</head>
+<body>
+
+<!-- ═══ PÁGINA 1 ═══ -->
+<div class="page">
+  <div class="header">
+    <div class="header-inner">
+      <div class="header-logo"><img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" /></div>
+      <div class="header-center">
+        <div class="header-tag">Toxina Botulínica Tipo A · Israderm · Alta Pureza · Difusão Controlada</div>
+        <div class="header-title">Israderm BTX <span class="hl">150UI</span></div>
+        <div class="header-subtitle">Toxina Botulínica Tipo A · Difusão Controlada e Seletiva · Alta Pureza</div>
+      </div>
+      <div class="header-badges">
+        <div class="badge-box"><div class="b-label">Concentração</div><div class="b-val"><span>150</span> UI</div></div>
+        <div class="badge-box"><div class="b-label">Diluente</div><div class="b-val">SF 0,9%</div></div>
+        <div class="badge-box"><div class="b-label">Código</div><div class="b-val">BTX-150-PFY</div></div>
+      </div>
+    </div>
+    <div class="header-bar"></div>
+  </div>
+
+  <div class="info-strip">
+    <span class="info-chip">Toxina Botulínica A</span>
+    <span class="info-chip dark">Israderm · Alta Pureza</span>
+    <span class="info-text"><strong>Israderm BTX 150UI</strong> — Toxina botulínica tipo A de alta pureza com <strong>perfil de difusão controlada e seletiva</strong>. Ideal para áreas de anatomia delicada. Onset em 3–5 dias, duração de 3–6 meses.</span>
+  </div>
+
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="st-icon">💉</span><h2>O Que É o Israderm BTX?</h2><div class="st-line"></div></div>
+      <div class="intro-strip">
+        <div class="intro-icon">🎯</div>
+        <div class="intro-text">
+          Israderm BTX é uma <strong>toxina botulínica tipo A de alta pureza</strong> fabricada pela Israderm, com perfil de <strong>difusão controlada e seletiva</strong>. Inibe a liberação de acetilcolina na junção neuromuscular (JNM), promovendo relaxamento muscular temporário e seletivo. Indicado para o tratamento de rugas dinâmicas, hiperhidrose, bruxismo e outras indicações estéticas e funcionais. O perfil de difusão controlada favorece resultados precisos e previsíveis em áreas de anatomia delicada.
+          <div class="spec-grid">
+            <div class="spec-item"><div class="s-val">150UI</div><div class="s-lbl">Por frasco</div></div>
+            <div class="spec-item"><div class="s-val">IM/SC</div><div class="s-lbl">Via</div></div>
+            <div class="spec-item"><div class="s-val">SF 0,9%</div><div class="s-lbl">Diluente</div></div>
+            <div class="spec-item"><div class="s-val">3–5 dias</div><div class="s-lbl">Onset</div></div>
+            <div class="spec-item"><div class="s-val">3–6 meses</div><div class="s-lbl">Duração</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">⚡</span><h2>Mecanismo de Ação</h2><div class="st-line"></div></div>
+      <table class="moa">
+        <thead><tr><th>Via de Ação</th><th>Efeito</th><th style="width:18%">Sistema</th></tr></thead>
+        <tbody>
+          <tr><td>Clivagem SNAP-25</td><td>Bt-A cliva seletivamente a proteína SNAP-25 do complexo SNARE na terminação nervosa pré-sináptica · bloqueia exocitose das vesículas de ACh</td><td>SNARE</td></tr>
+          <tr><td>Bloqueio Colinérgico</td><td>Impede liberação de acetilcolina na JNM · relaxamento muscular temporário e seletivo com reversão espontânea</td><td>JNM</td></tr>
+          <tr><td>Difusão Controlada</td><td>Perfil de difusão seletiva Israderm · menor risco de difusão indesejada em áreas delicadas como periorbital e testa</td><td>Tecidual</td></tr>
+          <tr><td>Hiperhidrose</td><td>Bloqueia fibras colinérgicas pós-ganglionares das glândulas sudoríparas · redução de sudorese por 6–9 meses</td><td>Autonômico</td></tr>
+          <tr><td>Reversão Natural</td><td>Recuperação por brotamento axonal e síntese de novas proteínas SNARE · sem efeitos permanentes</td><td>Neuronal</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">🧪</span><h2>Reconstituição</h2><div class="st-line"></div></div>
+      <div class="uso-steps">
+        <div class="uso-step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <div class="step-title">Selecionar diluição</div>
+            <div class="step-text">SF 0,9% estéril sem conservante. 150UI: usar <strong>1,5ml (100UI/ml)</strong> ou <strong>3ml (50UI/ml)</strong> dependendo da indicação. Menor volume = maior concentração = menor difusão.</div>
+          </div>
+        </div>
+        <div class="uso-step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <div class="step-title">Reconstituir cuidadosamente</div>
+            <div class="step-text">Inserir agulha pela tampa e injetar o SF lentamente pela parede do frasco. A pressão negativa auxilia a entrada. Não forçar.</div>
+          </div>
+        </div>
+        <div class="uso-step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <div class="step-title">Não agitar</div>
+            <div class="step-text">Girar suavemente para homogeneizar. <strong>Nunca agitar</strong> — preserva a atividade da proteína. Solução límpida e incolor esperada.</div>
+          </div>
+        </div>
+        <div class="uso-step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <div class="step-title">Usar em até 4 horas</div>
+            <div class="step-text">Após reconstituição, utilizar em até 4h. Manter a 2–8°C durante o procedimento. Descartar resíduos com segurança.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📊</span><h2>Tabela de Doses por Área</h2><div class="st-line"></div></div>
+      <table class="dose-table">
+        <thead>
+          <tr><th>Área / Indicação</th><th>Dose Total</th><th>Pontos</th><th>Técnica</th><th>Duração</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><span class="dose-badge dose-trt">Glabela</span></td><td><strong>20–30UI</strong></td><td>5 pontos</td><td>IM profissional</td><td>3–4 meses</td></tr>
+          <tr><td><span class="dose-badge dose-init">Testa (frontal)</span></td><td><strong>10–20UI</strong></td><td>4–6 pontos</td><td>IM superficial</td><td>3–4 meses</td></tr>
+          <tr><td><span class="dose-badge dose-std">Periorbital</span></td><td><strong>12–24UI</strong></td><td>3–4/lado</td><td>SC periorbital</td><td>3–4 meses</td></tr>
+          <tr><td><span class="dose-badge dose-std">Axilas (hiperhidrose)</span></td><td><strong>50UI/axila</strong></td><td>25 pontos × 2UI</td><td>Intradérmica</td><td>6–9 meses</td></tr>
+          <tr><td><span class="dose-badge dose-adv">Masseter (bruxismo)</span></td><td><strong>20–30UI/lado</strong></td><td>3–5 pontos</td><td>IM profunda</td><td>4–6 meses</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Toxinas Botulínicas Premium</div>
+    <div class="footer-code">DOC: BTX-150-PFY · Rev. 2026</div>
+    <div class="footer-page">1 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+<!-- ═══ PÁGINA 2 ═══ -->
+<div class="page">
+  <div class="header-small">
+    <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" />
+    <div>
+      <div class="hs-title">Israderm BTX <span>150UI</span> · Protocolos</div>
+      <div class="hs-sub">Toxina Botulínica Tipo A · Difusão Controlada · Israderm</div>
+    </div>
+    <div class="hs-right">
+      <div class="hs-title" style="font-size:9pt;color:rgba(255,255,255,0.5)">PHARMAFIT-PY</div>
+      <div class="hs-sub">Toxinas Botulínicas Premium</div>
+    </div>
+  </div>
+  <div class="header-bar"></div>
+
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📋</span><h2>Protocolos de Aplicação</h2><div class="st-line"></div></div>
+      <div class="proto-grid">
+        <div class="proto-card">
+          <div class="proto-head p1"><div class="p-num">Protocolo 01</div><div class="p-title">Face Completa Anti-rugas</div><div class="p-icon">✨</div></div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Dose total</span><span class="pr-val">50–80UI · Glabela+Testa+Periorbital</span></div>
+            <div class="proto-row"><span class="pr-label">Glabela</span><span class="pr-val">20–30UI · 5 pontos IM</span></div>
+            <div class="proto-row"><span class="pr-label">Testa</span><span class="pr-val">10–20UI · 4–6 pontos superficiais</span></div>
+            <div class="proto-row"><span class="pr-label">Periorbital</span><span class="pr-val">12–24UI · 3–4 pontos/lado SC</span></div>
+            <div class="proto-row"><span class="pr-label">Pós-proc.</span><span class="pr-val">Não deitar 4h · evitar exercício 24h</span></div>
+            <div class="proto-row"><span class="pr-label">Retorno</span><span class="pr-val">15 dias para avaliação e retoques</span></div>
+          </div>
+        </div>
+        <div class="proto-card">
+          <div class="proto-head p2"><div class="p-num">Protocolo 02</div><div class="p-title">Lifting Não-cirúrgico</div><div class="p-icon">🌿</div></div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Dose total</span><span class="pr-val">15–35UI · Áreas de harmonização</span></div>
+            <div class="proto-row"><span class="pr-label">DAO</span><span class="pr-val">2–3UI bilateral · eleva canto oral</span></div>
+            <div class="proto-row"><span class="pr-label">Mentalis</span><span class="pr-val">4–6UI · suaviza queixo casca laranja</span></div>
+            <div class="proto-row"><span class="pr-label">Zigomático</span><span class="pr-val">Elevação e harmonização sutil</span></div>
+            <div class="proto-row"><span class="pr-label">Indicação</span><span class="pr-val">Assimetrias · canto oral descaído</span></div>
+            <div class="proto-row"><span class="pr-label">Resultado</span><span class="pr-val">Efeito lifting discreto e natural</span></div>
+          </div>
+        </div>
+        <div class="proto-card">
+          <div class="proto-head p3"><div class="p-num">Protocolo 03</div><div class="p-title">Hiperhidrose e Bruxismo</div><div class="p-icon">💧</div></div>
+          <div class="proto-body">
+            <div class="proto-row"><span class="pr-label">Hiperhidrose</span><span class="pr-val">50UI/axila · 25 pontos intradérmicos</span></div>
+            <div class="proto-row"><span class="pr-label">Técnica</span><span class="pr-val">Papular em grade · mapa iodo-amido</span></div>
+            <div class="proto-row"><span class="pr-label">Duração</span><span class="pr-val">6–9 meses</span></div>
+            <div class="proto-row"><span class="pr-label">Masseter</span><span class="pr-val">25UI/lado · IM profunda bilateral</span></div>
+            <div class="proto-row"><span class="pr-label">Total</span><span class="pr-val">150UI para ambas as axilas (3 frascos)</span></div>
+            <div class="proto-row"><span class="pr-label">Resultado</span><span class="pr-val">Redução significativa de sudorese e bruxismo</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📊</span><h2>Comparativo dos Protocolos</h2><div class="st-line"></div></div>
+      <table class="compare-table">
+        <thead>
+          <tr><th>Parâmetro</th><th>✨ Anti-rugas</th><th>🌿 Lifting</th><th>💧 Hiperhidrose</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Dose total</td><td>50–80UI</td><td>15–35UI</td><td>50UI/axila</td></tr>
+          <tr><td>Área principal</td><td>Glabela · Testa · Periorbital</td><td>DAO · Mentalis · Zigomático</td><td>Axilas · Masseter bilateral</td></tr>
+          <tr><td>Técnica</td><td>IM profissional</td><td>IM superficial sutil</td><td>ID papular · IM profunda</td></tr>
+          <tr><td>Onset</td><td>3–5 dias</td><td>3–5 dias</td><td>5–7 dias</td></tr>
+          <tr><td>Duração</td><td>3–4 meses</td><td>3–4 meses</td><td>6–9 meses</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="box-card adv">
+        <div class="box-title">⚠️ Advertências e Contraindicações</div>
+        <div class="adv-item"><span class="adv-icon">🔴</span><div class="adv-text"><strong>Aplicação exclusiva</strong> por profissional habilitado (médico). Contraindicado em doenças neuromusculares.</div></div>
+        <div class="adv-item"><span class="adv-icon">🔴</span><div class="adv-text"><strong>Contraindicado</strong> em gestação, amamentação e hipersensibilidade à toxina ou albumina humana.</div></div>
+        <div class="adv-item"><span class="adv-icon">🟡</span><div class="adv-text"><strong>Usar frasco</strong> reconstituído em até 4 horas. Conservar a 2–8°C antes e após abertura.</div></div>
+        <div class="adv-item"><span class="adv-icon">🟡</span><div class="adv-text"><strong>Não aplicar</strong> em área com infecção ou inflamação ativa.</div></div>
+        <div class="adv-item"><span class="adv-icon">⚪</span><div class="adv-text"><strong>Difusão controlada</strong> Israderm reduz risco de ptose, mas técnica precisa é obrigatória.</div></div>
+      </div>
+
+    <div class="pharmafit-banner" style="margin-top:16px">
+      <img src="../assets/img/logo_pharmafit.png" alt="PharmaFit-PY" class="pf-logo" />
+      <div class="pf-text">
+        <div class="pf-label">Estudo Clínico Elaborado por</div>
+        <div class="pf-brand">Pharmafit<span>-PY</span></div>
+        <div class="pf-tagline">Compostos injetáveis de alta pureza com qualidade farmacêutica.<br>Protocolos personalizados para saúde, performance e bem-estar.</div>
+      </div>
+      <a class="pf-cta" href="tel:+12142049853">📞 +1 (214) 204-9853</a>
+    </div>
+
+    <div class="box-card ref" style="margin-bottom:0">
+      <div class="box-title">📚 Referências Científicas</div>
+      <ul class="ref-list">
+        <li data-n="1">Jankovic J, Brin MF. "Therapeutic uses of botulinum toxin." <em>N Engl J Med.</em> 1991; 324(17):1186–1194.</li>
+        <li data-n="2">Carruthers A, Carruthers J. "Botulinum toxin type A: history and current cosmetic use in the upper face." <em>Semin Cutan Med Surg.</em> 2001; 20(2):71–84.</li>
+        <li data-n="3">Naumann M, Lowe NJ. "Botulinum toxin type A in treatment of bilateral primary axillary hyperhidrosis." <em>BMJ.</em> 2001; 323(7313):596–599.</li>
+        <li data-n="4">Tan EK, Jankovic J. "Treating severe bruxism with botulinum toxin." <em>J Am Dent Assoc.</em> 2000; 131(2):211–216.</li>
+        <li data-n="5">Ascher B et al. "Efficacy and safety of botulinum toxin type A in the treatment of glabellar lines." <em>Dermatol Surg.</em> 2004; 30(4 Pt 2):495–503.</li>
+        <li data-n="6">Benedetto AV. "The cosmetic uses of botulinum toxin type A." <em>Int J Dermatol.</em> 1999; 38(9):641–655.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>PHARMAFIT-PY</span> · Toxinas Botulínicas Premium</div>
+    <div class="footer-code">DOC: BTX-150-PFY · Rev. 2026 · Uso Profissional</div>
+    <div class="footer-page">2 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Pharmafit-PY · Todos os direitos reservados</div>
+</div>
+
+</body>
+</html>
