@@ -305,6 +305,8 @@ function aplicarCupom() {
     msg.innerHTML = `<div class="cupom-ok">${msgTxt}</div>`;
     document.getElementById('btn-remover-cupom').classList.remove('hidden');
     checkCupomExtras();
+    // Cupom afeta o total → valor por parcela muda
+    if (selectedPayment === 'Cartão de Crédito') calcInstallment();
     buildReview();
   } else {
     cupomAplicado = false;
@@ -331,6 +333,8 @@ function removerCupom() {
   if (gratisEl) gratisEl.style.display = 'none';
   // Recalcula frete (volta ao valor cheio se era grátis pelo cupom)
   if (freteEstado && freteMetodo) selecionarFrete(freteMetodo);
+  // Recalcula parcela (sem desconto, valor sobe)
+  if (selectedPayment === 'Cartão de Crédito') calcInstallment();
   buildReview();
 }
 
@@ -604,11 +608,13 @@ function renderProducts() {
         }).join('')}
       </div>` : '';
 
-    // Produtos SEM variantes: comportamento original
+    // Produtos SEM variantes: comportamento original. Estoque 0 = pré-venda
+    // (libera compra com aviso "chega em 7 dias" — não bloqueia).
+    const qtyMax = p.stock > 0 ? p.stock : 999;
     const qtyWrapHtml = !temVariantes ? `
         <div class="pc-qty-wrap" id="qty-wrap-${escAttr(p.id)}">
           <button class="qty-btn" onclick="event.stopPropagation(); changeQty('${escAttr(p.id)}',-1)">−</button>
-          <input class="qty-input" type="number" id="qty-${escAttr(p.id)}" value="${qty}" min="1" max="${p.stock}"
+          <input class="qty-input" type="number" id="qty-${escAttr(p.id)}" value="${qty}" min="1" max="${qtyMax}"
             onchange="event.stopPropagation(); setQty('${escAttr(p.id)}', this.value)"
             onclick="event.stopPropagation()"/>
           <button class="qty-btn" onclick="event.stopPropagation(); changeQty('${escAttr(p.id)}',1)">+</button>

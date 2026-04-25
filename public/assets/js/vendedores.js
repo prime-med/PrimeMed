@@ -41,7 +41,11 @@ async function checkPin() {
   btn.disabled = true;
   err.textContent = '⏳ Verificando...';
   try {
-    const data = await postAction_('verificar_pin', { pin: val });
+    // GET pra verificar_pin — endpoint não recebe credencial sensível
+    // (PIN é compartilhado pela equipe, não pessoal); evita CORS preflight
+    // e funciona sem precisar do user redeployar Apps Script com nova versão.
+    const r    = await fetch(`${SHEETS_URL}?action=verificar_pin&pin=${encodeURIComponent(val)}`);
+    const data = await r.json();
     if (!data.ok) {
       err.textContent = '❌ PIN incorreto.';
       document.getElementById('pin-input').value = '';
