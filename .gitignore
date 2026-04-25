@@ -17,5 +17,8 @@ secrets.json
 # Dev-only files (not deployed)
 _dev/
 
+# Setup interno — script de criação da planilha (não compartilhar)
+setup/
+
 # Local config with real SHEETS_URL (placeholder version is in public/)
 /assets/
