@@ -1,20 +1,20 @@
 /* Template B2B — variáveis e reset compartilhados (paleta Verde Sálvia + Carvão Morno) */
 :root {
-  --bg:       #14181a;
-  --surface:  #1d2326;
-  --card:     #1d2326;
-  --border:   #2a3035;
-  --accent:   #84a98c;
-  --accent-d: #6b8e76;
-  --green:    #84a98c;
-  --blue:     #7d9ec1;
-  --red:      #c97064;
+  --bg:       #f4fbf7;
+  --surface:  #ffffff;
+  --card:     #ffffff;
+  --border:   #d8e8df;
+  --accent:   #10b981;
+  --accent-d: #059669;
+  --green:    #10b981;
+  --blue:     #0ea5e9;
+  --red:      #ef4444;
   --wa:       #25D366;
   --wa-d:     #1da851;
-  --text:     #e8eae5;
-  --gray:     #8a9088;
-  --light:    #b0b6ad;
-  --input-bg: #1a1f22;
+  --text:     #0f2922;
+  --gray:     #6b7d72;
+  --light:    #9eb0a2;
+  --input-bg: #f0f7f3;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }

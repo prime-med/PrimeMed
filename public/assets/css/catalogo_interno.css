@@ -1,17 +1,17 @@
 :root {
     /* Paleta Verde Sálvia + Carvão Morno — alinhada com theme.css */
-    --bg:      #14181a;
-    --surface: #1d2326;
-    --card:    #1d2326;
-    --border:  #2a3035;
-    --accent:  #84a98c;
-    --green:   #84a98c;
-    --blue:    #7d9ec1;
+    --bg:      #f4fbf7;
+    --surface: #ffffff;
+    --card:    #ffffff;
+    --border:  #d8e8df;
+    --accent:  #10b981;
+    --green:   #10b981;
+    --blue:    #0ea5e9;
     --purple:  #a78bb0;
-    --red:     #c97064;
-    --text:    #e8eae5;
-    --gray:    #8a9088;
-    --light:   #b0b6ad;
+    --red:     #ef4444;
+    --text:    #0f2922;
+    --gray:    #6b7d72;
+    --light:   #9eb0a2;
   }
   * { box-sizing:border-box; margin:0; padding:0 }
   body { background:var(--bg); color:var(--text); font-family:'Inter',system-ui,sans-serif; min-height:100vh }
@@ -43,7 +43,7 @@
   .search-box {
     flex:1; min-width:200px; max-width:340px;
     padding:9px 14px; border-radius:8px;
-    border:1px solid var(--border); background:#1a1f22;
+    border:1px solid var(--border); background:#f0f7f3;
     color:var(--text); font-size:.9rem; outline:none;
   }
   .search-box:focus { border-color:var(--accent) }
@@ -77,7 +77,7 @@
     transition:transform .2s, box-shadow .2s;
   }
   .card:hover { transform:translateY(-3px); box-shadow:0 8px 30px rgba(0,0,0,.4) }
-  .card.em-promo { border-color: rgba(132,169,140,.35) }
+  .card.em-promo { border-color: rgba(16,185,129,.35) }
 
   .card-head {
     padding:16px 16px 12px;
@@ -95,7 +95,7 @@
   }
   .tag {
     font-size:.65rem; padding:2px 8px; border-radius:10px;
-    background:rgba(125,158,193,.12); color:var(--blue); border:1px solid rgba(125,158,193,.2);
+    background:rgba(14,165,233,.12); color:var(--blue); border:1px solid rgba(14,165,233,.2);
   }
 
   .card-price-area {
@@ -122,7 +122,7 @@
     border-top:1px solid var(--border);
     display:flex; align-items:center; gap:4px;
   }
-  .variants-toggle:hover { background:rgba(132,169,140,.05) }
+  .variants-toggle:hover { background:rgba(16,185,129,.05) }
   .variants-list { display:none; padding:0 16px 12px; }
   .variants-list.open { display:block }
   .variant-row {
@@ -156,7 +156,7 @@
     background: linear-gradient(135deg, var(--accent), var(--surface));
     padding: 14px 24px;
     display: flex; align-items: center; justify-content: center; gap: 14px;
-    box-shadow: 0 -4px 24px rgba(132,169,140,.35);
+    box-shadow: 0 -4px 24px rgba(16,185,129,.35);
   }
   .cta-bar-text {
     font-size: .95rem; font-weight: 700; color: #000;

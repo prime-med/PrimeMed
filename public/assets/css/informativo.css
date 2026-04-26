@@ -338,7 +338,7 @@ table.compare-table tbody tr:nth-child(even) { background: var(--white); }
 table.compare-table tbody td { padding: 5px 9px; color: var(--text-dark); border-bottom: 1px solid var(--amber-lite); text-align: center; font-size: 8pt; }
 table.compare-table tbody td:first-child { text-align: left; font-weight: 600; color: var(--gold); }
 .check   { color: var(--gold); font-weight: 800; font-size: 11pt; }
-.partial { color: #d4a574; font-weight: 700; }
+.partial { color: #f59e0b; font-weight: 700; }
 .cross   { color: #9CA3AF; font-weight: 700; }
 
 /* ── RECONSTITUIÇÃO (diss-steps) ── */
@@ -423,9 +423,9 @@ table.compare-table tbody td:first-child { text-align: left; font-weight: 600; c
 .proto-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 16px; }
 .proto-card { border-radius: 10px; overflow: hidden; box-shadow: var(--shadow); }
 .proto-head { padding: 10px 12px; color: white; font-family: 'Montserrat', sans-serif; position: relative; }
-.proto-head.p1 { background: linear-gradient(135deg, #7d9ec1 0%, var(--amber) 100%); }
+.proto-head.p1 { background: linear-gradient(135deg, #0ea5e9 0%, var(--amber) 100%); }
 .proto-head.p2 { background: linear-gradient(135deg, var(--amber) 0%, var(--gold-mid) 100%); }
-.proto-head.p3 { background: linear-gradient(135deg, var(--gold) 0%, #84a98c 100%); }
+.proto-head.p3 { background: linear-gradient(135deg, var(--gold) 0%, #10b981 100%); }
 .proto-head .p-num   { font-size: 6pt; font-weight: 600; letter-spacing: 2px; opacity: 0.7; text-transform: uppercase; margin-bottom: 2px; }
 .proto-head .p-title { font-size: 8.5pt; font-weight: 800; line-height: 1.2; }
 .proto-head .p-icon  { font-size: 18px; position: absolute; top: 10px; right: 12px; opacity: 0.8; }
@@ -438,7 +438,7 @@ table.compare-table tbody td:first-child { text-align: left; font-weight: 600; c
 
 /* ── TPC BOX ── */
 .pct-box {
-  background: linear-gradient(135deg, #1d2326, #2a3035);
+  background: linear-gradient(135deg, #ffffff, #d8e8df);
   border-radius: 8px; padding: 10px 14px;
   border: 1px solid rgba(212,175,55,0.2);
   margin-bottom: 14px; box-shadow: var(--shadow);

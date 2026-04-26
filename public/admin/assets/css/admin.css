@@ -3,17 +3,17 @@
 
 :root {
   /* Paleta Verde Sálvia + Carvão Morno — alinhada com theme.css */
-  --bg:       #14181a;
-  --bg2:      #1a1f22;
-  --card:     #1d2326;
-  --card2:    #2a3035;
-  --border:   #2a3035;
-  --accent:   #84a98c;
-  --accent2:  #6b8e76;
-  --text:     #e8eae5;
-  --text2:    #b0b6ad;
-  --danger:   #c97064;
-  --warning:  #d4a574;
+  --bg:       #f4fbf7;
+  --bg2:      #f0f7f3;
+  --card:     #ffffff;
+  --card2:    #d8e8df;
+  --border:   #d8e8df;
+  --accent:   #10b981;
+  --accent2:  #059669;
+  --text:     #0f2922;
+  --text2:    #9eb0a2;
+  --danger:   #ef4444;
+  --warning:  #f59e0b;
   --radius:   10px;
   --shadow:   0 4px 20px rgba(0,0,0,.4);
 }
@@ -39,7 +39,7 @@ button { cursor: pointer; }
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: radial-gradient(ellipse at 50% 30%, #14181a 0%, #14181a 70%);
+  background: radial-gradient(ellipse at 50% 30%, #f4fbf7 0%, #f4fbf7 70%);
 }
 
 .login-card {
@@ -66,13 +66,13 @@ button { cursor: pointer; }
 .login-card .field input:focus { border-color: var(--accent); }
 
 .login-error {
-  background: rgba(201,112,100,.15); border: 1px solid rgba(201,112,100,.4);
+  background: rgba(239,68,68,.15); border: 1px solid rgba(239,68,68,.4);
   border-radius: 8px; padding: 10px 14px; color: #fc8181; font-size: 13px;
   margin-bottom: 14px; text-align: left;
 }
 
 .btn-login {
-  width: 100%; background: var(--accent); color: #14181a; border: none;
+  width: 100%; background: var(--accent); color: #f4fbf7; border: none;
   border-radius: 8px; padding: 12px; font-weight: 700; font-size: 15px;
   transition: background .2s, opacity .2s; margin-top: 4px;
 }
@@ -106,7 +106,7 @@ button { cursor: pointer; }
   position: relative;
 }
 .nav-btn:hover { background: var(--bg2); color: var(--text); }
-.nav-btn.active { background: rgba(132,169,140,.15); color: var(--accent); }
+.nav-btn.active { background: rgba(16,185,129,.15); color: var(--accent); }
 
 .header-right { display: flex; align-items: center; gap: 12px; margin-left: auto; }
 .admin-nome { font-size: 13px; color: var(--text2); white-space: nowrap; }
@@ -135,10 +135,10 @@ button { cursor: pointer; }
   text-decoration: none; display: inline-block; white-space: nowrap;
 }
 .btn-sm:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
-.btn-sm.btn-accent { background: var(--accent); border-color: var(--accent); color: #14181a; font-weight: 600; }
-.btn-sm.btn-accent:hover { background: var(--accent2); border-color: var(--accent2); color: #14181a; }
-.btn-sm.btn-danger { border-color: rgba(201,112,100,.5); color: var(--danger); }
-.btn-sm.btn-danger:hover { background: rgba(201,112,100,.1); border-color: var(--danger); }
+.btn-sm.btn-accent { background: var(--accent); border-color: var(--accent); color: #f4fbf7; font-weight: 600; }
+.btn-sm.btn-accent:hover { background: var(--accent2); border-color: var(--accent2); color: #f4fbf7; }
+.btn-sm.btn-danger { border-color: rgba(239,68,68,.5); color: var(--danger); }
+.btn-sm.btn-danger:hover { background: rgba(239,68,68,.1); border-color: var(--danger); }
 .btn-sm.btn-outline { background: none; }
 .btn-xs {
   background: var(--card2); border: 1px solid var(--border); color: var(--text2);
@@ -210,8 +210,8 @@ button { cursor: pointer; }
   transition: all .15s; text-align: center;
 }
 .card-btn:hover { border-color: var(--accent); color: var(--accent); }
-.card-btn-advance { background: rgba(132,169,140,.1); border-color: rgba(132,169,140,.3); color: var(--accent); }
-.card-btn-advance:hover { background: var(--accent); color: #14181a; }
+.card-btn-advance { background: rgba(16,185,129,.1); border-color: rgba(16,185,129,.3); color: var(--accent); }
+.card-btn-advance:hover { background: var(--accent); color: #f4fbf7; }
 
 /* ── ORDER DRAWER ─────────────────────────────────────────────────────────── */
 .drawer-overlay {
@@ -347,7 +347,7 @@ button { cursor: pointer; }
 /* Clientes */
 .cli-avatar {
   width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
-  background: rgba(132,169,140,.12); border: 1px solid rgba(132,169,140,.25);
+  background: rgba(16,185,129,.12); border: 1px solid rgba(16,185,129,.25);
   display: flex; align-items: center; justify-content: center;
   font-size: 14px; font-weight: 700; color: var(--accent);
 }
@@ -436,8 +436,8 @@ button { cursor: pointer; }
 .badge {
   padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600;
 }
-.badge-on  { background: rgba(132,169,140,.15); color: var(--accent); }
-.badge-off { background: rgba(201,112,100,.1); color: #fc8181; }
+.badge-on  { background: rgba(16,185,129,.15); color: var(--accent); }
+.badge-off { background: rgba(239,68,68,.1); color: #fc8181; }
 
 /* ── KANBAN TOOLBAR ───────────────────────────────────────────────────────── */
 .kanban-toolbar {
@@ -451,7 +451,7 @@ button { cursor: pointer; }
   padding: 5px 11px; border-radius: 6px; font-size: 12px; transition: all .15s;
 }
 .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
-.filter-btn.active { background: rgba(132,169,140,.15); border-color: var(--accent); color: var(--accent); }
+.filter-btn.active { background: rgba(16,185,129,.15); border-color: var(--accent); color: var(--accent); }
 .kanban-filters select {
   background: var(--card2); border: 1px solid var(--border); color: var(--text2);
   padding: 5px 9px; border-radius: 6px; font-size: 12px; outline: none; cursor: pointer;
@@ -519,7 +519,7 @@ button { cursor: pointer; }
 }
 .cupom-extra-item:hover { border-color: var(--accent); }
 .cupom-extra-item:has(input[type="checkbox"]:checked) {
-  border-color: var(--accent); background: rgba(132,169,140,.08);
+  border-color: var(--accent); background: rgba(16,185,129,.08);
 }
 .cupom-extra-item input[type="checkbox"] {
   accent-color: var(--accent); width: 16px; height: 16px; flex-shrink: 0;
@@ -530,8 +530,8 @@ button { cursor: pointer; }
   font-size: 13px; outline: none; text-align: right;
 }
 .cupom-frete-val:focus { border-color: var(--accent); }
-.btn-xs-danger { border-color: rgba(201,112,100,.4) !important; color: var(--danger) !important; }
-.btn-xs-danger:hover { background: rgba(201,112,100,.1) !important; }
+.btn-xs-danger { border-color: rgba(239,68,68,.4) !important; color: var(--danger) !important; }
+.btn-xs-danger:hover { background: rgba(239,68,68,.1) !important; }
 
 /* ── RELATÓRIO VIEW ───────────────────────────────────────────────────────── */
 .relatorio-scroll {
@@ -550,17 +550,17 @@ button { cursor: pointer; }
 
 /* ── STUCK / ALERT ────────────────────────────────────────────────────────── */
 .card-stuck {
-  border-color: rgba(212,165,116,.5) !important;
-  box-shadow: 0 0 0 1px rgba(212,165,116,.2);
+  border-color: rgba(245,158,11,.5) !important;
+  box-shadow: 0 0 0 1px rgba(245,158,11,.2);
 }
 .stuck-badge {
   position: absolute; top: 8px; right: 8px;
-  background: rgba(212,165,116,.2); border: 1px solid rgba(212,165,116,.4);
+  background: rgba(245,158,11,.2); border: 1px solid rgba(245,158,11,.4);
   color: var(--warning); font-size: 10px; font-weight: 700;
   padding: 2px 6px; border-radius: 20px;
 }
 .drawer-stuck-badge {
-  background: rgba(212,165,116,.15); border: 1px solid rgba(212,165,116,.35);
+  background: rgba(245,158,11,.15); border: 1px solid rgba(245,158,11,.35);
   color: var(--warning); font-size: 11px; font-weight: 600;
   padding: 2px 8px; border-radius: 20px; white-space: nowrap; flex-shrink: 0;
 }
@@ -611,7 +611,7 @@ button { cursor: pointer; }
   padding: 12px 16px;
 }
 .stat-alert {
-  border-color: rgba(212,165,116,.4) !important;
+  border-color: rgba(245,158,11,.4) !important;
 }
 .stat-alert .stat-val { color: var(--warning) !important; }
 .tempo-alert { color: var(--warning) !important; font-weight: 600; }
@@ -668,7 +668,7 @@ button { cursor: pointer; }
 .kanban-card[draggable="true"] { cursor: grab; }
 .kanban-card[draggable="true"]:active { cursor: grabbing; }
 .col-body.drag-over {
-  background: rgba(132,169,140,.06);
+  background: rgba(16,185,129,.06);
   outline: 2px dashed var(--accent);
   outline-offset: -4px;
   border-radius: 8px;
@@ -796,7 +796,7 @@ button { cursor: pointer; }
   display: flex; align-items: center; gap: 12px;
   padding: 6px 8px; border-radius: 6px; transition: background .15s;
 }
-.preco-fix-row:hover { background: rgba(132,169,140,.04); }
+.preco-fix-row:hover { background: rgba(16,185,129,.04); }
 .preco-fix-label { flex: 1; font-size: 13px; line-height: 1.3; }
 .preco-fix-input {
   width: 100px; background: var(--bg); border: 1px solid var(--border);
@@ -991,7 +991,7 @@ button { cursor: pointer; }
   border-radius: var(--radius); padding: 14px 16px;
 }
 .notif-card.notif-unread {
-  border-color: var(--accent); background: rgba(132,169,140,.07);
+  border-color: var(--accent); background: rgba(16,185,129,.07);
 }
 .notif-card-top {
   display: flex; justify-content: space-between; align-items: baseline;
