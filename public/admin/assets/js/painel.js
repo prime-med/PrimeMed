@@ -242,6 +242,9 @@ function renderCurrentView() {
   if (App.view === 'gerador') {
     if (typeof window.initGerador === 'function') window.initGerador();
   }
+  if (App.view === 'top-clientes') {
+    loadTopClientes();
+  }
 }
 
 // ── STATS BAR ─────────────────────────────────────────────────────────────────
@@ -2461,4 +2464,228 @@ function renderRelatorio() {
       options: { ...chartOpts, plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => 'R$ ' + ctx.raw.toFixed(2).replace('.',',') } } } },
     });
   }
+}
+
+// ── TOP CLIENTES ─────────────────────────────────────────────────────────────
+let _topClientes = [];
+let _tcSelected = new Set();
+let _tcPeriod = 0;
+let _bcQueue = [];
+let _bcPos = 0;
+let _bcMsg = '';
+let _bcSent = new Set();
+
+async function loadTopClientes() {
+  const list = document.getElementById('top-cli-list');
+  if (list) list.innerHTML = '<div class="loading-msg">⏳ Carregando...</div>';
+  try {
+    const data = await API.call({
+      action: 'top_clientes',
+      periodo: _tcPeriod,
+      min_pedidos: parseInt(document.getElementById('tc-min-pedidos')?.value || 1),
+      limit: parseInt(document.getElementById('tc-limit')?.value || 25),
+    });
+    if (data && data.ok) {
+      _topClientes = data.clientes || [];
+      renderTopClientes();
+    } else {
+      if (list) list.innerHTML = `<div class="loading-msg">⚠ ${esc(data?.erro || 'Erro ao carregar')}</div>`;
+    }
+  } catch (e) {
+    if (list) list.innerHTML = '<div class="loading-msg">⚠ Erro de conexão</div>';
+  }
+}
+
+function setTcPeriod(btn, dias) {
+  document.querySelectorAll('[data-tc-period]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  _tcPeriod = dias;
+  loadTopClientes();
+}
+
+function _tcKey(c) { return c.telefone || c.email || c.documento || c.nome.toLowerCase(); }
+
+function renderTopClientes() {
+  const list = document.getElementById('top-cli-list');
+  if (!list) return;
+  const search = (document.getElementById('tc-search')?.value || '').toLowerCase();
+  let visible = _topClientes;
+  if (search) {
+    visible = visible.filter(c =>
+      (c.nome||'').toLowerCase().includes(search) ||
+      (c.apelido||'').toLowerCase().includes(search) ||
+      (c.telefone||'').includes(search) ||
+      (c.email||'').toLowerCase().includes(search)
+    );
+  }
+  if (!visible.length) {
+    list.innerHTML = '<div class="loading-msg">Nenhum cliente encontrado</div>';
+    updateTcFooter();
+    return;
+  }
+  list.innerHTML = visible.map((c, i) => {
+    const rank = _topClientes.indexOf(c) + 1; // ranking real, não filtrado
+    const medalha = rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : `#${rank}`;
+    const key = _tcKey(c);
+    const checked = _tcSelected.has(key);
+    const tel = c.telefone ? formatPhone_tc(c.telefone) : '—';
+    const prods = (c.top_produtos||[]).map(p => `${esc(p.nome)} (${p.qty})`).join(', ');
+    return `
+      <div class="tc-card ${checked?'selected':''}">
+        <input type="checkbox" class="tc-check" ${checked?'checked':''} onchange="toggleTc('${escAttr(key)}', this.checked)"/>
+        <div class="tc-rank">${medalha}</div>
+        <div class="tc-info">
+          <div class="tc-name">${esc(c.nome)}${c.apelido ? ` <span class="tc-apelido">(${esc(c.apelido)})</span>` : ''}</div>
+          <div class="tc-meta">${esc(c.cidade||'—')}${c.estado?', '+esc(c.estado):''}${tel?' · '+esc(tel):''}</div>
+          <div class="tc-stats">📦 <strong>${c.n_pedidos}</strong> pedidos · 💰 <strong>R$ ${formatMoeda(c.total_gasto)}</strong> · 📅 ${esc(c.ultimo_pedido||'—')}</div>
+          ${prods ? `<div class="tc-prods">🛒 ${prods}</div>` : ''}
+        </div>
+        <div class="tc-actions">
+          <button class="btn-xs btn-wa-tc" onclick="openWAFromTop('${escAttr(c.telefone||'')}')">💬 WhatsApp</button>
+        </div>
+      </div>`;
+  }).join('');
+  updateTcFooter();
+}
+
+function toggleTc(key, checked) {
+  if (checked) _tcSelected.add(key); else _tcSelected.delete(key);
+  // Atualiza só o card relevante (não re-renderiza tudo)
+  const cards = document.querySelectorAll('.tc-card');
+  cards.forEach(card => {
+    const cb = card.querySelector('.tc-check');
+    if (cb && cb.checked) card.classList.add('selected');
+    else card.classList.remove('selected');
+  });
+  updateTcFooter();
+}
+
+function updateTcFooter() {
+  const footer = document.getElementById('tc-footer');
+  if (!footer) return;
+  const count = _tcSelected.size;
+  if (count === 0) { footer.classList.add('hidden'); return; }
+  footer.classList.remove('hidden');
+  document.getElementById('tc-selected-count').textContent = count;
+  let total = 0;
+  _topClientes.forEach(c => { if (_tcSelected.has(_tcKey(c))) total += c.total_gasto || 0; });
+  document.getElementById('tc-selected-total').textContent = formatMoeda(total);
+}
+
+function openWAFromTop(tel) {
+  if (!tel) { showToast('Cliente sem telefone'); return; }
+  const num = String(tel).replace(/\D/g, '');
+  if (num.length < 8) { showToast('Telefone inválido'); return; }
+  window.open(`https://wa.me/${num}`, '_blank');
+}
+
+function copyTopFones() {
+  const sel = _topClientes.filter(c => _tcSelected.has(_tcKey(c)));
+  const fones = sel.map(c => '+' + (c.telefone || '').replace(/\D/g, '')).filter(f => f.length > 5);
+  if (fones.length === 0) { showToast('Nenhum telefone válido nos selecionados'); return; }
+  navigator.clipboard.writeText(fones.join('\n')).then(() => {
+    showToast(`${fones.length} telefones copiados!`);
+  });
+}
+
+function clearTopSelection() {
+  _tcSelected.clear();
+  document.querySelectorAll('.tc-check').forEach(cb => cb.checked = false);
+  document.querySelectorAll('.tc-card.selected').forEach(c => c.classList.remove('selected'));
+  updateTcFooter();
+}
+
+function _tcApplyVars(msg, cli) {
+  const primeiroNome = (cli.apelido || cli.nome || '').split(' ')[0] || '';
+  return msg
+    .replace(/\{\{nome\}\}/gi, cli.nome || '')
+    .replace(/\{\{primeiro_nome\}\}/gi, primeiroNome)
+    .replace(/\{\{apelido\}\}/gi, cli.apelido || cli.nome || '');
+}
+
+function openBroadcastModal() {
+  if (_tcSelected.size === 0) { showToast('Selecione clientes primeiro'); return; }
+  document.getElementById('bc-count').textContent = _tcSelected.size;
+  document.getElementById('bc-message').value = localStorage.getItem('lp_bc_lastMsg') || '';
+  updateBcPreview();
+  document.getElementById('bc-modal-compose').classList.remove('hidden');
+}
+
+function updateBcPreview() {
+  const msg = document.getElementById('bc-message').value;
+  const sel = _topClientes.filter(c => _tcSelected.has(_tcKey(c)));
+  if (sel.length === 0) return;
+  const c = sel[0];
+  const replaced = _tcApplyVars(msg, c);
+  document.getElementById('bc-preview').innerHTML =
+    msg.trim() === ''
+      ? '<small style="color:var(--gray)">Pré-visualização aparece aqui</small>'
+      : `<small>Pré-visualização (1 de ${sel.length}, ${esc(c.nome)}):</small><pre>${esc(replaced)}</pre>`;
+}
+
+function closeBroadcastModal() {
+  document.getElementById('bc-modal-compose').classList.add('hidden');
+}
+
+function startBroadcast() {
+  _bcMsg = document.getElementById('bc-message').value.trim();
+  if (!_bcMsg) { showToast('Digite a mensagem antes'); return; }
+  localStorage.setItem('lp_bc_lastMsg', _bcMsg);
+
+  _bcQueue = _topClientes.filter(c => _tcSelected.has(_tcKey(c)) && c.telefone);
+  if (_bcQueue.length === 0) { showToast('Nenhum cliente selecionado tem telefone'); return; }
+  _bcPos = 0;
+  _bcSent = new Set();
+  closeBroadcastModal();
+  document.getElementById('bc-modal-guided').classList.remove('hidden');
+  renderGuided();
+}
+
+function renderGuided() {
+  const c = _bcQueue[_bcPos];
+  if (!c) {
+    // Acabou
+    document.getElementById('bc-cli-name').innerHTML = '✅ Pronto!';
+    document.getElementById('bc-cli-phone').textContent = `Você abriu ${_bcSent.size} de ${_bcQueue.length} conversa(s).`;
+    document.getElementById('bc-cli-msg-preview').innerHTML = '';
+    return;
+  }
+  document.getElementById('bc-pos').textContent = _bcPos + 1;
+  document.getElementById('bc-total').textContent = _bcQueue.length;
+  document.getElementById('bc-cli-name').textContent = `Próximo: ${c.nome}${c.apelido ? ' ('+c.apelido+')' : ''}`;
+  document.getElementById('bc-cli-phone').textContent = formatPhone_tc(c.telefone);
+  const msg = _tcApplyVars(_bcMsg, c);
+  document.getElementById('bc-cli-msg-preview').innerHTML = `<pre>${esc(msg)}</pre>`;
+  document.getElementById('bc-sent').textContent = _bcSent.size;
+  document.getElementById('bc-remaining').textContent = _bcQueue.length - _bcPos - 1;
+  document.getElementById('bc-prev-btn').disabled = _bcPos === 0;
+}
+
+function bcOpenWA() {
+  const c = _bcQueue[_bcPos];
+  if (!c) return;
+  const num = String(c.telefone).replace(/\D/g, '');
+  const msg = _tcApplyVars(_bcMsg, c);
+  window.open(`https://wa.me/${num}?text=${encodeURIComponent(msg)}`, '_blank');
+  _bcSent.add(_bcPos);
+  document.getElementById('bc-sent').textContent = _bcSent.size;
+}
+
+function bcNext() { if (_bcPos < _bcQueue.length - 1) _bcPos++; else _bcPos = _bcQueue.length; renderGuided(); }
+function bcPrev() { if (_bcPos > 0) _bcPos--; renderGuided(); }
+function bcSkip() { bcNext(); }
+
+function closeGuided() {
+  if (_bcSent.size > 0 && _bcPos < _bcQueue.length && !confirm(`Você abriu ${_bcSent.size} conversa(s). Tem certeza que quer sair?`)) return;
+  document.getElementById('bc-modal-guided').classList.add('hidden');
+}
+
+// Helper: formata telefone brasileiro
+function formatPhone_tc(tel) {
+  const t = String(tel||'').replace(/\D/g, '');
+  if (t.length === 13) return `+${t.slice(0,2)} (${t.slice(2,4)}) ${t.slice(4,9)}-${t.slice(9)}`;
+  if (t.length === 12) return `+${t.slice(0,2)} (${t.slice(2,4)}) ${t.slice(4,8)}-${t.slice(8)}`;
+  if (t.length === 11) return `(${t.slice(0,2)}) ${t.slice(2,7)}-${t.slice(7)}`;
+  if (t.length === 10) return `(${t.slice(0,2)}) ${t.slice(2,6)}-${t.slice(6)}`;
+  return tel;
 }

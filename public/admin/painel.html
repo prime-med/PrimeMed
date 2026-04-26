@@ -25,6 +25,7 @@
   <nav class="admin-nav">
     <button class="nav-btn active" data-view="kanban">📦 Fila de Pedidos</button>
     <button class="nav-btn" data-view="clientes">👥 Clientes</button>
+    <button class="nav-btn" data-view="top-clientes">📊 Top Clientes</button>
     <button class="nav-btn" data-view="produtos">💊 Produtos & Estoque</button>
     <button class="nav-btn" data-view="protocolos">🔬 Protocolos</button>
     <button class="nav-btn" data-view="cupons">🎟️ Cupons</button>
@@ -114,6 +115,64 @@
 
     <div id="clientes-grid" class="admin-grid cli-grid">
       <div class="loading-msg">⏳ Carregando...</div>
+    </div>
+  </div>
+
+  <!-- ══ VIEW: TOP CLIENTES ══ -->
+  <div id="view-top-clientes" class="view hidden">
+    <div class="view-bar">
+      <h2>📊 Top Clientes</h2>
+      <div class="view-bar-right">
+        <button class="btn-sm" onclick="loadTopClientes()">🔄 Atualizar</button>
+      </div>
+    </div>
+
+    <!-- Filtros -->
+    <div class="tc-filters">
+      <div class="tc-filter-group">
+        <span class="tc-filter-label">Período</span>
+        <button class="filter-btn active" data-tc-period="0" onclick="setTcPeriod(this,0)">Todos</button>
+        <button class="filter-btn" data-tc-period="30"  onclick="setTcPeriod(this,30)">30 dias</button>
+        <button class="filter-btn" data-tc-period="90"  onclick="setTcPeriod(this,90)">90 dias</button>
+        <button class="filter-btn" data-tc-period="365" onclick="setTcPeriod(this,365)">1 ano</button>
+      </div>
+      <div class="tc-filter-group">
+        <span class="tc-filter-label">Mín. pedidos</span>
+        <select id="tc-min-pedidos" onchange="loadTopClientes()">
+          <option value="1">≥ 1</option>
+          <option value="2">≥ 2</option>
+          <option value="3">≥ 3</option>
+          <option value="5">≥ 5</option>
+        </select>
+      </div>
+      <div class="tc-filter-group">
+        <span class="tc-filter-label">Limite</span>
+        <select id="tc-limit" onchange="loadTopClientes()">
+          <option value="10">Top 10</option>
+          <option value="25" selected>Top 25</option>
+          <option value="50">Top 50</option>
+          <option value="100">Top 100</option>
+        </select>
+      </div>
+      <input type="search" id="tc-search" class="tc-search" placeholder="🔍 Buscar nome, telefone, email..." oninput="renderTopClientes()"/>
+    </div>
+
+    <div id="top-cli-list" class="top-cli-list">
+      <div class="loading-msg">⏳ Carregando...</div>
+    </div>
+
+    <!-- Footer sticky com seleção -->
+    <div id="tc-footer" class="tc-footer hidden">
+      <div class="tc-footer-info">
+        <span class="tc-footer-count"><strong id="tc-selected-count">0</strong> selecionados</span>
+        <span class="tc-footer-sep">·</span>
+        <span>Total: <strong>R$ <span id="tc-selected-total">0,00</span></strong></span>
+      </div>
+      <div class="tc-footer-actions">
+        <button class="btn-sm" onclick="copyTopFones()">📋 Copiar telefones</button>
+        <button class="btn-sm btn-accent" onclick="openBroadcastModal()">📨 Mensagem em massa</button>
+        <button class="btn-sm" onclick="clearTopSelection()">❌ Limpar</button>
+      </div>
     </div>
   </div>
 
@@ -580,6 +639,49 @@
   <div class="install-banner-text">Adicione o painel como app para acesso rápido, notificações e uso offline.</div>
   <button class="btn-sm btn-accent install-banner-btn" onclick="promptInstall()">Instalar agora</button>
   <button class="btn-sm" onclick="dismissInstall()">Agora não</button>
+</div>
+
+<!-- Modal: Compose -->
+<div id="bc-modal-compose" class="bc-modal-overlay hidden" onclick="if(event.target===this)closeBroadcastModal()">
+  <div class="bc-modal-box">
+    <div class="bc-modal-header">
+      <h3>📨 Mensagem em massa</h3>
+      <button class="bc-close" onclick="closeBroadcastModal()">✕</button>
+    </div>
+    <p class="bc-info">Você vai enviar para <strong id="bc-count">0</strong> cliente(s).</p>
+    <label class="bc-label">Sua mensagem:</label>
+    <textarea id="bc-message" class="bc-textarea" rows="6" placeholder="Olá {{primeiro_nome}}!&#10;Promoção especial só hoje: 20% OFF em toda a linha. Quer aproveitar?" oninput="updateBcPreview()"></textarea>
+    <p class="bc-hint">💡 Use <code>{{nome}}</code>, <code>{{primeiro_nome}}</code> ou <code>{{apelido}}</code> pra personalizar.</p>
+    <div class="bc-preview-box" id="bc-preview"></div>
+    <div class="bc-modal-actions">
+      <button class="btn-sm" onclick="closeBroadcastModal()">Cancelar</button>
+      <button class="btn-sm btn-accent" onclick="startBroadcast()">▶️ Começar a enviar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Guided -->
+<div id="bc-modal-guided" class="bc-modal-overlay hidden">
+  <div class="bc-modal-box bc-guided-box">
+    <div class="bc-modal-header">
+      <h3>📨 Enviando <span id="bc-pos">0</span> de <span id="bc-total">0</span></h3>
+      <button class="bc-close" onclick="closeGuided()">✕</button>
+    </div>
+    <div class="bc-current">
+      <div class="bc-cli-name" id="bc-cli-name"></div>
+      <div class="bc-cli-phone" id="bc-cli-phone"></div>
+      <div class="bc-cli-msg-preview" id="bc-cli-msg-preview"></div>
+    </div>
+    <button class="btn-bc-open" onclick="bcOpenWA()">💬 Abrir conversa no WhatsApp</button>
+    <div class="bc-progress">
+      Já abertos: <strong id="bc-sent">0</strong> · Faltam: <strong id="bc-remaining">0</strong>
+    </div>
+    <div class="bc-nav">
+      <button class="btn-sm" onclick="bcPrev()" id="bc-prev-btn">⏮ Anterior</button>
+      <button class="btn-sm" onclick="bcSkip()">Pular →</button>
+      <button class="btn-sm btn-accent" onclick="bcNext()">Próximo →</button>
+    </div>
+  </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
