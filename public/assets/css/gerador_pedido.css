@@ -65,7 +65,7 @@
   #view-gerador .ped-card.selecionado{border-color:var(--green);background:rgba(16,185,129,.06)}
   #view-gerador .cli-nome{font-size:.88rem;font-weight:700;margin-bottom:3px}
   #view-gerador .cli-info{font-size:.72rem;color:var(--gray);line-height:1.5}
-  #view-gerador .cli-tag{display:inline-block;font-size:.6rem;font-weight:700;background:rgba(14,165,233,.18);color:#93c5fd;padding:2px 7px;border-radius:4px;margin-top:5px}
+  #view-gerador .cli-tag{display:inline-block;font-size:.6rem;font-weight:700;background:rgba(14,165,233,.18);color:#0369a1;padding:2px 7px;border-radius:4px;margin-top:5px}
   #view-gerador .btn-novo-cliente{background:linear-gradient(135deg,rgba(14,165,233,.15),rgba(16,185,129,.1));border:2px dashed var(--accent);border-radius:10px;padding:20px;text-align:center;cursor:pointer;transition:all .15s}
   #view-gerador .btn-novo-cliente:hover{background:rgba(16,185,129,.12);border-color:var(--green)}
   #view-gerador .btn-novo-cliente .icon{font-size:1.5rem;margin-bottom:6px}
@@ -76,7 +76,7 @@
   #view-gerador .ped-cliente{font-size:.85rem;font-weight:700}
   #view-gerador .ped-data{font-size:.62rem;color:var(--gray)}
   #view-gerador .ped-total{font-size:.95rem;font-weight:800;color:var(--accent);margin-bottom:6px}
-  #view-gerador .ped-pag{display:inline-block;font-size:.6rem;font-weight:700;background:rgba(14,165,233,.18);color:#93c5fd;padding:2px 7px;border-radius:4px;margin-bottom:6px}
+  #view-gerador .ped-pag{display:inline-block;font-size:.6rem;font-weight:700;background:rgba(14,165,233,.18);color:#0369a1;padding:2px 7px;border-radius:4px;margin-bottom:6px}
   #view-gerador .ped-itens{font-size:.7rem;color:var(--gray);line-height:1.5}
   #view-gerador .ped-btn{margin-top:10px;width:100%;padding:8px;border-radius:7px;border:1px solid var(--accent);background:transparent;color:var(--accent);font-size:.75rem;font-weight:700;cursor:pointer;transition:all .15s;font-family:inherit}
   #view-gerador .ped-btn:hover{background:var(--accent);color:#000}

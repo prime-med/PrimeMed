@@ -92,26 +92,29 @@ button { cursor: pointer; }
 .admin-header {
   display: flex; align-items: center; gap: 20px;
   padding: 0 20px; height: 56px;
-  background: var(--card); border-bottom: 1px solid var(--border);
+  background: var(--header-bg, #0f2922);
+  color: var(--header-text, #f4fbf7);
+  border-bottom: 2px solid var(--accent);
+  box-shadow: 0 2px 8px rgba(15,41,34,0.08);
   position: relative; z-index: 100; flex-shrink: 0;
 }
 
-.header-logo { font-size: 18px; font-weight: 700; white-space: nowrap; }
+.header-logo { font-size: 18px; font-weight: 700; white-space: nowrap; color: var(--header-text, #f4fbf7); }
 .header-logo span { color: var(--accent); }
 
 .admin-nav { display: flex; gap: 4px; flex: 1; }
 .nav-btn {
-  background: none; border: none; color: var(--text2); padding: 6px 14px;
+  background: none; border: none; color: rgba(244,251,247,.7); padding: 6px 14px;
   border-radius: 6px; font-size: 13px; font-weight: 500; transition: all .15s; white-space: nowrap;
   position: relative;
 }
-.nav-btn:hover { background: var(--bg2); color: var(--text); }
-.nav-btn.active { background: rgba(16,185,129,.15); color: var(--accent); }
+.nav-btn:hover { background: rgba(244,251,247,.08); color: var(--header-text, #f4fbf7); }
+.nav-btn.active { background: rgba(16,185,129,.2); color: var(--accent); }
 
 .header-right { display: flex; align-items: center; gap: 12px; margin-left: auto; }
-.admin-nome { font-size: 13px; color: var(--text2); white-space: nowrap; }
+.admin-nome { font-size: 13px; color: rgba(244,251,247,.75); white-space: nowrap; }
 .btn-logout {
-  background: none; border: 1px solid var(--border); color: var(--text2);
+  background: none; border: 1px solid rgba(244,251,247,.25); color: rgba(244,251,247,.7);
   padding: 5px 12px; border-radius: 6px; font-size: 12px; transition: all .2s;
 }
 .btn-logout:hover { border-color: var(--danger); color: var(--danger); }

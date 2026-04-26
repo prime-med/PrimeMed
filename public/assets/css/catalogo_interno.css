@@ -18,15 +18,17 @@
 
   /* ── HEADER ── */
   .header {
-    background:var(--surface);
-    border-bottom:1px solid var(--border);
+    background:var(--header-bg, #0f2922);
+    color:var(--header-text, #f4fbf7);
+    border-bottom:2px solid var(--accent);
+    box-shadow:0 2px 8px rgba(15,41,34,0.08);
     padding:16px 24px;
     display:flex; align-items:center; gap:16px; flex-wrap:wrap;
     position:sticky; top:0; z-index:100;
   }
   .header-logo { height:36px; object-fit:contain }
   .header-title { font-size:1.1rem; font-weight:700; color:var(--accent) }
-  .header-sub   { font-size:.75rem; color:var(--gray); margin-top:2px }
+  .header-sub   { font-size:.75rem; color:rgba(244,251,247,.65); margin-top:2px }
   .header-spacer { flex:1 }
   .badge-count {
     background:var(--accent); color:#000;

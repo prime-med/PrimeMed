@@ -1,4 +1,4 @@
-/* Template B2B — variáveis e reset compartilhados (paleta Verde Sálvia + Carvão Morno) */
+/* Template B2B — variáveis e reset compartilhados (paleta Verde Menta + Azul Céu, light theme) */
 :root {
   --bg:       #f4fbf7;
   --surface:  #ffffff;
@@ -15,6 +15,9 @@
   --gray:     #6b7d72;
   --light:    #9eb0a2;
   --input-bg: #f0f7f3;
+  /* Header / nav — verde-floresta dark pra dar contraste em page light */
+  --header-bg:    #0f2922;
+  --header-text:  #f4fbf7;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }

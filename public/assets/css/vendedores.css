@@ -36,14 +36,14 @@
   .pin-err{color:var(--red);font-size:.82rem;margin-top:10px}
 
   /* ── HEADER ── */
-  .header{background:var(--surface);border-bottom:2px solid var(--accent);padding:14px 28px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:100;display:none}
+  .header{background:var(--header-bg,#0f2922);color:var(--header-text,#f4fbf7);border-bottom:2px solid var(--accent);box-shadow:0 2px 8px rgba(15,41,34,.08);padding:14px 28px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:100;display:none}
   .header.show{display:flex}
   .header-title{font-size:1.05rem;font-weight:700;color:var(--accent)}
-  .header-sub{font-size:.72rem;color:var(--gray);margin-top:2px}
+  .header-sub{font-size:.72rem;color:rgba(244,251,247,.6);margin-top:2px}
   .header-spacer{flex:1}
-  .btn-logout{background:transparent;border:1px solid var(--border);color:var(--gray);padding:6px 14px;border-radius:8px;font-size:.78rem;cursor:pointer;font-family:inherit}
+  .btn-logout{background:transparent;border:1px solid rgba(244,251,247,.25);color:rgba(244,251,247,.7);padding:6px 14px;border-radius:8px;font-size:.78rem;cursor:pointer;font-family:inherit}
   .btn-logout:hover{border-color:var(--red);color:var(--red)}
-  .header-nome{font-size:.82rem;color:var(--light);font-weight:600}
+  .header-nome{font-size:.82rem;color:rgba(244,251,247,.85);font-weight:600}
 
   /* ── WRAP ── */
   .wrap{max-width:860px;margin:0 auto;padding:28px 20px}
