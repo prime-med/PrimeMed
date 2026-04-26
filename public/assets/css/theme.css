@@ -1,23 +1,23 @@
-/* Template B2B — variáveis e reset compartilhados (paleta Verde Menta + Azul Céu, light theme) */
+/* Template B2B — variáveis e reset compartilhados (paleta Petrol Modern + Teal, dark theme) */
 :root {
-  --bg:       #e8f1ea;
-  --surface:  #f4f9f3;
-  --card:     #ffffff;
-  --border:   #c8dbcd;
-  --accent:   #10b981;
-  --accent-d: #059669;
-  --green:    #10b981;
-  --blue:     #0ea5e9;
+  --bg:       #0e2840;
+  --surface:  #163652;
+  --card:     #1d4060;
+  --border:   #284c6e;
+  --accent:   #14b8a6;
+  --accent-d: #0d9488;
+  --green:    #14b8a6;
+  --blue:     #3b82f6;
   --red:      #ef4444;
   --wa:       #25D366;
   --wa-d:     #1da851;
-  --text:     #0f2922;
-  --gray:     #6b7d72;
-  --light:    #9eb0a2;
-  --input-bg: #dee9df;
-  /* Header / nav — verde-floresta dark pra dar contraste em page light */
-  --header-bg:    #0f2922;
-  --header-text:  #e8f1ea;
+  --text:     #e8eef4;
+  --gray:     #8ca2b8;
+  --light:    #a8b8cb;
+  --input-bg: #11283f;
+  /* Header / nav — levemente mais dark que --bg pra dar profundidade */
+  --header-bg:    #0a1f33;
+  --header-text:  #e8eef4;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }

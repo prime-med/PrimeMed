@@ -20,7 +20,7 @@ body {
   min-height: 297mm;
   background: var(--white);
   margin: 12mm auto;
-  box-shadow: 0 4px 32px rgba(15,41,34,0.18);
+  box-shadow: 0 4px 32px rgba(0,0,0,0.18);
   position: relative;
   overflow: hidden;
   display: flex;
@@ -423,9 +423,9 @@ table.compare-table tbody td:first-child { text-align: left; font-weight: 600; c
 .proto-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 16px; }
 .proto-card { border-radius: 10px; overflow: hidden; box-shadow: var(--shadow); }
 .proto-head { padding: 10px 12px; color: white; font-family: 'Montserrat', sans-serif; position: relative; }
-.proto-head.p1 { background: linear-gradient(135deg, #0ea5e9 0%, var(--amber) 100%); }
+.proto-head.p1 { background: linear-gradient(135deg, #3b82f6 0%, var(--amber) 100%); }
 .proto-head.p2 { background: linear-gradient(135deg, var(--amber) 0%, var(--gold-mid) 100%); }
-.proto-head.p3 { background: linear-gradient(135deg, var(--gold) 0%, #10b981 100%); }
+.proto-head.p3 { background: linear-gradient(135deg, var(--gold) 0%, #14b8a6 100%); }
 .proto-head .p-num   { font-size: 6pt; font-weight: 600; letter-spacing: 2px; opacity: 0.7; text-transform: uppercase; margin-bottom: 2px; }
 .proto-head .p-title { font-size: 8.5pt; font-weight: 800; line-height: 1.2; }
 .proto-head .p-icon  { font-size: 18px; position: absolute; top: 10px; right: 12px; opacity: 0.8; }
@@ -438,7 +438,7 @@ table.compare-table tbody td:first-child { text-align: left; font-weight: 600; c
 
 /* ── TPC BOX ── */
 .pct-box {
-  background: linear-gradient(135deg, #f4f9f3, #c8dbcd);
+  background: linear-gradient(135deg, #163652, #284c6e);
   border-radius: 8px; padding: 10px 14px;
   border: 1px solid rgba(212,175,55,0.2);
   margin-bottom: 14px; box-shadow: var(--shadow);
