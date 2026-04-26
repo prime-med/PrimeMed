@@ -3,11 +3,11 @@
 
 :root {
   /* Paleta Verde Sálvia + Carvão Morno — alinhada com theme.css */
-  --bg:       #f4fbf7;
-  --bg2:      #f0f7f3;
+  --bg:       #e8f1ea;
+  --bg2:      #dee9df;
   --card:     #ffffff;
-  --card2:    #d8e8df;
-  --border:   #d8e8df;
+  --card2:    #c8dbcd;
+  --border:   #c8dbcd;
   --accent:   #10b981;
   --accent2:  #059669;
   --text:     #0f2922;
@@ -39,7 +39,7 @@ button { cursor: pointer; }
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: radial-gradient(ellipse at 50% 30%, #f4fbf7 0%, #f4fbf7 70%);
+  background: radial-gradient(ellipse at 50% 30%, #e8f1ea 0%, #e8f1ea 70%);
 }
 
 .login-card {
@@ -72,7 +72,7 @@ button { cursor: pointer; }
 }
 
 .btn-login {
-  width: 100%; background: var(--accent); color: #f4fbf7; border: none;
+  width: 100%; background: var(--accent); color: #e8f1ea; border: none;
   border-radius: 8px; padding: 12px; font-weight: 700; font-size: 15px;
   transition: background .2s, opacity .2s; margin-top: 4px;
 }
@@ -93,13 +93,13 @@ button { cursor: pointer; }
   display: flex; align-items: center; gap: 20px;
   padding: 0 20px; height: 56px;
   background: var(--header-bg, #0f2922);
-  color: var(--header-text, #f4fbf7);
+  color: var(--header-text, #e8f1ea);
   border-bottom: 2px solid var(--accent);
   box-shadow: 0 2px 8px rgba(15,41,34,0.08);
   position: relative; z-index: 100; flex-shrink: 0;
 }
 
-.header-logo { font-size: 18px; font-weight: 700; white-space: nowrap; color: var(--header-text, #f4fbf7); }
+.header-logo { font-size: 18px; font-weight: 700; white-space: nowrap; color: var(--header-text, #e8f1ea); }
 .header-logo span { color: var(--accent); }
 
 .admin-nav { display: flex; gap: 4px; flex: 1; }
@@ -108,7 +108,7 @@ button { cursor: pointer; }
   border-radius: 6px; font-size: 13px; font-weight: 500; transition: all .15s; white-space: nowrap;
   position: relative;
 }
-.nav-btn:hover { background: rgba(244,251,247,.08); color: var(--header-text, #f4fbf7); }
+.nav-btn:hover { background: rgba(244,251,247,.08); color: var(--header-text, #e8f1ea); }
 .nav-btn.active { background: rgba(16,185,129,.2); color: var(--accent); }
 
 .header-right { display: flex; align-items: center; gap: 12px; margin-left: auto; }
@@ -138,8 +138,8 @@ button { cursor: pointer; }
   text-decoration: none; display: inline-block; white-space: nowrap;
 }
 .btn-sm:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
-.btn-sm.btn-accent { background: var(--accent); border-color: var(--accent); color: #f4fbf7; font-weight: 600; }
-.btn-sm.btn-accent:hover { background: var(--accent2); border-color: var(--accent2); color: #f4fbf7; }
+.btn-sm.btn-accent { background: var(--accent); border-color: var(--accent); color: #e8f1ea; font-weight: 600; }
+.btn-sm.btn-accent:hover { background: var(--accent2); border-color: var(--accent2); color: #e8f1ea; }
 .btn-sm.btn-danger { border-color: rgba(239,68,68,.5); color: var(--danger); }
 .btn-sm.btn-danger:hover { background: rgba(239,68,68,.1); border-color: var(--danger); }
 .btn-sm.btn-outline { background: none; }
@@ -214,7 +214,7 @@ button { cursor: pointer; }
 }
 .card-btn:hover { border-color: var(--accent); color: var(--accent); }
 .card-btn-advance { background: rgba(16,185,129,.1); border-color: rgba(16,185,129,.3); color: var(--accent); }
-.card-btn-advance:hover { background: var(--accent); color: #f4fbf7; }
+.card-btn-advance:hover { background: var(--accent); color: #e8f1ea; }
 
 /* ── ORDER DRAWER ─────────────────────────────────────────────────────────── */
 .drawer-overlay {

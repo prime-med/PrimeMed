@@ -6,10 +6,10 @@
       --petrol-dark: #0f2922;
       --petrol-mid:  #2d6a4f;
       --petrol-lite: #d1fae5;
-      --petrol-bg:   #f4fbf7;
+      --petrol-bg:   #e8f1ea;
       --white:       #FFFFFF;
-      --gray-1:      #f4fbf7;
-      --gray-2:      #d8e8df;
+      --gray-1:      #e8f1ea;
+      --gray-2:      #c8dbcd;
       --text-dark:   #0f2922;
       --text-mid:    #6b7d72;
       --green-wa:    #25D366;
@@ -193,14 +193,14 @@
     }
     .prod-card:hover { transform:translateY(-6px); box-shadow:0 12px 36px rgba(15,41,34,0.16); }
     .prod-card-top { padding:22px 20px 16px; color:white; }
-    .prod-card-top.c1 { background:linear-gradient(135deg, #f4fbf7 0%, #ffffff 100%); }
-    .prod-card-top.c2 { background:linear-gradient(135deg, #f4fbf7 0%, #10b981 100%); }
-    .prod-card-top.c3 { background:linear-gradient(135deg, #f4fbf7 0%, #b8865a 100%); }
-    .prod-card-top.c4 { background:linear-gradient(135deg, #f4fbf7 0%, #a78bb0 100%); }
-    .prod-card-top.c5 { background:linear-gradient(135deg, #f4fbf7 0%, #059669 100%); }
-    .prod-card-top.c6 { background:linear-gradient(135deg, #f4fbf7 0%, #0ea5e9 60%, #10b981 100%); }
-    .prod-card-top.c7 { background:linear-gradient(135deg, #f4fbf7 0%, #ffffff 50%, #0ea5e9 100%); }
-    .prod-card-top.c8 { background:linear-gradient(135deg, #f4fbf7 0%, #b8865a 100%); }
+    .prod-card-top.c1 { background:linear-gradient(135deg, #e8f1ea 0%, #f4f9f3 100%); }
+    .prod-card-top.c2 { background:linear-gradient(135deg, #e8f1ea 0%, #10b981 100%); }
+    .prod-card-top.c3 { background:linear-gradient(135deg, #e8f1ea 0%, #b8865a 100%); }
+    .prod-card-top.c4 { background:linear-gradient(135deg, #e8f1ea 0%, #a78bb0 100%); }
+    .prod-card-top.c5 { background:linear-gradient(135deg, #e8f1ea 0%, #059669 100%); }
+    .prod-card-top.c6 { background:linear-gradient(135deg, #e8f1ea 0%, #0ea5e9 60%, #10b981 100%); }
+    .prod-card-top.c7 { background:linear-gradient(135deg, #e8f1ea 0%, #f4f9f3 50%, #0ea5e9 100%); }
+    .prod-card-top.c8 { background:linear-gradient(135deg, #e8f1ea 0%, #b8865a 100%); }
     .prod-card-top .pc-icon { font-size:28px; margin-bottom:10px; }
     .prod-card-top .pc-conc { font-size:7pt; opacity:.55; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:4px; }
     .prod-card-top .pc-name { font-family:'Montserrat',sans-serif; font-size:12pt; font-weight:800; line-height:1.2; }
@@ -237,7 +237,7 @@
     }
     .proto-overlay.open { display:flex; }
     .proto-modal {
-      background:#f4fbf7; border:1px solid #d8e8df;
+      background:#e8f1ea; border:1px solid #c8dbcd;
       border-radius:20px; max-width:680px; width:100%;
       max-height:90vh; display:flex; flex-direction:column;
       animation:popIn .25s ease;
@@ -245,7 +245,7 @@
     @keyframes popIn { from{opacity:0;transform:scale(.95)} to{opacity:1;transform:scale(1)} }
     .proto-header {
       padding:22px 28px 18px;
-      border-bottom:1px solid #d8e8df;
+      border-bottom:1px solid #c8dbcd;
       display:flex; align-items:center; justify-content:space-between;
     }
     .proto-header-left { display:flex; align-items:center; gap:14px; }
@@ -257,7 +257,7 @@
       font-size:1.5rem; cursor:pointer; padding:4px 8px; border-radius:8px;
       transition:background .2s;
     }
-    .proto-close:hover { background:#d8e8df; color:var(--text-dark); }
+    .proto-close:hover { background:#c8dbcd; color:var(--text-dark); }
     .proto-body { padding:22px 28px; overflow-y:auto; flex:1; display:flex; flex-direction:column; gap:18px; }
     .proto-section { }
     .proto-section-title {
@@ -268,7 +268,7 @@
     .proto-section-text { font-size:9.5pt; color:rgba(15,41,34,0.8); line-height:1.65; }
     .proto-protocols { display:flex; flex-direction:column; gap:10px; }
     .proto-protocol-item {
-      background:#ffffff; border:1px solid #d8e8df; border-radius:10px;
+      background:#f4f9f3; border:1px solid #c8dbcd; border-radius:10px;
       padding:13px 16px;
     }
     .proto-protocol-name { font-family:'Montserrat',sans-serif; font-size:9pt; font-weight:800; color:#0ea5e9; margin-bottom:4px; }
@@ -279,11 +279,11 @@
       font-size:8.5pt; color:#b91c1c; line-height:1.6;
     }
     .proto-footer {
-      padding:16px 28px; border-top:1px solid #d8e8df;
+      padding:16px 28px; border-top:1px solid #c8dbcd;
       display:flex; gap:10px; justify-content:flex-end;
     }
     .proto-btn-pedido {
-      background:#10b981; color:#f4fbf7;
+      background:#10b981; color:#e8f1ea;
       font-family:'Montserrat',sans-serif; font-size:9pt; font-weight:800;
       padding:11px 24px; border-radius:10px; text-decoration:none;
       display:flex; align-items:center; gap:8px; cursor:pointer; border:none;
@@ -354,7 +354,7 @@
 
     /* ─── CTA FINAL ───────────────────────────────────── */
     .cta-final {
-      background: linear-gradient(135deg, var(--petrol-dark) 0%, #f4fbf7 50%, #f4fbf7 100%);
+      background: linear-gradient(135deg, var(--petrol-dark) 0%, #e8f1ea 50%, #e8f1ea 100%);
       padding: 100px 40px; text-align:center; position:relative; overflow:hidden;
     }
     .cta-final::before {

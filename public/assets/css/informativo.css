@@ -438,7 +438,7 @@ table.compare-table tbody td:first-child { text-align: left; font-weight: 600; c
 
 /* ── TPC BOX ── */
 .pct-box {
-  background: linear-gradient(135deg, #ffffff, #d8e8df);
+  background: linear-gradient(135deg, #f4f9f3, #c8dbcd);
   border-radius: 8px; padding: 10px 14px;
   border: 1px solid rgba(212,175,55,0.2);
   margin-bottom: 14px; box-shadow: var(--shadow);

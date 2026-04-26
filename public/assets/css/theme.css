@@ -1,9 +1,9 @@
 /* Template B2B — variáveis e reset compartilhados (paleta Verde Menta + Azul Céu, light theme) */
 :root {
-  --bg:       #f4fbf7;
-  --surface:  #ffffff;
+  --bg:       #e8f1ea;
+  --surface:  #f4f9f3;
   --card:     #ffffff;
-  --border:   #d8e8df;
+  --border:   #c8dbcd;
   --accent:   #10b981;
   --accent-d: #059669;
   --green:    #10b981;
@@ -14,10 +14,10 @@
   --text:     #0f2922;
   --gray:     #6b7d72;
   --light:    #9eb0a2;
-  --input-bg: #f0f7f3;
+  --input-bg: #dee9df;
   /* Header / nav — verde-floresta dark pra dar contraste em page light */
   --header-bg:    #0f2922;
-  --header-text:  #f4fbf7;
+  --header-text:  #e8f1ea;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }

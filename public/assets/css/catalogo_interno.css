@@ -1,9 +1,9 @@
 :root {
     /* Paleta Verde Sálvia + Carvão Morno — alinhada com theme.css */
-    --bg:      #f4fbf7;
-    --surface: #ffffff;
+    --bg:      #e8f1ea;
+    --surface: #f4f9f3;
     --card:    #ffffff;
-    --border:  #d8e8df;
+    --border:  #c8dbcd;
     --accent:  #10b981;
     --green:   #10b981;
     --blue:    #0ea5e9;
@@ -19,7 +19,7 @@
   /* ── HEADER ── */
   .header {
     background:var(--header-bg, #0f2922);
-    color:var(--header-text, #f4fbf7);
+    color:var(--header-text, #e8f1ea);
     border-bottom:2px solid var(--accent);
     box-shadow:0 2px 8px rgba(15,41,34,0.08);
     padding:16px 24px;
@@ -45,7 +45,7 @@
   .search-box {
     flex:1; min-width:200px; max-width:340px;
     padding:9px 14px; border-radius:8px;
-    border:1px solid var(--border); background:#f0f7f3;
+    border:1px solid var(--border); background:#dee9df;
     color:var(--text); font-size:.9rem; outline:none;
   }
   .search-box:focus { border-color:var(--accent) }
