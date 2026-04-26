@@ -14,7 +14,7 @@
     --white:       #e8eef4;
     --danger:      #ef4444;
     --warn:        #f59e0b;
-    --selected-bg: #d1fae5;
+    --selected-bg: rgba(20,184,166,.12);   /* teal sutil pra dark theme */
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
