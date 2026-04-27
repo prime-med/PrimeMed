@@ -571,8 +571,21 @@
     try {
       const data = await cliPost_('recuperar_senha_cliente', { email, documento, data_nasc: dataNasc, nova_senha: nova });
       if (data && data.ok) {
-        _setMsg(form, '✅ Senha redefinida! Faça login com a nova senha.', 'ok');
-        setTimeout(() => _showMode('login'), 1600);
+        // Se foi primeiro acesso (cliente legacy sem senha): backend já loga direto
+        if (data.primeiro_acesso && data.token) {
+          const sess = Object.assign({ email, token: data.token }, data.cliente || {});
+          setClienteSession(sess);
+          _setMsg(form, '✅ Acesso criado! Bem-vindo.', 'ok');
+          setTimeout(() => {
+            fecharModalLogin();
+            document.querySelectorAll('[data-cli-header-btn]').forEach(el => _renderInto(el));
+            if (_onSuccess) _onSuccess(sess);
+            _onSuccess = null;
+          }, 400);
+        } else {
+          _setMsg(form, '✅ Senha redefinida! Faça login com a nova senha.', 'ok');
+          setTimeout(() => _showMode('login'), 1600);
+        }
       } else {
         _setMsg(form, '⚠️ ' + ((data && data.erro) || 'Não foi possível redefinir. Verifique os dados.'), 'err');
       }
