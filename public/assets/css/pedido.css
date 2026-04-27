@@ -1194,6 +1194,24 @@
 .cli-msg-err { color: #fca5a5; }
 .cli-msg-ok  { color: #6ee7b7; }
 
+/* Painel "primeiro acesso" inline */
+.cli-primeiro-panel {
+  margin-top: 14px; padding: 14px;
+  background: rgba(20,184,166,.08);
+  border: 1px solid rgba(20,184,166,.35);
+  border-radius: 10px;
+  animation: cliPrimeiroIn .25s ease-out;
+}
+.cli-primeiro-msg {
+  font-size: .82rem; line-height: 1.45; color: var(--white);
+  margin-bottom: 12px;
+}
+.cli-primeiro-msg strong { color: var(--accent); }
+@keyframes cliPrimeiroIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 .cli-btn-cta {
   width: 100%;
   margin-top: 14px;
