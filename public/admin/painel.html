@@ -154,6 +154,12 @@
           <option value="100">Top 100</option>
         </select>
       </div>
+      <div class="tc-filter-group">
+        <span class="tc-filter-label">VIPs</span>
+        <button class="filter-btn active" data-tc-vip="incluir" onclick="setTcVipMode(this,'incluir')">✨ Incluir</button>
+        <button class="filter-btn" data-tc-vip="apenas" onclick="setTcVipMode(this,'apenas')">⭐ Só VIPs</button>
+        <button class="filter-btn" data-tc-vip="nao" onclick="setTcVipMode(this,'nao')">— Sem VIPs</button>
+      </div>
       <input type="search" id="tc-search" class="tc-search" placeholder="🔍 Buscar nome, telefone, email..." oninput="renderTopClientes()"/>
     </div>
 

@@ -931,10 +931,11 @@ function renderClientes() {
     const key = (c.telefone||'').replace(/\D/g,'') || (c.email||'').toLowerCase();
     const nPed = countMap[key] || 0;
     const initials = (c.responsavel || c.clinica || '?').split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+    const isVip = c.vip === 'SIM';
     return `
       <div class="admin-card">
         <div class="cli-avatar">${esc(initials)}</div>
-        <div class="cli-card-name">${esc(c.responsavel || c.clinica)}</div>
+        <div class="cli-card-name">${esc(c.responsavel || c.clinica)}${isVip ? '<span class="vip-badge">⭐ VIP</span>' : ''}</div>
         <div class="cli-card-clinic">${esc(c.clinica)}</div>
         <div class="cli-card-info">
           ${c.telefone ? `<span>📱 ${esc(c.telefone)}</span>` : ''}
@@ -945,12 +946,40 @@ function renderClientes() {
             ? `<button class="btn-xs" onclick="abrirHistoricoCliente('${escAttr(c.cpf||c.email)}','${escAttr(c.clinica)}')">${nPed} pedido${nPed>1?'s':''}</button>`
             : `<span style="color:var(--text2);font-size:12px">0 pedidos</span>`}
           <div style="display:flex;gap:4px">
+            <button class="btn-vip-toggle ${isVip?'active':''}" onclick="toggleClienteVip(${JSON.stringify(c).replace(/"/g,'&quot;')})">${isVip ? '⭐ Marcado' : '⭐ VIP'}</button>
             ${c.telefone ? `<a href="https://wa.me/55${c.telefone.replace(/\D/g,'')}" target="_blank" class="btn-xs">WA</a>` : ''}
             <button class="btn-xs" onclick="abrirEditarCliente(${JSON.stringify(c).replace(/"/g,'&quot;')})">✏️</button>
           </div>
         </div>
       </div>`;
   }).join('');
+}
+
+async function toggleClienteVip(cli) {
+  const novoEstado = cli.vip === 'SIM' ? 'NAO' : 'SIM';
+  try {
+    const data = await API.call({
+      action: 'editar_cliente',
+      documento: cli.cpf || '',
+      email_cli: cli.email || '',
+      vip: novoEstado,
+    });
+    if (data.ok) {
+      cli.vip = novoEstado;
+      // Atualiza referência em App.clientes (caso `cli` seja cópia)
+      const ref = App.clientes.find(x =>
+        (x.cpf && cli.cpf && x.cpf === cli.cpf) ||
+        (x.email && cli.email && x.email === cli.email)
+      );
+      if (ref) ref.vip = novoEstado;
+      renderClientes();
+      showToast(novoEstado === 'SIM' ? '⭐ Marcado como VIP' : 'VIP removido');
+    } else {
+      showToast(`Erro: ${data.erro || 'falha'}`);
+    }
+  } catch (e) {
+    showToast('Erro de conexão');
+  }
 }
 
 // ── PRODUTOS ──────────────────────────────────────────────────────────────────
@@ -2470,6 +2499,7 @@ function renderRelatorio() {
 let _topClientes = [];
 let _tcSelected = new Set();
 let _tcPeriod = 0;
+let _tcVipMode = 'incluir'; // 'incluir' | 'apenas' | 'nao'
 let _bcQueue = [];
 let _bcPos = 0;
 let _bcMsg = '';
@@ -2484,6 +2514,8 @@ async function loadTopClientes() {
       periodo: _tcPeriod,
       min_pedidos: parseInt(document.getElementById('tc-min-pedidos')?.value || 1),
       limit: parseInt(document.getElementById('tc-limit')?.value || 25),
+      incluir_vips: _tcVipMode === 'nao' ? '0' : '1',
+      apenas_vips: _tcVipMode === 'apenas' ? '1' : '0',
     });
     if (data && data.ok) {
       _topClientes = data.clientes || [];
@@ -2500,6 +2532,13 @@ function setTcPeriod(btn, dias) {
   document.querySelectorAll('[data-tc-period]').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   _tcPeriod = dias;
+  loadTopClientes();
+}
+
+function setTcVipMode(btn, mode) {
+  document.querySelectorAll('[data-tc-vip]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  _tcVipMode = mode;
   loadTopClientes();
 }
 
@@ -2531,11 +2570,11 @@ function renderTopClientes() {
     const tel = c.telefone ? formatPhone_tc(c.telefone) : '—';
     const prods = (c.top_produtos||[]).map(p => `${esc(p.nome)} (${p.qty})`).join(', ');
     return `
-      <div class="tc-card ${checked?'selected':''}">
+      <div class="tc-card ${checked?'selected':''} ${c.vip === 'SIM' ? 'is-vip' : ''}">
         <input type="checkbox" class="tc-check" ${checked?'checked':''} onchange="toggleTc('${escAttr(key)}', this.checked)"/>
         <div class="tc-rank">${medalha}</div>
         <div class="tc-info">
-          <div class="tc-name">${esc(c.nome)}${c.apelido ? ` <span class="tc-apelido">(${esc(c.apelido)})</span>` : ''}</div>
+          <div class="tc-name">${esc(c.nome)}${c.apelido ? ` <span class="tc-apelido">(${esc(c.apelido)})</span>` : ''}${c.vip === 'SIM' ? '<span class="vip-badge">⭐ VIP</span>' : ''}</div>
           <div class="tc-meta">${esc(c.cidade||'—')}${c.estado?', '+esc(c.estado):''}${tel?' · '+esc(tel):''}</div>
           <div class="tc-stats">📦 <strong>${c.n_pedidos}</strong> pedidos · 💰 <strong>R$ ${formatMoeda(c.total_gasto)}</strong> · 📅 ${esc(c.ultimo_pedido||'—')}</div>
           ${prods ? `<div class="tc-prods">🛒 ${prods}</div>` : ''}

@@ -1151,3 +1151,38 @@ button { cursor: pointer; }
   .tc-footer-actions { width: 100%; }
   .tc-footer-actions .btn-sm { flex: 1; }
 }
+
+/* ── VIP BADGE ────────────────────────────────────────────────────────────── */
+.vip-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: #fff;
+  font-size: 10px; font-weight: 800;
+  padding: 2px 8px; border-radius: 4px;
+  margin-left: 8px; letter-spacing: .5px;
+  box-shadow: 0 2px 6px rgba(245,158,11,.35);
+  vertical-align: middle;
+}
+
+/* Top Clientes card quando VIP */
+.tc-card.is-vip {
+  border-left: 3px solid #f59e0b;
+}
+.tc-card.is-vip .tc-rank { color: #f59e0b; }
+
+/* Botão toggle VIP no card de cliente */
+.btn-vip-toggle {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text2);
+  padding: 4px 10px; border-radius: 6px;
+  font-size: 12px; cursor: pointer;
+  transition: all .15s;
+}
+.btn-vip-toggle:hover { border-color: #f59e0b; color: #f59e0b; }
+.btn-vip-toggle.active {
+  background: rgba(245,158,11,.15);
+  border-color: #f59e0b;
+  color: #f59e0b;
+  font-weight: 700;
+}
