@@ -975,6 +975,20 @@ function calcInstallment() {
 function goStep(n) {
   // Validações — se falhar em passo anterior, volta para ele e mostra o erro
   if (n > 1 && !validateStep1()) { _aplicarStep(1); return; }
+
+  // Gate de login obrigatório: ao sair do step 1 (rumo a 2/3/4), exige sessão.
+  if (n >= 2 && typeof getClienteSession === 'function' && !getClienteSession()) {
+    abrirModalLogin('login', (cliente) => {
+      preencherStep2(cliente);
+      _clienteJaLogado = true;
+      lpSetLogado(cliente.nome || cliente.clinica || '', cliente.apelido || '');
+      const jaTem = document.getElementById('lp-ja-tem-conta');
+      if (jaTem) jaTem.style.display = 'none';
+      _aplicarStep(2);
+    });
+    return;
+  }
+
   if (n > 2 && !validateStep2()) { _aplicarStep(2); return; }
   if (n > 3 && !validateStep3()) { return; }
 
@@ -987,6 +1001,21 @@ function goStep(n) {
     console.error('Erro ao avançar passo:', e);
     alert('Ocorreu um erro ao carregar a revisão. Tente novamente.');
   }
+}
+
+// ─── PRE-FILL STEP 2 com dados da sessão de cliente ─────────────────────────
+function preencherStep2(cliente) {
+  if (!cliente) return;
+  const set = (id, val) => { const el = document.getElementById(id); if (el && val) el.value = val; };
+  set('f_clinica',     cliente.nome || cliente.clinica || '');
+  set('f_responsavel', cliente.apelido || cliente.responsavel || '');
+  set('f_telefone',    cliente.telefone);
+  set('f_email',       cliente.email);
+  set('f_documento',   cliente.cpf || cliente.documento || '');
+  set('f_cidade',      cliente.cidade);
+  set('f_estado',      cliente.estado);
+  // O endereço vem como string composta — coloca em f_rua p/ o cliente revisar
+  if (cliente.endereco) set('f_rua', cliente.endereco);
 }
 
 async function _goStep3() {
@@ -1346,6 +1375,7 @@ async function sendWhatsApp() {
     : '—';
 
 
+  const _cliSess = (typeof getClienteSession === 'function') ? getClienteSession() : null;
   const params = new URLSearchParams({
     clinica:       v('f_clinica'),
     responsavel:   v('f_responsavel'),
@@ -1365,7 +1395,8 @@ async function sendWhatsApp() {
     cupom_codigo:  cupomCodigo || '',
     cupom_pct:     cupomAplicado && cupomData?.tipo === '%' ? (cupomData.valor).toFixed(0) : '0',
     cupom_valor:   cupomAplicado ? calcularDescontoCupom().toFixed(2) : '0',
-    carrinho:      JSON.stringify(cart)
+    carrinho:      JSON.stringify(cart),
+    cliente_token: _cliSess?.token || '',
   });
   // Salva pedido. O backend já decrementa o estoque internamente — não precisa
   // chamar action=decrementar_estoque separadamente.

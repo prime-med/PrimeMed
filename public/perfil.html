@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+<title>Minha Conta · Catálogo B2B</title>
+<link rel="stylesheet" href="assets/css/theme.css"/>
+<link rel="stylesheet" href="assets/css/pedido.css"/>
+<link rel="stylesheet" href="assets/css/perfil.css"/>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <a href="index.html" style="display:flex;align-items:center;gap:14px;text-decoration:none;color:inherit">
+    <img src="assets/img/logo.svg" alt="" onerror="this.style.display='none'"/>
+    <div>
+      <h1><span data-client-name></span></h1>
+      <span>Minha Conta</span>
+    </div>
+  </a>
+  <div class="header-right">
+    <a href="pedido.html" class="btn-history" style="text-decoration:none">🛒 Novo Pedido</a>
+    <button type="button" class="pf-btn-sair" onclick="pfSair()">Sair</button>
+  </div>
+</header>
+
+<main class="pf-main">
+
+  <!-- TABS -->
+  <div class="pf-tabs">
+    <button type="button" class="pf-tab active" data-pf-tab="pedidos" onclick="pfShowTab('pedidos')">📦 Meus Pedidos</button>
+    <button type="button" class="pf-tab" data-pf-tab="conta" onclick="pfShowTab('conta')">👤 Minha Conta</button>
+  </div>
+
+  <!-- ════ TAB: PEDIDOS ════ -->
+  <section class="pf-section active" data-pf-pane="pedidos">
+    <div class="pf-section-head">
+      <h2>📦 Meus Pedidos</h2>
+      <p>Acompanhe o status, rastreio e detalhes de cada pedido.</p>
+    </div>
+    <div id="pf-pedidos-loading" class="pf-loading">⏳ Carregando seus pedidos...</div>
+    <div id="pf-pedidos-empty" class="pf-empty" style="display:none">
+      <div class="pf-empty-icon">📭</div>
+      <h3>Nenhum pedido ainda</h3>
+      <p>Quando você fizer um pedido ele aparece aqui com o status em tempo real.</p>
+      <a href="pedido.html" class="pf-btn-cta">🛒 Fazer meu primeiro pedido</a>
+    </div>
+    <div id="pf-pedidos-list" class="pf-pedidos-list"></div>
+  </section>
+
+  <!-- ════ TAB: CONTA ════ -->
+  <section class="pf-section" data-pf-pane="conta" style="display:none">
+    <div class="pf-section-head">
+      <h2>👤 Minha Conta</h2>
+      <p>Atualize seus dados de cadastro e contato.</p>
+    </div>
+
+    <form id="pf-form-conta" class="pf-form" onsubmit="event.preventDefault(); pfSalvarConta();">
+      <div class="pf-grid">
+        <div class="pf-field full">
+          <label>Nome / Empresa</label>
+          <input type="text" id="pf_nome"/>
+        </div>
+        <div class="pf-field">
+          <label>Apelido / Responsável</label>
+          <input type="text" id="pf_apelido"/>
+        </div>
+        <div class="pf-field">
+          <label>Telefone</label>
+          <input type="tel" id="pf_telefone"/>
+        </div>
+        <div class="pf-field">
+          <label>E-mail (não editável)</label>
+          <input type="email" id="pf_email" disabled/>
+        </div>
+        <div class="pf-field">
+          <label>CPF / CNPJ (não editável)</label>
+          <input type="text" id="pf_cpf" disabled/>
+        </div>
+        <div class="pf-field">
+          <label>Cidade</label>
+          <input type="text" id="pf_cidade"/>
+        </div>
+        <div class="pf-field" style="max-width:120px">
+          <label>Estado</label>
+          <input type="text" id="pf_estado" maxlength="2"/>
+        </div>
+        <div class="pf-field full">
+          <label>Endereço completo</label>
+          <input type="text" id="pf_endereco" placeholder="Rua, número, complemento, bairro, CEP"/>
+        </div>
+      </div>
+      <div class="pf-msg" id="pf-msg-conta"></div>
+      <button type="submit" class="pf-btn-cta" id="pf-btn-salvar-conta">Salvar alterações</button>
+    </form>
+
+    <hr class="pf-hr"/>
+
+    <form id="pf-form-senha" class="pf-form" onsubmit="event.preventDefault(); pfTrocarSenha();">
+      <h3 class="pf-subtitle">🔒 Alterar senha</h3>
+      <div class="pf-grid">
+        <div class="pf-field">
+          <label>Senha atual</label>
+          <input type="password" id="pf_senha_atual" autocomplete="current-password"/>
+        </div>
+        <div class="pf-field"></div>
+        <div class="pf-field">
+          <label>Nova senha (mín 6)</label>
+          <input type="password" id="pf_senha_nova" autocomplete="new-password" minlength="6"/>
+        </div>
+        <div class="pf-field">
+          <label>Confirmar nova senha</label>
+          <input type="password" id="pf_senha_conf" autocomplete="new-password" minlength="6"/>
+        </div>
+      </div>
+      <div class="pf-msg" id="pf-msg-senha"></div>
+      <button type="submit" class="pf-btn-cta pf-btn-cta-secondary">Atualizar senha</button>
+    </form>
+
+  </section>
+
+</main>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/cliente_auth.js"></script>
+<script src="assets/js/client_render.js"></script>
+<script>
+// ─── GUARD: redirect se não logado ────────────────────────────────────────
+const _pfSess = getClienteSession();
+if (!_pfSess) {
+  window.location.href = 'index.html';
+}
+
+// ─── ESC HTML ────────────────────────────────────────────────────────────
+function pfEsc(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+}
+function pfFmtBrl(v) { return parseFloat(v||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+
+// ─── TABS ─────────────────────────────────────────────────────────────────
+function pfShowTab(tab) {
+  document.querySelectorAll('[data-pf-tab]').forEach(b => b.classList.toggle('active', b.dataset.pfTab === tab));
+  document.querySelectorAll('[data-pf-pane]').forEach(p => p.style.display = (p.dataset.pfPane === tab) ? '' : 'none');
+}
+
+// ─── SAIR ─────────────────────────────────────────────────────────────────
+async function pfSair() {
+  await clienteLogout();
+  window.location.href = 'index.html';
+}
+
+// ─── STATUS TIMELINE ──────────────────────────────────────────────────────
+const PF_STATUS_STEPS = [
+  { key: 'novo',         label: 'Novo',           icon: '📝' },
+  { key: 'pago',         label: 'Pag. Confirmado', icon: '💳' },
+  { key: 'separacao',    label: 'Em Separação',    icon: '📋' },
+  { key: 'embalado',     label: 'Embalado',        icon: '📦' },
+  { key: 'etiqueta',     label: 'Etiqueta Gerada', icon: '🏷️' },
+  { key: 'enviado',      label: 'Enviado',         icon: '🚚' },
+  { key: 'entregue',     label: 'Entregue',        icon: '✅' },
+];
+function pfStatusIndex(status) {
+  const s = String(status || '').toLowerCase().replace(/[._-]/g,' ').trim();
+  if (!s) return 0;
+  if (/entreg/.test(s)) return 6;
+  if (/envi|despach|postado|transito/.test(s)) return 5;
+  if (/etiquet/.test(s)) return 4;
+  if (/embal/.test(s)) return 3;
+  if (/separ/.test(s)) return 2;
+  if (/pag/.test(s) || /confirm/.test(s)) return 1;
+  return 0;
+}
+function pfTimelineHtml(status) {
+  const idx = pfStatusIndex(status);
+  return `<div class="pf-timeline">${PF_STATUS_STEPS.map((step, i) => {
+    let cls = 'pf-tl-step';
+    if (i < idx) cls += ' done';
+    else if (i === idx) cls += ' current';
+    else cls += ' future';
+    return `<div class="${cls}">
+      <div class="pf-tl-dot">${step.icon}</div>
+      <div class="pf-tl-label">${pfEsc(step.label)}</div>
+    </div>${i < PF_STATUS_STEPS.length - 1 ? `<div class="pf-tl-bar ${i < idx ? 'done' : ''}"></div>` : ''}`;
+  }).join('')}</div>`;
+}
+
+// ─── RENDER PEDIDOS ───────────────────────────────────────────────────────
+async function pfCarregarPedidos() {
+  const loadingEl = document.getElementById('pf-pedidos-loading');
+  const emptyEl   = document.getElementById('pf-pedidos-empty');
+  const listEl    = document.getElementById('pf-pedidos-list');
+  loadingEl.style.display = 'block';
+  emptyEl.style.display   = 'none';
+  listEl.innerHTML        = '';
+  try {
+    const data = await cliPost_('meus_pedidos', { token: _pfSess.token });
+    loadingEl.style.display = 'none';
+    if (!data || !data.ok) {
+      listEl.innerHTML = `<div class="pf-empty"><h3>⚠️ Não foi possível carregar.</h3><p>${pfEsc((data && data.erro) || 'Tente novamente em instantes.')}</p></div>`;
+      return;
+    }
+    const pedidos = (data.pedidos || []).slice().reverse();
+    if (!pedidos.length) { emptyEl.style.display = ''; return; }
+    listEl.innerHTML = pedidos.map(pfPedidoCard).join('');
+  } catch (e) {
+    loadingEl.style.display = 'none';
+    listEl.innerHTML = `<div class="pf-empty"><h3>⚠️ Erro de conexão.</h3><p>Verifique sua internet e tente novamente.</p></div>`;
+  }
+}
+
+function pfPedidoCard(p) {
+  const itensRaw = String(p.produtos || '').split('\n').filter(Boolean);
+  const itensH = itensRaw.map(l => `<div class="pf-prod-line">• ${pfEsc(l)}</div>`).join('');
+  const dataStatus = p.dataStatus ? `<span class="pf-meta">atualizado em ${pfEsc(p.dataStatus)}</span>` : '';
+  const rastreioH = p.rastreio
+    ? `<a class="pf-rastreio" target="_blank" rel="noopener"
+         href="https://rastreamento.correios.com.br/app/index.php?objeto=${encodeURIComponent(p.rastreio)}">
+         🔍 Rastrear: <strong>${pfEsc(p.rastreio)}</strong>
+       </a>`
+    : '';
+  const dataEnvioH = p.dataEnvio ? `<span class="pf-meta">enviado em ${pfEsc(p.dataEnvio)}</span>` : '';
+  return `<article class="pf-pedido">
+    <header class="pf-pedido-head">
+      <div>
+        <div class="pf-pedido-id">Pedido #${pfEsc(p.id || '—')}</div>
+        <div class="pf-pedido-data">📅 ${pfEsc(p.data || '—')}</div>
+      </div>
+      <div class="pf-pedido-total">
+        <span class="pf-pedido-total-lbl">Total</span>
+        <span class="pf-pedido-total-val">R$ ${pfFmtBrl(p.total)}</span>
+      </div>
+    </header>
+
+    ${pfTimelineHtml(p.status)}
+
+    <div class="pf-pedido-body">
+      ${itensH ? `<div class="pf-prods">${itensH}</div>` : ''}
+      <div class="pf-pedido-meta">
+        ${p.pagamento ? `<span class="pf-tag">${pfEsc(p.pagamento)}</span>` : ''}
+        ${p.cupom ? `<span class="pf-tag pf-tag-accent">🎟️ ${pfEsc(p.cupom)}</span>` : ''}
+        ${dataStatus}
+        ${dataEnvioH}
+      </div>
+      ${rastreioH}
+    </div>
+  </article>`;
+}
+
+// ─── CONTA — preencher form ───────────────────────────────────────────────
+async function pfCarregarConta() {
+  // Preenche imediatamente com cache da sessão
+  pfPreencherForm(_pfSess);
+  // Em background, busca o perfil real do servidor (pode ter mudado)
+  try {
+    const data = await cliPost_('meu_perfil', { token: _pfSess.token });
+    if (data && data.ok && data.cliente) {
+      const merged = Object.assign({}, _pfSess, data.cliente);
+      setClienteSession(Object.assign({}, _pfSess, data.cliente));
+      pfPreencherForm(merged);
+    }
+  } catch (e) { /* mantém cache local */ }
+}
+
+function pfPreencherForm(c) {
+  if (!c) return;
+  const set = (id, v) => { const el = document.getElementById(id); if (el) el.value = v || ''; };
+  set('pf_nome',     c.nome || c.clinica || '');
+  set('pf_apelido',  c.apelido || c.responsavel || '');
+  set('pf_telefone', c.telefone);
+  set('pf_email',    c.email);
+  set('pf_cpf',      c.cpf || c.documento || '');
+  set('pf_cidade',   c.cidade);
+  set('pf_estado',   c.estado);
+  set('pf_endereco', c.endereco);
+}
+
+async function pfSalvarConta() {
+  const msg = document.getElementById('pf-msg-conta');
+  const btn = document.getElementById('pf-btn-salvar-conta');
+  msg.textContent = ''; msg.className = 'pf-msg';
+  const payload = {
+    token:     _pfSess.token,
+    nome:      document.getElementById('pf_nome').value.trim(),
+    apelido:   document.getElementById('pf_apelido').value.trim(),
+    telefone:  document.getElementById('pf_telefone').value.trim(),
+    cidade:    document.getElementById('pf_cidade').value.trim(),
+    estado:    document.getElementById('pf_estado').value.trim().toUpperCase(),
+    endereco:  document.getElementById('pf_endereco').value.trim(),
+  };
+  if (!payload.nome || !payload.apelido || !payload.telefone) {
+    msg.textContent = 'Nome, apelido e telefone são obrigatórios.'; msg.classList.add('err'); return;
+  }
+  btn.disabled = true; const orig = btn.textContent; btn.textContent = 'Salvando…';
+  try {
+    const data = await cliPost_('editar_meu_perfil', payload);
+    if (data && data.ok) {
+      msg.textContent = '✅ Dados atualizados!'; msg.classList.add('ok');
+      const updated = Object.assign({}, _pfSess, payload);
+      setClienteSession(updated);
+      Object.assign(_pfSess, payload);
+      // re-render header (atualiza nome no badge)
+      document.querySelectorAll('[data-cli-header-btn]').forEach(el => renderClienteHeaderBtn(el));
+    } else {
+      msg.textContent = '⚠️ ' + ((data && data.erro) || 'Não foi possível salvar.'); msg.classList.add('err');
+    }
+  } catch (e) {
+    msg.textContent = '⚠️ Erro de conexão.'; msg.classList.add('err');
+  } finally {
+    btn.disabled = false; btn.textContent = orig;
+  }
+}
+
+async function pfTrocarSenha() {
+  const msg = document.getElementById('pf-msg-senha');
+  const atual = document.getElementById('pf_senha_atual').value.trim();
+  const nova  = document.getElementById('pf_senha_nova').value.trim();
+  const conf  = document.getElementById('pf_senha_conf').value.trim();
+  msg.textContent = ''; msg.className = 'pf-msg';
+  if (!atual || !nova || !conf) { msg.textContent = 'Preencha todos os campos.'; msg.classList.add('err'); return; }
+  if (nova.length < 6) { msg.textContent = 'Nova senha precisa de ao menos 6 caracteres.'; msg.classList.add('err'); return; }
+  if (nova !== conf)   { msg.textContent = 'As senhas não coincidem.'; msg.classList.add('err'); return; }
+  try {
+    const data = await cliPost_('editar_meu_perfil', {
+      token:        _pfSess.token,
+      nome:         document.getElementById('pf_nome').value.trim(),
+      apelido:      document.getElementById('pf_apelido').value.trim(),
+      telefone:     document.getElementById('pf_telefone').value.trim(),
+      cidade:       document.getElementById('pf_cidade').value.trim(),
+      estado:       document.getElementById('pf_estado').value.trim().toUpperCase(),
+      endereco:     document.getElementById('pf_endereco').value.trim(),
+      senha_atual:  atual,
+      nova_senha:   nova,
+    });
+    if (data && data.ok) {
+      msg.textContent = '✅ Senha atualizada com sucesso.'; msg.classList.add('ok');
+      document.getElementById('pf_senha_atual').value = '';
+      document.getElementById('pf_senha_nova').value  = '';
+      document.getElementById('pf_senha_conf').value  = '';
+    } else {
+      msg.textContent = '⚠️ ' + ((data && data.erro) || 'Senha atual incorreta.'); msg.classList.add('err');
+    }
+  } catch (e) {
+    msg.textContent = '⚠️ Erro de conexão.'; msg.classList.add('err');
+  }
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────
+if (_pfSess) {
+  pfCarregarPedidos();
+  pfCarregarConta();
+}
+</script>
+
+</body>
+</html>

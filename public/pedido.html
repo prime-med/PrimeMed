@@ -23,6 +23,7 @@
   </div>
   <div class="header-right">
     <button class="btn-history" onclick="openHistory()">📋 Histórico</button>
+    <div id="cliente-header-btn" class="header-cli-btn"></div>
   </div>
 </header>
 <!-- POPUP PRAZO DESPACHO -->
@@ -474,9 +475,14 @@
 </div>
 
 <script src="assets/js/config.js"></script>
+<script src="assets/js/cliente_auth.js"></script>
 <script src="assets/js/client_render.js"></script>
 <script src="assets/js/frete.js"></script>
 <script src="assets/js/pedido.js"></script>
+<script>
+  // Renderiza o botão "Minha Conta / Entrar" no header
+  renderClienteHeaderBtn('#cliente-header-btn');
+</script>
 
 
 </body>

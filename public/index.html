@@ -27,6 +27,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/theme.css"/>
   <link rel="stylesheet" href="assets/css/index.css"/>
+  <link rel="stylesheet" href="assets/css/pedido.css"/>
 </head>
 <body>
 
@@ -42,6 +43,7 @@
   <a href="#" class="nav-cta" target="_blank" data-wa-link data-wa-text="Olá! Tenho interesse no catálogo.">
     💬 Falar no WhatsApp
   </a>
+  <div id="cliente-header-btn" class="header-cli-btn"></div>
 </nav>
 
 <!-- ═══ HERO ═══ -->
@@ -264,8 +266,10 @@
 </div>
 
 <script src="assets/js/config.js"></script>
+<script src="assets/js/cliente_auth.js"></script>
 <script src="assets/js/client_render.js"></script>
 <script src="assets/js/index.js"></script>
+<script>renderClienteHeaderBtn('#cliente-header-btn');</script>
 
 </body>
 </html>
