@@ -1005,12 +1005,18 @@ function goStep(n) {
     return;
   }
 
-  // Cliente logado avançando de step 1: pula step 2 (form já preenchido na sessão)
-  // Só pula no fluxo "frente"; se cliente clicar voltar de step 3 pra 2, deixa.
-  if (n === 2 && sess && onStep1) {
-    preencherStep2(sess);
-    _clienteJaLogado = true;
-    _aplicarStep(3);
+  // Cliente logado: step 2 é transparente. Pula sempre.
+  //   • Avançando de 1 → 2:  vai direto pra 3 (pagamento)
+  //   • Voltando de 3 → 2:   volta pra 1 (produtos)
+  // Pra editar dados, cliente vai em perfil.html.
+  if (n === 2 && sess && _clienteJaLogado) {
+    const onStep3 = document.getElementById('panel3')?.classList.contains('active');
+    if (onStep3) {
+      _aplicarStep(1);
+    } else {
+      preencherStep2(sess);
+      _aplicarStep(3);
+    }
     return;
   }
 
