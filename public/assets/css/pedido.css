@@ -853,6 +853,31 @@
     .btn-row { flex-direction: column-reverse; }
     .btn { width: 100%; text-align: center; }
     main { padding: 20px 14px 80px; }
+
+    /* Header compacto no mobile — evita botão de login sair da tela */
+    header { padding: 12px 12px; gap: 8px; flex-wrap: wrap; }
+    header img, header > div:first-of-type + div { flex-shrink: 0; }
+    header h1 { font-size: 1rem; }
+    header > div:nth-of-type(2) { min-width: 0; flex: 1; }
+    header > div:nth-of-type(2) span { font-size: .7rem; }
+    .header-right { gap: 6px; flex-shrink: 0; }
+    .btn-history { padding: 6px 10px; font-size: .72rem; }
+    .btn-history span,
+    .btn-history { white-space: nowrap; }
+    .cli-hbtn { padding: 5px 10px; font-size: .76rem; }
+    .cli-hbtn-name { max-width: 70px; font-size: .76rem; }
+    .cli-hbtn-logged { padding: 3px; }
+    .cli-hbtn-logged .cli-hbtn-link { padding: 3px 4px 3px 3px; gap: 6px; }
+    .cli-hbtn-avatar { width: 22px; height: 22px; font-size: .72rem; }
+    .cli-hbtn-logout { padding: 3px 8px; font-size: .68rem; }
+  }
+
+  @media (max-width: 380px) {
+    header h1 { font-size: .92rem; }
+    header > div:nth-of-type(2) span { display: none; }
+    .btn-history { font-size: 0; padding: 6px 8px; }
+    .btn-history::before { content: '📋'; font-size: .9rem; }
+    .cli-hbtn-name { max-width: 50px; }
   }
 
   /* ── LOGIN PANEL ── */
