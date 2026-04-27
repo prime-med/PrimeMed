@@ -3,8 +3,8 @@
 
 body {
   font-family: 'Segoe UI', sans-serif;
-  background: var(--bg, #0e2840);
-  color: var(--text, #e8eef4);
+  background: var(--bg, #0F0B1A);
+  color: var(--text, #FFFFFF);
   min-height: 100vh;
 }
 
@@ -33,17 +33,17 @@ body {
 .pf-tabs {
   display: flex;
   gap: 6px;
-  background: var(--surface, #163652);
+  background: var(--surface, #1A1428);
   padding: 6px;
   border-radius: 12px;
-  border: 1px solid var(--border, #284c6e);
+  border: 1px solid var(--border, #2D2440);
   margin-bottom: 26px;
 }
 .pf-tab {
   flex: 1;
   background: transparent;
   border: none;
-  color: var(--gray, #8ca2b8);
+  color: var(--gray, #9CA3AF);
   font-family: inherit;
   font-size: .9rem;
   font-weight: 600;
@@ -54,9 +54,9 @@ body {
 }
 .pf-tab:hover { color: var(--text); }
 .pf-tab.active {
-  background: var(--accent, #14b8a6);
-  color: var(--header-bg, #0a1f33);
-  box-shadow: 0 4px 14px rgba(20,184,166,.35);
+  background: var(--accent, #F59E0B);
+  color: var(--header-bg, #0F0B1A);
+  box-shadow: 0 4px 14px rgba(245,158,11,.35);
 }
 
 /* ── SECTIONS ── */
@@ -82,7 +82,7 @@ body {
   font-size: .92rem;
 }
 .pf-empty {
-  background: var(--surface, #163652);
+  background: var(--surface, #1A1428);
   border: 1px dashed var(--border);
   border-radius: 14px;
   padding: 50px 24px;
@@ -97,8 +97,8 @@ body {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background: var(--accent, #14b8a6);
-  color: var(--header-bg, #0a1f33);
+  background: var(--accent, #F59E0B);
+  color: var(--header-bg, #0F0B1A);
   border: none;
   text-decoration: none;
   padding: 12px 22px;
@@ -110,9 +110,9 @@ body {
   transition: all .2s;
 }
 .pf-btn-cta:hover:not(:disabled) {
-  background: var(--accent-d, #0d9488);
+  background: var(--accent-d, #D97706);
   transform: translateY(-1px);
-  box-shadow: 0 8px 22px rgba(20,184,166,.35);
+  box-shadow: 0 8px 22px rgba(245,158,11,.35);
 }
 .pf-btn-cta:disabled { opacity: .6; cursor: wait; }
 .pf-btn-cta-secondary {
@@ -122,7 +122,7 @@ body {
 }
 .pf-btn-cta-secondary:hover:not(:disabled) {
   background: var(--accent);
-  color: var(--header-bg, #0a1f33);
+  color: var(--header-bg, #0F0B1A);
 }
 
 /* ════ PEDIDOS ════ */
@@ -132,7 +132,7 @@ body {
   gap: 18px;
 }
 .pf-pedido {
-  background: var(--card, #1d4060);
+  background: var(--card, #1A1428);
   border: 1px solid var(--border);
   border-radius: 14px;
   padding: 18px 20px;
@@ -226,8 +226,8 @@ body {
 .pf-tl-step.current .pf-tl-dot {
   background: var(--accent);
   border-color: var(--accent);
-  color: var(--header-bg, #0a1f33);
-  box-shadow: 0 0 0 6px rgba(20,184,166,.18), 0 0 18px rgba(20,184,166,.5);
+  color: var(--header-bg, #0F0B1A);
+  box-shadow: 0 0 0 6px rgba(245,158,11,.18), 0 0 18px rgba(245,158,11,.5);
   transform: scale(1.05);
 }
 .pf-tl-step.current .pf-tl-label { color: var(--accent); font-weight: 800; }
@@ -272,7 +272,7 @@ body {
   font-weight: 600;
 }
 .pf-tag-accent {
-  background: rgba(20,184,166,.14);
+  background: rgba(245,158,11,.14);
   border-color: var(--accent);
   color: var(--accent);
 }
@@ -285,7 +285,7 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(20,184,166,.1);
+  background: rgba(245,158,11,.1);
   border: 1px solid var(--accent);
   color: var(--accent);
   padding: 9px 14px;
@@ -298,13 +298,13 @@ body {
 }
 .pf-rastreio:hover {
   background: var(--accent);
-  color: var(--header-bg, #0a1f33);
+  color: var(--header-bg, #0F0B1A);
 }
 .pf-rastreio strong { letter-spacing: 1px; font-family: monospace; }
 
 /* ════ FORM CONTA ════ */
 .pf-form {
-  background: var(--card, #1d4060);
+  background: var(--card, #1A1428);
   border: 1px solid var(--border);
   border-radius: 14px;
   padding: 22px 22px 24px;
@@ -325,7 +325,7 @@ body {
   letter-spacing: .04em;
 }
 .pf-field input {
-  background: var(--input-bg, #11283f);
+  background: var(--input-bg, #1F1935);
   border: 1px solid var(--border);
   color: var(--text);
   padding: 10px 12px;
@@ -337,7 +337,7 @@ body {
 }
 .pf-field input:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(20,184,166,.18);
+  box-shadow: 0 0 0 3px rgba(245,158,11,.18);
 }
 .pf-field input:disabled {
   opacity: .55;

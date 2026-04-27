@@ -4,14 +4,14 @@
          São MAIS escuros que --bg pra criar profundidade nas seções de impacto. */
       --petrol:      #08182a;       /* contraste dark (hero, CTA, modal) */
       --petrol-dark: #050f1a;       /* variante mais profunda */
-      --petrol-mid:  #14b8a6;       /* teal accent */
+      --petrol-mid:  #F59E0B;       /* teal accent */
       --petrol-lite: #1f4d7e;       /* azul médio pra gradients */
-      --petrol-bg:   #0e2840;       /* = --bg do tema */
+      --petrol-bg:   #0F0B1A;       /* = --bg do tema */
       --white:       #FFFFFF;
-      --gray-1:      #163652;       /* surface tone */
-      --gray-2:      #284c6e;       /* border tone */
-      --text-dark:   #e8eef4;       /* texto sobre fundo dark */
-      --text-mid:    #8ca2b8;
+      --gray-1:      #1A1428;       /* surface tone */
+      --gray-2:      #2D2440;       /* border tone */
+      --text-dark:   #FFFFFF;       /* texto sobre fundo dark */
+      --text-mid:    #9CA3AF;
       --green-wa:    #25D366;
       --green-wa-d:  #1DA851;
     }
@@ -150,7 +150,7 @@
     .h-card .hc-name { font-family:'Montserrat',sans-serif; font-size:9.5pt; font-weight:800; color:white; margin-bottom:4px; }
     .h-card .hc-desc { font-size:8pt; color:rgba(255,255,255,0.55); line-height:1.4; }
     .h-card .hc-tag { display:inline-block; background:rgba(59,130,246,0.2); color:#3b82f6; font-size:7pt; font-weight:700; padding:2px 8px; border-radius:50px; margin-top:8px; }
-    .h-card .hc-vitrine { display:inline-block; background:rgba(20,184,166,0.15); color:#14b8a6; font-size:6.5pt; font-weight:700; padding:2px 7px; border-radius:50px; margin-left:5px; border:1px solid rgba(20,184,166,0.3); }
+    .h-card .hc-vitrine { display:inline-block; background:rgba(245,158,11,0.15); color:#F59E0B; font-size:6.5pt; font-weight:700; padding:2px 7px; border-radius:50px; margin-left:5px; border:1px solid rgba(245,158,11,0.3); }
     .hero-disclaimer { margin-top:14px; font-size:7.5pt; color:rgba(255,255,255,0.4); text-align:center; font-style:italic; }
 
     /* ─── SECTION BASE ────────────────────────────────── */
@@ -193,14 +193,14 @@
     }
     .prod-card:hover { transform:translateY(-6px); box-shadow:0 12px 36px rgba(0,0,0,0.16); }
     .prod-card-top { padding:22px 20px 16px; color:white; }
-    .prod-card-top.c1 { background:linear-gradient(135deg, #0e2840 0%, #163652 100%); }
-    .prod-card-top.c2 { background:linear-gradient(135deg, #0e2840 0%, #14b8a6 100%); }
-    .prod-card-top.c3 { background:linear-gradient(135deg, #0e2840 0%, #b8865a 100%); }
-    .prod-card-top.c4 { background:linear-gradient(135deg, #0e2840 0%, #a78bb0 100%); }
-    .prod-card-top.c5 { background:linear-gradient(135deg, #0e2840 0%, #0d9488 100%); }
-    .prod-card-top.c6 { background:linear-gradient(135deg, #0e2840 0%, #3b82f6 60%, #14b8a6 100%); }
-    .prod-card-top.c7 { background:linear-gradient(135deg, #0e2840 0%, #163652 50%, #3b82f6 100%); }
-    .prod-card-top.c8 { background:linear-gradient(135deg, #0e2840 0%, #b8865a 100%); }
+    .prod-card-top.c1 { background:linear-gradient(135deg, #0F0B1A 0%, #1A1428 100%); }
+    .prod-card-top.c2 { background:linear-gradient(135deg, #0F0B1A 0%, #F59E0B 100%); }
+    .prod-card-top.c3 { background:linear-gradient(135deg, #0F0B1A 0%, #b8865a 100%); }
+    .prod-card-top.c4 { background:linear-gradient(135deg, #0F0B1A 0%, #a78bb0 100%); }
+    .prod-card-top.c5 { background:linear-gradient(135deg, #0F0B1A 0%, #D97706 100%); }
+    .prod-card-top.c6 { background:linear-gradient(135deg, #0F0B1A 0%, #3b82f6 60%, #F59E0B 100%); }
+    .prod-card-top.c7 { background:linear-gradient(135deg, #0F0B1A 0%, #1A1428 50%, #3b82f6 100%); }
+    .prod-card-top.c8 { background:linear-gradient(135deg, #0F0B1A 0%, #b8865a 100%); }
     .prod-card-top .pc-icon { font-size:28px; margin-bottom:10px; }
     .prod-card-top .pc-conc { font-size:7pt; opacity:.55; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:4px; }
     .prod-card-top .pc-name { font-family:'Montserrat',sans-serif; font-size:12pt; font-weight:800; line-height:1.2; }
@@ -237,7 +237,7 @@
     }
     .proto-overlay.open { display:flex; }
     .proto-modal {
-      background:#0e2840; border:1px solid #284c6e;
+      background:#0F0B1A; border:1px solid #2D2440;
       border-radius:20px; max-width:680px; width:100%;
       max-height:90vh; display:flex; flex-direction:column;
       animation:popIn .25s ease;
@@ -245,30 +245,30 @@
     @keyframes popIn { from{opacity:0;transform:scale(.95)} to{opacity:1;transform:scale(1)} }
     .proto-header {
       padding:22px 28px 18px;
-      border-bottom:1px solid #284c6e;
+      border-bottom:1px solid #2D2440;
       display:flex; align-items:center; justify-content:space-between;
     }
     .proto-header-left { display:flex; align-items:center; gap:14px; }
     .proto-header-icon { font-size:2.2rem; }
     .proto-header-name { font-family:'Montserrat',sans-serif; font-size:14pt; font-weight:800; color:var(--text-dark); }
-    .proto-header-conc { font-size:8.5pt; color:var(--accent, #14b8a6); margin-top:2px; }
+    .proto-header-conc { font-size:8.5pt; color:var(--accent, #F59E0B); margin-top:2px; }
     .proto-close {
-      background:none; border:none; color:#8ca2b8;
+      background:none; border:none; color:#9CA3AF;
       font-size:1.5rem; cursor:pointer; padding:4px 8px; border-radius:8px;
       transition:background .2s;
     }
-    .proto-close:hover { background:#284c6e; color:var(--text-dark); }
+    .proto-close:hover { background:#2D2440; color:var(--text-dark); }
     .proto-body { padding:22px 28px; overflow-y:auto; flex:1; display:flex; flex-direction:column; gap:18px; }
     .proto-section { }
     .proto-section-title {
       font-family:'Montserrat',sans-serif; font-size:7.5pt; font-weight:800;
-      color:#14b8a6; text-transform:uppercase; letter-spacing:1.5px;
+      color:#F59E0B; text-transform:uppercase; letter-spacing:1.5px;
       margin-bottom:7px;
     }
     .proto-section-text { font-size:9.5pt; color:rgba(232,238,244,0.8); line-height:1.65; }
     .proto-protocols { display:flex; flex-direction:column; gap:10px; }
     .proto-protocol-item {
-      background:#163652; border:1px solid #284c6e; border-radius:10px;
+      background:#1A1428; border:1px solid #2D2440; border-radius:10px;
       padding:13px 16px;
     }
     .proto-protocol-name { font-family:'Montserrat',sans-serif; font-size:9pt; font-weight:800; color:#3b82f6; margin-bottom:4px; }
@@ -279,18 +279,18 @@
       font-size:8.5pt; color:#b91c1c; line-height:1.6;
     }
     .proto-footer {
-      padding:16px 28px; border-top:1px solid #284c6e;
+      padding:16px 28px; border-top:1px solid #2D2440;
       display:flex; gap:10px; justify-content:flex-end;
     }
     .proto-btn-pedido {
-      background:#14b8a6; color:#0e2840;
+      background:#F59E0B; color:#0F0B1A;
       font-family:'Montserrat',sans-serif; font-size:9pt; font-weight:800;
       padding:11px 24px; border-radius:10px; text-decoration:none;
       display:flex; align-items:center; gap:8px; cursor:pointer; border:none;
       transition:background .2s;
     }
-    .proto-btn-pedido:hover { background:#0d9488; color:white; }
-    .proto-loading { text-align:center; padding:40px; color:#8ca2b8; font-size:10pt; }
+    .proto-btn-pedido:hover { background:#D97706; color:white; }
+    .proto-loading { text-align:center; padding:40px; color:#9CA3AF; font-size:10pt; }
     @media(max-width:600px){
       .proto-modal { border-radius:14px 14px 0 0; max-height:95vh; }
       .proto-overlay { align-items:flex-end; padding:0; }
@@ -354,7 +354,7 @@
 
     /* ─── CTA FINAL ───────────────────────────────────── */
     .cta-final {
-      background: linear-gradient(135deg, var(--petrol-dark) 0%, #0e2840 50%, #0e2840 100%);
+      background: linear-gradient(135deg, var(--petrol-dark) 0%, #0F0B1A 50%, #0F0B1A 100%);
       padding: 100px 40px; text-align:center; position:relative; overflow:hidden;
     }
     .cta-final::before {

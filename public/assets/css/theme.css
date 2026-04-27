@@ -1,23 +1,27 @@
-/* Template B2B — variáveis e reset compartilhados (paleta Petrol Modern + Teal, dark theme) */
+/* Template — variáveis e reset compartilhados (paleta Pharmafit Purple + Amber, dark theme) */
 :root {
-  --bg:       #0e2840;
-  --surface:  #163652;
-  --card:     #1d4060;
-  --border:   #284c6e;
-  --accent:   #14b8a6;
-  --accent-d: #0d9488;
-  --green:    #14b8a6;
-  --blue:     #3b82f6;
-  --red:      #ef4444;
+  --bg:       #0F0B1A;
+  --surface:  #1A1428;
+  --card:     #1A1428;
+  --border:   #2D2440;
+  --accent:   #F59E0B;
+  --accent-d: #D97706;
+  --green:    #10B981;
+  --blue:     #7C3AED;
+  --purple:   #7C3AED;
+  --red:      #EF4444;
   --wa:       #25D366;
-  --wa-d:     #1da851;
-  --text:     #e8eef4;
-  --gray:     #8ca2b8;
-  --light:    #a8b8cb;
-  --input-bg: #11283f;
-  /* Header / nav — levemente mais dark que --bg pra dar profundidade */
-  --header-bg:    #0a1f33;
-  --header-text:  #e8eef4;
+  --wa-d:     #1DA851;
+  --white:    #FFFFFF;
+  --gray:     #9CA3AF;
+  --gray2:    #7B6E9A;
+  --light:    #F5F3FF;
+  --text:     #FFFFFF;
+  --input-bg: #1F1935;
+  --lavender: #A78BFA;
+  /* Header / nav */
+  --header-bg:    #0F0B1A;
+  --header-text:  #FFFFFF;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }

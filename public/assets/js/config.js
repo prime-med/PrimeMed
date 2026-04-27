@@ -10,7 +10,7 @@
  *
  *   1. Edite o objeto CLIENT abaixo (este arquivo)
  *   2. Substitua os arquivos de imagem:
- *        public/assets/img/logo.svg      ← logo do cliente
+ *        public/assets/img/logo.png      ← logo do cliente
  *        public/assets/img/og-image.svg  ← imagem de preview WhatsApp/Facebook
  *      (Pode usar PNG/JPG; ajuste a extensão em CLIENT.logo / CLIENT.ogImage)
  *   3. Configure o backend (Google Apps Script):
@@ -54,7 +54,7 @@ const CLIENT = {
   name:    'Sua Empresa',           // Nome curto, exibido em títulos e logo (fallback)
   tagline: 'Catálogo B2B',          // Subtítulo / descrição em meta tags
   wa:      '',                      // WhatsApp do cliente — só dígitos com código país, ex: '5511999999999'
-  logo:    'assets/img/logo.svg',   // Caminho do logo (SVG/PNG — relativo a /public)
+  logo:    'assets/img/logo.png',   // Caminho do logo (SVG/PNG — relativo a /public)
   ogImage: 'assets/img/og-image.svg', // Imagem de preview em redes sociais (1200x630 ideal)
   baseUrl: '',                      // URL base do site, ex: 'https://meu-cliente.github.io/repo' (vazio = relativo)
 };

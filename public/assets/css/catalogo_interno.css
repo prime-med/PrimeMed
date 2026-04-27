@@ -1,25 +1,25 @@
 :root {
     /* Paleta Verde Sálvia + Carvão Morno — alinhada com theme.css */
-    --bg:      #0e2840;
-    --surface: #163652;
-    --card:    #1d4060;
-    --border:  #284c6e;
-    --accent:  #14b8a6;
-    --green:   #14b8a6;
+    --bg:      #0F0B1A;
+    --surface: #1A1428;
+    --card:    #1A1428;
+    --border:  #2D2440;
+    --accent:  #F59E0B;
+    --green:   #F59E0B;
     --blue:    #3b82f6;
     --purple:  #a78bb0;
     --red:     #ef4444;
-    --text:    #e8eef4;
-    --gray:    #8ca2b8;
-    --light:   #a8b8cb;
+    --text:    #FFFFFF;
+    --gray:    #9CA3AF;
+    --light:   #A78BFA;
   }
   * { box-sizing:border-box; margin:0; padding:0 }
   body { background:var(--bg); color:var(--text); font-family:'Inter',system-ui,sans-serif; min-height:100vh }
 
   /* ── HEADER ── */
   .header {
-    background:var(--header-bg, #0a1f33);
-    color:var(--header-text, #e8eef4);
+    background:var(--header-bg, #0F0B1A);
+    color:var(--header-text, #FFFFFF);
     border-bottom:2px solid var(--accent);
     box-shadow:0 2px 8px rgba(0,0,0,0.08);
     padding:16px 24px;
@@ -45,7 +45,7 @@
   .search-box {
     flex:1; min-width:200px; max-width:340px;
     padding:9px 14px; border-radius:8px;
-    border:1px solid var(--border); background:#11283f;
+    border:1px solid var(--border); background:#1F1935;
     color:var(--text); font-size:.9rem; outline:none;
   }
   .search-box:focus { border-color:var(--accent) }
@@ -79,7 +79,7 @@
     transition:transform .2s, box-shadow .2s;
   }
   .card:hover { transform:translateY(-3px); box-shadow:0 8px 30px rgba(0,0,0,.4) }
-  .card.em-promo { border-color: rgba(20,184,166,.35) }
+  .card.em-promo { border-color: rgba(245,158,11,.35) }
 
   .card-head {
     padding:16px 16px 12px;
@@ -124,7 +124,7 @@
     border-top:1px solid var(--border);
     display:flex; align-items:center; gap:4px;
   }
-  .variants-toggle:hover { background:rgba(20,184,166,.05) }
+  .variants-toggle:hover { background:rgba(245,158,11,.05) }
   .variants-list { display:none; padding:0 16px 12px; }
   .variants-list.open { display:block }
   .variant-row {
@@ -158,7 +158,7 @@
     background: linear-gradient(135deg, var(--accent), var(--surface));
     padding: 14px 24px;
     display: flex; align-items: center; justify-content: center; gap: 14px;
-    box-shadow: 0 -4px 24px rgba(20,184,166,.35);
+    box-shadow: 0 -4px 24px rgba(245,158,11,.35);
   }
   .cta-bar-text {
     font-size: .95rem; font-weight: 700; color: #000;
