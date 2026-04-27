@@ -17,11 +17,13 @@
     --selected-bg: rgba(20,184,166,.12);   /* teal sutil pra dark theme */
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scrollbar-gutter: stable; }
   body {
     font-family: 'Segoe UI', sans-serif;
     background: var(--petrol);
     color: var(--white);
     min-height: 100vh;
+    overflow-x: hidden;
   }
 
   /* ── HEADER ── */
@@ -457,9 +459,10 @@
     font-size: .72rem; font-weight: 700; color: var(--accent);
     text-transform: uppercase; letter-spacing: .8px; margin-bottom: 12px;
   }
-  .cupom-row { display: flex; gap: 10px; }
+  .cupom-row { display: flex; gap: 10px; flex-wrap: wrap; }
   .cupom-row input {
-    flex: 1; background: var(--input-bg); border: 1px solid var(--border);
+    flex: 1 1 140px; min-width: 0;
+    background: var(--input-bg); border: 1px solid var(--border);
     border-radius: 8px; padding: 10px 14px; color: var(--white);
     font-family: 'Courier New', monospace; font-size: .95rem;
     font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
