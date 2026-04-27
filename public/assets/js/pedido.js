@@ -500,6 +500,7 @@ function getVariantStock(id) {
 
 function changeVariantQty(id, varIdx, delta) {
   const key = `${id}__${varIdx}`;
+  const p   = CATALOG.find(x => x.id === id);
   // Estoque é informativo (label visual), não bloqueia compra — pedidos
   // sem estoque suficiente entram como pré-venda ("chega em 7 dias").
   // Cap de 999 só pra não travar o navegador com valores absurdos.
@@ -515,7 +516,7 @@ function changeVariantQty(id, varIdx, delta) {
     subEl.textContent = newQty > 0 ? `= R$ ${(price * newQty).toLocaleString('pt-BR', {minimumFractionDigits:2})}` : '';
   }
 
-  const hasAny = p && p.variantes.some((_, i) => (cart[`${id}__${i}`] || 0) > 0);
+  const hasAny = p && Array.isArray(p.variantes) && p.variantes.some((_, i) => (cart[`${id}__${i}`] || 0) > 0);
   const cardEl = document.getElementById(`pc-${id}`);
   if (cardEl) {
     cardEl.classList.toggle('selected', hasAny);

@@ -1941,7 +1941,9 @@ async function salvarProduto(e) {
   const icone = document.getElementById('ep-icone')?.value.trim(); if (icone) params.icone = icone;
   const cat = document.getElementById('ep-categoria')?.value; if (cat !== undefined) params.categoria = cat;
   const tags = document.getElementById('ep-tags')?.value.trim(); if (tags !== undefined) params.tags = tags;
-  params.destaque = document.getElementById('ep-destaque')?.checked ? 'sim' : '';
+  // Destaque aceita 'destaque' ou 'recomendado' (ou vazio). Aqui é binário —
+  // checkbox marcado = 'destaque'. Pra 'recomendado' edita manualmente na planilha.
+  params.destaque = document.getElementById('ep-destaque')?.checked ? 'destaque' : '';
   try {
     const data = await API.editarProduto(params);
     if (data.ok) {
