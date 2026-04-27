@@ -130,6 +130,7 @@
           <button type="button" class="cli-tab" data-cli-tab="login">Entrar</button>
           <button type="button" class="cli-tab" data-cli-tab="cadastro">Criar conta</button>
           <button type="button" class="cli-tab" data-cli-tab="esqueci">Esqueci a senha</button>
+          <button type="button" class="cli-tab" data-cli-tab="primeiro">Primeiro acesso</button>
         </div>
 
         <!-- ── LOGIN ── -->
@@ -149,6 +150,8 @@
             <a href="#" data-cli-go="cadastro">Criar conta</a>
             <span class="cli-sep">·</span>
             <a href="#" data-cli-go="esqueci">Esqueci a senha</a>
+            <span class="cli-sep">·</span>
+            <a href="#" data-cli-go="primeiro">Primeiro acesso</a>
           </div>
         </form>
 
@@ -265,6 +268,37 @@
           </div>
         </form>
 
+        <!-- ── PRIMEIRO ACESSO ── -->
+        <form class="cli-form" data-cli-form="primeiro" autocomplete="off">
+          <h2 class="cli-form-title">Primeiro acesso</h2>
+          <p class="cli-form-sub">Já é nosso cliente mas nunca acessou o site? Defina sua senha aqui. Validamos pelo seu CPF/CNPJ.</p>
+          <div class="cli-field">
+            <label>E-mail cadastrado</label>
+            <input type="email" name="email" required/>
+          </div>
+          <div class="cli-field">
+            <label>CPF / CNPJ</label>
+            <input type="text" name="documento" inputmode="numeric" placeholder="Apenas números" required/>
+          </div>
+          <div class="cli-field">
+            <label>Data de Nascimento</label>
+            <input type="date" name="data_nasc" required/>
+          </div>
+          <div class="cli-field">
+            <label>Defina sua Senha (mín 6)</label>
+            <input type="password" name="nova_senha" minlength="6" required/>
+          </div>
+          <div class="cli-field">
+            <label>Confirmar Senha</label>
+            <input type="password" name="nova_senha_conf" minlength="6" required/>
+          </div>
+          <div class="cli-msg" data-cli-msg></div>
+          <button type="submit" class="cli-btn-cta">Definir Senha e Entrar</button>
+          <div class="cli-form-foot">
+            <a href="#" data-cli-go="login">← Já tenho senha — entrar</a>
+          </div>
+        </form>
+
       </div>`;
     document.body.appendChild(wrap);
 
@@ -302,6 +336,9 @@
 
     const fEsq = wrap.querySelector('[data-cli-form="esqueci"]');
     fEsq.addEventListener('submit', (e) => { e.preventDefault(); _doEsqueci(fEsq); });
+
+    const fPri = wrap.querySelector('[data-cli-form="primeiro"]');
+    fPri.addEventListener('submit', (e) => { e.preventDefault(); _doPrimeiroAcesso(fPri); });
 
     _modalEl = wrap;
     return wrap;
@@ -483,23 +520,58 @@
   }
 
   async function _doEsqueci(form) {
-    const fd       = new FormData(form);
-    const email    = String(fd.get('email') || '').trim().toLowerCase();
-    const dataNasc = String(fd.get('data_nasc') || '').trim();
-    const nova     = String(fd.get('nova_senha') || '').trim();
-    const conf     = String(fd.get('nova_senha_conf') || '').trim();
-    if (!email || !dataNasc || !nova || !conf) { _setMsg(form, 'Preencha todos os campos.', 'err'); return; }
+    const fd        = new FormData(form);
+    const email     = String(fd.get('email') || '').trim().toLowerCase();
+    const documento = String(fd.get('documento') || '').replace(/\D/g,'');
+    const dataNasc  = String(fd.get('data_nasc') || '').trim();
+    const nova      = String(fd.get('nova_senha') || '').trim();
+    const conf      = String(fd.get('nova_senha_conf') || '').trim();
+    if (!email || !documento || !dataNasc || !nova || !conf) { _setMsg(form, 'Preencha todos os campos.', 'err'); return; }
     if (nova.length < 6) { _setMsg(form, 'Senha deve ter ao menos 6 caracteres.', 'err'); return; }
     if (nova !== conf)   { _setMsg(form, 'As senhas não coincidem.', 'err'); return; }
     _setMsg(form, '');
     _setBusy(form, true, 'Redefinindo…');
     try {
-      const data = await cliPost_('recuperar_senha_cliente', { email, data_nasc: dataNasc, nova_senha: nova });
+      const data = await cliPost_('recuperar_senha_cliente', { email, documento, data_nasc: dataNasc, nova_senha: nova });
       if (data && data.ok) {
         _setMsg(form, '✅ Senha redefinida! Faça login com a nova senha.', 'ok');
         setTimeout(() => _showMode('login'), 1600);
       } else {
         _setMsg(form, '⚠️ ' + ((data && data.erro) || 'Não foi possível redefinir. Verifique os dados.'), 'err');
+      }
+    } catch (e) {
+      _setMsg(form, '⚠️ Erro de conexão.', 'err');
+    } finally {
+      _setBusy(form, false);
+    }
+  }
+
+  async function _doPrimeiroAcesso(form) {
+    const fd        = new FormData(form);
+    const email     = String(fd.get('email') || '').trim().toLowerCase();
+    const documento = String(fd.get('documento') || '').replace(/\D/g,'');
+    const dataNasc  = String(fd.get('data_nasc') || '').trim();
+    const nova      = String(fd.get('nova_senha') || '').trim();
+    const conf      = String(fd.get('nova_senha_conf') || '').trim();
+    if (!email || !documento || !dataNasc || !nova || !conf) { _setMsg(form, 'Preencha todos os campos.', 'err'); return; }
+    if (nova.length < 6) { _setMsg(form, 'Senha deve ter ao menos 6 caracteres.', 'err'); return; }
+    if (nova !== conf)   { _setMsg(form, 'As senhas não coincidem.', 'err'); return; }
+    _setMsg(form, '');
+    _setBusy(form, true, 'Criando acesso…');
+    try {
+      const data = await cliPost_('primeiro_acesso_cliente', { email, documento, data_nasc: dataNasc, nova_senha: nova });
+      if (data && data.ok) {
+        const sess = Object.assign({ email, token: data.token }, data.cliente || {});
+        setClienteSession(sess);
+        _setMsg(form, '✅ Acesso criado! Bem-vindo.', 'ok');
+        setTimeout(() => {
+          fecharModalLogin();
+          document.querySelectorAll('[data-cli-header-btn]').forEach(el => _renderInto(el));
+          if (_onSuccess) _onSuccess(sess);
+          _onSuccess = null;
+        }, 400);
+      } else {
+        _setMsg(form, '⚠️ ' + ((data && data.erro) || 'Não foi possível concluir.'), 'err');
       }
     } catch (e) {
       _setMsg(form, '⚠️ Erro de conexão.', 'err');
