@@ -1500,11 +1500,11 @@ function closeModal() {
 
 // ── CSV EXPORT ────────────────────────────────────────────────────────────────
 function exportarCSV() {
-  const cols = ['ID','Data','Clínica','Responsável','Telefone','Email','Cidade','Estado',
+  const cols = ['ID','Data','Cliente ID','Cliente','Telefone','Email','Documento','Endereço',
     'Produtos','Total','Pagamento','Parcelas','Cupom','Status','Rastreio','FreteMetodo','FreteValor'];
   const rows = App.pedidos.map(p => [
-    p.id, p.data, p.clinica, p.responsavel, p.telefone, p.email_cli,
-    p.cidade, p.estado, (p.produtos||'').replace(/\n/g,' | '),
+    p.id, p.data, p.cliente_id || '', p.clinica, p.telefone, p.email_cli, p.documento || '', p.endereco || '',
+    (p.produtos||'').replace(/\n/g,' | '),
     p.total, p.pagamento, p.parcelas, p.cupom, p.status, p.rastreio, p.freteMetodo, p.freteValor,
   ].map(v => `"${String(v||'').replace(/"/g,'""')}"`).join(','));
   const csv  = [cols.join(','), ...rows].join('\n');
