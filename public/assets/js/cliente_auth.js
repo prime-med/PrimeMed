@@ -201,15 +201,23 @@
               <label>Cidade</label>
               <input type="text" name="cidade"/>
             </div>
-            <div class="cli-field" style="max-width:120px">
+            <div class="cli-field">
               <label>Estado</label>
-              <input type="text" name="estado" maxlength="2"/>
+              <input type="text" name="estado" list="cli-ufs-list" maxlength="2" placeholder="Digite ou selecione" autocomplete="off"/>
+              <datalist id="cli-ufs-list">
+                <option value="AC"/><option value="AL"/><option value="AP"/><option value="AM"/>
+                <option value="BA"/><option value="CE"/><option value="DF"/><option value="ES"/>
+                <option value="GO"/><option value="MA"/><option value="MT"/><option value="MS"/>
+                <option value="MG"/><option value="PA"/><option value="PB"/><option value="PR"/>
+                <option value="PE"/><option value="PI"/><option value="RJ"/><option value="RN"/>
+                <option value="RS"/><option value="RO"/><option value="RR"/><option value="SC"/>
+                <option value="SP"/><option value="SE"/><option value="TO"/>
+              </datalist>
             </div>
             <div class="cli-field">
               <label>Data de Nascimento <span class="req">*</span></label>
               <input type="date" name="data_nasc" required/>
             </div>
-            <div class="cli-field"></div>
             <div class="cli-field">
               <label>Senha (mín 6) <span class="req">*</span></label>
               <input type="password" name="senha" autocomplete="new-password" required minlength="6"/>
