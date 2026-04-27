@@ -58,6 +58,19 @@ let cupomData      = null; // objeto {tipo, valor, produtos, precos}
 // ─── INIT ───────────────────────────────────────────────────────────────────
 window.onload = () => {
   carregarProdutos();
+  // Restaura sessão de cliente do localStorage e pré-popula form
+  try {
+    const sess = (typeof getClienteSession === 'function') ? getClienteSession() : null;
+    if (sess && sess.token) {
+      _clienteJaLogado = true;
+      preencherStep2(sess);
+      if (typeof lpSetLogado === 'function') {
+        lpSetLogado(sess.nome || sess.clinica || '', sess.apelido || '');
+      }
+      const jaTem = document.getElementById('lp-ja-tem-conta');
+      if (jaTem) jaTem.style.display = 'none';
+    }
+  } catch(e) { /* sem sessão */ }
 };
 
 // ── CACHE (apenas dados estáticos — protocolos e parcelas, 30min TTL) ─────────
@@ -976,16 +989,28 @@ function goStep(n) {
   // Validações — se falhar em passo anterior, volta para ele e mostra o erro
   if (n > 1 && !validateStep1()) { _aplicarStep(1); return; }
 
-  // Gate de login obrigatório: ao sair do step 1 (rumo a 2/3/4), exige sessão.
-  if (n >= 2 && typeof getClienteSession === 'function' && !getClienteSession()) {
+  const sess = (typeof getClienteSession === 'function') ? getClienteSession() : null;
+  const onStep1 = document.getElementById('panel1')?.classList.contains('active');
+
+  // Gate de login obrigatório: ao sair do step 1, exige sessão.
+  if (n >= 2 && !sess) {
     abrirModalLogin('login', (cliente) => {
       preencherStep2(cliente);
       _clienteJaLogado = true;
       lpSetLogado(cliente.nome || cliente.clinica || '', cliente.apelido || '');
       const jaTem = document.getElementById('lp-ja-tem-conta');
       if (jaTem) jaTem.style.display = 'none';
-      _aplicarStep(2);
+      _aplicarStep(3); // ← após login, pula step 2 (dados já vieram do cadastro) e vai pra pagamento
     });
+    return;
+  }
+
+  // Cliente logado avançando de step 1: pula step 2 (form já preenchido na sessão)
+  // Só pula no fluxo "frente"; se cliente clicar voltar de step 3 pra 2, deixa.
+  if (n === 2 && sess && onStep1) {
+    preencherStep2(sess);
+    _clienteJaLogado = true;
+    _aplicarStep(3);
     return;
   }
 
