@@ -497,6 +497,35 @@ function setSort(mode) {
   renderProducts();
 }
 
+// Tamanho da grade do catálogo (2 = cards grandes, 3 = médio, 4 = compacto)
+function setGridSize(size) {
+  const n = parseInt(size) || 3;
+  const grid = document.getElementById('products-grid');
+  if (grid) {
+    grid.classList.remove('grid-2', 'grid-3', 'grid-4');
+    grid.classList.add('grid-' + n);
+  }
+  document.querySelectorAll('.grid-btn').forEach(b => {
+    b.classList.toggle('active', String(b.dataset.grid) === String(n));
+  });
+  try { localStorage.setItem('lp_grid_size', String(n)); } catch(_) {}
+}
+
+// Restaura preferência salva ao carregar a página
+(function _restoreGridSize() {
+  try {
+    const saved = parseInt(localStorage.getItem('lp_grid_size') || '0');
+    if (saved >= 2 && saved <= 4) {
+      // Aguarda DOM pronto
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => setGridSize(saved));
+      } else {
+        setGridSize(saved);
+      }
+    }
+  } catch(_) {}
+})();
+
 function getEffectivePrice(p) {
   if (p.variantes && p.variantes.length > 0) {
     return Math.min(...p.variantes.map(v => {

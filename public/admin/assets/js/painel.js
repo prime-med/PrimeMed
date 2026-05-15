@@ -2378,15 +2378,18 @@ async function salvarProduto(e) {
   const icone = document.getElementById('ep-icone')?.value.trim(); if (icone) params.icone = icone;
   const cat = document.getElementById('ep-categoria')?.value; if (cat !== undefined) params.categoria = cat;
   const tags = document.getElementById('ep-tags')?.value.trim(); if (tags !== undefined) params.tags = tags;
-  const img = document.getElementById('ep-imagem')?.value.trim(); if (img !== undefined) params.imagem = img;
+  // Imagem é salva em chamada SEPARADA (endpoint dedicado salvar_imagem_produto)
+  // — não vai junto no editar_produto_completo pra evitar URL longa.
+  const novaImagem = document.getElementById('ep-imagem')?.value.trim();
+  const imagemAtual = (App.produtos.find(p => p.id === prodId)?.imagem || '').trim();
+  const imagemMudou = novaImagem !== undefined && novaImagem !== imagemAtual;
   // Destaque: select com 3 opções (vazio | 'destaque' | 'recomendado')
   const destEl = document.getElementById('ep-destaque');
   if (destEl) params.destaque = destEl.value || '';
-  // Pós-save: verifica se a alteração realmente persistiu (proteção contra
-  // CORS no redirect do GAS que joga catch sem ter falhado de fato).
+  // Pós-save: verifica se a alteração textual realmente persistiu.
+  // Imagem é chamada à parte (endpoint dedicado), então não entra aqui.
   const verificarPersistencia = async () => {
     await loadProdutos();
-    // Se o ID mudou, a busca tem que ser pelo novo_id
     const buscaId = (params.novo_id && params.novo_id !== prodId) ? params.novo_id : prodId;
     const atual = (App.produtos || []).find(p =>
       String(p.prod_id || p.id || '') === String(buscaId)
@@ -2394,18 +2397,37 @@ async function salvarProduto(e) {
     if (!atual) return false;
     if (params.nome && (atual.nome || '').trim() !== params.nome.trim()) return false;
     if (params.preco && String(atual.preco || '').replace(/\D/g,'') !== String(params.preco).replace(/\D/g,'')) return false;
-    if (params.imagem !== undefined && (atual.imagem || '').trim() !== params.imagem.trim()) return false;
     if (params.destaque !== undefined && (atual.destaque || '').trim() !== params.destaque.trim()) return false;
     return true;
+  };
+
+  // Helper pra salvar imagem em chamada separada
+  const salvarImagemSeMudou = async () => {
+    if (!imagemMudou) return { ok: true, skipped: true };
+    msg.textContent = 'Salvando imagem...';
+    try {
+      const r = await API.salvarImagemProduto(
+        (params.novo_id && params.novo_id !== prodId) ? params.novo_id : prodId,
+        novaImagem
+      );
+      return r || { ok: false, erro: 'sem resposta' };
+    } catch(imgEx) {
+      return { ok: false, erro: 'conexão imagem' };
+    }
   };
 
   try {
     const data = await API.editarProduto(params);
     if (data && (data.ok || data._silent)) {
+      const imgRes = await salvarImagemSeMudou();
       const persistiu = await verificarPersistencia();
-      if (persistiu) {
+      if (persistiu && imgRes.ok) {
         showToast('Produto atualizado!');
         closeModal();
+        renderProdutos();
+      } else if (!imgRes.ok) {
+        msg.textContent = '⚠️ Texto salvo, mas imagem falhou: ' + (imgRes.erro || 'erro');
+        msg.style.color = 'var(--danger)';
         renderProdutos();
       } else {
         msg.textContent = '⚠️ Backend não confirmou alteração. Recarregue (F5) e verifique.';
@@ -2419,8 +2441,9 @@ async function salvarProduto(e) {
   } catch(ex) {
     // Network error pode ter salvo mesmo assim (CORS no redirect do GAS)
     try {
+      const imgRes = await salvarImagemSeMudou();
       const persistiu = await verificarPersistencia();
-      if (persistiu) {
+      if (persistiu && imgRes.ok) {
         showToast('Produto atualizado!');
         closeModal();
         renderProdutos();

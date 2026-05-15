@@ -9,40 +9,12 @@ const API = {
     }
     const url = new URL(SHEETS_URL);
     Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, String(v)));
-
-    // Actions de mutation OU URL longa demais → usa POST
-    // (GET via Apps Script falha quando URL > ~2KB, e filename com espaços/+ pode quebrar)
-    const isMutation = /^(editar_|criar_|apagar_|atualizar_|salvar|deletar_|toggle_|registrar|cadastrar)/.test(params.action || '');
-    const urlString = url.toString();
-    const useFormPost = isMutation || urlString.length > 1500;
-
     let res;
     try {
-      if (useFormPost) {
-        // POST com text/plain + JSON no body — Apps Script lê via e.postData.contents.
-        // Evita preflight CORS (text/plain é "simple request") e suporta payloads
-        // grandes (ex: filename com espaços/caracteres especiais).
-        res = await fetch(SHEETS_URL, {
-          method: 'POST',
-          body: JSON.stringify(params),
-          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          redirect: 'follow',
-        });
-      } else {
-        res = await fetch(urlString);
-      }
+      res = await fetch(url.toString());
     } catch (netErr) {
       console.error('[API] Erro de rede:', netErr, 'action:', params.action);
-      // Fallback automático: tenta via GET (URL longa pode rejeitar, mas é melhor que falhar tudo)
-      if (useFormPost) {
-        try {
-          res = await fetch(urlString);
-        } catch (netErr2) {
-          throw new Error('Sem conexão com o servidor');
-        }
-      } else {
-        throw new Error('Sem conexão com o servidor');
-      }
+      throw new Error('Sem conexão com o servidor');
     }
     if (!res.ok) {
       console.error('[API] HTTP', res.status, 'action:', params.action);
@@ -92,6 +64,7 @@ const API = {
   salvarNotaInt:    (id, nota)          => API.call({ action: 'salvar_nota_interna', id, nota }),
   criarProduto:     (p)                 => API.call({ action: 'criar_produto', ...p }),
   apagarProduto:    (prodId)            => API.call({ action: 'apagar_produto', prod_id: prodId }),
+  salvarImagemProduto: (prodId, filename) => API.call({ action: 'salvar_imagem_produto', prod_id: prodId, imagem: filename || '' }),
   retornarEstoque:  (id)                => API.call({ action: 'retornar_estoque', id }),
   protocolos:       ()                  => API.call({ action: 'protocolos' }),
   editarProtocolo:  (p)                 => API.call({ action: 'editar_protocolo', ...p }),

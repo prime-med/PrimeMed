@@ -906,10 +906,24 @@
   /* ── PRODUCTS GRID ── */
   .products-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: 14px;
     margin-bottom: 24px;
   }
+  .products-grid.grid-2 { grid-template-columns: repeat(2, 1fr); gap: 18px; }
+  .products-grid.grid-3 { grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .products-grid.grid-4 { grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  /* No grid-4 reduz padding/fontes pros cards caberem bem */
+  .products-grid.grid-4 .product-card { padding: 12px; }
+  .products-grid.grid-4 .product-card .pc-media { margin: -12px -12px 10px -12px; width: calc(100% + 24px); aspect-ratio: 1 / 1; }
+  .products-grid.grid-4 .product-card .pc-media .img-placeholder.pc-img-card { font-size: 3rem; }
+  .products-grid.grid-4 .pc-name { font-size: 0.85rem; }
+  .products-grid.grid-4 .pc-conc { font-size: 0.62rem; }
+  .products-grid.grid-4 .pc-price { font-size: 0.95rem; }
+  /* No grid-2 cards bem grandes */
+  .products-grid.grid-2 .product-card .pc-media { aspect-ratio: 16 / 9; }
+  .products-grid.grid-2 .product-card .pc-media .img-placeholder.pc-img-card { font-size: 5.5rem; }
+  .products-grid.grid-2 .pc-name { font-size: 1.1rem; }
   .product-card {
     background: var(--card-bg);
     border: 1px solid var(--border);
@@ -1525,6 +1539,16 @@
   }
   .sort-btn:hover { border-color: var(--accent); color: var(--accent); }
   .sort-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 700; }
+
+  .grid-btn {
+    background: transparent; border: 1px solid var(--border);
+    color: var(--text); cursor: pointer;
+    padding: 6px 10px; border-radius: 6px;
+    font-size: 1rem; line-height: 1;
+    transition: all .15s;
+  }
+  .grid-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .grid-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
 
   /* ── VARIANT ROWS ── */
   .variant-rows { margin: 10px 0 4px; display: flex; flex-direction: column; gap: 6px; }
