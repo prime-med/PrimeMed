@@ -6,8 +6,8 @@
 
   /* Variáveis específicas do gerador (escopadas) — paleta Verde Sálvia + Carvão Morno */
   #view-gerador {
-    --bg:#F5F1E8; --card:#FFFFFF; --border:#E5E0D5; --accent:#5C8A6E;
-    --green:#5C8A6E; --red:#C5705D; --blue:#457B9D; --gray:#9CA3AF;
+    --bg:#F5F1E8; --card:#FFFFFF; --border:#E5E0D5; --accent:#15A47A;
+    --green:#15A47A; --red:#C5705D; --blue:#457B9D; --gray:#9CA3AF;
     --white:#FFFFFF; --input-bg:#FFFFFF; --wa:#25D366;
   }
   #view-gerador *{box-sizing:border-box}

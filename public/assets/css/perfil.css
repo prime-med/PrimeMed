@@ -54,7 +54,7 @@ body {
 }
 .pf-tab:hover { color: var(--text); }
 .pf-tab.active {
-  background: var(--accent, #5C8A6E);
+  background: var(--accent, #15A47A);
   color: var(--header-bg, #F5F1E8);
   box-shadow: 0 4px 14px rgba(92, 138, 110,.35);
 }
@@ -113,7 +113,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background: var(--accent, #5C8A6E);
+  background: var(--accent, #15A47A);
   color: var(--header-bg, #F5F1E8);
   border: none;
   text-decoration: none;
@@ -295,14 +295,14 @@ body {
   color: var(--light);
 }
 .pf-fin-row strong { color: var(--white, #fff); font-weight: 700; }
-.pf-fin-desc strong { color: #5C8A6E; }
+.pf-fin-desc strong { color: #15A47A; }
 .pf-fin-total {
   border-top: 1px solid rgba(255,255,255,0.12);
   margin-top: 4px;
   padding-top: 8px;
   font-size: .95rem;
 }
-.pf-fin-total strong { color: var(--accent, #5C8A6E); font-size: 1.05rem; }
+.pf-fin-total strong { color: var(--accent, #15A47A); font-size: 1.05rem; }
 .pf-fin-meta { font-size: .8rem; color: var(--gray, #9CA3AF); }
 
 /* ─── INDICAÇÃO ─────────────────────────────────────────── */
@@ -325,7 +325,7 @@ body {
   font-family: 'Courier New', monospace;
   font-size: 1.5rem;
   font-weight: 800;
-  color: #5C8A6E;
+  color: #15A47A;
   letter-spacing: 1px;
   word-break: break-all;
   margin-bottom: 18px;
@@ -343,8 +343,8 @@ body {
 }
 .pf-btn-share {
   background: transparent !important;
-  border: 1px solid var(--accent, #5C8A6E) !important;
-  color: var(--accent, #5C8A6E) !important;
+  border: 1px solid var(--accent, #15A47A) !important;
+  color: var(--accent, #15A47A) !important;
 }
 .pf-ind-info {
   background: rgba(255,255,255,0.04);
@@ -369,7 +369,7 @@ body {
 }
 .pf-ind-note {
   background: rgba(92, 138, 110,0.08);
-  border-left: 3px solid #5C8A6E;
+  border-left: 3px solid #15A47A;
   padding: 10px 14px;
   border-radius: 6px;
   font-size: .82rem;
@@ -411,8 +411,8 @@ body {
   color: var(--white, #fff);
   margin-bottom: 4px;
 }
-.pf-com-liberada .pf-com-valor { color: #5C8A6E; }
-.pf-com-pendente .pf-com-valor { color: #5C8A6E; }
+.pf-com-liberada .pf-com-valor { color: #15A47A; }
+.pf-com-pendente .pf-com-valor { color: #15A47A; }
 .pf-com-meta {
   font-size: .76rem;
   color: var(--gray, #9CA3AF);
@@ -461,11 +461,11 @@ body {
 }
 .pf-sol-cupom code {
   font-family: 'Courier New', monospace; font-weight: 800;
-  color: #5C8A6E; flex: 1;
+  color: #15A47A; flex: 1;
 }
 .pf-sol-cupom button {
   background: transparent; border: 1px solid rgba(92, 138, 110,0.5);
-  color: #5C8A6E; border-radius: 6px; padding: 4px 8px; cursor: pointer;
+  color: #15A47A; border-radius: 6px; padding: 4px 8px; cursor: pointer;
 }
 .pf-sol-obs-admin {
   margin-top: 6px; padding: 6px 10px; font-size: .78rem;

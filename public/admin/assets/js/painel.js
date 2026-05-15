@@ -698,9 +698,13 @@ function renderDrawer(order) {
       <div class="drawer-section">
         <h3>📋 Produtos</h3>
         <table class="items-table">
-          <thead><tr><th>Produto</th><th>Dose</th><th style="width:50px;text-align:center">Qtd</th></tr></thead>
+          <thead><tr><th style="width:48px"></th><th>Produto</th><th>Dose</th><th style="width:50px;text-align:center">Qtd</th></tr></thead>
           <tbody>${itens.map(it => `
             <tr>
+              <td>${it.imagem
+                ? `<img src="../assets/img/produtos/${escAttr(it.imagem)}" alt="" style="width:36px;height:36px;border-radius:6px;object-fit:cover;display:block" onerror="this.outerHTML='<div style=\\'width:36px;height:36px;border-radius:6px;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:18px\\'>📦</div>'"/>`
+                : `<div style="width:36px;height:36px;border-radius:6px;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:18px">📦</div>`}
+              </td>
               <td>${esc(it.nome)}</td>
               <td>${esc(it.dose || '—')}</td>
               <td style="text-align:center">${it.qty}</td>
@@ -837,21 +841,26 @@ function parseItens(order) {
         const prod = App.produtos.find(p => p.id === prodId);
         if (prod && varIdx !== undefined && prod.variantes?.[parseInt(varIdx)]) {
           const v = prod.variantes[parseInt(varIdx)];
-          return { nome: prod.nome, dose: v.dose, qty };
+          return { nome: prod.nome, dose: v.dose, qty, imagem: prod.imagem || '' };
         }
-        if (prod) return { nome: prod.nome, dose: prod.conc, qty };
-        return { nome: prodId, dose: '', qty };
+        if (prod) return { nome: prod.nome, dose: prod.conc, qty, imagem: prod.imagem || '' };
+        return { nome: prodId, dose: '', qty, imagem: '' };
       });
       if (itens.length > 0) return itens;
     } catch (e) {}
   }
   const prods = (order.produtos || '').split('\n').filter(Boolean);
   const qtds  = (order.quantidades || '').split('\n').filter(Boolean);
-  return prods.map((p, i) => ({
-    nome: p.replace(/^\d+x\s*/, '').trim(),
-    dose: '',
-    qty:  qtds[i] || '1',
-  }));
+  return prods.map((p, i) => {
+    const nome = p.replace(/^\d+x\s*/, '').trim();
+    const found = App.produtos.find(pr => pr.nome === nome);
+    return {
+      nome,
+      dose: '',
+      qty:  qtds[i] || '1',
+      imagem: found?.imagem || '',
+    };
+  });
 }
 
 async function salvarLogistica(orderId) {
@@ -2220,9 +2229,10 @@ function buildVariantesStr(prefix) {
     }).filter(Boolean).join('|');
 }
 
-// Preview ao vivo da imagem do produto no editor
-function previewImagemProduto(filename) {
-  const wrap = document.getElementById('ep-imagem-preview');
+// Preview ao vivo da imagem do produto no editor (ep) e no novo produto (np)
+function previewImagemProduto(filename, prefix) {
+  const pref = prefix || 'ep';
+  const wrap = document.getElementById(pref + '-imagem-preview');
   if (!wrap) return;
   const f = (filename || '').trim();
   if (!f) { wrap.innerHTML = '📦'; return; }
@@ -2272,7 +2282,7 @@ function abrirEditarProduto(prodId) {
         <div class="field-inline" style="flex:0 0 240px">
           <label>Imagem (arquivo)</label>
           <input id="ep-imagem" value="${escAttr(p.imagem||'')}" placeholder="bpc-157.webp"
-            oninput="previewImagemProduto(this.value)"/>
+            oninput="previewImagemProduto(this.value,'ep')"/>
           <small style="font-size:.7rem;color:var(--gray);margin-top:4px;display:block;line-height:1.3">
             Suba o arquivo em <code>assets/img/produtos/</code> no GitHub e coloque o nome aqui.
           </small>
@@ -2298,10 +2308,13 @@ function abrirEditarProduto(prodId) {
             <option value="false">Inativo</option>
           </select>
         </div>
-        <div class="field-inline" style="flex:0 0 auto;align-items:flex-end">
-          <label style="display:flex;align-items:center;gap:6px;cursor:pointer">
-            <input type="checkbox" id="ep-destaque" ${p.destaque==='sim'?'checked':''}/> Destaque
-          </label>
+        <div class="field-inline" style="flex:0 0 160px">
+          <label>Destaque</label>
+          <select id="ep-destaque">
+            <option value="" ${!p.destaque?'selected':''}>— Nenhum —</option>
+            <option value="destaque" ${p.destaque==='destaque'?'selected':''}>⭐ Destaque</option>
+            <option value="recomendado" ${p.destaque==='recomendado'?'selected':''}>👍 Recomendado</option>
+          </select>
         </div>
       </div>
 
@@ -2352,9 +2365,9 @@ async function salvarProduto(e) {
   const cat = document.getElementById('ep-categoria')?.value; if (cat !== undefined) params.categoria = cat;
   const tags = document.getElementById('ep-tags')?.value.trim(); if (tags !== undefined) params.tags = tags;
   const img = document.getElementById('ep-imagem')?.value.trim(); if (img !== undefined) params.imagem = img;
-  // Destaque aceita 'destaque' ou 'recomendado' (ou vazio). Aqui é binário —
-  // checkbox marcado = 'destaque'. Pra 'recomendado' edita manualmente na planilha.
-  params.destaque = document.getElementById('ep-destaque')?.checked ? 'destaque' : '';
+  // Destaque: select com 3 opções (vazio | 'destaque' | 'recomendado')
+  const destEl = document.getElementById('ep-destaque');
+  if (destEl) params.destaque = destEl.value || '';
   // Pós-save: verifica se a alteração realmente persistiu (proteção contra
   // CORS no redirect do GAS que joga catch sem ter falhado de fato).
   const verificarPersistencia = async () => {
@@ -2815,6 +2828,29 @@ function abrirNovoProduto() {
           <input id="np-tags" placeholder="ex: tag1, tag2"/></div>
       </div>
 
+      <div class="cfg-row">
+        <div class="field-inline" style="flex:0 0 240px">
+          <label>Imagem (arquivo)</label>
+          <input id="np-imagem" placeholder="bpc-157.webp"
+            oninput="previewImagemProduto(this.value,'np')"/>
+          <small style="font-size:.7rem;color:var(--gray);margin-top:4px;display:block;line-height:1.3">
+            Suba o arquivo em <code>assets/img/produtos/</code> no GitHub e coloque o nome aqui.
+          </small>
+        </div>
+        <div class="field-inline" style="flex:0 0 88px;align-items:center">
+          <label>Preview</label>
+          <div id="np-imagem-preview" style="width:72px;height:72px;border-radius:10px;background:var(--input-bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:1.6rem">📦</div>
+        </div>
+        <div class="field-inline" style="flex:0 0 160px">
+          <label>Destaque</label>
+          <select id="np-destaque">
+            <option value="">— Nenhum —</option>
+            <option value="destaque">⭐ Destaque</option>
+            <option value="recomendado">👍 Recomendado</option>
+          </select>
+        </div>
+      </div>
+
       <div class="var-section">
         <label class="var-toggle-label">
           <input type="checkbox" id="np-tem-variantes" onchange="toggleVariantEditor(this,'np')"/>
@@ -2852,6 +2888,8 @@ async function salvarNovoProduto(e) {
     variantes: temVar ? buildVariantesStr('np') : '',
     categoria: document.getElementById('np-categoria').value,
     tags:      document.getElementById('np-tags').value.trim(),
+    imagem:    document.getElementById('np-imagem')?.value.trim() || '',
+    destaque:  document.getElementById('np-destaque')?.value || '',
   };
   try {
     const data = await API.criarProduto(params);

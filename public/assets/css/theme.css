@@ -9,11 +9,11 @@
   --input-bg:   #FFFFFF;
   --input-border: #E5E0D5;
 
-  /* accent principal — verde sage (CTAs, destaques) */
-  --accent:     #5C8A6E;
-  --accent-d:   #3F6750;
-  --accent-l:   #B8D4BE;
-  --accent-bg:  #EFF5F0;
+  /* accent principal — verde esmeralda (CTAs, destaques) */
+  --accent:     #15A47A;
+  --accent-d:   #0E7C5C;
+  --accent-l:   #A3DEC5;
+  --accent-bg:  #E6F5EE;
 
   /* secundário — azul-mar suave */
   --blue:       #6B97B5;
@@ -43,15 +43,15 @@
   --light:      #9CA3AF;
   --white:      #FFFFFF;
 
-  /* header / nav — escuro corporativo (verde-noite) */
-  --header-bg:    #1F2937;
+  /* header / nav — verde-noite profundo (forest deep) */
+  --header-bg:    #0F3D2E;
   --header-text:  #F5F1E8;
-  --header-border: #3F6750;
+  --header-border: #15A47A;
 
   /* sombras coloridas suaves (não pretas duras) */
-  --shadow-sm:    0 1px 3px rgba(92,138,110,.08), 0 1px 2px rgba(31,41,55,.04);
-  --shadow-md:    0 4px 12px rgba(92,138,110,.10), 0 2px 6px rgba(31,41,55,.06);
-  --shadow-lg:    0 12px 32px rgba(92,138,110,.14), 0 4px 12px rgba(31,41,55,.08);
+  --shadow-sm:    0 1px 3px rgba(21,164,122,.10), 0 1px 2px rgba(15,61,46,.05);
+  --shadow-md:    0 4px 12px rgba(21,164,122,.14), 0 2px 6px rgba(15,61,46,.07);
+  --shadow-lg:    0 12px 32px rgba(21,164,122,.18), 0 4px 12px rgba(15,61,46,.10);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
