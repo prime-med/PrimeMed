@@ -51,8 +51,8 @@
  */
 
 const CLIENT = {
-  name:    'PrimeMed',           // Nome curto, exibido em títulos e logo (fallback)
-  tagline: 'Catálogo',          // Subtítulo / descrição em meta tags
+  name:    'Sua Empresa',           // Nome curto, exibido em títulos e logo (fallback)
+  tagline: 'Catálogo B2B',          // Subtítulo / descrição em meta tags
   wa:      '',                      // WhatsApp do cliente — só dígitos com código país, ex: '5511999999999'
   logo:    'assets/img/logo.png',   // Caminho do logo (SVG/PNG — relativo a /public)
   ogImage: 'assets/img/og-image.svg', // Imagem de preview em redes sociais (1200x630 ideal)

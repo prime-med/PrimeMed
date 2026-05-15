@@ -2254,8 +2254,14 @@ function abrirEditarProduto(prodId) {
     <form class="cfg-form" onsubmit="salvarProduto(event)">
       <div class="cfg-row">
         <div class="field-inline" style="flex:0 0 60px"><label>Ícone</label><input id="ep-icone" value="${escAttr(p.icone||'💊')}" maxlength="4" style="text-align:center;font-size:20px"/></div>
+        <div class="field-inline" style="flex:0 0 110px"><label>ID</label>
+          <input id="ep-id" value="${escAttr(p.id||'')}" style="font-family:monospace"/>
+        </div>
         <div class="field-inline"><label>Nome</label><input id="ep-nome" value="${escAttr(p.nome)}"/></div>
         <div class="field-inline"><label>Concentração / Dose</label><input id="ep-conc" value="${escAttr(p.conc||'')}"/></div>
+      </div>
+      <div style="font-size:.7rem;color:var(--text2);margin-top:-6px;line-height:1.3">
+        ⚠️ Mudar o <strong>ID</strong> quebra link com pedidos antigos. O protocolo é sincronizado automaticamente.
       </div>
       <div class="cfg-row">
         <div class="field-inline"><label>Preço Base (R$)</label><input type="number" step="0.01" id="ep-preco" value="${p.preco||0}" ${hasVariantes?'disabled':''}/>  </div>
@@ -2346,6 +2352,9 @@ async function salvarProduto(e) {
   msg.textContent = 'Salvando...';
   if (!prodId) { msg.textContent = 'Erro: ID do produto não encontrado'; msg.style.color = 'var(--danger)'; return; }
   const params = { prod_id: prodId, id: prodId, rowNum: App.currentEditRow || '' };
+  // Mudança de ID: backend detecta e sincroniza com aba Protocolos.
+  const novoId = document.getElementById('ep-id')?.value.trim();
+  if (novoId && novoId !== prodId) params.novo_id = novoId;
   const nome = document.getElementById('ep-nome')?.value.trim(); if (nome) params.nome = nome;
   const conc = document.getElementById('ep-conc')?.value.trim(); if (conc !== undefined) params.conc = conc;
   const temVar = document.getElementById('ep-tem-variantes')?.checked;
