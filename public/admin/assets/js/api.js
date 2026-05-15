@@ -9,9 +9,28 @@ const API = {
     }
     const url = new URL(SHEETS_URL);
     Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, String(v)));
+
+    // Actions de mutation OU URL longa demais → usa POST
+    // (GET via Apps Script falha quando URL > ~2KB, e filename com espaços/+ pode quebrar)
+    const isMutation = /^(editar_|criar_|apagar_|atualizar_|salvar|deletar_|toggle_|registrar|cadastrar)/.test(params.action || '');
+    const urlString = url.toString();
+    const useFormPost = isMutation || urlString.length > 1500;
+
     let res;
     try {
-      res = await fetch(url.toString());
+      if (useFormPost) {
+        // POST com form-data — Apps Script lê em e.parameter automaticamente
+        const body = new URLSearchParams();
+        Object.entries(params).forEach(([k, v]) => body.set(k, String(v)));
+        res = await fetch(SHEETS_URL, {
+          method: 'POST',
+          body: body,
+          // Não setar Content-Type explicit pra evitar preflight CORS
+          // URLSearchParams como body já usa application/x-www-form-urlencoded
+        });
+      } else {
+        res = await fetch(urlString);
+      }
     } catch (netErr) {
       console.error('[API] Erro de rede:', netErr, 'action:', params.action);
       throw new Error('Sem conexão com o servidor');
