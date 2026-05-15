@@ -185,8 +185,8 @@
               <input type="email" name="email" autocomplete="email" required/>
             </div>
             <div class="cli-field">
-              <label>CPF / CNPJ</label>
-              <input type="text" name="cpf" placeholder="Opcional"/>
+              <label>CPF / CNPJ <span class="req">*</span></label>
+              <input type="text" name="cpf" placeholder="00000000000" required/>
             </div>
             <div class="cli-field">
               <label>CEP</label>
@@ -508,10 +508,11 @@
     const senha      = get('senha');
     const senhaConf  = get('senha_conf');
 
-    if (!clinica || !apelido || !telefone || !email || !dataNasc || !senha || !senhaConf) {
+    if (!clinica || !apelido || !telefone || !email || !cpf || !dataNasc || !senha || !senhaConf) {
       _setMsg(form, 'Preencha todos os campos obrigatórios.', 'err'); return;
     }
     if (!email.includes('@') || !email.includes('.')) { _setMsg(form, 'E-mail inválido.', 'err'); return; }
+    if (cpf.length !== 11 && cpf.length !== 14) { _setMsg(form, 'CPF (11 dígitos) ou CNPJ (14 dígitos).', 'err'); return; }
     if (senha.length < 6)      { _setMsg(form, 'Senha deve ter ao menos 6 caracteres.', 'err'); return; }
     if (senha !== senhaConf)   { _setMsg(form, 'As senhas não coincidem.', 'err'); return; }
 
@@ -532,9 +533,12 @@
         });
         setClienteSession(sess);
         _setMsg(form, '✅ Conta criada com sucesso!', 'ok');
+        const codigoIndicacao = (data.cliente && data.cliente.codigo_indicacao) || '';
         setTimeout(() => {
           fecharModalLogin();
           document.querySelectorAll('[data-cli-header-btn]').forEach(el => _renderInto(el));
+          // Pop-up de boas-vindas com código de indicação
+          if (codigoIndicacao) _showBoasVindasIndicacao(codigoIndicacao);
           if (_onSuccess) _onSuccess(sess);
           _onSuccess = null;
         }, 400);
@@ -594,6 +598,37 @@
     } finally {
       _setBusy(form, false);
     }
+  }
+
+  // ─── POP-UP BOAS-VINDAS COM CÓDIGO DE INDICAÇÃO ─────────────────────────────
+  function _showBoasVindasIndicacao(codigo) {
+    if (document.getElementById('cli-boasvindas-overlay')) return;
+    const overlay = document.createElement('div');
+    overlay.id = 'cli-boasvindas-overlay';
+    overlay.className = 'cli-modal-overlay show';
+    overlay.style.zIndex = '9100';
+    overlay.innerHTML = `
+      <div class="cli-modal" style="max-width:440px;text-align:center">
+        <button type="button" class="cli-modal-close" data-bv-close aria-label="Fechar">✕</button>
+        <div style="font-size:2.6rem;margin-bottom:6px">🎁</div>
+        <h2 class="cli-form-title" style="margin-bottom:8px">Seu código de indicação está pronto!</h2>
+        <p class="cli-form-sub" style="margin-bottom:18px">
+          Compartilhe com amigos e ganhe comissão na <strong>primeira compra</strong> de cada um.
+        </p>
+        <div style="background:rgba(21, 128, 61,.12);border:1px dashed rgba(21, 128, 61,.5);border-radius:10px;padding:14px;margin-bottom:14px">
+          <div style="font-size:.7rem;color:var(--gray,#64748b);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px">Seu código</div>
+          <div id="bv-codigo" style="font-family:monospace;font-size:1.15rem;font-weight:800;color:#15803D;letter-spacing:1px;word-break:break-all">${_esc(codigo)}</div>
+        </div>
+        <button type="button" class="cli-btn-cta" data-bv-copy style="margin-bottom:8px">📋 Copiar código</button>
+        <a href="perfil.html" class="cli-btn-cta" style="background:transparent;border:1px solid var(--accent,#15803D);color:var(--accent,#15803D);text-decoration:none;display:block">Ver no meu perfil →</a>
+      </div>`;
+    document.body.appendChild(overlay);
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
+    overlay.querySelector('[data-bv-close]').addEventListener('click', () => overlay.remove());
+    overlay.querySelector('[data-bv-copy]').addEventListener('click', async (e) => {
+      try { await navigator.clipboard.writeText(codigo); e.target.textContent = '✅ Copiado!'; setTimeout(() => e.target.textContent = '📋 Copiar código', 2000); }
+      catch (_) { e.target.textContent = '⚠️ Falha ao copiar'; }
+    });
   }
 
   // ─── EXPORT ─────────────────────────────────────────────────────────────────

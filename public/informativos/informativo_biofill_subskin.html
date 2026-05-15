@@ -1,0 +1,411 @@
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  INFORMATIVO TÉCNICO — SUA EMPRESA                         ║
+  ║  Produto: Biofill Subskin Dermplus (PCL · CMC · 20mL · Subdérmico)                  ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  Template 2026 · Montserrat + Lato · informativo.css        ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Informativo Técnico — Biofill Subskin Dermplus | Sua Empresa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/informativo.css" />
+  <style>
+    :root {
+      --petrol:      #1A5C2E; --petrol-dark: #0A3318; --petrol-mid: #2E8047;
+      --petrol-lite: #C8EDD4; --petrol-bg:   #E8F5EC;
+      --amber:       #B8820A; --amber-mid:   #D4A012;
+      --amber-lite:  #F5E8C0; --amber-bg:    #FDF5DC;
+      --gold:        #9A6E0A; --gold-mid:    #C49020;
+      --gold-lite:   #F0E0B0; --gold-bg:     #FAF0D8;
+      --white:       #FFFFFF; --gray-1: #F4F6F7; --gray-2: #D5D8DC;
+      --text-dark:   #0A2010; --text-mid: #2A5035;
+      --shadow:      0 2px 12px rgba(10,51,24,0.12);
+      --header-bg:   linear-gradient(135deg, #0A3318 0%, #1A5C2E 35%, #1E7034 65%, #B8820A 85%, #D4A012 100%);
+      --header-small-bg: linear-gradient(135deg, #0A3318 0%, #1A5C2E 50%, #2E8047 100%);
+      --header-bar-bg: linear-gradient(90deg, #0A3318 0%, #2E8047 30%, #B8820A 60%, #D4A012 100%);
+      --header-hl:   #F5E8C0;
+    }
+    body { background: #b8cfc0; }
+
+    /* Dual mechanism layout */
+    .dual-mec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+    .dual-mec-card { border-radius: 10px; overflow: hidden; box-shadow: var(--shadow); }
+    .dmc-header { padding: 9px 14px; display: flex; align-items: center; gap: 8px; }
+    .dmc-header.dh-gold  { background: linear-gradient(135deg, #4A2800, #B8820A); }
+    .dmc-header.dh-green { background: linear-gradient(135deg, #0A3318, #2E8047); }
+    .dmc-icon { font-size: 16px; }
+    .dmc-title { font-family: 'Montserrat', sans-serif; font-size: 9pt; font-weight: 800; color: white; }
+    .dmc-body { background: var(--gray-1); padding: 10px 14px; }
+    .dmc-step { display: flex; align-items: flex-start; gap: 8px; padding: 4px 0; border-bottom: 1px dashed var(--gray-2); font-size: 8pt; color: var(--text-mid); line-height: 1.4; }
+    .dmc-step:last-child { border-bottom: none; }
+    .dmc-num { width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Montserrat', sans-serif; font-size: 9pt; font-weight: 800; color: white; flex-shrink: 0; margin-top: 1px; }
+    .dmc-num.n-gold  { background: linear-gradient(135deg, #B8820A, #D4A012); }
+    .dmc-num.n-green { background: linear-gradient(135deg, #1A5C2E, #2E8047); }
+
+    /* Specs grid */
+    .specs-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+    .indication-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 7px; }
+    .ind-card { background: var(--white); border: 1px solid var(--petrol-lite); border-top: 3px solid var(--petrol-mid); border-radius: 7px; padding: 8px 6px; text-align: center; }
+    .ind-icon  { font-size: 20px; margin-bottom: 3px; }
+    .ind-title { font-family: 'Montserrat', sans-serif; font-size: 8pt; font-weight: 800; color: var(--petrol-dark); margin-bottom: 2px; }
+    .ind-desc  { font-size: 7.5pt; color: var(--text-mid); line-height: 1.3; }
+
+    .specs-box-green { background: var(--white); border: 1px solid var(--petrol-lite); border-radius: 8px; padding: 10px 12px; }
+    .spec-row-g { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; border-bottom: 1px dashed var(--gray-2); font-size: 8pt; }
+    .spec-row-g:last-child { border-bottom: none; }
+    .spec-lbl-g { color: var(--text-mid); font-weight: 500; }
+    .spec-val-g { font-weight: 700; color: var(--petrol-dark); text-align: right; }
+    .spec-val-g.gold { color: var(--amber); }
+
+    /* Dose highlight */
+    .dose-hl-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-bottom: 14px; }
+    .dh-card { background: rgba(255,255,255,0.10); border: 1px solid rgba(200,237,212,0.30); border-radius: 8px; padding: 10px 6px; text-align: center; }
+    .dh-val  { font-size: 20pt; font-weight: 900; color: var(--header-hl); line-height: 1; }
+    .dh-unit { font-size: 7.5pt; font-weight: 700; color: var(--petrol-lite); margin-bottom: 3px; }
+    .dh-lbl  { font-size: 7.5pt; color: rgba(255,255,255,0.65); line-height: 1.3; }
+
+    /* Prep steps */
+    .prep-step-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+    .prep-step { display: flex; align-items: center; gap: 8px; background: var(--petrol-bg); border: 1px solid var(--petrol-lite); border-radius: 7px; padding: 7px 10px; font-size: 8pt; color: var(--text-dark); }
+    .prep-step.warn { background: var(--amber-bg); border-color: var(--amber-lite); }
+    .ps-num { width: 20px; height: 20px; border-radius: 50%; background: linear-gradient(135deg, var(--petrol-dark), var(--petrol-mid)); color: white; font-family: 'Montserrat', sans-serif; font-size: 9pt; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .ps-num.warn { background: linear-gradient(135deg, var(--amber), var(--amber-mid)); }
+
+    /* Cannula grid */
+    .cannula-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 7px; }
+    .can-card { background: var(--white); border: 1px solid var(--petrol-lite); border-radius: 7px; padding: 8px; text-align: center; }
+    .can-size  { font-size: 15pt; font-weight: 900; color: var(--petrol-dark); line-height: 1; }
+    .can-name  { font-family: 'Montserrat', sans-serif; font-size: 7.5pt; font-weight: 800; color: var(--petrol); margin: 2px 0; }
+    .can-use   { font-size: 7pt; color: var(--text-mid); line-height: 1.3; }
+
+    /* Timeline ciclo */
+    .ciclo-timeline { background: var(--white); border: 1px solid var(--petrol-lite); border-radius: 8px; padding: 12px 16px; margin-bottom: 12px; }
+    .ctl-track { display: flex; align-items: center; gap: 0; }
+    .ctl-node { display: flex; flex-direction: column; align-items: center; flex: 1; }
+    .ctl-circle { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Montserrat', sans-serif; font-size: 10pt; font-weight: 900; color: white; z-index: 2; }
+    .ctl-circle.c-green { background: linear-gradient(135deg, #0A3318, #2E8047); }
+    .ctl-circle.c-wait  { background: #6b7280; width: 28px; height: 28px; font-size: 8pt; }
+    .ctl-circle.c-gold  { background: linear-gradient(135deg, #9A6E0A, #D4A012); }
+    .ctl-line { flex: 1; height: 2px; background: linear-gradient(90deg, var(--petrol-mid), var(--amber-mid)); margin-bottom: 24px; }
+    .ctl-lbl { font-family: 'Montserrat', sans-serif; font-size: 8pt; font-weight: 800; color: var(--petrol-dark); margin-top: 4px; text-align: center; }
+    .ctl-sub { font-size: 7.5pt; color: var(--text-mid); text-align: center; margin-top: 1px; }
+
+    /* Protocol cards (area-based) */
+    .area-proto-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 9px; margin-bottom: 12px; }
+    .area-card { border-radius: 8px; overflow: hidden; box-shadow: var(--shadow); }
+    .area-head { background: linear-gradient(135deg, var(--petrol-dark), var(--petrol-mid)); color: white; padding: 8px 12px; display: flex; align-items: center; justify-content: space-between; }
+    .area-head-title { font-family: 'Montserrat', sans-serif; font-size: 8.5pt; font-weight: 800; }
+    .area-badge { background: rgba(184,130,10,0.85); color: white; font-family: 'Montserrat', sans-serif; font-size: 7pt; font-weight: 800; padding: 2px 7px; border-radius: 10px; }
+    .area-body { background: var(--gray-1); padding: 9px 11px; }
+    .area-row { display: flex; align-items: flex-start; gap: 6px; font-size: 8pt; color: var(--text-mid); padding: 3px 0; border-bottom: 1px dashed var(--gray-2); line-height: 1.4; }
+    .area-row:last-child { border-bottom: none; }
+    .ar-lbl { font-weight: 700; color: var(--petrol-dark); flex-shrink: 0; min-width: 65px; }
+    .ar-lbl.gold { color: var(--amber); }
+
+    /* Tip / Alert */
+    .tip-alert-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+    .tip-box { background: var(--petrol-bg); border: 1px solid var(--petrol-lite); border-left: 4px solid var(--petrol-mid); border-radius: 7px; padding: 9px 12px; font-size: 8pt; color: var(--text-dark); line-height: 1.6; }
+    .tip-box strong { color: var(--petrol-dark); }
+    .alert-box { background: var(--amber-bg); border: 1px solid var(--amber-lite); border-left: 4px solid var(--amber); border-radius: 7px; padding: 9px 12px; font-size: 8pt; color: var(--text-dark); line-height: 1.6; }
+    .alert-box strong { color: var(--amber); }
+  </style>
+</head>
+<body>
+
+<!-- ═══ PÁGINA 1 — FRENTE ═══ -->
+<div class="page">
+  <div class="header">
+    <div class="orb-amber"></div>
+    <div class="header-inner">
+      <div class="header-logo"><img src="../assets/img/logo.png" alt="Sua Empresa" /></div>
+      <div class="header-center">
+        <div class="header-tag">Informativo Técnico · Bioestimulador Subdérmico · PCL · Duplo Mecanismo</div>
+        <div class="header-title"><span class="hl">BIOFILL SUBSKIN DERMPLUS</span></div>
+        <div class="header-subtitle">Policaprolactona em CMC · MedHarm Produtos · Neocolagênese Subdérmica · Refinamento e Qualidade Dérmica</div>
+      </div>
+      <div class="header-badges">
+        <div class="badge-box"><div class="b-label">Volume</div><div class="b-val"><span>20</span> mL</div></div>
+        <div class="badge-box"><div class="b-label">Apresentação</div><div class="b-val">Pronto para uso</div></div>
+        <div class="badge-box"><div class="b-label">Código</div><div class="b-val">BFD-PFY-26</div></div>
+      </div>
+    </div>
+    <div class="header-bar"></div>
+  </div>
+
+  <div class="info-strip">
+    <span class="info-chip">PCL · CMC</span>
+    <span class="info-chip gold">DUPLO EFEITO · 18–24 MESES</span>
+    <span class="info-text">Biofill Subskin Dermplus é um bioestimulador corporal de alta performance: <strong>lipólise local controlada</strong> via ativação de macrófagos + <strong>neocolagênese progressiva</strong> pela degradação gradual das microesferas PCL. Firmeza e remodelamento corporal em uma abordagem única, <strong>sem cirurgia</strong>.</span>
+  </div>
+
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="st-icon">💎</span><h2>O Que É o Biofill Subskin Dermplus</h2><div class="st-line"></div></div>
+      <div class="intro-strip">
+        <div class="intro-icon">🌿</div>
+        <div class="intro-text">O <strong>Biofill Subskin Dermplus</strong> é um bioestimulador corporal de alta performance composto por <strong>microesferas de PCL (policaprolactona)</strong> em gel de carboximetilcelulose (CMC). Atua por dois mecanismos simultâneos: <strong>lipólise local controlada</strong> via ativação de macrófagos e <strong>neocolagênese progressiva</strong> pela degradação gradual das microesferas com recrutamento contínuo de fibroblastos — entregando firmeza e remodelamento corporal em uma abordagem única, sem cirurgia. Produto <strong>pronto para uso</strong> (20mL), fabricado por MedHarm Produtos, com resultado clínico de <strong>18–24 meses de duração</strong>.</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">🔥</span><h2>Duplo Mecanismo de Ação</h2><div class="st-line"></div></div>
+      <div class="dual-mec-grid">
+        <div class="dual-mec-card">
+          <div class="dmc-header dh-gold"><div class="dmc-icon">🔥</div><div class="dmc-title">Mecanismo 1 — Lipólise Local</div></div>
+          <div class="dmc-body">
+            <div class="dmc-step"><div class="dmc-num n-gold">1</div><div><strong>Ativação de macrófagos</strong> — Microesferas PCL desencadeiam resposta inflamatória controlada no tecido adiposo</div></div>
+            <div class="dmc-step"><div class="dmc-num n-gold">2</div><div><strong>Lise de adipócitos</strong> — Macrófagos atacam células de gordura adjacentes às microesferas → redução localizada</div></div>
+            <div class="dmc-step"><div class="dmc-num n-gold">3</div><div><strong>Eliminação gradual</strong> — Gordura lipo-reduzida é drenada pelo sistema linfático nas semanas seguintes</div></div>
+          </div>
+        </div>
+        <div class="dual-mec-card">
+          <div class="dmc-header dh-green"><div class="dmc-icon">🌿</div><div class="dmc-title">Mecanismo 2 — Neocolagênese</div></div>
+          <div class="dmc-body">
+            <div class="dmc-step"><div class="dmc-num n-green">1</div><div><strong>Scaffolding PCL</strong> — Microesferas formam andaime transitório que recruta fibroblastos para a região</div></div>
+            <div class="dmc-step"><div class="dmc-num n-green">2</div><div><strong>Colágeno I e III</strong> — Fibroblastos sintetizam colágeno neoestruturado ao redor das esferas → firmeza progressiva</div></div>
+            <div class="dmc-step"><div class="dmc-num n-green">3</div><div><strong>Degradação lenta (18–24m)</strong> — PCL biodegrada em CO₂ + H₂O enquanto estrutura de colágeno persiste</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📊</span><h2>Indicações &amp; Especificações do Produto</h2><div class="st-line"></div></div>
+      <div class="specs-two-col">
+        <div>
+          <div class="indication-grid">
+            <div class="ind-card"><div class="ind-icon">🫃</div><div class="ind-title">Abdômen</div><div class="ind-desc">Lipólise + firmeza · região central e flancos</div></div>
+            <div class="ind-card"><div class="ind-icon">💪</div><div class="ind-title">Braços</div><div class="ind-desc">Braquioplastia não-cirúrgica · face medial e posterior</div></div>
+            <div class="ind-card"><div class="ind-icon">🫁</div><div class="ind-title">Papada</div><div class="ind-desc">Submandibular · duplo efeito lipólise + firmeza</div></div>
+            <div class="ind-card"><div class="ind-icon">🍑</div><div class="ind-title">Glúteos</div><div class="ind-desc">Volumização e lifting não-cirúrgico</div></div>
+            <div class="ind-card"><div class="ind-icon">🦵</div><div class="ind-title">Coxas</div><div class="ind-desc">Face medial/posterior · culotes · banana roll</div></div>
+            <div class="ind-card"><div class="ind-icon">📐</div><div class="ind-title">Flacidez</div><div class="ind-desc">Flacidez cutânea + gordura resistente conjuntas</div></div>
+          </div>
+        </div>
+        <div>
+          <div class="specs-box-green">
+            <div class="spec-row-g"><span class="spec-lbl-g">Fabricante</span><span class="spec-val-g">MedHarm Produtos</span></div>
+            <div class="spec-row-g"><span class="spec-lbl-g">Apresentação</span><span class="spec-val-g gold">20 mL · Pronto para uso</span></div>
+            <div class="spec-row-g"><span class="spec-lbl-g">Princípio ativo</span><span class="spec-val-g">Microesferas de PCL</span></div>
+            <div class="spec-row-g"><span class="spec-lbl-g">Veículo</span><span class="spec-val-g">Gel CMC aquoso</span></div>
+            <div class="spec-row-g"><span class="spec-lbl-g">Conservação</span><span class="spec-val-g">2–8 °C · Não congelar</span></div>
+            <div class="spec-row-g"><span class="spec-lbl-g">Após abertura</span><span class="spec-val-g gold">Usar na mesma sessão</span></div>
+            <div class="spec-row-g"><span class="spec-lbl-g">Volume/zona</span><span class="spec-val-g">2–4 mL por área</span></div>
+            <div class="spec-row-g"><span class="spec-lbl-g">Volume/sessão</span><span class="spec-val-g">6–12 mL total</span></div>
+            <div class="spec-row-g"><span class="spec-lbl-g">N.º de sessões</span><span class="spec-val-g">2–3 sessões</span></div>
+            <div class="spec-row-g"><span class="spec-lbl-g">Intervalo</span><span class="spec-val-g gold">6–8 semanas</span></div>
+            <div class="spec-row-g"><span class="spec-lbl-g">Duração resultado</span><span class="spec-val-g">18–24 meses</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📏</span><h2>Resumo de Dosagem por Sessão</h2><div class="st-line"></div></div>
+      <div style="background: linear-gradient(135deg, var(--petrol-dark) 0%, var(--petrol-mid) 60%, var(--amber) 100%); border-radius: 10px; padding: 14px 18px;">
+        <div class="dose-hl-grid">
+          <div class="dh-card"><div class="dh-unit">Por Zona</div><div class="dh-val">2–4</div><div class="dh-lbl">mL por área de aplicação</div></div>
+          <div class="dh-card"><div class="dh-unit">Por Sessão</div><div class="dh-val">6–12</div><div class="dh-lbl">mL total (conforme extensão)</div></div>
+          <div class="dh-card"><div class="dh-unit">Intervalo</div><div class="dh-val">6–8</div><div class="dh-lbl">semanas entre sessões</div></div>
+          <div class="dh-card"><div class="dh-unit">Sessões</div><div class="dh-val">2–3</div><div class="dh-lbl">sessões no ciclo base</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>SUA EMPRESA</span> · Bioestimuladores Subdérmicos de Alta Performance</div>
+    <div class="footer-code">DOC: BFD-PFY-26 · Rev. Abr/2026</div>
+    <div class="footer-page">1 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Sua Empresa · Todos os direitos reservados</div>
+</div>
+
+<!-- ═══ PÁGINA 2 — VERSO ═══ -->
+<div class="page">
+  <div class="header-small">
+    <img src="../assets/img/logo.png" alt="Sua Empresa" />
+    <div>
+      <div class="hs-title"><span>BIOFILL SUBSKIN DERMPLUS</span> · Protocolo Clínico Detalhado</div>
+      <div class="hs-sub">Preparo · Técnica · Cânulas · Linha do Tempo · Protocolos por Área</div>
+    </div>
+    <div class="hs-right">
+      <div class="hs-title" style="font-size:9pt;color:rgba(255,255,255,0.5)">SUA EMPRESA</div>
+      <div class="hs-sub">Bioestimuladores Subdérmicos de Alta Performance</div>
+    </div>
+  </div>
+  <div class="header-bar"></div>
+
+  <div class="content">
+    <div class="section">
+      <div class="section-title"><span class="st-icon">⚙️</span><h2>Preparo &amp; Guia de Cânulas por Área</h2><div class="st-line"></div></div>
+      <div class="two-col">
+        <div>
+          <div style="font-family:'Montserrat',sans-serif;font-size:7.5pt;font-weight:800;color:var(--petrol);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px;">Preparo do Produto</div>
+          <div style="font-size:8pt;color:var(--text-mid);margin-bottom:7px;">Produto <strong>PRONTO PARA USO</strong> — sem reconstituição. O único preparo necessário é a homogeneização antes de aspirar.</div>
+          <div class="prep-step-list">
+            <div class="prep-step"><div class="ps-num">1</div><div><strong>Agitar suavemente</strong> o frasco por 15–20 s para homogeneizar a suspensão de microesferas PCL</div></div>
+            <div class="prep-step"><div class="ps-num">2</div><div><strong>Aspirar com seringa luer-lock</strong> o volume calculado para cada área — usar na mesma sessão</div></div>
+            <div class="prep-step"><div class="ps-num">3</div><div><strong>Conectar cânula</strong> adequada à área (ver guia) e aplicar com técnica retrógrada</div></div>
+            <div class="prep-step warn"><div class="ps-num warn">!</div><div><strong>Após abertura:</strong> usar na mesma sessão. Não conservar frasco aberto por mais de 24h.</div></div>
+          </div>
+        </div>
+        <div>
+          <div style="font-family:'Montserrat',sans-serif;font-size:7.5pt;font-weight:800;color:var(--petrol);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px;">Guia de Cânulas por Área</div>
+          <div class="cannula-grid">
+            <div class="can-card"><div class="can-size">18G</div><div class="can-name">Abdômen / Flancos</div><div class="can-use">Subcutâneo médio · Grade ou fan linear · 4mL/quadrante</div></div>
+            <div class="can-card"><div class="can-size">20G</div><div class="can-name">Braços / Coxas</div><div class="can-use">Subcutâneo raso · Técnica retrógrada · 3mL/braço</div></div>
+            <div class="can-card"><div class="can-size">22G</div><div class="can-name">Papada / Submandibu.</div><div class="can-use">Subdérmico · Grid fino · 2mL/área</div></div>
+            <div class="can-card"><div class="can-size">20G</div><div class="can-name">Glúteos</div><div class="can-use">Cânula longa · Grid subcutâneo · 6–8mL/glúteo</div></div>
+            <div class="can-card"><div class="can-size">25G</div><div class="can-name">Áreas Delicadas</div><div class="can-use">Pele fina · Menor volume · Maior precisão</div></div>
+            <div class="can-card"><div class="can-size">⚠️</div><div class="can-name">Sempre Aspirar</div><div class="can-use">Aspirar antes de injetar em zonas de alta vascularização</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📅</span><h2>Linha do Tempo — Ciclo Completo de Tratamento</h2><div class="st-line"></div></div>
+      <div class="ciclo-timeline">
+        <div class="ctl-track">
+          <div class="ctl-node">
+            <div class="ctl-circle c-green">S1</div>
+            <div class="ctl-lbl">Sessão 1<br>Dia 0</div>
+            <div class="ctl-sub">6–12 mL<br>Aplicação base</div>
+          </div>
+          <div class="ctl-line"></div>
+          <div class="ctl-node" style="flex:0.7;">
+            <div class="ctl-circle c-wait">⏱</div>
+            <div class="ctl-lbl" style="color:#6b7280;">6–8 sem<br>de espera</div>
+          </div>
+          <div class="ctl-line"></div>
+          <div class="ctl-node">
+            <div class="ctl-circle c-green">S2</div>
+            <div class="ctl-lbl">Sessão 2<br>Sem 6–8</div>
+            <div class="ctl-sub">6–12 mL<br>Reforço colágeno</div>
+          </div>
+          <div class="ctl-line"></div>
+          <div class="ctl-node" style="flex:0.7;">
+            <div class="ctl-circle c-wait">⏱</div>
+            <div class="ctl-lbl" style="color:#6b7280;">6–8 sem<br>(opc. S3)</div>
+          </div>
+          <div class="ctl-line"></div>
+          <div class="ctl-node" style="opacity:0.75;">
+            <div class="ctl-circle c-green">S3</div>
+            <div class="ctl-lbl">Sessão 3<br>(opcional)</div>
+            <div class="ctl-sub">Retoque /<br>volume adicional</div>
+          </div>
+          <div class="ctl-line"></div>
+          <div class="ctl-node">
+            <div class="ctl-circle c-gold">✓</div>
+            <div class="ctl-lbl" style="color:var(--amber);">Resultado</div>
+            <div class="ctl-sub">Avaliar 3–4m<br>após última sessão</div>
+          </div>
+        </div>
+        <div style="margin-top:8px;font-size:7.5pt;color:var(--text-mid);text-align:center;">
+          Primeiros resultados visíveis em <strong>30–45 dias</strong> · Pico de colágeno em <strong>3–4 meses</strong> · Duração total: <strong>18–24 meses</strong>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title"><span class="st-icon">📋</span><h2>Protocolos de Aplicação por Área</h2><div class="st-line"></div></div>
+      <div class="area-proto-grid">
+        <div class="area-card">
+          <div class="area-head"><span class="area-head-title">🫃 Abdômen + Flancos</span><span class="area-badge">Lipólise</span></div>
+          <div class="area-body">
+            <div class="area-row"><span class="ar-lbl">Cânula:</span>18G longa — plano subcutâneo médio</div>
+            <div class="area-row"><span class="ar-lbl">Técnica:</span>Retrograde linear threading em grid</div>
+            <div class="area-row"><span class="ar-lbl">Volume:</span>4 mL por quadrante abdominal</div>
+            <div class="area-row"><span class="ar-lbl gold">Total/sessão:</span>8–12 mL (4 quadrantes)</div>
+            <div class="area-row"><span class="ar-lbl">Pós-aplic.:</span>Massagem circular suave para distribuição</div>
+            <div class="area-row"><span class="ar-lbl">Sessões:</span>2–3 · Intervalo: 8 semanas</div>
+            <div class="area-row"><span class="ar-lbl">Combinar:</span>Exercício aeróbico + protocolo alimentar</div>
+          </div>
+        </div>
+        <div class="area-card">
+          <div class="area-head"><span class="area-head-title">💪 Braços (Braquioplastia)</span><span class="area-badge">Firmeza</span></div>
+          <div class="area-body">
+            <div class="area-row"><span class="ar-lbl">Cânula:</span>20G — subcutâneo raso retrógrada</div>
+            <div class="area-row"><span class="ar-lbl">Técnica:</span>Retrograde fan — face medial e posterior</div>
+            <div class="area-row"><span class="ar-lbl">Volume:</span>3 mL por braço</div>
+            <div class="area-row"><span class="ar-lbl gold">Total/sessão:</span>6 mL (ambos os braços)</div>
+            <div class="area-row"><span class="ar-lbl">Pós-aplic.:</span>Aguardar 5 min, modelagem suave</div>
+            <div class="area-row"><span class="ar-lbl">Sessões:</span>2 · Intervalo: 6 semanas</div>
+            <div class="area-row"><span class="ar-lbl">Combinar:</span>Drenagem linfática nas 48h seguintes</div>
+          </div>
+        </div>
+        <div class="area-card">
+          <div class="area-head"><span class="area-head-title">🫁 Papada + Submandibular</span><span class="area-badge">Duplo Efeito</span></div>
+          <div class="area-body">
+            <div class="area-row"><span class="ar-lbl">Cânula:</span>22G — plano subdérmico</div>
+            <div class="area-row"><span class="ar-lbl">Técnica:</span>Grid fino — papada e submandibular</div>
+            <div class="area-row"><span class="ar-lbl">Volume:</span>2 mL por área (4 mL total)</div>
+            <div class="area-row"><span class="ar-lbl gold">Total/sessão:</span>2–4 mL</div>
+            <div class="area-row"><span class="ar-lbl">Pós-aplic.:</span>Aguardar 10 min com compressa fria</div>
+            <div class="area-row"><span class="ar-lbl">Sessões:</span>2–3 · Intervalo: 6–8 semanas</div>
+            <div class="area-row"><span class="ar-lbl">Combinar:</span>Dysport no platisma para efeito tensor</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tip-alert-grid">
+      <div class="tip-box">
+        <strong>Cuidados Pós-Procedimento:</strong><br>
+        • <strong>Imediato:</strong> Não massagear a área logo após — aguardar 24h<br>
+        • <strong>24h:</strong> Iniciar massagem suave circular para distribuição<br>
+        • <strong>48–72h:</strong> Evitar calor intenso (sauna, banho quente, sol direto)<br>
+        • <strong>48h:</strong> Sem exercícios intensos — caminhada liberada<br>
+        • <strong>5–10 dias:</strong> Edema e equimose transitórios — orientar paciente<br>
+        • Drenagem linfática 48h após: otimiza resultado e reduz edema
+      </div>
+      <div class="alert-box">
+        <strong>Contraindicações e Alertas:</strong><br>
+        • <strong>Gestação e lactação</strong> — contraindicação absoluta<br>
+        • Doenças autoimunes ativas ou em tratamento imunossupressor<br>
+        • <strong>Neoplasias</strong> — qualquer tipo ativo ou recente<br>
+        • Infecção local ativa na área de aplicação<br>
+        • Hipersensibilidade ao PCL, CMC ou componentes da fórmula<br>
+        • <strong>Aspirar antes de injetar</strong> em zonas de alta vascularização
+      </div>
+    </div>
+
+    <div class="brand-banner">
+      <img src="../assets/img/logo.png" alt="Sua Empresa" class="brand-logo" />
+      <div class="pf-text">
+        <div class="pf-label">Estudo Clínico Elaborado por</div>
+        <div class="brand-name">Sua Empresa<span>-PY</span></div>
+        <div class="brand-tagline">Compostos injetáveis de alta pureza com qualidade farmacêutica.<br>Protocolos personalizados para saúde, performance e bem-estar.</div>
+      </div>
+      <a class="brand-cta" href="#" data-wa-link>📞 WhatsApp</a>
+    </div>
+
+    <div class="box-card ref">
+      <div class="box-title">📚 Referências Científicas</div>
+      <ul class="ref-list">
+        <li data-n="1">Nicolau P et al. (2019). <em>Polycaprolactone-based dermal fillers — clinical efficacy and safety in body contouring.</em> J Cosmet Dermatol. 18(4):1081–1089.</li>
+        <li data-n="2">Moers-Carpi MM et al. (2021). <em>Poly-L-lactic acid and polycaprolactone for body contouring: a comparative clinical trial.</em> Dermatol Surg. 47(5):661–667.</li>
+        <li data-n="3">Alam M et al. (2022). <em>Body contouring with injectable fillers: PCL and CMC combinations.</em> JAAD. 86(3):614–623.</li>
+        <li data-n="4">MedHarm Produtos. (2024). <em>Biofill Subskin Dermplus — Monografia do Produto. Microesferas de Policaprolactona em Carboximetilcelulose.</em> Dados do fabricante.</li>
+        <li data-n="5">AHOF. (2023). <em>Bioestimuladores Corporais: Protocolos e Evidências.</em> Associação Hispano-Americana de Ozonioterapia e Fisioterapia.</li>
+        <li data-n="6">Revista SBD. (2024). <em>PCL em bioestimulação corporal: revisão sistemática de eficácia e segurança.</em> Sociedade Brasileira de Dermatologia.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-brand"><span>SUA EMPRESA</span> · Bioestimuladores Subdérmicos de Alta Performance</div>
+    <div class="footer-code">DOC: BFD-PFY-26 · Rev. Abr/2026 · Uso Profissional</div>
+    <div class="footer-page">2 / 2</div>
+  </div>
+  <div class="footer-note">Documento informativo — não substitui prescrição médica · © 2026 Sua Empresa · Todos os direitos reservados</div>
+</div>
+
+</body>
+</html>

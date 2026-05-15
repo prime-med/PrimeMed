@@ -31,6 +31,7 @@
   <!-- TABS -->
   <div class="pf-tabs">
     <button type="button" class="pf-tab active" data-pf-tab="pedidos" onclick="pfShowTab('pedidos')">📦 Meus Pedidos</button>
+    <button type="button" class="pf-tab" data-pf-tab="indicacao" onclick="pfShowTab('indicacao')">🎁 Indicação</button>
     <button type="button" class="pf-tab" data-pf-tab="conta" onclick="pfShowTab('conta')">👤 Minha Conta</button>
   </div>
 
@@ -48,6 +49,62 @@
       <a href="pedido.html" class="pf-btn-cta">🛒 Fazer meu primeiro pedido</a>
     </div>
     <div id="pf-pedidos-list" class="pf-pedidos-list"></div>
+  </section>
+
+  <!-- ════ TAB: INDICAÇÃO ════ -->
+  <section class="pf-section" data-pf-pane="indicacao" style="display:none">
+    <div class="pf-section-head">
+      <h2>🎁 Programa de Indicação</h2>
+      <p>Compartilhe seu código com amigos e ganhe comissão na primeira compra de cada um.</p>
+    </div>
+
+    <div class="pf-indicacao-card">
+      <div class="pf-ind-label">Seu código de indicação</div>
+      <div class="pf-ind-codigo" id="pf-ind-codigo">⏳ Carregando…</div>
+      <div class="pf-ind-actions">
+        <button type="button" class="pf-btn-cta" id="pf-ind-copy">📋 Copiar código</button>
+        <button type="button" class="pf-btn-cta pf-btn-share" id="pf-ind-share">📤 Compartilhar</button>
+      </div>
+    </div>
+
+    <!-- Saldo de comissão -->
+    <div class="pf-comissao-grid">
+      <div class="pf-comissao-card pf-com-liberada">
+        <div class="pf-com-label">💰 Disponível</div>
+        <div class="pf-com-valor" id="pf-com-liberada">R$ 0,00</div>
+        <div class="pf-com-meta" id="pf-com-liberada-qtd">Saldo livre pra usar</div>
+        <button type="button" class="pf-btn-cta" id="pf-btn-solicitar-cupom" style="margin-top:12px;display:none">🎟️ Solicitar Cupom</button>
+      </div>
+      <div class="pf-comissao-card pf-com-pendente">
+        <div class="pf-com-label">⏳ Pendente</div>
+        <div class="pf-com-valor" id="pf-com-pendente">R$ 0,00</div>
+        <div class="pf-com-meta" id="pf-com-pendente-qtd">Aguardando carência</div>
+      </div>
+    </div>
+    <div class="pf-com-detalhes" id="pf-com-detalhes" style="display:none">
+      <div class="pf-com-detalhe-item" id="pf-det-reservado" style="display:none"></div>
+      <div class="pf-com-detalhe-item" id="pf-det-aprovado" style="display:none"></div>
+      <div class="pf-com-detalhe-item" id="pf-det-consumido" style="display:none"></div>
+    </div>
+
+    <!-- Histórico de solicitações -->
+    <div class="pf-solicitacoes-wrap" id="pf-solicitacoes-wrap" style="display:none">
+      <h3 style="font-size:.95rem;margin:24px 0 10px">📋 Suas solicitações</h3>
+      <div id="pf-solicitacoes-list" class="pf-solicitacoes-list"></div>
+    </div>
+
+    <div class="pf-ind-info">
+      <h3>Como funciona</h3>
+      <ol class="pf-ind-steps">
+        <li><strong>Compartilhe seu código</strong> com amigos por WhatsApp, redes sociais ou pessoalmente.</li>
+        <li><strong>Eles fazem o primeiro pedido</strong> usando seu código no campo "Código de Indicação" durante a compra.</li>
+        <li><strong>Você ganha comissão</strong> automaticamente — apenas na primeira compra de cada pessoa indicada.</li>
+        <li><strong>O saldo acumula</strong> e fica disponível após o pedido ser confirmado e despachado (carência de 14 dias).</li>
+      </ol>
+      <div class="pf-ind-note">
+        💡 <strong>Sem limite</strong> de indicações — quanto mais amigos, maior sua comissão acumulada.
+      </div>
+    </div>
   </section>
 
   <!-- ════ TAB: CONTA ════ -->
@@ -128,7 +185,8 @@
 <script src="assets/js/client_render.js"></script>
 <script>
 // ─── GUARD: redirect se não logado ────────────────────────────────────────
-const _pfSess = getClienteSession();
+// `let` (não `const`) pra _pfRequest poder atualizar após reautenticação
+let _pfSess = getClienteSession();
 if (!_pfSess) {
   window.location.href = 'index.html';
 }
@@ -140,11 +198,257 @@ function pfEsc(s) {
     .replace(/"/g,'&quot;').replace(/'/g,'&#039;');
 }
 function pfFmtBrl(v) { return parseFloat(v||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+// Formata data em vários formatos vindos do backend (Date.toString GAS, dd/mm/aaaa, ISO)
+// pra "dd/mm/aaaa HH:mm" simples e legível.
+// ─── HELPERS DE SESSÃO ─────────────────────────────────────────────────────
+// Detecta se a resposta do backend indica sessão expirada/inválida
+function _pfIsSessaoExpirada(data) {
+  if (!data) return false;
+  if (data.ok) return false;
+  const txt = String(data.erro || '').toLowerCase();
+  return /sessao_?invalida|sess[aã]o expirada|n[aã]o autorizado|token.*invalid|token.*expir/.test(txt);
+}
+
+// Abre modal de login automaticamente — após sucesso, atualiza _pfSess
+function _pfReautenticar() {
+  return new Promise((resolve, reject) => {
+    if (typeof abrirModalLogin !== 'function') {
+      reject(new Error('Modal de login indisponível'));
+      return;
+    }
+    if (typeof clearClienteSession === 'function') clearClienteSession();
+    abrirModalLogin('login', () => {
+      _pfSess = (typeof getClienteSession === 'function') ? getClienteSession() : null;
+      if (_pfSess && _pfSess.token) resolve(_pfSess);
+      else reject(new Error('Login cancelado'));
+    });
+  });
+}
+
+// Wrapper: chama backend e auto-reautentica se sessão expirou (1 retry)
+async function _pfRequest(action, params, _retried) {
+  const sess = _pfSess || (typeof getClienteSession === 'function' ? getClienteSession() : null);
+  const token = (params && params.token) || (sess && sess.token) || '';
+  const fullParams = Object.assign({}, params || {}, { token });
+  // Chama o backend (cliPost_ é o helper bruto exposto por cliente_auth.js)
+  const data = await cliPost_(action, fullParams);
+  if (_pfIsSessaoExpirada(data) && !_retried) {
+    try {
+      await _pfReautenticar();
+    } catch (e) {
+      return data; // login cancelado/falhou — retorna o erro original
+    }
+    // Re-tenta com novo token
+    return _pfRequest(action, params, true);
+  }
+  return data;
+}
+
+function pfFmtDate(str) {
+  if (!str) return '—';
+  const s = String(str).trim();
+  // Já no formato BR? "dd/mm/aaaa hh:mm" ou "dd/mm/aaaa"
+  if (/^\d{1,2}\/\d{1,2}\/\d{4}/.test(s)) {
+    const m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:\s+(\d{1,2}):(\d{2}))?/);
+    if (m) {
+      const dia = m[1].padStart(2,'0'), mes = m[2].padStart(2,'0'), ano = m[3];
+      return m[4] ? `${dia}/${mes}/${ano} ${m[4].padStart(2,'0')}:${m[5]}` : `${dia}/${mes}/${ano}`;
+    }
+  }
+  // Formato Date.toString do JS/GAS (ex: "Mon Jan 05 2026 03:11:00 GMT-0300 ...")
+  // Cai no Date() nativo, que aceita
+  const d = new Date(s);
+  if (isNaN(d.getTime())) return s; // fallback: mostra cru se não parsear
+  const dd  = String(d.getDate()).padStart(2,'0');
+  const mm  = String(d.getMonth()+1).padStart(2,'0');
+  const yy  = d.getFullYear();
+  const hh  = String(d.getHours()).padStart(2,'0');
+  const mi  = String(d.getMinutes()).padStart(2,'0');
+  return `${dd}/${mm}/${yy} ${hh}:${mi}`;
+}
 
 // ─── TABS ─────────────────────────────────────────────────────────────────
 function pfShowTab(tab) {
   document.querySelectorAll('[data-pf-tab]').forEach(b => b.classList.toggle('active', b.dataset.pfTab === tab));
   document.querySelectorAll('[data-pf-pane]').forEach(p => p.style.display = (p.dataset.pfPane === tab) ? '' : 'none');
+  if (tab === 'indicacao') pfCarregarIndicacao();
+}
+
+// ─── INDICAÇÃO ────────────────────────────────────────────────────────────
+let _pfCodigoCache = '';
+async function pfCarregarIndicacao() {
+  const el = document.getElementById('pf-ind-codigo');
+  if (!el) return;
+  // Sempre busca do servidor pra ter saldo atualizado (auto-libera comissões pendentes)
+  try {
+    const data = await _pfRequest('meu_perfil', { token: _pfSess.token });
+    if (data && data.ok && data.cliente) {
+      const codigo = data.cliente.codigo_indicacao || '';
+      if (codigo) {
+        _pfCodigoCache = codigo;
+        _pfSess.codigo_indicacao = codigo;
+        setClienteSession(_pfSess);
+        _pfRenderCodigo(codigo);
+      }
+      _pfRenderComissao(data.cliente.indicacao || {});
+    } else {
+      el.textContent = '⚠️ Não foi possível carregar';
+    }
+  } catch (e) {
+    el.textContent = '⚠️ Erro de conexão';
+  }
+}
+
+function _pfRenderComissao(indic) {
+  const fmt = (v) => 'R$ ' + (parseFloat(v||0)).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+
+  // Disponível = saldo realmente usável (após deduções)
+  const disp = parseFloat(indic.disponivel || 0);
+  const reservado = parseFloat(indic.reservado_pendente || 0);
+  const aprovado  = parseFloat(indic.aprovado_cupom || 0);
+  const consumido = parseFloat(indic.consumido_pedido || 0);
+
+  setText('pf-com-liberada', fmt(disp));
+  setText('pf-com-pendente', fmt(indic.comissao_pendente));
+
+  // Botão "Solicitar Cupom" só aparece se tem saldo
+  const btn = document.getElementById('pf-btn-solicitar-cupom');
+  if (btn) {
+    btn.style.display = disp > 0 ? '' : 'none';
+    if (!btn._wired) {
+      btn._wired = true;
+      btn.addEventListener('click', () => _pfAbrirModalSolicitar(disp));
+    }
+  }
+
+  // Detalhes (reservado / aprovado / consumido) — só mostra os que > 0
+  const wrap = document.getElementById('pf-com-detalhes');
+  const showDet = (id, val, label, icon) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (val > 0) { el.style.display = ''; el.innerHTML = `<span>${icon} ${label}</span><strong>${fmt(val)}</strong>`; }
+    else el.style.display = 'none';
+  };
+  showDet('pf-det-reservado', reservado, 'Em solicitação', '⏳');
+  showDet('pf-det-aprovado',  aprovado,  'Já virou cupom', '🎟️');
+  showDet('pf-det-consumido', consumido, 'Usado em pedidos', '🛒');
+  if (wrap) wrap.style.display = (reservado > 0 || aprovado > 0 || consumido > 0) ? '' : 'none';
+
+  // Carrega histórico de solicitações se cliente tem ou já teve saldo
+  if (disp > 0 || reservado > 0 || aprovado > 0 || parseFloat(indic.comissao_liberada || 0) > 0) {
+    _pfCarregarSolicitacoes();
+  }
+}
+
+// ─── MODAL SOLICITAR CUPOM ──────────────────────────────────────────────────
+function _pfAbrirModalSolicitar(maxDisp) {
+  const old = document.getElementById('pf-modal-solicitar');
+  if (old) old.remove();
+  const overlay = document.createElement('div');
+  overlay.id = 'pf-modal-solicitar';
+  overlay.className = 'cli-modal-overlay show';
+  overlay.style.zIndex = '9100';
+  const maxFmt = 'R$ ' + maxDisp.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+  overlay.innerHTML = `
+    <div class="cli-modal" style="max-width:440px">
+      <button type="button" class="cli-modal-close" data-sol-close aria-label="Fechar">✕</button>
+      <h2 class="cli-form-title">🎟️ Solicitar Cupom</h2>
+      <p class="cli-form-sub">Saldo disponível: <strong style="color:#15803D">${maxFmt}</strong></p>
+      <div class="cli-field">
+        <label>Valor do cupom (R$)</label>
+        <input type="number" id="pf-sol-valor" min="1" max="${maxDisp.toFixed(2)}" step="0.01" placeholder="0,00"/>
+      </div>
+      <div class="cli-field">
+        <label>Observação (opcional)</label>
+        <input type="text" id="pf-sol-obs" placeholder="Ex: pra usar no próximo pedido"/>
+      </div>
+      <div class="cli-msg" id="pf-sol-msg"></div>
+      <button type="button" class="cli-btn-cta" id="pf-sol-submit">Enviar solicitação</button>
+      <p style="font-size:.78rem;color:var(--gray);margin-top:10px;text-align:center">
+        O admin vai aprovar e gerar um cupom no valor solicitado.
+        Validade do cupom: 90 dias após aprovação.
+      </p>
+    </div>`;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
+  overlay.querySelector('[data-sol-close]').addEventListener('click', () => overlay.remove());
+  overlay.querySelector('#pf-sol-submit').addEventListener('click', async () => {
+    const valor = parseFloat(document.getElementById('pf-sol-valor').value);
+    const obs   = document.getElementById('pf-sol-obs').value.trim();
+    const msg   = document.getElementById('pf-sol-msg');
+    if (isNaN(valor) || valor < 1) { msg.textContent = 'Valor mínimo R$ 1,00'; msg.className = 'cli-msg cli-msg-err'; return; }
+    if (valor > maxDisp + 0.001) { msg.textContent = `Valor excede saldo disponível (${maxFmt})`; msg.className = 'cli-msg cli-msg-err'; return; }
+    msg.textContent = '⏳ Enviando…'; msg.className = 'cli-msg';
+    try {
+      const data = await _pfRequest('solicitar_cupom_indicacao', { token: _pfSess.token, valor, obs });
+      if (data && data.ok) {
+        msg.textContent = '✅ Solicitação enviada! O admin vai analisar.'; msg.className = 'cli-msg cli-msg-ok';
+        setTimeout(() => { overlay.remove(); pfCarregarIndicacao(); }, 1200);
+      } else {
+        msg.textContent = '⚠️ ' + (data?.erro || 'Erro'); msg.className = 'cli-msg cli-msg-err';
+      }
+    } catch (e) {
+      msg.textContent = '⚠️ Erro de conexão'; msg.className = 'cli-msg cli-msg-err';
+    }
+  });
+  setTimeout(() => document.getElementById('pf-sol-valor')?.focus(), 80);
+}
+
+// ─── LISTA DE SOLICITAÇÕES ──────────────────────────────────────────────────
+async function _pfCarregarSolicitacoes() {
+  try {
+    const data = await _pfRequest('minhas_solicitacoes', { token: _pfSess.token });
+    if (!data || !data.ok) return;
+    const wrap = document.getElementById('pf-solicitacoes-wrap');
+    const list = document.getElementById('pf-solicitacoes-list');
+    if (!wrap || !list) return;
+    if (!data.solicitacoes.length) { wrap.style.display = 'none'; return; }
+    wrap.style.display = '';
+    list.innerHTML = data.solicitacoes.map(s => {
+      const stColor = { PENDENTE:'#15803D', APROVADA:'#15803D', REJEITADA:'#EF4444', EXPIRADA:'#64748b' }[s.status] || '#64748b';
+      const stIcon  = { PENDENTE:'⏳', APROVADA:'✅', REJEITADA:'❌', EXPIRADA:'🕒' }[s.status] || '';
+      const valor = 'R$ ' + parseFloat(s.valor||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+      const cupomBox = s.status === 'APROVADA' && s.cupomGerado
+        ? `<div class="pf-sol-cupom"><span>Código:</span><code>${pfEsc(s.cupomGerado)}</code><button type="button" onclick="navigator.clipboard.writeText('${pfEsc(s.cupomGerado)}').then(()=>this.textContent='✅')">📋</button></div>`
+        : '';
+      const obsAdmin = s.obsAdmin && s.status === 'REJEITADA'
+        ? `<div class="pf-sol-obs-admin">Motivo: ${pfEsc(s.obsAdmin)}</div>` : '';
+      return `<div class="pf-sol-card">
+        <div class="pf-sol-head">
+          <span class="pf-sol-data">${pfEsc(s.data)}</span>
+          <span class="pf-sol-status" style="color:${stColor}">${stIcon} ${pfEsc(s.status)}</span>
+        </div>
+        <div class="pf-sol-valor">${valor}</div>
+        ${cupomBox}${obsAdmin}
+      </div>`;
+    }).join('');
+  } catch (e) { /* silently */ }
+}
+function _pfRenderCodigo(codigo) {
+  const el = document.getElementById('pf-ind-codigo');
+  if (el) el.textContent = codigo;
+  const btnCopy = document.getElementById('pf-ind-copy');
+  if (btnCopy && !btnCopy._wired) {
+    btnCopy._wired = true;
+    btnCopy.addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(codigo); btnCopy.textContent = '✅ Copiado!'; setTimeout(() => btnCopy.textContent = '📋 Copiar código', 2000); }
+      catch (_) { btnCopy.textContent = '⚠️ Falha'; }
+    });
+  }
+  const btnShare = document.getElementById('pf-ind-share');
+  if (btnShare && !btnShare._wired) {
+    btnShare._wired = true;
+    btnShare.addEventListener('click', async () => {
+      const msg = `🎁 Use meu código *${codigo}* na sua primeira compra! Catálogo: ${window.location.origin}`;
+      if (navigator.share) {
+        try { await navigator.share({ text: msg }); } catch (_) {}
+      } else {
+        // Fallback: WhatsApp web
+        window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
+      }
+    });
+  }
 }
 
 // ─── SAIR ─────────────────────────────────────────────────────────────────
@@ -197,10 +501,13 @@ async function pfCarregarPedidos() {
   emptyEl.style.display   = 'none';
   listEl.innerHTML        = '';
   try {
-    const data = await cliPost_('meus_pedidos', { token: _pfSess.token });
+    const data = await _pfRequest('meus_pedidos', { token: _pfSess.token });
     loadingEl.style.display = 'none';
     if (!data || !data.ok) {
-      listEl.innerHTML = `<div class="pf-empty"><h3>⚠️ Não foi possível carregar.</h3><p>${pfEsc((data && data.erro) || 'Tente novamente em instantes.')}</p></div>`;
+      const sessaoExpirou = _pfIsSessaoExpirada(data);
+      listEl.innerHTML = sessaoExpirou
+        ? `<div class="pf-empty"><h3>🔒 Faça login pra continuar</h3><p>Sua sessão precisa ser renovada.</p><button class="pf-btn-primary" onclick="_pfReautenticar().then(()=>pfCarregarPedidos())">Entrar de novo</button></div>`
+        : `<div class="pf-empty"><h3>⚠️ Não foi possível carregar.</h3><p>${pfEsc((data && data.erro) || 'Tente novamente em instantes.')}</p></div>`;
       return;
     }
     const pedidos = (data.pedidos || []).slice().reverse();
@@ -215,19 +522,33 @@ async function pfCarregarPedidos() {
 function pfPedidoCard(p) {
   const itensRaw = String(p.produtos || '').split('\n').filter(Boolean);
   const itensH = itensRaw.map(l => `<div class="pf-prod-line">• ${pfEsc(l)}</div>`).join('');
-  const dataStatus = p.dataStatus ? `<span class="pf-meta">atualizado em ${pfEsc(p.dataStatus)}</span>` : '';
+  const dataStatus = p.dataStatus ? `<span class="pf-meta">atualizado em ${pfEsc(pfFmtDate(p.dataStatus))}</span>` : '';
   const rastreioH = p.rastreio
     ? `<a class="pf-rastreio" target="_blank" rel="noopener"
          href="https://rastreamento.correios.com.br/app/index.php?objeto=${encodeURIComponent(p.rastreio)}">
          🔍 Rastrear: <strong>${pfEsc(p.rastreio)}</strong>
        </a>`
     : '';
-  const dataEnvioH = p.dataEnvio ? `<span class="pf-meta">enviado em ${pfEsc(p.dataEnvio)}</span>` : '';
+  const dataEnvioH = p.dataEnvio ? `<span class="pf-meta">enviado em ${pfEsc(pfFmtDate(p.dataEnvio))}</span>` : '';
+
+  // Breakdown financeiro
+  const total       = parseFloat(String(p.total      ||'0').replace(',','.')) || 0;
+  const freteValor  = parseFloat(String(p.freteValor ||'0').replace(',','.')) || 0;
+  const cupomValor  = parseFloat(String(p.cupomValor ||'0').replace(',','.')) || 0;
+  const subtotal    = Math.max(0, total - freteValor + cupomValor);
+  const freteH = (freteValor > 0 || p.freteMetodo)
+    ? `<div class="pf-fin-row"><span>📦 Frete${p.freteMetodo ? ' ('+pfEsc(String(p.freteMetodo).toUpperCase())+')' : ''}</span><strong>R$ ${pfFmtBrl(freteValor)}</strong></div>`
+    : '';
+  const cupomDescH = cupomValor > 0
+    ? `<div class="pf-fin-row pf-fin-desc"><span>🎟️ Desconto ${p.cupom ? '('+pfEsc(p.cupom)+')' : ''}</span><strong>− R$ ${pfFmtBrl(cupomValor)}</strong></div>`
+    : '';
+  const parcelasH = p.parcelas ? `<div class="pf-fin-row pf-fin-meta"><span>💳 ${pfEsc(p.parcelas)}</span></div>` : '';
+
   return `<article class="pf-pedido">
     <header class="pf-pedido-head">
       <div>
         <div class="pf-pedido-id">Pedido #${pfEsc(p.id || '—')}</div>
-        <div class="pf-pedido-data">📅 ${pfEsc(p.data || '—')}</div>
+        <div class="pf-pedido-data">📅 ${pfEsc(pfFmtDate(p.data))}</div>
       </div>
       <div class="pf-pedido-total">
         <span class="pf-pedido-total-lbl">Total</span>
@@ -239,9 +560,15 @@ function pfPedidoCard(p) {
 
     <div class="pf-pedido-body">
       ${itensH ? `<div class="pf-prods">${itensH}</div>` : ''}
+      <div class="pf-fin">
+        <div class="pf-fin-row"><span>Subtotal produtos</span><strong>R$ ${pfFmtBrl(subtotal)}</strong></div>
+        ${cupomDescH}
+        ${freteH}
+        <div class="pf-fin-row pf-fin-total"><span>Total pago</span><strong>R$ ${pfFmtBrl(total)}</strong></div>
+        ${parcelasH}
+      </div>
       <div class="pf-pedido-meta">
         ${p.pagamento ? `<span class="pf-tag">${pfEsc(p.pagamento)}</span>` : ''}
-        ${p.cupom ? `<span class="pf-tag pf-tag-accent">🎟️ ${pfEsc(p.cupom)}</span>` : ''}
         ${dataStatus}
         ${dataEnvioH}
       </div>
@@ -256,7 +583,7 @@ async function pfCarregarConta() {
   pfPreencherForm(_pfSess);
   // Em background, busca o perfil real do servidor (pode ter mudado)
   try {
-    const data = await cliPost_('meu_perfil', { token: _pfSess.token });
+    const data = await _pfRequest('meu_perfil', { token: _pfSess.token });
     if (data && data.ok && data.cliente) {
       const merged = Object.assign({}, _pfSess, data.cliente);
       setClienteSession(Object.assign({}, _pfSess, data.cliente));
@@ -296,7 +623,7 @@ async function pfSalvarConta() {
   }
   btn.disabled = true; const orig = btn.textContent; btn.textContent = 'Salvando…';
   try {
-    const data = await cliPost_('editar_meu_perfil', payload);
+    const data = await _pfRequest('editar_meu_perfil', payload);
     if (data && data.ok) {
       msg.textContent = '✅ Dados atualizados!'; msg.classList.add('ok');
       const updated = Object.assign({}, _pfSess, payload);
@@ -324,7 +651,7 @@ async function pfTrocarSenha() {
   if (nova.length < 6) { msg.textContent = 'Nova senha precisa de ao menos 6 caracteres.'; msg.classList.add('err'); return; }
   if (nova !== conf)   { msg.textContent = 'As senhas não coincidem.'; msg.classList.add('err'); return; }
   try {
-    const data = await cliPost_('editar_meu_perfil', {
+    const data = await _pfRequest('editar_meu_perfil', {
       token:        _pfSess.token,
       nome:         document.getElementById('pf_nome').value.trim(),
       apelido:      document.getElementById('pf_apelido').value.trim(),

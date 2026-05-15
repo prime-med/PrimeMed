@@ -14,23 +14,94 @@ function escAttr(s) {
 
 // ─── STATE ──────────────────────────────────────────────────────────────────
 // ─── CORRELAÇÕES ────────────────────────────────────────────────────────────
+// "Você se esqueceu de algo?" — sugere produtos relacionados ao que está no
+// carrinho. Lógica de domínio (peptídeos/estética):
+//   • Vials/pó → sempre acompanha água bact (32) + seringa (45)
+//   • Canetas GLP-1 → agulhas (41) + porta ampolas (53)
+//   • Sinérgicos: BPC↔TB, NAD↔SS-31↔Epithalon, Selank↔Semax, GH-secretagogos
+//   • Up-sell por categoria: GHK-Cu↔Klow↔GLOW, Sculptra↔Radiesse↔Biofill
 const CORRELACOES = {
-  '1':  ['32','42','8'],    '2':  ['32','46','7'],    '3':  ['32','46','7'],
-  '4':  ['42','32'],        '5':  ['42','32'],        '6':  ['32','42','7'],
-  '7':  ['32','46','8'],    '8':  ['7','32','46'],    '9':  ['24','36','32'],
-  '10': ['12','15','46'],   '11': ['46','16','9'],    '12': ['10','15','24'],
-  '13': ['16','9','20'],    '14': ['20','21'],         '15': ['12','10','46'],
-  '16': ['18','32','46'],   '17': ['32','46','25'],   '18': ['16','32','46'],
-  '19': ['20','32','46'],   '20': ['21','14'],         '21': ['20','32','14'],
-  '22': ['23','32','20'],   '23': ['22','32','20'],   '24': ['9','36','32'],
-  '25': ['32','46','20'],   '26': ['7','32','46'],    '27': ['24','36','32'],
-  '28': ['24','36','32'],   '29': ['32','42','7'],    '30': ['21','14'],
-  '31': ['42','32'],        '32': ['42','46'],         '33': ['32','46','7'],
-  '34': ['32','46'],        '36': ['32','24','9'],    '37': ['32','46'],
-  '38': ['32','46','25'],   '39': ['32','46'],         '41': ['32','46','20'],
-  '42': ['32','46'],        '43': ['46','12','48'],   '44': ['46','12','48'],
-  '45': ['46','12','10'],   '46': ['32','42'],         '47': ['46','12','15'],
-  '48': ['46','43','12'],   '49': ['46','44','12'],
+  // GLP-1 / GIP — emagrecimento
+  '1':  ['41','53','6'],         // Tirzepatida Pen TNL → agulhas, porta ampolas, Tirzepatida USA (alternativa)
+  '2':  ['32','45','4'],         // Retatrutide vial PeptiSciences → água bact, seringa, Retatrutide Pen
+  '3':  ['32','45','4'],         // Retatrutide 10mg 4 Vials → água, seringa, Retatrutide Pen
+  '4':  ['41','53','5'],         // Retatrutide Pen TNL → agulhas, porta ampolas, alternativa Oxygen
+  '5':  ['41','53','4'],         // Retatrutide Pen Oxygen → agulhas, porta ampolas, alternativa TNL
+  '6':  ['32','45','1'],         // Tirzepatida USA vial → água, seringa, Tirzepatida Pen
+  '29': ['32','45','1'],         // Tirzepatida 60mg vial → água, seringa, Tirzepatida Pen
+  '31': ['32','45','29'],        // Tirzepatida 150mg SEM ÁGUA → água bact obrigatória, seringa
+  '56': ['32','45','4'],         // Retatrutide 40mg USA → água, seringa, Retatrutide Pen
+  '58': ['32','45','1'],         // Tirzepatida Tirzec → água, seringa, Tirzepatida Pen
+  '59': ['32','45','58'],        // TG Tirzepatida 4 ampolas → água, seringa, Tirzec (alternativa menor)
+  '60': ['36','14','32'],        // Lipoless → CBL 514, Momm, água
+
+  // Peptídeos lipolíticos / mimético exercício
+  '7':  ['32','45','33'],        // AOD-9604 → água, seringa, HGH-Frag
+  '33': ['32','45','7'],         // HGH-Frag → água, seringa, AOD-9604
+  '38': ['39','7','32'],         // SLU-pp-322 inj → SLU oral, AOD, água
+  '39': ['38','7','33'],         // SLU-pp-322 oral → SLU inj, AOD, HGH-Frag
+
+  // BPC / TB — reparador, cicatrização
+  '16': ['18','32','45'],        // BPC-157 → TB-500, água, seringa
+  '18': ['16','32','45'],        // TB-500 → BPC-157, água, seringa
+  '19': ['25','32','45'],        // BPC + TB Blend → CJC+IPA, água, seringa
+  '34': ['32','45','16'],        // Most-c → água, seringa, BPC-157
+
+  // GH-secretagogos
+  '25': ['37','33','32'],        // CJC no DAC + IPA → Ipamorelin, HGH-Frag, água
+  '37': ['25','33','32'],        // Ipamorelin → CJC+IPA, HGH-Frag, água
+  '40': ['37','25','32'],        // Semorelin → Ipamorelin, CJC+IPA, água
+  '55': ['25','37','32'],        // Tesamorelin → CJC+IPA, Ipamorelin, água
+
+  // Cosméticos / cabelo / pele (Klow, GHK-Cu, GLOW)
+  '8':  ['9','24','32'],         // Klow 80mg → GHK-Cu 100, GLOW, água
+  '9':  ['8','24','32'],         // GHK-Cu 100mg → Klow, GLOW, água
+  '24': ['9','8','49'],          // GLOW 70mg → GHK-Cu, Klow, Glow injetável
+  '26': ['9','24','32'],         // Klow 80mg (id duplicado) → GHK-Cu, GLOW, água
+  '27': ['9','8','24'],          // GHK-Cu 50mg → GHK-Cu 100, Klow, GLOW
+  '28': ['9','8','24'],          // GHK-Cu 50mg (dup) → GHK-Cu 100, Klow, GLOW
+  '49': ['9','24','12'],         // Glow injetável → GHK-Cu, GLOW oral, BiologicalFace
+
+  // Cognitivo / nootrópicos / libido
+  '17': ['22','23','32'],        // PT-141 → Selank, Semax, água
+  '22': ['23','17','32'],        // Selank → Semax, PT-141, água
+  '23': ['22','17','32'],        // Semax → Selank, PT-141, água
+
+  // Longevidade / mitocondrial
+  '20': ['30','21','35'],        // NAD+ 500mg → NAD+ 1000mg (up-sell), SS-31, Epithalon
+  '21': ['20','30','35'],        // SS-31 → NAD+ 500, NAD+ 1000, Epithalon
+  '30': ['20','21','35'],        // NAD+ 1000mg → NAD+ 500, SS-31, Epithalon
+  '35': ['20','21','30'],        // Epithalon → NAD+ 500, SS-31, NAD+ 1000
+
+  // Esteroides / hormonal
+  '11': ['13','32','45'],        // Durateston → Oxandrolona, água, seringa
+  '13': ['11','7','33'],         // Oxandrolona → Durateston, AOD, HGH-Frag
+
+  // Estética dermal / bioestimuladores
+  '10': ['46','50','12'],        // Sculptra → Radiesse, Biofill Contour, BiologicalFace
+  '12': ['44','15','50'],        // BiologicalFace → Israderm, Line Body, Biofill
+  '14': ['15','36','60'],        // Momm → Line Body, CBL 514, Lipoless
+  '15': ['14','36','12'],        // Line Body → Momm, CBL 514, BiologicalFace
+  '36': ['14','15','60'],        // CBL 514 → Momm, Line Body, Lipoless
+  '46': ['10','50','12'],        // Radiesse → Sculptra, Biofill Contour, BiologicalFace
+  '50': ['51','52','10'],        // Biofill Contour → Shape, Subskin, Sculptra
+  '51': ['50','52','46'],        // Biofill Shape → Contour, Subskin, Radiesse
+  '52': ['50','51','10'],        // Biofill Subskin → Contour, Shape, Sculptra
+
+  // Toxinas botulínicas
+  '42': ['47','48','32'],        // Nabota 150UI → Dysport, Botox Allergan, água
+  '43': ['42','47','48'],        // Nabota 100UI → Nabota 150, Dysport, Botox
+  '44': ['42','12','32'],        // Israderm 150UI → Nabota, BiologicalFace, água
+  '47': ['48','42','32'],        // Dysport → Botox, Nabota, água
+  '48': ['47','42','32'],        // Botox Allergan → Dysport, Nabota, água
+
+  // Acessórios — sugerem o produto mais comum que precisa deles
+  '32': ['45','41','16'],        // Água Bacteriostática → seringa, agulhas caneta, BPC (exemplo)
+  '41': ['1','4','53'],          // Agulhas caneta → Tirzepatida Pen, Retatrutide Pen, Porta ampolas
+  '45': ['32','16','41'],        // Seringa super fina → água, BPC, agulhas
+  '53': ['41','1','4'],          // Porta ampolas → agulhas, canetas Tirz/Reta
+  '54': ['32','41','45'],        // Caneta Injetora Reutilizável → água, agulhas, seringa
+  '57': ['32','41','54'],        // Caneta Descartável → água, agulhas, caneta reutilizável
 };
 
 let CATALOG = [];
@@ -55,9 +126,219 @@ let cupomDesconto  = 0;
 let cupomCodigo    = '';
 let cupomData      = null; // objeto {tipo, valor, produtos, precos}
 
+// Estado da indicação aplicada (campo unificado f_codigo aceita cupom OU indicação)
+let _indicacaoAplicada = false;
+let _indicacaoCodigo   = '';
+
+// ─── MINI-CARRINHO EXPANSÍVEL (Step 1) ─────────────────────────────────────
+// Permite ver, alterar quantidade e remover itens sem precisar voltar ao
+// card do produto na grid (que pode estar oculto pelo filtro de categoria).
+function toggleCartExpand() {
+  const panel = document.getElementById('cart-expanded');
+  const icon  = document.getElementById('tb-toggle-icon');
+  if (!panel) return;
+  // Não expande se carrinho vazio
+  if (Object.keys(cart).length === 0) return;
+  const open = panel.style.display !== 'none';
+  panel.style.display = open ? 'none' : 'block';
+  if (icon) icon.textContent = open ? '▲' : '▼';
+  if (!open) renderCartExpanded();
+}
+
+function renderCartExpanded() {
+  const list = document.getElementById('ce-list');
+  if (!list) return;
+  // Se vazio, fecha automático
+  if (Object.keys(cart).length === 0) {
+    const panel = document.getElementById('cart-expanded');
+    const icon  = document.getElementById('tb-toggle-icon');
+    if (panel) panel.style.display = 'none';
+    if (icon)  icon.textContent = '▲';
+    list.innerHTML = '';
+    return;
+  }
+  list.innerHTML = Object.keys(cart).map(key => {
+    const { id, varIdx } = parseCartKey(key);
+    const p = CATALOG.find(x => x.id === id);
+    if (!p) return '';
+    const qty = cart[key];
+    const price = getPriceByKey(key);
+    const subtotal = price * qty;
+    const variantLabel = getVariantLabel(key);
+    const dose = (varIdx != null && variantLabel) ? variantLabel : (p.conc || '');
+    return `
+      <div class="ce-item">
+        <span class="ce-icon">${esc(p.icon || '💊')}</span>
+        <div class="ce-info">
+          <div class="ce-name">${esc(p.name)}</div>
+          ${dose ? `<div class="ce-dose">${esc(dose)}</div>` : ''}
+          <div class="ce-price">R$ ${price.toLocaleString('pt-BR',{minimumFractionDigits:2})} · un.</div>
+        </div>
+        <div class="ce-qty">
+          <button class="ce-qty-btn" onclick="event.stopPropagation(); mudarQtdCarrinho('${escAttr(key)}', -1)" aria-label="Diminuir">−</button>
+          <span class="ce-qty-val">${qty}</span>
+          <button class="ce-qty-btn" onclick="event.stopPropagation(); mudarQtdCarrinho('${escAttr(key)}', +1)" aria-label="Aumentar">+</button>
+        </div>
+        <div class="ce-subtotal">R$ ${subtotal.toLocaleString('pt-BR',{minimumFractionDigits:2})}</div>
+        <button class="ce-remove" onclick="event.stopPropagation(); removerDoCarrinho('${escAttr(key)}')" aria-label="Remover do carrinho">✕</button>
+      </div>`;
+  }).join('');
+}
+
+function mudarQtdCarrinho(key, delta) {
+  if (cart[key] == null) return;
+  const newQty = Math.max(0, Math.min(999, cart[key] + delta));
+  if (newQty === 0) {
+    delete cart[key];
+  } else {
+    cart[key] = newQty;
+  }
+  // Re-renderiza tudo: grid de produtos (atualizar checkmarks) + mini-cart + total
+  if (typeof renderProducts === 'function') renderProducts();
+  updateTotal();
+}
+
+function removerDoCarrinho(key) {
+  delete cart[key];
+  if (typeof renderProducts === 'function') renderProducts();
+  updateTotal();
+}
+
+function limparCarrinho() {
+  if (Object.keys(cart).length === 0) return;
+  if (!confirm('Remover todos os itens do carrinho?')) return;
+  cart = {};
+  if (typeof renderProducts === 'function') renderProducts();
+  updateTotal();
+}
+
+// ─── REFAZER ÚLTIMO PEDIDO ─────────────────────────────────────────────────
+// Mostra atalho no Step 1 pra cliente logado com histórico. Carrega itens
+// do último pedido e popula o carrinho com 1 clique.
+let _ultimoPedido = null;
+
+async function initRepeatLastOrder() {
+  try {
+    const sess = (typeof getClienteSession === 'function') ? getClienteSession() : null;
+    if (!sess?.token) return;
+    // Busca histórico de pedidos
+    const r = await fetch(`${SHEETS_URL}?action=cliente_pedidos&token=${encodeURIComponent(sess.token)}`);
+    const data = await r.json().catch(() => null);
+    const pedidos = Array.isArray(data?.pedidos) ? data.pedidos : (Array.isArray(data) ? data : []);
+    if (!pedidos.length) return;
+    // Pega o mais recente (assume ordenação desc — backend padrão)
+    const ultimo = pedidos[0];
+    if (!ultimo || !ultimo.itens) return;
+    _ultimoPedido = ultimo;
+    // Detecta URL repeat=last (vinda do hero do index)
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('repeat') === 'last') {
+      refazerUltimoPedido();
+      return;
+    }
+    // Mostra a barra
+    const bar = document.getElementById('repeat-order-bar');
+    const sub = document.getElementById('repeat-order-sub');
+    if (bar) bar.style.display = 'flex';
+    if (sub) {
+      const dt = ultimo.data || ultimo.created_at || '';
+      const total = ultimo.total ? `R$ ${parseFloat(ultimo.total).toLocaleString('pt-BR',{minimumFractionDigits:2})}` : '';
+      sub.textContent = [dt, total].filter(Boolean).join(' · ') || 'Adiciona os itens da última compra';
+    }
+  } catch(e) { /* sem histórico */ }
+}
+
+function refazerUltimoPedido() {
+  if (!_ultimoPedido || !_ultimoPedido.itens) {
+    alert('⚠️ Sem pedido anterior pra refazer.');
+    return;
+  }
+  // Itens no formato "2x BPC-157 (5mg) = R$ X" ou similar — backend pode retornar
+  // estrutura mais simples. Vamos tentar mapear via CATALOG.
+  let itensRaw = _ultimoPedido.itens;
+  if (typeof itensRaw === 'string') {
+    // Tenta parsear linhas "Nx Nome (variante)..."
+    itensRaw = itensRaw.split(/\n|;/).map(l => l.trim()).filter(Boolean);
+  }
+  let added = 0;
+  cart = {};
+  selectedVariants = {};
+  if (Array.isArray(itensRaw)) {
+    itensRaw.forEach(item => {
+      // Aceita objeto {id, qty, varIdx} ou string
+      if (typeof item === 'object' && item.id) {
+        const key = item.varIdx != null ? `${item.id}__${item.varIdx}` : item.id;
+        cart[key] = (cart[key] || 0) + (parseInt(item.qty) || 1);
+        added++;
+        return;
+      }
+      // Parse string: "2x Nome (Dose) = ..."
+      const m = String(item).match(/(\d+)x\s+(.+?)(?:\s*\((.+?)\))?\s*[=$]/);
+      if (!m) return;
+      const qty = parseInt(m[1]) || 1;
+      const nome = m[2].trim().toLowerCase();
+      const dose = (m[3] || '').trim().toLowerCase();
+      const p = CATALOG.find(x => x.name.toLowerCase() === nome);
+      if (!p) return;
+      let key = p.id;
+      if (p.variantes && dose) {
+        const idx = p.variantes.findIndex(v => v.dose.toLowerCase() === dose);
+        if (idx >= 0) key = `${p.id}__${idx}`;
+      }
+      cart[key] = (cart[key] || 0) + qty;
+      added++;
+    });
+  }
+  if (added === 0) {
+    alert('⚠️ Não foi possível recuperar os itens do último pedido. Confira o catálogo.');
+    return;
+  }
+  if (typeof renderProducts === 'function') renderProducts();
+  if (typeof updateTotal === 'function') updateTotal();
+  // Scroll suave pro carrinho
+  const cartEl = document.querySelector('.cart-sticky');
+  if (cartEl) cartEl.scrollIntoView({ behavior: 'smooth', block: 'end' });
+}
+
+// ─── PERSISTÊNCIA DO CARRINHO ──────────────────────────────────────────────
+// Salva carrinho em localStorage com TTL de 24h. Recupera no load se ainda
+// válido. Evita perder pedido se cliente fecha aba acidentalmente.
+const _CART_STORAGE_KEY = 'lp_cart_v1';
+const _CART_TTL_MS      = 24 * 60 * 60 * 1000; // 24h
+function saveCartToStorage() {
+  try {
+    if (Object.keys(cart).length === 0) {
+      localStorage.removeItem(_CART_STORAGE_KEY);
+      return;
+    }
+    localStorage.setItem(_CART_STORAGE_KEY, JSON.stringify({
+      cart, selectedVariants, ts: Date.now()
+    }));
+  } catch(e) { /* ignora — quota exceeded etc */ }
+}
+function loadCartFromStorage() {
+  try {
+    const raw = localStorage.getItem(_CART_STORAGE_KEY);
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    if (!data || (Date.now() - data.ts) > _CART_TTL_MS) {
+      localStorage.removeItem(_CART_STORAGE_KEY);
+      return;
+    }
+    if (data.cart && typeof data.cart === 'object') {
+      Object.keys(data.cart).forEach(k => { cart[k] = data.cart[k]; });
+    }
+    if (data.selectedVariants) selectedVariants = data.selectedVariants;
+  } catch(e) { /* ignora — JSON corrompido */ }
+}
+
 // ─── INIT ───────────────────────────────────────────────────────────────────
 window.onload = () => {
+  // Restaura carrinho ANTES de carregar produtos (CATALOG vai validar)
+  loadCartFromStorage();
   carregarProdutos();
+  // Tenta carregar atalho de "refazer último pedido" pra cliente logado
+  setTimeout(() => initRepeatLastOrder(), 800);
   // Restaura sessão de cliente do localStorage e pré-popula form
   try {
     const sess = (typeof getClienteSession === 'function') ? getClienteSession() : null;
@@ -136,6 +417,9 @@ async function carregarProdutos() {
     renderFilters();
     renderProducts();
     renderHighlights();
+    // Remove skeleton agora que CATALOG está pronto
+    const sk = document.getElementById('skeleton-wrap');
+    if (sk) sk.style.display = 'none';
 
   } catch(e) {
     grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:40px;color:#e74c3c">⚠️ Erro ao carregar produtos. Recarregue a página.</div>';
@@ -143,7 +427,7 @@ async function carregarProdutos() {
 }
 
 // ─── FILTERS & SORT ─────────────────────────────────────────────────────────
-// As categorias abaixo são preenchidas dinamicamente a partir das tags da planilha.
+// As categorias são preenchidas dinamicamente a partir da coluna Categoria da planilha.
 // Mantemos apenas "Todos" como categoria base — as demais são geradas em renderFilters().
 const CATEGORIAS = [
   { val: 'todos', label: 'Todos' },
@@ -156,12 +440,15 @@ function renderFilters() {
     return `<button class="lab-btn ${val === activeLabFilter ? 'active' : ''}" onclick="setLabFilter('${escAttr(val)}')">${esc(l)}</button>`;
   }).join('');
 
-  // Tags dinâmicas a partir do catálogo (se nenhuma, esconde a sessão).
-  const allTags = new Set();
+  // Categorias dinâmicas a partir da coluna Categoria do catálogo.
+  // Capitaliza pra exibição (categoria_emagrecimento → "Emagrecimento") mas mantém o val em lowercase pra match.
+  const allCats = new Set();
   CATALOG.forEach(p => {
-    (Array.isArray(p.tags) ? p.tags : []).forEach(t => { if (t) allTags.add(String(t)); });
+    const c = String(p.categoria || '').trim();
+    if (c) allCats.add(c.toLowerCase());
   });
-  const dyn = [...allTags].sort().map(t => ({ val: t.toLowerCase(), label: t }));
+  const cap = (s) => s.split(/[\s_-]+/).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+  const dyn = [...allCats].sort().map(c => ({ val: c, label: cap(c) }));
   const cats = [...CATEGORIAS, ...dyn];
   document.getElementById('tag-filters').innerHTML = cats.map(c =>
     `<button class="lab-btn ${c.val === activeTagFilter ? 'active' : ''}" onclick="setTagFilter('${escAttr(c.val)}')">${esc(c.label)}</button>`
@@ -186,6 +473,19 @@ function setTagFilter(tag) {
   activeTagFilter = tag;
   renderFilters();
   renderProducts();
+  // Scroll suave para a lista quando filtra por categoria
+  if (tag !== 'todos') {
+    setTimeout(() => {
+      const target = document.getElementById('cat-chip-bar') || document.getElementById('products-grid');
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 60);
+  } else {
+    // Volta pra "home" — scroll pro topo do panel1
+    setTimeout(() => {
+      const top = document.getElementById('hero-carousel') || document.getElementById('panel1');
+      if (top) top.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 60);
+  }
 }
 
 function setSort(mode) {
@@ -276,13 +576,68 @@ function limparAcesso() {
   });
 }
 
-function aplicarCupom() {
-  const codigo = (document.getElementById('f_cupom').value || '').trim().toUpperCase();
-  const msg    = document.getElementById('cupom-msg');
+// ─── CÓDIGO UNIFICADO (cupom OU indicação) ─────────────────────────────────
+// Detecta o tipo pelo formato e despacha pra lógica certa.
+function _isCodigoIndicacao(codigo) {
+  // Formato: <slug>-<6 hex> (ex: joao-A4F7K2)
+  return /.+-[A-F0-9]{6}$/i.test(codigo);
+}
+
+async function aplicarCodigo() {
+  const input = document.getElementById('f_codigo');
+  const msg   = document.getElementById('codigo-msg');
+  if (!input) return;
+  const codigo = (input.value || '').trim().toUpperCase();
   if (!codigo) {
-    msg.innerHTML = `<div class="cupom-err">⚠️ Digite um código de bonificação.</div>`;
+    msg.innerHTML = `<div class="cupom-err">⚠️ Digite um cupom ou código de indicação.</div>`;
     return;
   }
+  if (_isCodigoIndicacao(codigo)) {
+    return _aplicarComoIndicacao(codigo);
+  }
+  return _aplicarComoCupom(codigo);
+}
+
+function removerCodigo() {
+  // Reseta tudo (cupom OU indicação)
+  cupomAplicado = false; cupomCodigo = ''; cupomDesconto = 0; cupomData = null;
+  _indicacaoAplicada = false; _indicacaoCodigo = '';
+  const input = document.getElementById('f_codigo');
+  const msg   = document.getElementById('codigo-msg');
+  const btnA  = document.getElementById('btn-codigo');
+  const btnR  = document.getElementById('btn-remover-codigo');
+  if (input) { input.value = ''; input.disabled = false; }
+  if (btnA)  { btnA.classList.remove('hidden'); btnA.disabled = false; }
+  if (btnR)  btnR.classList.add('hidden');
+  if (msg)   msg.innerHTML = '';
+  // Esconde benefícios visuais (parcela sem juros, frete grátis)
+  const badge    = document.getElementById('cupom-parc-badge');
+  const gratisEl = document.getElementById('frete-gratis');
+  if (badge) badge.style.display = 'none';
+  if (gratisEl) gratisEl.style.display = 'none';
+  // CRÍTICO: re-aplica o frete selecionado pra restaurar o valor cheio
+  // (cupom de frete grátis tinha zerado freteValor)
+  if (freteEstado && freteMetodo) {
+    selecionarFrete(freteMetodo);
+  }
+  if (selectedPayment === 'Cartão de Crédito') calcInstallment();
+  buildReview();
+}
+
+function aplicarCupom() {
+  // Wrapper retrocompatível — chama o handler unificado
+  const f = document.getElementById('f_codigo');
+  if (f) return aplicarCodigo();
+}
+function removerCupom() { return removerCodigo(); }
+function validarIndicacaoLegacy() {
+  const f = document.getElementById('f_codigo');
+  if (f) return aplicarCodigo();
+}
+function removerIndicacao() { return removerCodigo(); }
+
+function _aplicarComoCupom(codigo) {
+  const msg = document.getElementById('codigo-msg');
   const c = CUPONS_VALIDOS[codigo];
   if (c !== undefined) {
     cupomAplicado = true;
@@ -295,8 +650,8 @@ function aplicarCupom() {
       cupomData     = c;
       cupomDesconto = c.tipo === '%' ? c.valor / 100 : 0;
     }
-    document.getElementById('f_cupom').disabled   = true;
-    document.getElementById('btn-cupom').disabled = true;
+    document.getElementById('f_codigo').disabled   = true;
+    document.getElementById('btn-codigo').disabled = true;
     const descValor = calcularDescontoCupom();
     const descStr   = descValor > 0
       ? ` — <strong>R$ ${descValor.toLocaleString('pt-BR',{minimumFractionDigits:2})} de desconto</strong>`
@@ -316,7 +671,8 @@ function aplicarCupom() {
       msgTxt = `✅ Cupom <strong>${esc(codigo)}</strong> aplicado! Preço especial em ${n || Object.keys(precos).length} produto(s)${descStr}.`;
     }
     msg.innerHTML = `<div class="cupom-ok">${msgTxt}</div>`;
-    document.getElementById('btn-remover-cupom').classList.remove('hidden');
+    document.getElementById('btn-codigo').classList.add('hidden');
+    document.getElementById('btn-remover-codigo').classList.remove('hidden');
     checkCupomExtras();
     // Cupom afeta o total → valor por parcela muda
     if (selectedPayment === 'Cartão de Crédito') calcInstallment();
@@ -327,28 +683,6 @@ function aplicarCupom() {
     cupomData     = null;
     msg.innerHTML = `<div class="cupom-err">❌ Código inválido. Verifique e tente novamente.</div>`;
   }
-}
-
-function removerCupom() {
-  cupomAplicado = false;
-  cupomCodigo   = '';
-  cupomDesconto = 0;
-  cupomData     = null;
-  document.getElementById('f_cupom').disabled   = false;
-  document.getElementById('f_cupom').value      = '';
-  document.getElementById('btn-cupom').disabled = false;
-  document.getElementById('btn-remover-cupom').classList.add('hidden');
-  document.getElementById('cupom-msg').innerHTML = '';
-  // Esconde badges de benefícios
-  const badge    = document.getElementById('cupom-parc-badge');
-  const gratisEl = document.getElementById('frete-gratis');
-  if (badge) badge.style.display = 'none';
-  if (gratisEl) gratisEl.style.display = 'none';
-  // Recalcula frete (volta ao valor cheio se era grátis pelo cupom)
-  if (freteEstado && freteMetodo) selecionarFrete(freteMetodo);
-  // Recalcula parcela (sem desconto, valor sobe)
-  if (selectedPayment === 'Cartão de Crédito') calcInstallment();
-  buildReview();
 }
 
 function checkCupomExtras() {
@@ -448,9 +782,12 @@ function startCountdowns() {
       // card do catálogo principal
       const el = document.getElementById('countdown-' + p.id);
       if (el) el.textContent = txt;
-      // tile dos destaques
+      // tile dos destaques (legado)
       const hl = document.getElementById('hl-countdown-' + p.id);
       if (hl) hl.textContent = '⏱ ' + txt;
+      // hero carrossel
+      const hh = document.getElementById('hero-countdown-' + p.id);
+      if (hh) hh.textContent = txt;
     });
   }, 1000);
 }
@@ -528,19 +865,65 @@ function changeVariantQty(id, varIdx, delta) {
 
 // ─── RENDER PRODUCTS ────────────────────────────────────────────────────────
 function renderProducts() {
-  // Ocultar destaques durante pesquisa
+  // Modo "navegação" (home) = sem busca E categoria=todos → mostra hero + categorias, esconde grid
+  // Modo "lista" = busca ativa OU categoria selecionada → esconde hero+cat, mostra grid
   const searching = !!activeSearch;
-  ['section-destaque','section-recomendado','catalog-divider'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.style.display = searching ? 'none' : '';
-  });
-  if (!searching) renderHighlights();
+  const filtering = activeTagFilter !== 'todos' || activeLabFilter !== 'todos';
+  const navMode   = !searching && !filtering;
+  // __all__ = "Ver tudo" — modo lista sem filtro de categoria; trata como categoria=todos pra match
+  const tagForMatch = activeTagFilter === '__all__' ? 'todos' : activeTagFilter;
 
-  const grid = document.getElementById('products-grid');
+  const hero      = document.getElementById('hero-carousel');
+  const catSec    = document.getElementById('cat-section');
+  const chipBar   = document.getElementById('cat-chip-bar');
+  const advWrap   = document.getElementById('adv-filters-wrap');
+  const grid      = document.getElementById('products-grid');
+  const empty     = document.getElementById('empty-state');
+  const catTitle  = document.getElementById('catalog-title');
+
+  if (hero)     hero.style.display     = navMode ? '' : 'none';
+  if (catSec)   catSec.style.display   = navMode ? '' : 'none';
+  if (chipBar)  chipBar.style.display  = (filtering && !searching) ? 'flex' : 'none';
+  if (advWrap)  advWrap.style.display  = navMode ? 'none' : '';
+  if (catTitle) catTitle.style.display = 'none'; // catálogo completo só aparece no modo lista
+
+  const recSec = document.getElementById('rec-section');
+  if (navMode) {
+    renderHero();
+    renderCategoryTiles();
+    renderRecomendados();
+    if (grid)  grid.style.display  = 'none';
+    if (empty) empty.style.display = 'none';
+    grid.innerHTML = '';
+    updateTotal();
+    return;
+  }
+  if (recSec) recSec.style.display = 'none';
+
+  // Atualiza chip da categoria ativa
+  if (filtering && !searching) {
+    const cap = (s) => s.split(/[\s_-]+/).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    const lbl = document.getElementById('cat-chip-label');
+    const cnt = document.getElementById('cat-chip-count');
+    if (activeTagFilter === '__all__') {
+      if (lbl) lbl.textContent = 'Todos os produtos';
+      if (cnt) cnt.textContent = `${CATALOG.length} produto(s)`;
+    } else if (activeTagFilter !== 'todos') {
+      const cat = activeTagFilter;
+      const count = CATALOG.filter(p => String(p.categoria||'').toLowerCase() === cat).length;
+      if (lbl) lbl.textContent = cap(cat);
+      if (cnt) cnt.textContent = `${count} produto(s)`;
+    } else if (activeLabFilter !== 'todos') {
+      if (lbl) lbl.textContent = activeLabFilter;
+      const count = CATALOG.filter(p => p.lab === activeLabFilter).length;
+      if (cnt) cnt.textContent = `${count} produto(s)`;
+    }
+  }
+
   grid.innerHTML = '';
   let list = CATALOG.filter(p => {
     if (activeLabFilter !== 'todos' && p.lab !== activeLabFilter) return false;
-    if (activeTagFilter !== 'todos' && p.categoria !== activeTagFilter) return false;
+    if (tagForMatch !== 'todos' && String(p.categoria||'').toLowerCase() !== tagForMatch) return false;
     if (activeSearch) {
       const hay = [p.name, p.conc, p.lab, ...(p.tags||[])].join(' ').toLowerCase();
       if (!hay.includes(activeSearch)) return false;
@@ -556,9 +939,12 @@ function renderProducts() {
   }
 
   if (list.length === 0) {
-    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:30px;color:var(--gray)">Nenhum produto encontrado para este filtro.</div>`;
+    if (grid)  grid.style.display  = 'none';
+    if (empty) empty.style.display = 'block';
     updateTotal(); return;
   }
+  if (grid)  grid.style.display  = 'grid';
+  if (empty) empty.style.display = 'none';
 
   list.forEach(p => {
     const varIdx = selectedVariants[p.id] || 0;
@@ -648,7 +1034,7 @@ function renderProducts() {
            style="">
         ${promoRibbon}
         <div class="pc-header">
-          <span class="pc-icon">${esc(p.icon)}</span>
+          ${productImageHTML(p, 'pc-icon')}
           <div class="pc-check">${cardSelected ? '✓' : ''}</div>
         </div>
         <div class="pc-name">${esc(p.name)}</div>
@@ -669,68 +1055,318 @@ function renderProducts() {
   startCountdowns();
 }
 
-function renderHighlights() {
-  const destaques    = CATALOG.filter(p => p.destaque === 'destaque');
-  const recomendados = CATALOG.filter(p => p.destaque === 'recomendado');
-  const secDest  = document.getElementById('section-destaque');
-  const secRec   = document.getElementById('section-recomendado');
-  const divider  = document.getElementById('catalog-divider');
-  secDest.style.display  = destaques.length    ? '' : 'none';
-  secRec.style.display   = recomendados.length ? '' : 'none';
-  divider.style.display  = (destaques.length || recomendados.length) ? '' : 'none';
-  function buildTile(p, badgeClass, badgeLabel, cardClass) {
-    const temVariantes = p.variantes && p.variantes.length > 0;
-    let promoRibbon = '', promoClass = '', priceHtml;
-
-    if (temVariantes) {
-      const precos = p.variantes.map(v => parseFloat(v.preco) || 0).filter(v => v > 0);
-      const minPreco = precos.length ? Math.min(...precos) : 0;
-      const varPromos = p.variantes.filter(v => parseFloat(v.promo_preco) > 0 && isPromoDentroData(p));
-      if (varPromos.length > 0) {
-        const minPromo = Math.min(...varPromos.map(v => parseFloat(v.promo_preco)));
-        const varOriginal = Math.min(...varPromos.map(v => parseFloat(v.preco)));
-        promoRibbon = `<div class="promo-ribbon">🔥 Promoção</div>`;
-        promoClass  = 'promo-ativa';
-        priceHtml   = `<div style="display:flex;flex-direction:column;align-items:flex-start;gap:2px;margin-top:4px">
-           <span style="font-size:.65rem;color:var(--gray)">A partir de</span>
-           <span style="font-size:.7rem;color:var(--gray);text-decoration:line-through">R$ ${varOriginal.toLocaleString('pt-BR',{minimumFractionDigits:2})}</span>
-           <span class="hl-card-price" style="color:#F59E0B">R$ ${minPromo.toLocaleString('pt-BR',{minimumFractionDigits:2})}</span>
-           <span id="hl-countdown-${escAttr(p.id)}" style="font-size:.63rem;color:#F59E0B;font-weight:600">⏱ ${getCountdown(p.promo_fim)}</span>
-         </div>`;
-      } else {
-        priceHtml = `<div style="margin-top:4px">
-          <span style="font-size:.62rem;color:var(--gray)">A partir de</span>
-          <div class="hl-card-price">R$ ${minPreco.toLocaleString('pt-BR',{minimumFractionDigits:2})}</div>
-        </div>`;
-      }
-    } else {
-      const price = getEffectivePrice(p);
-      const promo = isPromoAtiva(p);
-      promoRibbon = promo ? `<div class="promo-ribbon">🔥 Promoção</div>` : '';
-      promoClass  = promo ? 'promo-ativa' : '';
-      priceHtml   = promo
-        ? `<div style="display:flex;flex-direction:column;align-items:flex-start;gap:2px;margin-top:4px">
-             <span style="font-size:.7rem;color:var(--gray);text-decoration:line-through">R$ ${p.price.toLocaleString('pt-BR',{minimumFractionDigits:2})}</span>
-             <span class="hl-card-price" style="color:#F59E0B">R$ ${price.toLocaleString('pt-BR',{minimumFractionDigits:2})}</span>
-             <span id="hl-countdown-${escAttr(p.id)}" style="font-size:.63rem;color:#F59E0B;font-weight:600">⏱ ${getCountdown(p.promo_fim)}</span>
-           </div>`
-        : `<div class="hl-card-price">R$ ${price.toLocaleString('pt-BR',{minimumFractionDigits:2})}</div>`;
-    }
-    return `<div class="hl-card ${cardClass} ${promoClass}" onclick="scrollToCard('${escAttr(p.id)}')">
-      ${promoRibbon}
-      <span class="${badgeClass}">${badgeLabel}</span>
-      <span class="hl-card-icon">${esc(p.icon)}</span>
-      <div class="hl-card-name">${esc(p.name)}</div>
-      <div class="hl-card-conc">${esc(p.conc)}</div>
-      ${priceHtml}
-      <div class="hl-card-hint">Toque para ver no catálogo →</div>
-    </div>`;
-  }
-  document.getElementById('grid-destaque').innerHTML =
-    destaques.map(p => buildTile(p,'hl-badge-destaque','⭐ Destaque','card-destaque')).join('');
-  document.getElementById('grid-recomendado').innerHTML =
-    recomendados.map(p => buildTile(p,'hl-badge-recomendado','💡 Recomendado','card-recomendado')).join('');
+// ─── IMAGEM DE PRODUTO ──────────────────────────────────────────────────────
+// Convenção: cada cliente sobe imagens em /assets/img/produtos/ (no GitHub).
+// Coluna `imagem` na planilha guarda só o filename (ex: "bpc-157.webp").
+// Sem imagem → placeholder colorido com gradient (tom determinístico do nome) + ícone.
+function _imgHashTone(str) {
+  let h = 0; const s = String(str || '');
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
+  return Math.abs(h) % 10;
 }
+window.imgFallback = function(imgEl) {
+  const tone = imgEl.dataset.tone || '0';
+  const icon = imgEl.dataset.icon || '💊';
+  const sizeClass = imgEl.dataset.sizeClass || '';
+  const div = document.createElement('div');
+  div.className = `img-placeholder ${sizeClass} tone-${tone}`;
+  div.innerHTML = `<span class="ph-icon">${icon}</span>`;
+  imgEl.replaceWith(div);
+};
+function productImageHTML(p, sizeClass) {
+  const tone = _imgHashTone(p.categoria || p.id || p.name || '');
+  const icon = p.icon || '💊';
+  const cls  = sizeClass || '';
+  if (p.imagem) {
+    const src = `assets/img/produtos/${p.imagem}`;
+    return `<img class="product-img ${cls}" src="${escAttr(src)}" alt="${escAttr(p.name)}" loading="lazy"
+      data-tone="${tone}" data-icon="${escAttr(icon)}" data-size-class="${escAttr(cls)}"
+      onerror="imgFallback(this)"/>`;
+  }
+  return `<div class="img-placeholder ${cls} tone-${tone}"><span class="ph-icon">${esc(icon)}</span></div>`;
+}
+
+// ─── HERO CARROSSEL ─────────────────────────────────────────────────────────
+let _heroIdx = 0;
+let _heroTimer = null;
+let _heroSlides = [];
+
+function renderHero() {
+  const track = document.getElementById('hero-track');
+  const dotsEl = document.getElementById('hero-dots');
+  const hero = document.getElementById('hero-carousel');
+  if (!track || !hero) return;
+
+  // Hero exibe apenas produtos em destaque (promo herda tema visual quando aplicável)
+  const destaques = CATALOG.filter(p => p.destaque === 'destaque');
+  const slides = destaques.map(p => ({
+    p,
+    theme: isPromoAtiva(p) ? 'promo' : 'destaque',
+    badge: isPromoAtiva(p) ? '🔥 Promoção' : '⭐ Destaque',
+  }));
+
+  _heroSlides = slides;
+  if (slides.length === 0) { hero.style.display = 'none'; return; }
+
+  track.innerHTML = slides.map((s, i) => {
+    const p = s.p;
+    const promoAtiva = isPromoAtiva(p);
+    const price = getEffectivePrice(p);
+    const oldPrice = (promoAtiva && p.price > price)
+      ? `<span class="hero-slide-price-old">R$ ${p.price.toLocaleString('pt-BR',{minimumFractionDigits:2})}</span>`
+      : '';
+    const countdown = promoAtiva
+      ? `<div class="hero-slide-countdown">⏱ <span id="hero-countdown-${escAttr(p.id)}">${getCountdown(p.promo_fim)}</span></div>`
+      : '';
+    return `
+      <div class="hero-slide theme-${s.theme}" data-idx="${i}" onclick="abrirProdutoDoHero('${escAttr(p.id)}')">
+        ${productImageHTML(p, 'hero-slide-icon')}
+        <div class="hero-slide-content">
+          <span class="hero-slide-badge">${s.badge}</span>
+          <div class="hero-slide-title">${esc(p.name)}</div>
+          ${p.conc ? `<div class="hero-slide-sub">${esc(p.conc)}</div>` : ''}
+          <div class="hero-slide-price-row">
+            ${oldPrice}
+            <span class="hero-slide-price">R$ ${price.toLocaleString('pt-BR',{minimumFractionDigits:2})}</span>
+          </div>
+          ${countdown}
+          <span class="hero-slide-cta">Ver produto →</span>
+        </div>
+      </div>`;
+  }).join('');
+
+  if (dotsEl) {
+    dotsEl.innerHTML = slides.map((_, i) =>
+      `<button class="hero-dot ${i===0?'active':''}" onclick="heroGo(${i})" aria-label="Slide ${i+1}"></button>`
+    ).join('');
+  }
+
+  // Esconde flechas e dots se só tem 1 slide
+  const arrowL = hero.querySelector('.hero-arrow-left');
+  const arrowR = hero.querySelector('.hero-arrow-right');
+  const single = slides.length <= 1;
+  if (arrowL) arrowL.style.display = single ? 'none' : '';
+  if (arrowR) arrowR.style.display = single ? 'none' : '';
+  if (dotsEl) dotsEl.style.display = single ? 'none' : '';
+
+  // Sincroniza dots com scroll
+  track.onscroll = () => {
+    const w = track.clientWidth;
+    const idx = Math.round(track.scrollLeft / w);
+    if (idx !== _heroIdx) {
+      _heroIdx = idx;
+      const dots = dotsEl ? dotsEl.querySelectorAll('.hero-dot') : [];
+      dots.forEach((d,i) => d.classList.toggle('active', i === idx));
+    }
+  };
+
+  startHeroAutoplay();
+
+  // Pausa auto-play no hover
+  hero.onmouseenter = () => stopHeroAutoplay();
+  hero.onmouseleave = () => startHeroAutoplay();
+}
+
+function heroGo(i) {
+  const track = document.getElementById('hero-track');
+  if (!track || !_heroSlides.length) return;
+  _heroIdx = (i + _heroSlides.length) % _heroSlides.length;
+  track.scrollTo({ left: _heroIdx * track.clientWidth, behavior: 'smooth' });
+}
+
+function heroNav(delta) {
+  if (!_heroSlides.length) return;
+  heroGo(_heroIdx + delta);
+  // Reset autoplay timer ao navegar manualmente
+  stopHeroAutoplay();
+  startHeroAutoplay();
+}
+
+function startHeroAutoplay() {
+  stopHeroAutoplay();
+  if (_heroSlides.length <= 1) return;
+  _heroTimer = setInterval(() => heroGo(_heroIdx + 1), 5000);
+}
+
+function stopHeroAutoplay() {
+  if (_heroTimer) { clearInterval(_heroTimer); _heroTimer = null; }
+}
+
+// ─── CATEGORIAS EM DESTAQUE ─────────────────────────────────────────────────
+// Ícones padrão por categoria (fallback). Se não bater, usa o ícone do 1º produto da categoria.
+const CAT_ICONS = {
+  emagrecimento: '🔥',
+  performance:   '💪',
+  estetica:      '✨',
+  estética:      '✨',
+  hormonios:     '🧬',
+  hormônios:     '🧬',
+  recovery:      '🛌',
+  imunidade:     '🛡️',
+  longevidade:   '⏳',
+  cognitiva:     '🧠',
+  pele:          '💅',
+  cabelo:        '💇',
+  feminino:      '🌸',
+  masculino:     '⚡',
+  pre_treino:    '🏋️',
+  pos_treino:    '🥤',
+};
+
+function renderCategoryTiles() {
+  const grid = document.getElementById('cat-grid');
+  const sec  = document.getElementById('cat-section');
+  if (!grid || !sec) return;
+
+  // Agrupa produtos por categoria
+  const byCat = {};
+  CATALOG.forEach(p => {
+    const c = String(p.categoria || '').trim().toLowerCase();
+    if (!c) return;
+    (byCat[c] = byCat[c] || []).push(p);
+  });
+
+  const cats = Object.keys(byCat).sort();
+  if (cats.length === 0) { sec.style.display = 'none'; return; }
+
+  const cap = (s) => s.split(/[\s_-]+/).map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+
+  grid.innerHTML = cats.map((cat, i) => {
+    const items = byCat[cat];
+    const icon = CAT_ICONS[cat] || (items[0] && items[0].icon) || '💊';
+    const tone = (i % 10);
+    return `
+      <div class="cat-tile tone-${tone}" onclick="setTagFilter('${escAttr(cat)}')">
+        <div class="cat-tile-icon">${esc(icon)}</div>
+        <div>
+          <div class="cat-tile-name">${esc(cap(cat))}</div>
+          <div class="cat-tile-count">${items.length} produto(s)</div>
+        </div>
+        <span class="cat-tile-arrow">→</span>
+      </div>`;
+  }).join('') + `
+    <div class="cat-tile tile-all" onclick="verTodosProdutos()">
+      <div class="cat-tile-icon">📦</div>
+      <div>
+        <div class="cat-tile-name">Ver tudo</div>
+        <div class="cat-tile-count">${CATALOG.length} produto(s)</div>
+      </div>
+      <span class="cat-tile-arrow">→</span>
+    </div>`;
+}
+
+function renderRecomendados() {
+  const sec = document.getElementById('rec-section');
+  const track = document.getElementById('rec-track');
+  if (!sec || !track) return;
+  const recs = CATALOG.filter(p => p.destaque === 'recomendado');
+  if (recs.length === 0) { sec.style.display = 'none'; return; }
+  sec.style.display = '';
+  track.innerHTML = recs.map(p => {
+    const promoAtiva = isPromoAtiva(p);
+    const price = getEffectivePrice(p);
+    const oldPrice = (promoAtiva && p.price > price)
+      ? `<span class="rec-card-price-old">R$ ${p.price.toLocaleString('pt-BR',{minimumFractionDigits:2})}</span>`
+      : '';
+    const temVar = p.variantes && p.variantes.length > 0;
+    const inCart = temVar
+      ? p.variantes.some((_, i) => (cart[`${p.id}__${i}`] || 0) > 0)
+      : !!cart[p.id];
+    return `
+      <div class="rec-card ${promoAtiva ? 'promo-ativa' : ''} ${inCart ? 'in-cart' : ''}" id="rec-${escAttr(p.id)}" onclick="abrirProdutoDoHero('${escAttr(p.id)}')">
+        ${promoAtiva ? '<div class="rec-card-ribbon">🔥 Promo</div>' : ''}
+        ${productImageHTML(p, 'rec-card-icon')}
+        <div class="rec-card-name">${esc(p.name)}</div>
+        ${p.conc ? `<div class="rec-card-conc">${esc(p.conc)}</div>` : ''}
+        <div class="rec-card-price-row">
+          ${oldPrice}
+          <span class="rec-card-price">R$ ${price.toLocaleString('pt-BR',{minimumFractionDigits:2})}</span>
+        </div>
+        <button class="rec-card-add" onclick="event.stopPropagation(); adicionarRecomendado('${escAttr(p.id)}')" aria-label="Adicionar ao carrinho">${inCart ? '✓' : '+'}</button>
+      </div>`;
+  }).join('');
+}
+
+function adicionarRecomendado(id) {
+  const p = CATALOG.find(x => x.id === id);
+  if (!p) return;
+  // Se tem variantes, abre o produto pra escolher dose. Senão, toggle direto.
+  if (p.variantes && p.variantes.length > 0) {
+    abrirProdutoDoHero(id);
+    return;
+  }
+  if (cart[id]) {
+    delete cart[id];
+  } else {
+    cart[id] = 1;
+  }
+  // Atualiza visual do rec-card
+  const recEl = document.getElementById('rec-' + id);
+  if (recEl) {
+    recEl.classList.toggle('in-cart', !!cart[id]);
+    const btn = recEl.querySelector('.rec-card-add');
+    if (btn) btn.textContent = cart[id] ? '✓' : '+';
+  }
+  updateTotal();
+}
+
+function abrirProdutoDoHero(id) {
+  // Click num slide do hero: garante que o card esteja no DOM (modo lista),
+  // depois faz scroll suave + pulse, e abre protocolo se houver.
+  const navMode = !activeSearch && activeTagFilter === 'todos' && activeLabFilter === 'todos';
+  if (navMode) {
+    activeTagFilter = '__all__';
+    renderProducts();
+  }
+  setTimeout(() => {
+    scrollToCard(id);
+    if (typeof PROTOCOLS !== 'undefined' && PROTOCOLS && PROTOCOLS[id] && typeof abrirProtocolo === 'function') {
+      abrirProtocolo(id);
+    }
+  }, 80);
+}
+
+function verTodosProdutos() {
+  // "Todos" não usa filtro de categoria — mostra catálogo inteiro com filtros avançados
+  activeTagFilter = 'todos';
+  activeLabFilter = 'todos';
+  // Trick pra entrar no modo "lista" sem categoria selecionada: aciona busca vazia? Não.
+  // Vamos usar uma categoria especial "__all__" pra indicar "modo lista, sem filtro de categoria"
+  activeTagFilter = '__all__';
+  renderProducts();
+  setTimeout(() => {
+    const grid = document.getElementById('products-grid');
+    if (grid) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 50);
+}
+
+function onSearchInput(val) {
+  activeSearch = (val || '').toLowerCase().trim();
+  const clr = document.getElementById('search-clear-btn');
+  if (clr) clr.style.display = activeSearch ? 'flex' : 'none';
+  renderProducts();
+}
+
+function clearSearch() {
+  const inp = document.getElementById('product-search');
+  if (inp) inp.value = '';
+  activeSearch = '';
+  const clr = document.getElementById('search-clear-btn');
+  if (clr) clr.style.display = 'none';
+  renderProducts();
+}
+
+function toggleAdvFilters() {
+  const body  = document.getElementById('adv-filters-body');
+  const arrow = document.getElementById('adv-filters-arrow');
+  if (!body) return;
+  const open = body.style.display !== 'none';
+  body.style.display = open ? 'none' : 'flex';
+  if (arrow) arrow.classList.toggle('open', !open);
+}
+
+// renderHighlights foi substituído por renderHero + renderCategoryTiles.
+function renderHighlights() { /* no-op (legado) */ }
 
 function scrollToCard(id) {
   const el = document.getElementById('pc-' + id);
@@ -780,6 +1416,10 @@ function updateTotal() {
   document.getElementById('items-count').textContent = `${count} produto(s) · ${Object.keys(cart).length} tipo(s)`;
   if (cupomData?.frete_gratis_acima && freteEstado) selecionarFrete(freteMetodo || 'jadlog');
   if (selectedPayment === 'Cartão de Crédito') calcInstallment();
+  // Persiste carrinho a cada mudança
+  saveCartToStorage();
+  // Atualiza mini-carrinho expandido (se aberto)
+  renderCartExpanded();
 }
 
 function getTotal() {
@@ -853,6 +1493,8 @@ async function calcFrete() {
 
     freteEstado = uf;
     metodos.style.display = 'grid';
+    const aviso = document.getElementById('frete-aviso');
+    if (aviso) aviso.style.display = 'block';
 
     document.getElementById('fp-sedex').textContent  = `R$ ${tabela.sedex.toFixed(2).replace('.',',')}`;
     document.getElementById('fd-sedex').textContent  = `${tabela.ds} dias úteis`;
@@ -889,6 +1531,10 @@ function selecionarFrete(metodo) {
 }
 
 // ─── PROTOCOLO MODAL ────────────────────────────────────────────────────────
+// ─── MODAL DE PROTOCOLO (unificado: tabs Resumo / Informativo) ─────────────
+let _protoInfoPagina = ''; // guarda url do informativo do produto atual (lazy)
+let _protoInfoCarregado = false;
+
 function abrirProtocolo(id) {
   const p = CATALOG.find(x => x.id === id);
   const proto = PROTOCOLS[id];
@@ -915,42 +1561,58 @@ function abrirProtocolo(id) {
       <div class="proto-section-body">${esc(String(s.campo)).replace(/\n/g,'<br>')}</div>
     </div>`).join('');
 
-  // Informativo
-  const footer = document.getElementById('pm-info-footer');
-  const aviso  = document.getElementById('pm-aviso');
+  // Tab "Informativo completo": só aparece se o produto tem página
+  const tabInfo = document.getElementById('pm-tab-info');
+  const aviso   = document.getElementById('pm-aviso');
+  _protoInfoCarregado = false;
+  document.getElementById('pm-info-iframe').src = '';
   if (proto.pagina) {
-    aviso.style.display   = 'flex';
-    footer.style.display  = 'block';
-    footer.dataset.pagina = proto.pagina;
-    footer.dataset.titulo = p.name;
+    let pagina = proto.pagina;
+    if (!pagina.startsWith('http') && !pagina.includes('/')) {
+      pagina = 'informativos/' + pagina;
+    }
+    _protoInfoPagina = pagina;
+    if (tabInfo) tabInfo.style.display = '';
+    if (aviso)   aviso.style.display   = 'flex';
   } else {
-    aviso.style.display  = 'none';
-    footer.style.display = 'none';
+    _protoInfoPagina = '';
+    if (tabInfo) tabInfo.style.display = 'none';
+    if (aviso)   aviso.style.display   = 'none';
   }
 
+  // Reset pra tab Resumo sempre que abrir
+  trocarTabProto('resumo');
   document.getElementById('protocol-modal').classList.add('open');
 }
 
-function abrirInformativo() {
-  const footer = document.getElementById('pm-info-footer');
-  let pagina = footer.dataset.pagina;
-  if (pagina && !pagina.startsWith('http') && !pagina.includes('/'))
-    pagina = 'informativos/' + pagina;
-  document.getElementById('info-iframe').src = pagina;
-  document.getElementById('info-overlay-title').textContent = footer.dataset.titulo || 'Informativo do produto';
-  document.getElementById('info-overlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
+function fecharProtocolo() {
+  document.getElementById('protocol-modal').classList.remove('open');
+  // Limpa iframe pra liberar memória + parar áudio/vídeo se houver
+  document.getElementById('pm-info-iframe').src = '';
+  _protoInfoCarregado = false;
 }
 
-function fecharInformativo() {
-  document.getElementById('info-overlay').classList.remove('open');
-  document.getElementById('info-iframe').src = '';
-  document.body.style.overflow = '';
+function trocarTabProto(tab) {
+  document.querySelectorAll('.pm-tab').forEach(b => {
+    b.classList.toggle('active', b.dataset.tab === tab);
+  });
+  document.querySelectorAll('.pm-tab-pane').forEach(p => {
+    p.classList.toggle('active', p.id === 'pm-pane-' + tab);
+  });
+  // Lazy load do iframe na primeira vez que abre a tab Informativo
+  if (tab === 'info' && _protoInfoPagina && !_protoInfoCarregado) {
+    document.getElementById('pm-info-iframe').src = _protoInfoPagina;
+    _protoInfoCarregado = true;
+  }
 }
+
+// Wrappers retrocompatíveis (caso algo externo ainda chame)
+function abrirInformativo() { trocarTabProto('info'); }
+function fecharInformativo() { fecharProtocolo(); }
 
 function getFreteLabel() {
   if (!freteCep) return 'Não calculado';
-  const nomes = { sedex: 'SEDEX', pac: 'PAC', jadlog: 'Jadlog' };
+  const nomes = { sedex: 'SEDEX', jadlog: 'Jadlog' };
   const cepFormatado = freteCep.replace(/^(\d{5})(\d{3})$/, '$1-$2');
   return `${nomes[freteMetodo] || freteMetodo} · ${freteEstado} · CEP ${cepFormatado} · R$ ${freteValor.toFixed(2).replace('.',',')}`;
 }
@@ -978,9 +1640,12 @@ function calcInstallment() {
   let juros = config ? config.juros : 0;
   if (cupomData?.parcelamento === 'SIM' && parcelas <= 3) juros = 0;
   const desconto = cupomAplicado ? calcularDescontoCupom() : 0;
-  let total = getTotal() + freteValor - desconto;
-  if (total < 0) total = 0;
-  if (juros > 0) total *= (1 + juros / 100);
+  // Juros incidem APENAS sobre subtotal de produtos (sem frete)
+  let subtotal = getTotal() - desconto;
+  if (subtotal < 0) subtotal = 0;
+  if (juros > 0) subtotal *= (1 + juros / 100);
+  // Frete soma depois — não tem juros
+  const total = subtotal + freteValor;
   const por = total / parcelas;
   document.getElementById('f_parcela_val').value = `R$ ${por.toLocaleString('pt-BR', {minimumFractionDigits:2, maximumFractionDigits:2})}`;
 }
@@ -1139,22 +1804,94 @@ function validateStep1() {
   return ok;
 }
 
+// Marca um campo com erro + mensagem inline. Mensagem some assim que usuário digitar.
+function _markFieldError(el, msg) {
+  if (!el) return;
+  el.classList.add('error');
+  let hint = el.parentElement?.querySelector('.field-error');
+  if (!hint) {
+    hint = document.createElement('div');
+    hint.className = 'field-error';
+    el.parentElement?.appendChild(hint);
+  }
+  hint.textContent = msg || 'Campo obrigatório';
+  if (!el._errorListenerAttached) {
+    el.addEventListener('input', () => {
+      el.classList.remove('error');
+      const h = el.parentElement?.querySelector('.field-error');
+      if (h) h.remove();
+    }, { once: true });
+    el._errorListenerAttached = true;
+  }
+}
+
+function _clearFieldError(el) {
+  if (!el) return;
+  el.classList.remove('error');
+  const h = el.parentElement?.querySelector('.field-error');
+  if (h) h.remove();
+}
+
 function validateStep2() {
-  const base    = ['f_clinica','f_responsavel','f_telefone','f_email'];
+  const FIELD_LABELS = {
+    f_documento: 'CPF / CNPJ',
+    f_clinica: 'Nome',
+    f_responsavel: 'Apelido',
+    f_telefone: 'Telefone / WhatsApp',
+    f_email: 'E-mail',
+    f_rua: 'Rua / Logradouro',
+    f_numero: 'Número',
+    f_bairro: 'Bairro',
+  };
+  const base = ['f_documento','f_clinica','f_responsavel','f_telefone','f_email'];
   const enderecoFields = ['f_rua','f_numero','f_bairro'];
-  // Clientes já cadastrados não são obrigados a preencher os novos campos de endereço
   const required = _clienteJaLogado ? base : [...base, ...enderecoFields];
   let ok = true;
+  let firstError = null;
   required.forEach(id => {
     const el = document.getElementById(id);
-    if (!el || !el.value.trim()) { if (el) el.classList.add('error'); ok = false; }
-    else el.classList.remove('error');
+    if (!el) return;
+    const val = el.value.trim();
+    if (!val) {
+      _markFieldError(el, `Preencha "${FIELD_LABELS[id] || id}"`);
+      if (!firstError) firstError = el;
+      ok = false;
+      return;
+    }
+    // Validações específicas
+    if (id === 'f_email' && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(val)) {
+      _markFieldError(el, 'E-mail inválido');
+      if (!firstError) firstError = el;
+      ok = false;
+      return;
+    }
+    if (id === 'f_telefone' && val.replace(/\D/g,'').length < 10) {
+      _markFieldError(el, 'Telefone incompleto');
+      if (!firstError) firstError = el;
+      ok = false;
+      return;
+    }
+    if (id === 'f_documento') {
+      const dig = val.replace(/\D/g,'').length;
+      if (dig !== 11 && dig !== 14) {
+        _markFieldError(el, 'CPF (11 dígitos) ou CNPJ (14 dígitos)');
+        if (!firstError) firstError = el;
+        ok = false;
+        return;
+      }
+    }
+    _clearFieldError(el);
   });
   if (_clienteJaLogado) {
-    enderecoFields.forEach(id => { const el = document.getElementById(id); if (el) el.classList.remove('error'); });
+    enderecoFields.forEach(id => _clearFieldError(document.getElementById(id)));
   }
   const alert = document.getElementById('alert2');
-  ok ? alert.classList.remove('show') : alert.classList.add('show');
+  if (ok) {
+    alert.classList.remove('show');
+  } else {
+    alert.classList.add('show');
+    if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
   return ok;
 }
 
@@ -1302,6 +2039,13 @@ function buildReview() {
       `<div style="font-size:.75rem;color:var(--green);margin-bottom:5px">${i}</div>`
     ).join('');
   })();
+  // Linha de saldo de indicação usado (se cliente marcou o checkbox)
+  const usandoSaldo = document.getElementById('usar_saldo_indicacao_chk')?.checked && _saldoIndicacaoUsavel > 0;
+  const saldoIndicHtml = usandoSaldo ? `
+    <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:.85rem;color:#15803D;font-weight:700">
+      <span>💰 Saldo de indicação</span>
+      <span>− R$ ${_saldoIndicacaoUsavel.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}</span>
+    </div>` : '';
   document.getElementById('review-total-box').innerHTML = `
     <div style="display:flex;justify-content:space-between;margin-bottom:6px;font-size:.85rem;color:rgba(255,255,255,.6)">
       <span>Subtotal produtos</span><span>R$ ${subtotalBruto.toLocaleString('pt-BR',{minimumFractionDigits:2})}</span>
@@ -1310,6 +2054,7 @@ function buildReview() {
       <span>Frete</span><span>${freteValor===0 ? '🎉 Grátis' : 'R$ '+freteValor.toFixed(2).replace('.',',')}</span>
     </div>
     ${descontoHtml}
+    ${saldoIndicHtml}
     ${beneficiosReviewHtml}
     <div style="border-top:1px solid rgba(255,255,255,.15);margin:10px 0"></div>
     <div class="rtb-label">Total do Pedido</div>
@@ -1322,6 +2067,40 @@ function v(id) { return document.getElementById(id)?.value?.trim() || ''; }
 
 // ─── WHATSAPP ────────────────────────────────────────────────────────────────
 let _sendingPedido = false;
+// ─── CONFIRMATION MODAL ANTES DE ENVIAR ────────────────────────────────────
+function confirmarEnviarPedido() {
+  // Validações antes de mostrar confirm
+  if (Object.keys(cart).length === 0) {
+    alert('⚠️ Carrinho vazio.');
+    return;
+  }
+  if (!selectedPayment) {
+    alert('⚠️ Selecione uma forma de pagamento.');
+    return;
+  }
+  // Monta resumo compacto
+  const totalItens = Object.values(cart).reduce((s, q) => s + q, 0);
+  const total = (typeof getFinalTotal === 'function') ? getFinalTotal() : 0;
+  const desc = cupomAplicado ? calcularDescontoCupom() : 0;
+  const fmt = (v) => 'R$ ' + (v || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+
+  const sumEl = document.getElementById('confirm-summary');
+  if (sumEl) {
+    sumEl.innerHTML = `
+      <div class="cs-row"><span>Itens</span><strong>${totalItens} produto(s)</strong></div>
+      <div class="cs-row"><span>Pagamento</span><strong>${esc(selectedPayment)}</strong></div>
+      ${desc > 0 ? `<div class="cs-row cs-disc"><span>Desconto cupom</span><strong>−${fmt(desc)}</strong></div>` : ''}
+      ${_indicacaoAplicada ? `<div class="cs-row cs-disc"><span>Código de indicação</span><strong>${esc(_indicacaoCodigo)}</strong></div>` : ''}
+      <div class="cs-row cs-total"><span>Total</span><strong>${fmt(total)}</strong></div>
+    `;
+  }
+  document.getElementById('confirm-pedido-modal').classList.add('open');
+}
+
+function fecharConfirmacao() {
+  document.getElementById('confirm-pedido-modal').classList.remove('open');
+}
+
 async function sendWhatsApp() {
   // Trava contra múltiplos cliques: enquanto o request está em voo,
   // ignora cliques adicionais. Reativa só após sucesso/erro.
@@ -1336,6 +2115,24 @@ async function sendWhatsApp() {
     btnWA.style.cursor = 'wait';
     btnWA.innerHTML = '<span style="display:inline-flex;align-items:center;gap:8px">⏳ Enviando pedido...</span>';
   }
+  // Wrapper try-finally garante que o flag e o botão SEMPRE voltam ao normal,
+  // mesmo se algo no meio do código throw. Isso evita o bug "botão travado".
+  try {
+    return await _sendWhatsAppCore(btnWA, _btnHtmlOrig);
+  } catch (err) {
+    console.error('Erro inesperado em sendWhatsApp:', err);
+  } finally {
+    _sendingPedido = false;
+    if (btnWA && btnWA.innerHTML.includes('Enviando')) {
+      btnWA.disabled = false;
+      btnWA.style.opacity = '';
+      btnWA.style.cursor = '';
+      btnWA.innerHTML = _btnHtmlOrig;
+    }
+  }
+}
+
+async function _sendWhatsAppCore(btnWA, _btnHtmlOrig) {
 
   const total = getFinalTotal();
 
@@ -1427,31 +2224,32 @@ async function sendWhatsApp() {
     cupom_codigo:  cupomCodigo || '',
     cupom_pct:     cupomAplicado && cupomData?.tipo === '%' ? (cupomData.valor).toFixed(0) : '0',
     cupom_valor:   cupomAplicado ? calcularDescontoCupom().toFixed(2) : '0',
+    indicado_por:  _indicacaoAplicada ? _indicacaoCodigo : '',
+    saldo_indicacao_usar: (document.getElementById('usar_saldo_indicacao_chk')?.checked
+                            ? String(_saldoIndicacaoUsavel || 0) : '0'),
     carrinho:      JSON.stringify(cart),
     cliente_token: _cliSess?.token || '',
   });
-  // Salva pedido. O backend já decrementa o estoque internamente — não precisa
-  // chamar action=decrementar_estoque separadamente.
-  try {
-    const r = await fetch(`${SHEETS_URL}?${params.toString()}`);
-    const data = await r.json().catch(() => null);
-    if (!data || data.ok === false) {
-      console.warn('Pedido pode não ter sido salvo:', data);
-    }
-  } catch (err) {
-    // Falha de rede/CORS: pedido pode não ter sido salvo. Segue o fluxo do
-    // WhatsApp pra não bloquear o cliente, mas avisa no console.
-    console.warn('Erro ao enviar pedido ao backend:', err);
-  }
+  // CRÍTICO: window.open precisa rodar DENTRO da user gesture chain (sem await
+  // antes), senão o browser bloqueia popup. Por isso disparamos fetch sem
+  // await (fire-and-forget) e abrimos o WhatsApp na sequência síncrona.
+  fetch(`${SHEETS_URL}?${params.toString()}`)
+    .then(r => r.json().catch(() => null))
+    .then(data => {
+      if (!data || data.ok === false) console.warn('Pedido pode não ter sido salvo:', data);
+      else if (data.indicacao && !data.indicacao.aplicada && _indicacaoAplicada) {
+        // Loga motivo da rejeição da indicação pra debug
+        console.warn('Indicação rejeitada pelo backend:', data.indicacao.motivo_rejeicao || 'motivo desconhecido');
+      }
+    })
+    .catch(err => console.warn('Erro ao enviar pedido ao backend:', err));
 
-  // Abrir WhatsApp
+  // Abrir WhatsApp imediatamente (síncrono em relação ao click → sem popup block)
   const encoded = encodeURIComponent(msg);
   const wa = (typeof CLIENT !== 'undefined' && CLIENT.wa) ? CLIENT.wa : WA_NUMBER;
   if (wa) window.open(`https://wa.me/${wa}?text=${encoded}`, '_blank');
 
-  // Mostrar sucesso. Não reativa o botão — `showSuccess` troca de tela
-  // (success-screen). Se o cliente quiser fazer outro pedido, `newOrder()`
-  // recarrega o form do zero. _sendingPedido fica true por segurança.
+  // Mostrar tela de sucesso
   showSuccess();
   // Reset do flag pra permitir novo pedido após showSuccess (se o user voltar)
   _sendingPedido = false;
@@ -1463,18 +2261,34 @@ async function sendWhatsApp() {
   }
 }
 
-function getFinalTotal() {
-  let total = getTotal() + freteValor;
+// Total ANTES do desconto de saldo de indicação (usado pra calcular quanto
+// do saldo pode ser usado, evitando recursão).
+function getBaseTotal() {
+  // Calcula subtotal de produtos com desconto aplicado
+  let subtotal = getTotal();
+  if (cupomAplicado) {
+    const desc = calcularDescontoCupom();
+    subtotal -= desc;
+    if (subtotal < 0) subtotal = 0;
+  }
+  // Juros do cartão incidem APENAS sobre produtos (sem frete)
   if (selectedPayment === 'Cartão de Crédito') {
     const parc   = parseInt(document.getElementById('f_parcelas').value);
     const config = PARCELAS_CONFIG.find(p => p.parcelas === parc);
     let juros  = config ? config.juros : 0;
     if (cupomData?.parcelamento === 'SIM' && parc <= 3) juros = 0;
-    if (juros > 0) total *= (1 + juros / 100);
+    if (juros > 0) subtotal *= (1 + juros / 100);
   }
-  if (cupomAplicado) {
-    const desc = calcularDescontoCupom();
-    total -= desc;
+  // Frete entra fora do cálculo de juros
+  return subtotal + freteValor;
+}
+
+function getFinalTotal() {
+  let total = getBaseTotal();
+  // Desconto de saldo de indicação (se cliente marcou o checkbox)
+  const chk = document.getElementById('usar_saldo_indicacao_chk');
+  if (chk && chk.checked && _saldoIndicacaoUsavel > 0) {
+    total -= _saldoIndicacaoUsavel;
     if (total < 0) total = 0;
   }
   return total;
@@ -1484,6 +2298,8 @@ function showSuccess() {
   document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
   document.getElementById('success-screen').classList.add('show');
   window.scrollTo({ top: 0, behavior: 'smooth' });
+  // Pedido enviado — limpa carrinho persistido
+  try { localStorage.removeItem(_CART_STORAGE_KEY); } catch(e) {}
 }
 
 function newOrder() {
@@ -1550,42 +2366,6 @@ function saveOrder(total) {
   });
   localStorage.setItem('lp_orders', JSON.stringify(orders));
 }
-
-function openHistory() {
-  const orders = JSON.parse(localStorage.getItem('lp_orders') || '[]');
-  const body = document.getElementById('history-body');
-  if (orders.length === 0) {
-    body.innerHTML = '<div class="no-history">📭 Nenhum pedido registrado ainda.</div>';
-  } else {
-    body.innerHTML = orders.map(o => `
-      <div class="history-item">
-        <div class="hi-top">
-          <span class="hi-clinic">${esc(o.clinica)}</span>
-          <span class="hi-total">R$ ${esc(o.total)}</span>
-        </div>
-        <div class="hi-date">📅 ${esc(o.date)} · ${esc(o.responsavel)} · ${esc(o.telefone)}</div>
-        <div class="hi-products">💊 ${esc(o.products.join(' | '))}</div>
-        <div class="hi-method">💳 ${esc(o.payment)}</div>
-      </div>`).join('');
-  }
-  document.getElementById('history-modal').classList.add('open');
-}
-
-function closeHistory() {
-  document.getElementById('history-modal').classList.remove('open');
-}
-
-function clearHistory() {
-  if (confirm('Apagar todo o histórico de pedidos?')) {
-    localStorage.removeItem('lp_orders');
-    closeHistory();
-  }
-}
-
-// Fechar modal clicando fora
-document.getElementById('history-modal').addEventListener('click', function(e) {
-  if (e.target === this) closeHistory();
-});
 
 // ─── RECOMENDAÇÕES NA REVISÃO ────────────────────────────────────────────────
 function renderRecomendacoesRevisao() {
@@ -1766,3 +2546,124 @@ function fecharPopupPrazo() {
   setTimeout(() => el.remove(), 280);
 }
 setTimeout(fecharPopupPrazo, 8000);
+
+// ─── CÓDIGO DE INDICAÇÃO (digitado pelo comprador) ──────────────────────────
+// Validação completa server-side: formato + indicador existe + anti-fraude
+// (self-ref, vendedora stacking, primeira-compra). Mostra mensagem específica
+// pra cada motivo de rejeição.
+const INDICACAO_MOTIVOS = {
+  formato_invalido:        '❌ Formato inválido. Use o código completo (ex: joao-A4F7K2).',
+  indicador_nao_encontrado: '❌ Código não encontrado. Confira se digitou certo.',
+  self_ref_email:          '❌ Você não pode usar o seu próprio código de indicação.',
+  self_ref_cpf:            '❌ Esse código pertence ao seu CPF — não pode usar.',
+  self_ref_tel:            '❌ Esse código pertence ao seu telefone — não pode usar.',
+  indicador_e_vendedora:   '❌ Esse código pertence a uma vendedora. Vendedoras não participam do programa de indicação.',
+  nao_e_primeira_compra:   '❌ O código de indicação só pode ser usado na sua primeira compra no site.',
+  sem_clientes:            '❌ Sistema indisponível. Tente novamente em alguns minutos.',
+  sem_coluna_cliente_id:   '❌ Sistema indisponível. Tente novamente em alguns minutos.',
+  erro_interno:            '⚠️ Erro ao validar. Tente novamente.',
+};
+
+async function _aplicarComoIndicacao(codigo) {
+  const input = document.getElementById('f_codigo');
+  const msg   = document.getElementById('codigo-msg');
+  const btnA  = document.getElementById('btn-codigo');
+  const btnR  = document.getElementById('btn-remover-codigo');
+  // Pre-check de formato (defesa redundante — _isCodigoIndicacao já checou)
+  if (!codigo.match(/([A-F0-9]{6})$/)) {
+    msg.innerHTML = `<div class="cupom-err">${INDICACAO_MOTIVOS.formato_invalido}</div>`;
+    return;
+  }
+  // Estado loading
+  msg.innerHTML = `<div class="cupom-loading">⏳ Validando código…</div>`;
+  if (btnA) btnA.disabled = true;
+  // Coleta dados do comprador (do form OU sessão)
+  const sess = (typeof getClienteSession === 'function') ? getClienteSession() : null;
+  const params = new URLSearchParams({
+    action: 'validar_indicacao',
+    codigo,
+    token: sess?.token || '',
+    email: document.getElementById('f_email')?.value || '',
+    cpf:   document.getElementById('f_documento')?.value || '',
+    tel:   document.getElementById('f_telefone')?.value || '',
+  });
+  try {
+    const r = await fetch(`${SHEETS_URL}?${params.toString()}`);
+    const data = await r.json().catch(() => null);
+    if (data && data.ok) {
+      // Aplica + trava
+      _indicacaoAplicada = true;
+      _indicacaoCodigo   = codigo;
+      input.disabled = true;
+      if (btnA) { btnA.disabled = false; btnA.classList.add('hidden'); }
+      if (btnR) btnR.classList.remove('hidden');
+      msg.innerHTML = `<div class="cupom-ok">✅ Código <strong>${esc(codigo)}</strong> aplicado!</div>`;
+    } else {
+      const motivo = data?.motivo || 'erro_interno';
+      const text = INDICACAO_MOTIVOS[motivo] || `❌ Código não pôde ser aplicado (${motivo}).`;
+      msg.innerHTML = `<div class="cupom-err">${text}</div>`;
+      if (btnA) btnA.disabled = false;
+    }
+  } catch (e) {
+    msg.innerHTML = `<div class="cupom-err">⚠️ Erro de conexão. Tente novamente.</div>`;
+    if (btnA) btnA.disabled = false;
+  }
+}
+
+// (legado) — wrappers retrocompatíveis pra qualquer código externo
+async function validarIndicacao() {
+  const f = document.getElementById('f_codigo');
+  if (f) return aplicarCodigo();
+}
+
+// ─── SALDO DE INDICAÇÃO (uso direto no checkout) ────────────────────────────
+// Quando cliente abre Step 4 (revisão), busca saldo disponível e mostra opção
+// de usar nesse pedido. O valor real é validado server-side em salvar().
+let _saldoIndicacaoDisponivel = 0;
+let _saldoIndicacaoUsavel = 0;
+
+async function carregarSaldoIndicacao() {
+  const sess = (typeof getClienteSession === 'function') ? getClienteSession() : null;
+  if (!sess?.token) return;
+  try {
+    const data = await cliPost_('meu_perfil', { token: sess.token });
+    if (!data?.ok || !data.cliente?.indicacao) return;
+    _saldoIndicacaoDisponivel = parseFloat(data.cliente.indicacao.disponivel || 0);
+    if (_saldoIndicacaoDisponivel > 0) {
+      const sec = document.getElementById('saldo-indicacao-section');
+      const display = document.getElementById('saldo-disp-display');
+      if (sec) sec.style.display = '';
+      if (display) display.textContent = 'R$ ' + _saldoIndicacaoDisponivel.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+      atualizarUsoSaldoIndicacao();
+    }
+  } catch (e) { /* silently */ }
+}
+
+function atualizarUsoSaldoIndicacao() {
+  const chk = document.getElementById('usar_saldo_indicacao_chk');
+  const det = document.getElementById('saldo-usado-detalhe');
+  const valEl = document.getElementById('saldo-usado-valor');
+  if (!chk || !det) return;
+  if (!chk.checked) {
+    _saldoIndicacaoUsavel = 0;
+    det.style.display = 'none';
+  } else {
+    // Calcula com base no total ANTES do saldo (evita loop em getFinalTotal)
+    const baseTotal = (typeof getBaseTotal === 'function') ? getBaseTotal() : 0;
+    _saldoIndicacaoUsavel = Math.min(_saldoIndicacaoDisponivel, baseTotal);
+    _saldoIndicacaoUsavel = Math.round(_saldoIndicacaoUsavel * 100) / 100;
+    if (valEl) valEl.textContent = 'R$ ' + _saldoIndicacaoUsavel.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+    det.style.display = '';
+  }
+  // Re-renderiza o review pra atualizar o total mostrado
+  if (typeof buildReview === 'function') buildReview();
+}
+
+// Hook: quando usuário entra no Step 4 (revisão), carrega saldo
+const _origGoStep = typeof goStep === 'function' ? goStep : null;
+if (_origGoStep) {
+  window.goStep = function(n) {
+    _origGoStep.apply(this, arguments);
+    if (n === 4) carregarSaldoIndicacao();
+  };
+}

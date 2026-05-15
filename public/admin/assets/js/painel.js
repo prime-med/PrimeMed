@@ -239,6 +239,8 @@ function renderCurrentView() {
   if (App.view === 'cupons')     { loadCupons().then(renderCupons); }
   if (App.view === 'relatorio')  { loadRelatorio().then(renderRelatorio); }
   if (App.view === 'config')     { loadAdmins().then(renderConfig); }
+  if (App.view === 'indicacoes') { carregarIndicacoes(); }
+  if (App.view === 'solicitacoes') { carregarSolicitacoes(); }
   if (App.view === 'gerador') {
     if (typeof window.initGerador === 'function') window.initGerador();
   }
@@ -705,11 +707,41 @@ function renderDrawer(order) {
             </tr>`).join('')}
           </tbody>
         </table>
-        <div class="drawer-total">
-          Total: <strong>${formatMoeda(order.total)}</strong>
-          ${order.cupom ? ` &nbsp;·&nbsp; Cupom: <code>${esc(order.cupom)}</code>` : ''}
-        </div>
       </div>
+
+      ${(() => {
+        const total      = parseFloat(String(order.total      || '0').replace(',','.')) || 0;
+        const freteV     = parseFloat(String(order.freteValor || '0').replace(',','.')) || 0;
+        const cupomV     = parseFloat(String(order.cupomValor || '0').replace(',','.')) || 0;
+        const subtotal   = Math.max(0, total - freteV + cupomV);
+        // Tenta detectar juros: se parcelas tem "juros", calcula valor sem juros
+        const parcelasStr = String(order.parcelas || '');
+        const matchJuros  = parcelasStr.match(/(\d+)x.*?\((\d+(?:[.,]\d+)?)%\s*juros\)/i);
+        const matchSemJuros = parcelasStr.match(/^(\d+)x sem juros$/i);
+        let semJurosVal = 0, jurosPct = 0, parcelasN = 1;
+        if (matchJuros) {
+          parcelasN = parseInt(matchJuros[1]);
+          jurosPct  = parseFloat(matchJuros[2].replace(',','.'));
+          semJurosVal = total / (1 + jurosPct/100);
+        } else if (matchSemJuros) {
+          parcelasN = parseInt(matchSemJuros[1]);
+          semJurosVal = total;
+        }
+        return `
+        <div class="drawer-section">
+          <h3>💰 Resumo Financeiro</h3>
+          <div class="fin-summary">
+            <div class="fin-row"><span>Subtotal produtos</span><strong>${formatMoeda(subtotal)}</strong></div>
+            ${cupomV > 0 ? `<div class="fin-row fin-desc"><span>🎟️ Desconto${order.cupom ? ' ('+esc(order.cupom)+')' : ''}</span><strong>− ${formatMoeda(cupomV)}</strong></div>` : ''}
+            ${(freteV > 0 || order.freteMetodo) ? `<div class="fin-row"><span>📦 Frete${order.freteMetodo ? ' ('+esc(String(order.freteMetodo).toUpperCase())+')' : ''}</span><strong>${formatMoeda(freteV)}</strong></div>` : ''}
+            ${jurosPct > 0 ? `<div class="fin-row fin-meta"><span>Subtotal sem juros</span><strong>${formatMoeda(semJurosVal)}</strong></div>` : ''}
+            ${jurosPct > 0 ? `<div class="fin-row fin-meta"><span>+ Juros (${jurosPct}%)</span><strong>${formatMoeda(total - semJurosVal)}</strong></div>` : ''}
+            <div class="fin-row fin-total"><span>Total pago</span><strong>${formatMoeda(total)}</strong></div>
+            ${parcelasStr ? `<div class="fin-row fin-meta"><span>💳 ${esc(parcelasStr)}</span>${parcelasN > 1 ? `<strong>${parcelasN}× ${formatMoeda(total/parcelasN)}</strong>` : ''}</div>` : ''}
+            ${order.pagamento ? `<div class="fin-row fin-meta"><span>Pagamento</span><strong>${esc(order.pagamento)}</strong></div>` : ''}
+          </div>
+        </div>`;
+      })()}
 
       ${addrParts ? `
       <div class="drawer-section">
@@ -949,10 +981,38 @@ function renderClientes() {
             <button class="btn-vip-toggle ${isVip?'active':''}" onclick="toggleClienteVip(${JSON.stringify(c).replace(/"/g,'&quot;')})">${isVip ? '⭐ Marcado' : '⭐ VIP'}</button>
             ${c.telefone ? `<a href="https://wa.me/55${c.telefone.replace(/\D/g,'')}" target="_blank" class="btn-xs">WA</a>` : ''}
             <button class="btn-xs" onclick="abrirEditarCliente(${JSON.stringify(c).replace(/"/g,'&quot;')})">✏️</button>
+            <button class="btn-xs btn-danger" onclick="apagarCliente(${JSON.stringify(c).replace(/"/g,'&quot;')})" title="Apagar cliente">🗑️</button>
           </div>
         </div>
       </div>`;
   }).join('');
+}
+
+async function apagarCliente(cli) {
+  if (typeof cli === 'string') cli = JSON.parse(cli);
+  const nome = cli.responsavel || cli.clinica || cli.email || 'cliente';
+  if (!confirm(`Apagar "${nome}" definitivamente?\n\nEsta ação não pode ser desfeita.`)) return;
+  try {
+    const data = await API.apagarCliente(cli.cpf || '', cli.email || '');
+    if (data && (data.ok || data._silent)) {
+      // Verifica se sumiu mesmo (proteção contra _silent que mente)
+      await loadClientes();
+      const aindaExiste = (App.clientes || []).find(x =>
+        (x.cpf && cli.cpf && x.cpf === cli.cpf) ||
+        (x.email && cli.email && x.email === cli.email)
+      );
+      if (aindaExiste) {
+        showToast('⚠️ Servidor não confirmou exclusão. Verifique a planilha.', 'error');
+      } else {
+        showToast('Cliente apagado');
+      }
+      renderClientes();
+    } else {
+      showToast(`Erro: ${(data && data.erro) || 'falha'}`, 'error');
+    }
+  } catch (e) {
+    showToast('Erro de conexão', 'error');
+  }
 }
 
 async function toggleClienteVip(cli) {
@@ -1043,11 +1103,45 @@ function salvarConfigArquivamento(val) {
   if (App.view === 'kanban') renderKanban();
 }
 
+async function carregarConfigIndicacao() {
+  try {
+    const data = await API.call({ action: 'get_config_indicacao' });
+    if (data && data.ok) {
+      const pctEl = document.getElementById('cfg-ind-pct');
+      const diasEl = document.getElementById('cfg-ind-dias');
+      if (pctEl) pctEl.value = data.pct_display || '5.0';
+      if (diasEl) diasEl.value = String(data.carencia_dias || 14);
+    }
+  } catch (e) { /* silently */ }
+}
+
+async function salvarConfigIndicacao() {
+  const pctEl = document.getElementById('cfg-ind-pct');
+  const diasEl = document.getElementById('cfg-ind-dias');
+  const status = document.getElementById('cfg-ind-status');
+  if (!pctEl || !diasEl) return;
+  const pct  = parseFloat(pctEl.value);
+  const dias = parseInt(diasEl.value);
+  if (status) { status.textContent = '⏳ Salvando…'; status.style.color = 'var(--text2)'; }
+  try {
+    const data = await API.call({ action: 'set_config_indicacao', pct, carencia_dias: dias });
+    if (data && data.ok) {
+      if (status) { status.textContent = '✅ Salvo'; status.style.color = '#22C55E'; setTimeout(() => status.textContent = '', 2500); }
+      showToast('Configuração de indicação salva');
+    } else {
+      if (status) { status.textContent = '⚠️ ' + (data?.erro || 'Erro'); status.style.color = '#FCA5A5'; }
+    }
+  } catch (e) {
+    if (status) { status.textContent = '⚠️ Erro de conexão'; status.style.color = '#FCA5A5'; }
+  }
+}
+
 function renderConfig() {
   const archSel = document.getElementById('cfg-arch-days');
   if (archSel) archSel.value = String(getArchDays());
   const stockEl = document.getElementById('cfg-stock-alert');
   if (stockEl) stockEl.value = String(getStockAlertThreshold());
+  carregarConfigIndicacao();
   updateNotifStatus();
 
   const tbody = document.getElementById('admins-tbody');
@@ -1519,40 +1613,333 @@ function exportarCSV() {
 function renderCupons() {
   const grid = document.getElementById('cupons-grid');
   if (!grid) return;
+
+  // Popula dropdown de vendedoras (1x — depois mantém)
+  _atualizarFiltroVendedoras();
+
+  // Stats agregadas (sempre da lista completa, não filtrada)
+  _atualizarStatsCupons();
+
+  // Filtros + busca
   const q = (document.getElementById('busca-cupons')?.value || '').toLowerCase();
-  const lista = q
-    ? App.cupons.filter(c => c.codigo.toLowerCase().includes(q) || (c.vendedora||'').toLowerCase().includes(q))
-    : App.cupons;
+  const fStatus = document.getElementById('filtro-cupom-status')?.value || '';
+  const fVend   = document.getElementById('filtro-cupom-vendedora')?.value || '';
+  const sort    = document.getElementById('filtro-cupom-sort')?.value || 'recentes';
+
+  let lista = App.cupons.filter(c => {
+    if (q && !c.codigo.toLowerCase().includes(q) && !(c.vendedora||'').toLowerCase().includes(q)) return false;
+    if (fStatus && c.status !== fStatus) return false;
+    if (fVend && (c.vendedora||'') !== fVend) return false;
+    return true;
+  });
+
+  // Ordenação
+  if (sort === 'usos')    lista.sort((a,b) => (b.usos||0) - (a.usos||0));
+  else if (sort === 'receita') lista.sort((a,b) => (b.receita_gerada||0) - (a.receita_gerada||0));
+  else if (sort === 'alpha')   lista.sort((a,b) => (a.codigo||'').localeCompare(b.codigo||''));
+  // 'recentes' = ordem do backend (já reverse)
 
   if (lista.length === 0) {
     grid.innerHTML = '<div class="empty-msg">Nenhum cupom encontrado</div>';
     return;
   }
-  grid.innerHTML = lista.map(c => {
-    const isAtivo = c.status === 'Ativo';
-    return `
-      <div class="admin-card">
-        <div class="cupom-card-code">${esc(c.codigo)}</div>
-        <div class="cupom-card-type">${c.tipo === '%' ? `${c.valor}% desconto` : 'Preço fixo'}</div>
-        <div class="cupom-card-validity">Validade: ${esc(c.validade)}</div>
-        <div class="cupom-card-benefits">
-          ${c.parcelamento === 'SIM' ? '<span class="badge badge-on" style="font-size:10px">3x sem juros</span>' : ''}
-          ${c.freteAcima ? `<span class="badge badge-on" style="font-size:10px">🚚 +R$${esc(c.freteAcima)}</span>` : ''}
-          <span style="color:var(--text2);font-size:11px">${c.usos} uso${c.usos !== 1 ? 's' : ''}</span>
+
+  grid.innerHTML = lista.map(c => _buildCupomCard(c)).join('');
+}
+
+function _atualizarStatsCupons() {
+  const cupons = App.cupons || [];
+  const ativos = cupons.filter(c => c.status === 'Ativo').length;
+  const usos   = cupons.reduce((s,c) => s + (c.usos||0), 0);
+  const receita = cupons.reduce((s,c) => s + (c.receita_gerada||0), 0);
+  const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+  set('cs-total', cupons.length);
+  set('cs-ativos', ativos);
+  set('cs-usos', usos);
+  set('cs-receita', 'R$ ' + receita.toLocaleString('pt-BR', { minimumFractionDigits: 2 }));
+}
+
+function _atualizarFiltroVendedoras() {
+  const sel = document.getElementById('filtro-cupom-vendedora');
+  if (!sel) return;
+  const vendedoras = [...new Set((App.cupons||[]).map(c => c.vendedora).filter(Boolean))].sort();
+  const atual = sel.value;
+  sel.innerHTML = '<option value="">Todas vendedoras</option>' +
+    vendedoras.map(v => `<option value="${escAttr(v)}" ${v===atual?'selected':''}>${esc(v)}</option>`).join('');
+}
+
+function _diasRestantes(validade) {
+  if (!validade || validade === '—' || /indeterminado/i.test(validade)) return null;
+  // Aceita "dd/mm/yyyy" ou "dd/mm/yyyy hh:mm"
+  const m = validade.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})(?:\s+(\d{1,2}):(\d{2}))?/);
+  if (!m) return null;
+  const fim = new Date(+m[3], +m[2]-1, +m[1], +(m[4]||23), +(m[5]||59));
+  const diff = Math.ceil((fim - Date.now()) / 86400000);
+  return diff;
+}
+
+function _buildCupomCard(c) {
+  const isAtivo = c.status === 'Ativo';
+  const isExp   = c.status === 'Expirado';
+  const tipoCompacto = c.tipo === '%'
+    ? `${esc(c.valor)}% desc.`
+    : 'Preço fixo';
+
+  const receita = (c.receita_gerada||0);
+  const receitaTxt = receita > 0
+    ? `R$ ${receita.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}`
+    : '—';
+
+  const ultimoUso = c.ultimo_uso || '';
+  const ultimoUsoTxt = ultimoUso ? esc(ultimoUso.split(' ')[0]) : '—';
+
+  const nomeVend = c.vendedora_nome || c.vendedora || '';
+  const vendInic = nomeVend ? nomeVend.trim().split(/\s+/).slice(0,2).map(p=>p.charAt(0).toUpperCase()).join('') : '?';
+  const vendDisplay = nomeVend || 'Sem vendedora';
+
+  return `
+    <div class="cup-card ${isAtivo ? 'cc-ativo' : (isExp ? 'cc-expirado' : 'cc-desativado')}"
+         onclick="openCouponDrawer('${escAttr(c.codigo)}')">
+      <div class="cup-card-head">
+        <span class="cup-card-code">${esc(c.codigo)}</span>
+        <span class="cc-status cc-status-${isAtivo?'on':(isExp?'exp':'off')}">${esc(c.status)}</span>
+      </div>
+      <div class="cup-card-tipo">${tipoCompacto}</div>
+      <div class="cup-card-vend">
+        <span class="cc-vend-avatar">${esc(vendInic)}</span>
+        <span class="cup-card-vend-name">${esc(vendDisplay)}</span>
+      </div>
+      <div class="cup-card-stats">
+        <div class="cs-cell">
+          <div class="cs-cell-label">Usos</div>
+          <div class="cs-cell-val ${(c.usos||0)===0?'cs-empty':''}">${c.usos||0}</div>
         </div>
-        <div class="admin-card-footer">
-          <span class="badge ${isAtivo ? 'badge-on' : 'badge-off'}">${esc(c.status)}</span>
-          <div style="display:flex;gap:4px">
-            <button class="btn-xs ${isAtivo ? 'btn-xs-danger' : ''}"
-              onclick="toggleCupomAdmin('${escAttr(c.codigo)}','${c.status}')">
-              ${isAtivo ? 'Desativar' : 'Ativar'}
-            </button>
-            <button class="btn-xs btn-xs-danger"
-              onclick="apagarCupomAdmin('${escAttr(c.codigo)}')">🗑️</button>
-          </div>
+        <div class="cs-cell">
+          <div class="cs-cell-label">Receita</div>
+          <div class="cs-cell-val cs-cell-revenue ${receita===0?'cs-empty':''}">${receitaTxt}</div>
+        </div>
+        <div class="cs-cell">
+          <div class="cs-cell-label">Último uso</div>
+          <div class="cs-cell-val ${!ultimoUso?'cs-empty':''}">${ultimoUsoTxt}</div>
+        </div>
+      </div>
+      <div class="cup-card-hint">Clique pra ver detalhes →</div>
+    </div>`;
+}
+
+// ─── COUPON DRAWER ─────────────────────────────────────────────────────────
+function openCouponDrawer(codigo) {
+  const c = (App.cupons || []).find(x => String(x.codigo).toUpperCase() === String(codigo).toUpperCase());
+  if (!c) return;
+  renderCouponDrawer(c);
+  document.getElementById('coupon-drawer').classList.add('open');
+  document.getElementById('coupon-drawer-overlay').classList.add('show');
+}
+
+function closeCouponDrawer() {
+  document.getElementById('coupon-drawer').classList.remove('open');
+  document.getElementById('coupon-drawer-overlay').classList.remove('show');
+}
+
+function renderCouponDrawer(c) {
+  const isAtivo = c.status === 'Ativo';
+  const isExp   = c.status === 'Expirado';
+  const drawer = document.getElementById('coupon-drawer');
+  if (!drawer) return;
+
+  const dias = _diasRestantes(c.validade);
+  let validadeTxt = '—';
+  let validadeCls = '';
+  if (c.validade === '—' || /indeterminado/i.test(c.validade)) {
+    validadeTxt = '♾️ Sem expiração';
+    validadeCls = 'cc-val-permanente';
+  } else if (dias != null) {
+    if (dias < 0)       { validadeTxt = `Expirado há ${Math.abs(dias)}d`; validadeCls = 'cc-val-exp'; }
+    else if (dias === 0){ validadeTxt = 'Expira hoje';                     validadeCls = 'cc-val-warn'; }
+    else if (dias <= 7) { validadeTxt = `${dias}d restantes (${esc(c.validade)})`; validadeCls = 'cc-val-warn'; }
+    else                { validadeTxt = `${dias}d restantes (${esc(c.validade)})`; validadeCls = 'cc-val-ok'; }
+  } else if (c.validade) {
+    validadeTxt = c.validade;
+  }
+
+  // Lista de produtos com preços (original vs com desconto)
+  let prodTxt = 'Todos os produtos';
+  let produtosLista = []; // [{id, nome, precoOrig, precoCom}]
+  const isFixo = c.tipo === 'fixo';
+  const todosProdutos = !c.produtos || c.produtos === 'todos';
+
+  if (isFixo && c.precos) {
+    // Formato: "p1:100|p2:200"
+    String(c.precos).split('|').filter(Boolean).forEach(pair => {
+      const parts = pair.split(':');
+      const key = (parts[0]||'').trim();
+      const valor = parseFloat(parts[1]||0) || 0;
+      const id = key.split('__')[0];
+      const prod = (App.produtos||[]).find(p => p.id === id);
+      if (!prod) return;
+      const precoOrig = parseFloat(prod.preco) || 0;
+      produtosLista.push({ id: key, nome: prod.nome + (key.includes('__') ? ` (var ${key.split('__')[1]})` : ''), precoOrig, precoCom: valor });
+    });
+    prodTxt = `${produtosLista.length} produto${produtosLista.length !== 1 ? 's' : ''} com preço fixo`;
+  } else if (!todosProdutos) {
+    // tipo='%' com lista — desconto aplica em cada
+    const ids = c.produtos.split(',').map(s=>s.trim()).filter(Boolean);
+    const pct = parseFloat(c.valor) || 0;
+    ids.forEach(key => {
+      const id = key.split('__')[0];
+      const prod = (App.produtos||[]).find(p => p.id === id);
+      if (!prod) return;
+      const precoOrig = parseFloat(prod.preco) || 0;
+      const precoCom = +(precoOrig * (1 - pct/100)).toFixed(2);
+      produtosLista.push({ id: key, nome: prod.nome, precoOrig, precoCom });
+    });
+    prodTxt = `${produtosLista.length} produto${produtosLista.length !== 1 ? 's' : ''} específico${produtosLista.length !== 1 ? 's' : ''}`;
+  } else if (c.tipo === '%') {
+    // tipo='%' com 'todos' — não mostra lista (aplica em tudo)
+    prodTxt = `Todos os produtos · ${esc(c.valor)}% off`;
+  }
+
+  const benefits = [];
+  if (c.parcelamento === 'SIM') benefits.push('💳 Parcelamento 3x sem juros');
+  if (c.freteAcima) benefits.push(`🚚 Frete grátis acima de R$ ${esc(c.freteAcima)}`);
+
+  const nomeVend = c.vendedora_nome || c.vendedora || '';
+  const vendInic = nomeVend ? nomeVend.trim().split(/\s+/).slice(0,2).map(p=>p.charAt(0).toUpperCase()).join('') : '?';
+  const receita = (c.receita_gerada||0);
+  const receitaTxt = receita > 0
+    ? `R$ ${receita.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}`
+    : '—';
+  const desconto = (c.desconto_total||0);
+  const descontoTxt = desconto > 0
+    ? `R$ ${desconto.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}`
+    : '—';
+  const ultimoUsoTxt = c.ultimo_uso || '—';
+
+  // Tabela de produtos do cupom (expansível se > 5)
+  const fmtBrl = v => 'R$ ' + (parseFloat(v||0)).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
+  let produtosBlock = '';
+  if (produtosLista.length > 0) {
+    const colapsavel = produtosLista.length > 5;
+    const rowsHtml = produtosLista.map(p => {
+      const desc = isFixo
+        ? Math.max(0, p.precoOrig - p.precoCom)
+        : (p.precoOrig - p.precoCom);
+      const pct  = p.precoOrig > 0 ? Math.round((desc / p.precoOrig) * 100) : 0;
+      return `<div class="cd-prod-row">
+        <div class="cd-prod-name">${esc(p.nome)}</div>
+        <div class="cd-prod-prices">
+          <span class="cd-prod-orig">${fmtBrl(p.precoOrig)}</span>
+          <span class="cd-prod-arrow">→</span>
+          <span class="cd-prod-final">${fmtBrl(p.precoCom)}</span>
+          ${pct > 0 ? `<span class="cd-prod-pct">−${pct}%</span>` : ''}
         </div>
       </div>`;
-  }).join('');
+    }).join('');
+
+    produtosBlock = `
+      <div class="cd-section">
+        <div class="cd-section-title-row">
+          <span class="cd-section-title">Produtos do cupom (${produtosLista.length})</span>
+          ${colapsavel ? `<button class="cd-toggle-prods" onclick="toggleCupomProdutos(this)" data-open="false">Ver todos ▼</button>` : ''}
+        </div>
+        <div class="cd-prod-list ${colapsavel ? 'cd-prod-collapsed' : ''}">
+          ${rowsHtml}
+        </div>
+      </div>`;
+  }
+
+  drawer.innerHTML = `
+    <div class="drawer-header">
+      <div class="cd-h-left">
+        <div class="cd-h-code">${esc(c.codigo)}</div>
+        <span class="cc-status cc-status-${isAtivo?'on':(isExp?'exp':'off')}">${esc(c.status)}</span>
+      </div>
+      <button class="modal-close" onclick="closeCouponDrawer()" aria-label="Fechar">✕</button>
+    </div>
+    <div class="cd-body">
+      <div class="cd-section">
+        <div class="cd-section-title">Tipo de desconto</div>
+        <div class="cd-section-content cd-tipo-big">
+          ${c.tipo === '%' ? `<strong>${esc(c.valor)}%</strong> de desconto` : '<strong>Preço fixo</strong> por produto'}
+        </div>
+      </div>
+
+      <div class="cd-section">
+        <div class="cd-section-title">Vendedora</div>
+        <div class="cd-vend-box">
+          <span class="cc-vend-avatar cc-vend-avatar-lg">${esc(vendInic)}</span>
+          <div class="cd-vend-info">
+            <div class="cd-vend-name">${esc(nomeVend || 'Sem vendedora atribuída')}</div>
+            ${c.vendedora_email ? `<div class="cd-vend-email">${esc(c.vendedora_email)}</div>` : ''}
+          </div>
+        </div>
+      </div>
+
+      <div class="cd-section">
+        <div class="cd-section-title">Performance</div>
+        <div class="cd-stats-grid cd-stats-grid-2x2">
+          <div class="cd-stat-box">
+            <div class="cd-stat-label">Usos</div>
+            <div class="cd-stat-value">${c.usos||0}</div>
+          </div>
+          <div class="cd-stat-box">
+            <div class="cd-stat-label">Receita gerada</div>
+            <div class="cd-stat-value cd-stat-revenue">${receitaTxt}</div>
+          </div>
+          <div class="cd-stat-box">
+            <div class="cd-stat-label">Desconto dado</div>
+            <div class="cd-stat-value cd-stat-discount ${desconto===0?'cs-empty':''}">${descontoTxt}</div>
+          </div>
+          <div class="cd-stat-box">
+            <div class="cd-stat-label">Último uso</div>
+            <div class="cd-stat-value cd-stat-date">${esc(ultimoUsoTxt)}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cd-section">
+        <div class="cd-section-title">Validade</div>
+        <div class="cd-section-content"><span class="cc-validade ${validadeCls}">${validadeTxt}</span></div>
+      </div>
+
+      <div class="cd-section">
+        <div class="cd-section-title">Produtos aplicáveis</div>
+        <div class="cd-section-content">📦 ${esc(prodTxt)}</div>
+      </div>
+
+      ${produtosBlock}
+
+      ${benefits.length ? `
+      <div class="cd-section">
+        <div class="cd-section-title">Benefícios extras</div>
+        <ul class="cd-bullet-list">
+          ${benefits.map(b => `<li>${b}</li>`).join('')}
+        </ul>
+      </div>` : ''}
+
+      ${c.criado ? `
+      <div class="cd-section">
+        <div class="cd-section-title">Criado em</div>
+        <div class="cd-section-content">${esc(c.criado)}</div>
+      </div>` : ''}
+    </div>
+    <div class="cd-footer">
+      <button class="btn-sm ${isAtivo ? 'btn-xs-danger' : 'btn-xs-accent'}"
+        onclick="toggleCupomAdmin('${escAttr(c.codigo)}','${c.status}'); closeCouponDrawer();">
+        ${isAtivo ? '⏸ Desativar' : '▶ Ativar'}
+      </button>
+      <button class="btn-sm btn-xs-danger"
+        onclick="apagarCupomAdmin('${escAttr(c.codigo)}'); closeCouponDrawer();">🗑️ Apagar cupom</button>
+    </div>`;
+}
+
+function toggleCupomProdutos(btn) {
+  const list = btn.closest('.cd-section').querySelector('.cd-prod-list');
+  if (!list) return;
+  const open = btn.dataset.open === 'true';
+  list.classList.toggle('cd-prod-collapsed', open);
+  btn.dataset.open = open ? 'false' : 'true';
+  btn.textContent = open ? 'Ver todos ▼' : 'Recolher ▲';
 }
 
 function toggleFormCupom() {
@@ -1833,6 +2220,15 @@ function buildVariantesStr(prefix) {
     }).filter(Boolean).join('|');
 }
 
+// Preview ao vivo da imagem do produto no editor
+function previewImagemProduto(filename) {
+  const wrap = document.getElementById('ep-imagem-preview');
+  if (!wrap) return;
+  const f = (filename || '').trim();
+  if (!f) { wrap.innerHTML = '📦'; return; }
+  wrap.innerHTML = `<img src="../assets/img/produtos/${escAttr(f)}" alt="" style="width:100%;height:100%;object-fit:cover" onerror="this.outerHTML='⚠️'"/>`;
+}
+
 function abrirEditarProduto(prodId) {
   const p = App.produtos.find(x => x.id === prodId);
   if (!p) return;
@@ -1872,6 +2268,20 @@ function abrirEditarProduto(prodId) {
         </div>
       </div>
 
+      <div class="cfg-row">
+        <div class="field-inline" style="flex:0 0 240px">
+          <label>Imagem (arquivo)</label>
+          <input id="ep-imagem" value="${escAttr(p.imagem||'')}" placeholder="bpc-157.webp"
+            oninput="previewImagemProduto(this.value)"/>
+          <small style="font-size:.7rem;color:var(--gray);margin-top:4px;display:block;line-height:1.3">
+            Suba o arquivo em <code>assets/img/produtos/</code> no GitHub e coloque o nome aqui.
+          </small>
+        </div>
+        <div class="field-inline" style="flex:0 0 88px;align-items:center">
+          <label>Preview</label>
+          <div id="ep-imagem-preview" style="width:72px;height:72px;border-radius:10px;background:var(--input-bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:1.6rem">${p.imagem ? `<img src="../assets/img/produtos/${escAttr(p.imagem)}" alt="" style="width:100%;height:100%;object-fit:cover" onerror="this.outerHTML='⚠️'"/>` : '📦'}</div>
+        </div>
+      </div>
       <div class="cfg-row">
         <div class="field-inline"><label>Categoria</label>
           <select id="ep-categoria">
@@ -1941,21 +2351,51 @@ async function salvarProduto(e) {
   const icone = document.getElementById('ep-icone')?.value.trim(); if (icone) params.icone = icone;
   const cat = document.getElementById('ep-categoria')?.value; if (cat !== undefined) params.categoria = cat;
   const tags = document.getElementById('ep-tags')?.value.trim(); if (tags !== undefined) params.tags = tags;
+  const img = document.getElementById('ep-imagem')?.value.trim(); if (img !== undefined) params.imagem = img;
   // Destaque aceita 'destaque' ou 'recomendado' (ou vazio). Aqui é binário —
   // checkbox marcado = 'destaque'. Pra 'recomendado' edita manualmente na planilha.
   params.destaque = document.getElementById('ep-destaque')?.checked ? 'destaque' : '';
+  // Pós-save: verifica se a alteração realmente persistiu (proteção contra
+  // CORS no redirect do GAS que joga catch sem ter falhado de fato).
+  const verificarPersistencia = async () => {
+    await loadProdutos();
+    const atual = (App.produtos || []).find(p =>
+      String(p.prod_id || p.id || '') === String(prodId)
+    );
+    if (!atual) return false;
+    if (params.nome && (atual.nome || '').trim() !== params.nome.trim()) return false;
+    if (params.preco && String(atual.preco || '').replace(/\D/g,'') !== String(params.preco).replace(/\D/g,'')) return false;
+    return true;
+  };
+
   try {
     const data = await API.editarProduto(params);
-    if (data.ok) {
-      showToast('Produto atualizado!');
-      closeModal();
-      await loadProdutos();
-      renderProdutos();
+    if (data && (data.ok || data._silent)) {
+      const persistiu = await verificarPersistencia();
+      if (persistiu) {
+        showToast('Produto atualizado!');
+        closeModal();
+        renderProdutos();
+      } else {
+        msg.textContent = '⚠️ Backend não confirmou alteração. Recarregue (F5) e verifique.';
+        msg.style.color = 'var(--danger)';
+        renderProdutos();
+      }
     } else {
-      msg.textContent = data.erro || 'Erro ao salvar';
+      msg.textContent = (data && data.erro) || 'Erro ao salvar';
       msg.style.color = 'var(--danger)';
     }
   } catch(ex) {
+    // Network error pode ter salvo mesmo assim (CORS no redirect do GAS)
+    try {
+      const persistiu = await verificarPersistencia();
+      if (persistiu) {
+        showToast('Produto atualizado!');
+        closeModal();
+        renderProdutos();
+        return;
+      }
+    } catch(_) {}
     msg.textContent = 'Erro de conexão';
     msg.style.color = 'var(--danger)';
   }
@@ -2149,7 +2589,10 @@ function abrirEditarCliente(c) {
         <div class="field-inline"><label>Cidade</label><input id="ec-cidade" value="${escAttr(c.cidade||'')}"/></div>
         <div class="field-inline"><label>Estado</label><input id="ec-estado" value="${escAttr(c.estado||'')}"/></div>
       </div>
-      <div class="field-inline"><label>Endereço</label><input id="ec-end" value="${escAttr(c.endereco||'')}"/></div>
+      <div class="cfg-row">
+        <div class="field-inline"><label>Endereço</label><input id="ec-end" value="${escAttr(c.endereco||'')}"/></div>
+        <div class="field-inline" style="max-width:180px"><label>Data de Nascimento</label><input type="date" id="ec-nasc" value="${escAttr(c.data_nasc||'')}"/></div>
+      </div>
       <div class="field-inline"><label>Categoria</label>
         <select id="ec-categoria">
           <option value="" ${!c.categoria?'selected':''}>— Padrão —</option>
@@ -2169,6 +2612,7 @@ async function salvarCliente(e, cpf, emailCli) {
   e.preventDefault();
   const msg = document.getElementById('ec-status');
   msg.textContent = 'Salvando...';
+  msg.style.color = '';
   const params = {
     documento:   cpf, email_cli: emailCli,
     clinica:     document.getElementById('ec-clinica')?.value.trim(),
@@ -2180,20 +2624,62 @@ async function salvarCliente(e, cpf, emailCli) {
     cidade:      document.getElementById('ec-cidade')?.value.trim(),
     estado:      document.getElementById('ec-estado')?.value.trim(),
     endereco:    document.getElementById('ec-end')?.value.trim(),
+    data_nasc:   document.getElementById('ec-nasc')?.value.trim() || '',
     categoria:   document.getElementById('ec-categoria')?.value ?? '',
   };
+
+  // Pós-save: verifica se a alteração realmente persistiu na planilha.
+  // Necessário pq o api.js às vezes retorna {_silent:true} (parse fail)
+  // e o backend pode silenciosamente não achar o cliente (cpf vazio, etc).
+  const cpfBuscaAtualizado = params.cpf_novo || cpf;
+  const emailBuscaAtualizado = params.email_novo || emailCli;
+  const verificarPersistencia = async () => {
+    await loadClientes();
+    const atual = (App.clientes || []).find(x =>
+      (x.cpf && cpfBuscaAtualizado && x.cpf === cpfBuscaAtualizado) ||
+      (x.email && emailBuscaAtualizado && x.email === emailBuscaAtualizado)
+    );
+    if (!atual) return false;
+    // Confere 2-3 campos chave (nem todos os backends devolvem tudo)
+    const checks = [
+      [params.clinica,     atual.clinica],
+      [params.responsavel, atual.responsavel],
+      [params.telefone,    atual.telefone],
+    ];
+    return checks.every(([sent, got]) =>
+      !sent || (got || '').toString().replace(/\D/g,'') === sent.toString().replace(/\D/g,'') ||
+      (got || '').toString().trim() === sent.toString().trim()
+    );
+  };
+
   try {
     const data = await API.editarCliente(params);
-    if (data.ok) {
-      showToast('Cliente atualizado!');
-      closeModal();
-      await loadClientes();
-      renderClientes();
+    if (data && (data.ok || data._silent)) {
+      const persistiu = await verificarPersistencia();
+      if (persistiu) {
+        showToast('Cliente atualizado!');
+        closeModal();
+        renderClientes();
+      } else {
+        msg.textContent = '⚠️ Backend não confirmou alteração. Verifique se o CPF do cliente está cadastrado na planilha.';
+        msg.style.color = 'var(--danger)';
+        renderClientes();
+      }
     } else {
-      msg.textContent = data.erro || 'Erro ao salvar';
+      msg.textContent = (data && data.erro) || 'Erro ao salvar';
       msg.style.color = 'var(--danger)';
     }
   } catch(ex) {
+    // Network error: pode ter salvo mesmo assim (CORS no redirect)
+    try {
+      const persistiu = await verificarPersistencia();
+      if (persistiu) {
+        showToast('Cliente atualizado!');
+        closeModal();
+        renderClientes();
+        return;
+      }
+    } catch(_) {}
     msg.textContent = 'Erro de conexão';
     msg.style.color = 'var(--danger)';
   }
@@ -2220,7 +2706,14 @@ function abrirNovoCliente() {
         <div class="field-inline"><label>Cidade</label><input id="nn-cidade"/></div>
         <div class="field-inline"><label>Estado</label><input id="nn-estado" maxlength="2" placeholder="SP"/></div>
       </div>
-      <div class="field-inline"><label>Endereço</label><input id="nn-end"/></div>
+      <div class="cfg-row">
+        <div class="field-inline"><label>Endereço</label><input id="nn-end"/></div>
+        <div class="field-inline" style="max-width:180px"><label>Data de Nascimento *</label><input type="date" id="nn-nasc" required/></div>
+      </div>
+      <div style="font-size:.78rem;color:var(--text2);margin-top:6px;padding:8px 10px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.25);border-radius:6px;line-height:1.4">
+        🔐 Senha inicial gerada automaticamente a partir do telefone (apenas dígitos).<br>
+        Para "Esqueci a senha", o cliente precisa do <strong>e-mail + CPF + data de nascimento</strong>.
+      </div>
       <div id="nn-status" class="cfg-status-msg"></div>
       <div style="display:flex;gap:8px;margin-top:4px">
         <button type="submit" class="btn-sm btn-accent">Cadastrar</button>
@@ -2229,21 +2722,41 @@ function abrirNovoCliente() {
     </form>`);
 }
 
+// Gera senha inicial a partir do telefone (apenas dígitos), garantindo mínimo de 6 caracteres.
+// Fallback: usa CPF se telefone for curto demais; padding com '0' se ambos curtos.
+function _gerarSenhaInicial(tel, cpf) {
+  const digTel = String(tel || '').replace(/\D/g, '');
+  const digCpf = String(cpf || '').replace(/\D/g, '');
+  let senha = digTel || digCpf;
+  if (senha.length < 6) senha = (senha + digCpf + '000000').slice(0, 6);
+  return senha || '000000';
+}
+
 async function salvarNovoCliente(e) {
   e.preventDefault();
   const msg = document.getElementById('nn-status');
   msg.textContent = 'Cadastrando...';
+  const tel = document.getElementById('nn-tel').value.trim();
+  const cpf = document.getElementById('nn-cpf').value.trim();
+  const dataNasc = document.getElementById('nn-nasc')?.value.trim() || '';
+  if (!dataNasc) {
+    msg.textContent = 'Data de nascimento é obrigatória (necessária pra recuperar senha).';
+    msg.style.color = 'var(--danger)';
+    return;
+  }
   const params = {
     action:      'cadastrar',
     clinica:     document.getElementById('nn-clinica').value.trim(),
     responsavel: document.getElementById('nn-resp').value.trim(),
     cargo:       document.getElementById('nn-cargo').value.trim(),
-    telefone:    document.getElementById('nn-tel').value.trim(),
+    telefone:    tel,
     email:       document.getElementById('nn-email').value.trim(),
-    cpf:         document.getElementById('nn-cpf').value.trim(),
+    cpf:         cpf,
     cidade:      document.getElementById('nn-cidade').value.trim(),
     estado:      document.getElementById('nn-estado').value.trim(),
     endereco:    document.getElementById('nn-end').value.trim(),
+    data_nasc:   dataNasc,
+    senha:       _gerarSenhaInicial(tel, cpf),
   };
   try {
     const url = new URL(SHEETS_URL);
@@ -2729,4 +3242,216 @@ function formatPhone_tc(tel) {
   if (t.length === 11) return `(${t.slice(0,2)}) ${t.slice(2,7)}-${t.slice(7)}`;
   if (t.length === 10) return `(${t.slice(0,2)}) ${t.slice(2,6)}-${t.slice(6)}`;
   return tel;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// INDICAÇÕES (admin)
+// ═══════════════════════════════════════════════════════════════════════════════
+let _indicacoesCache = [];
+let _indicacoesStats = {};
+
+async function carregarIndicacoes() {
+  const tbody = document.getElementById('ind-tbody');
+  if (tbody) tbody.innerHTML = '<tr><td colspan="7" class="loading-msg">⏳ Carregando…</td></tr>';
+  try {
+    const data = await API.indicacoes();
+    if (data && data.ok) {
+      _indicacoesCache = data.indicacoes || [];
+      _indicacoesStats = data.stats || {};
+      renderIndicacoes();
+    } else {
+      if (tbody) tbody.innerHTML = `<tr><td colspan="7" class="empty-msg">⚠️ ${esc(data?.erro || 'Erro ao carregar')}</td></tr>`;
+    }
+  } catch (e) {
+    if (tbody) tbody.innerHTML = '<tr><td colspan="7" class="empty-msg">⚠️ Erro de conexão</td></tr>';
+  }
+}
+
+function renderIndicacoes() {
+  const tbody = document.getElementById('ind-tbody');
+  const statsBar = document.getElementById('ind-stats-bar');
+  if (!tbody) return;
+
+  // Stats cards
+  if (statsBar) {
+    const s = _indicacoesStats;
+    statsBar.innerHTML = `
+      <div class="stat-card"><div class="stat-val">${formatMoeda(s.totalPendente||0)}</div><div class="stat-lbl">⏳ Pendente</div></div>
+      <div class="stat-card"><div class="stat-val" style="color:#22C55E">${formatMoeda(s.totalLiberada||0)}</div><div class="stat-lbl">✅ Liberada</div></div>
+      <div class="stat-card"><div class="stat-val" style="color:#FCA5A5">${formatMoeda(s.totalRevogada||0)}</div><div class="stat-lbl">❌ Revogada</div></div>
+      <div class="stat-card"><div class="stat-val" style="color:#F59E0B">${formatMoeda(s.totalSuspeita||0)}</div><div class="stat-lbl">🚩 Suspeita</div></div>
+      <div class="stat-card"><div class="stat-val">${s.qtd||0}</div><div class="stat-lbl">Total indicações</div></div>
+    `;
+  }
+
+  const q = (document.getElementById('ind-search')?.value||'').toLowerCase().trim();
+  const filtroStatus = (document.getElementById('ind-filter-status')?.value||'').toUpperCase();
+
+  const lista = _indicacoesCache.filter(i => {
+    if (filtroStatus && i.comissao_status !== filtroStatus) return false;
+    if (!q) return true;
+    return [i.indicador_nome, i.indicador_apelido, i.indicador_email, i.indicador_id,
+            i.indicado_nome, i.indicado_email]
+      .some(v => String(v||'').toLowerCase().includes(q));
+  });
+
+  if (!lista.length) {
+    tbody.innerHTML = '<tr><td colspan="7" class="empty-msg">Nenhuma indicação encontrada</td></tr>';
+    return;
+  }
+
+  const stColor = (st) => {
+    if (st === 'LIBERADA') return '#22C55E';
+    if (st === 'REVOGADA') return '#FCA5A5';
+    if (st === 'SUSPEITA') return '#F59E0B';
+    return 'var(--text2)';
+  };
+  const stIcon = (st) => ({ PENDENTE:'⏳', LIBERADA:'✅', REVOGADA:'❌', SUSPEITA:'🚩' })[st] || '';
+
+  tbody.innerHTML = lista.map(i => {
+    const indicadorLbl = i.indicador_apelido || i.indicador_nome || i.indicador_id;
+    const indicadoLbl  = i.indicado_nome || i.indicado_email;
+    const acoes = `
+      <button class="btn-xs" title="Liberar comissão" onclick="acaoIndicacao(${i.rowNum},'LIBERADA')">✅ Liberar</button>
+      <button class="btn-xs" title="Revogar comissão" onclick="acaoIndicacao(${i.rowNum},'REVOGADA')">❌ Revogar</button>
+      <button class="btn-xs" title="Marcar como suspeita" onclick="acaoIndicacao(${i.rowNum},'SUSPEITA')">🚩 Suspeita</button>
+    `;
+    return `
+      <tr>
+        <td style="font-size:11px;color:var(--text2);white-space:nowrap">${esc(i.data)}</td>
+        <td><strong>${esc(indicadorLbl)}</strong><div style="font-size:11px;color:var(--text2)">${esc(i.indicador_id)}</div></td>
+        <td><strong>${esc(indicadoLbl)}</strong><div style="font-size:11px;color:var(--text2)">${esc(i.indicado_email)}</div></td>
+        <td style="text-align:right;font-size:12px">${formatMoeda(i.total_pedido)}<div style="font-size:10px;color:var(--text2)">${esc(i.status_pedido)}</div></td>
+        <td style="text-align:right;font-weight:700;color:var(--accent)">${formatMoeda(i.comissao_valor)}</td>
+        <td style="color:${stColor(i.comissao_status)};font-weight:600">${stIcon(i.comissao_status)} ${esc(i.comissao_status)}</td>
+        <td>${acoes}</td>
+      </tr>`;
+  }).join('');
+}
+
+async function acaoIndicacao(rowNum, status) {
+  const labels = { LIBERADA: 'liberar', REVOGADA: 'revogar', SUSPEITA: 'marcar como suspeita' };
+  if (!confirm(`Tem certeza que quer ${labels[status]} esta comissão?`)) return;
+  try {
+    const data = await API.setIndicacaoStatus(rowNum, status);
+    if (data && data.ok) {
+      showToast('Status atualizado');
+      carregarIndicacoes();
+    } else {
+      showToast('⚠️ ' + (data?.erro || 'Erro'), 'error');
+    }
+  } catch (e) {
+    showToast('⚠️ Erro de conexão', 'error');
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// SOLICITAÇÕES (admin)
+// ═══════════════════════════════════════════════════════════════════════════════
+let _solicitacoesCache = [];
+let _solicitacoesStats = {};
+
+async function carregarSolicitacoes() {
+  const tbody = document.getElementById('solic-tbody');
+  if (tbody) tbody.innerHTML = '<tr><td colspan="7" class="loading-msg">⏳ Carregando…</td></tr>';
+  try {
+    const data = await API.solicitacoes();
+    if (data && data.ok) {
+      _solicitacoesCache = data.solicitacoes || [];
+      _solicitacoesStats = data.stats || {};
+      renderSolicitacoes();
+      // Atualiza badge no nav
+      const badge = document.getElementById('solic-badge');
+      if (badge) {
+        const n = _solicitacoesStats.pendentes || 0;
+        badge.textContent = n;
+        badge.style.display = n > 0 ? '' : 'none';
+      }
+    } else {
+      if (tbody) tbody.innerHTML = `<tr><td colspan="7" class="empty-msg">⚠️ ${esc(data?.erro || 'Erro')}</td></tr>`;
+    }
+  } catch (e) {
+    if (tbody) tbody.innerHTML = '<tr><td colspan="7" class="empty-msg">⚠️ Erro de conexão</td></tr>';
+  }
+}
+
+function renderSolicitacoes() {
+  const tbody = document.getElementById('solic-tbody');
+  const statsBar = document.getElementById('solic-stats-bar');
+  if (!tbody) return;
+
+  if (statsBar) {
+    const s = _solicitacoesStats;
+    statsBar.innerHTML = `
+      <div class="stat-card"><div class="stat-val">${s.pendentes||0}</div><div class="stat-lbl">⏳ Pendentes</div></div>
+      <div class="stat-card"><div class="stat-val" style="color:var(--accent)">${formatMoeda(s.totalPendente||0)}</div><div class="stat-lbl">Valor pendente</div></div>
+      <div class="stat-card"><div class="stat-val" style="color:#22C55E">${s.aprovadas||0}</div><div class="stat-lbl">✅ Aprovadas</div></div>
+      <div class="stat-card"><div class="stat-val" style="color:#FCA5A5">${s.rejeitadas||0}</div><div class="stat-lbl">❌ Rejeitadas</div></div>
+    `;
+  }
+
+  const filtroStatus = (document.getElementById('solic-filter-status')?.value||'').toUpperCase();
+  const lista = _solicitacoesCache.filter(s => !filtroStatus || s.status === filtroStatus);
+
+  if (!lista.length) {
+    tbody.innerHTML = '<tr><td colspan="7" class="empty-msg">Nenhuma solicitação</td></tr>';
+    return;
+  }
+
+  const stColor = (st) => ({ PENDENTE:'#F59E0B', APROVADA:'#22C55E', REJEITADA:'#FCA5A5', EXPIRADA:'#64748b' })[st] || '#64748b';
+  const stIcon  = (st) => ({ PENDENTE:'⏳', APROVADA:'✅', REJEITADA:'❌', EXPIRADA:'🕒' })[st] || '';
+
+  tbody.innerHTML = lista.map(s => {
+    const cupom = s.cupomGerado ? `<code style="background:rgba(245,158,11,0.15);padding:2px 6px;border-radius:4px;font-size:11px">${esc(s.cupomGerado)}</code>` : '';
+    const obsAdmin = s.obsAdmin ? `<div style="font-size:11px;color:var(--text2);margin-top:2px">${esc(s.obsAdmin)}</div>` : '';
+    const acoes = s.status === 'PENDENTE' ? `
+      <button class="btn-xs" style="background:rgba(34,197,94,0.15);border-color:rgba(34,197,94,0.5);color:#22C55E"
+        onclick="aprovarSolicitacao(${s.rowNum})">✅ Aprovar</button>
+      <button class="btn-xs btn-danger" onclick="rejeitarSolicitacao(${s.rowNum})">❌ Rejeitar</button>
+    ` : `<span style="font-size:11px;color:var(--text2)">${esc(s.dataResposta||'—')}</span>`;
+    return `
+      <tr>
+        <td style="font-size:11px;color:var(--text2);white-space:nowrap">${esc(s.data)}</td>
+        <td><strong>${esc(s.clienteNome)}</strong><div style="font-size:11px;color:var(--text2)">${esc(s.clienteEmail)}</div><div style="font-size:10px;color:var(--text2)">${esc(s.clienteId)}</div></td>
+        <td style="text-align:right;font-weight:700;color:var(--accent)">${formatMoeda(s.valor)}</td>
+        <td style="font-size:12px;color:var(--text2);max-width:200px">${esc(s.obsCliente || '—')}</td>
+        <td style="color:${stColor(s.status)};font-weight:600;white-space:nowrap">${stIcon(s.status)} ${esc(s.status)}</td>
+        <td>${cupom}${obsAdmin}</td>
+        <td>${acoes}</td>
+      </tr>`;
+  }).join('');
+}
+
+async function aprovarSolicitacao(rowNum) {
+  const obs = prompt('Observação interna (opcional):') || '';
+  if (obs === null) return; // user pressed cancel
+  if (!confirm('Aprovar e gerar cupom?')) return;
+  try {
+    const data = await API.aprovarSolicitacao(rowNum, obs);
+    if (data && data.ok) {
+      showToast(`✅ Cupom ${data.codigo} gerado (válido até ${data.validade})`);
+      carregarSolicitacoes();
+    } else {
+      showToast('⚠️ ' + (data?.erro || 'Erro'), 'error');
+    }
+  } catch (e) {
+    showToast('⚠️ Erro de conexão', 'error');
+  }
+}
+
+async function rejeitarSolicitacao(rowNum) {
+  const motivo = prompt('Motivo da rejeição (opcional):') || '';
+  if (motivo === null) return;
+  if (!confirm('Rejeitar essa solicitação? Saldo do cliente vai voltar pro disponível.')) return;
+  try {
+    const data = await API.rejeitarSolicitacao(rowNum, motivo);
+    if (data && data.ok) {
+      showToast('Solicitação rejeitada');
+      carregarSolicitacoes();
+    } else {
+      showToast('⚠️ ' + (data?.erro || 'Erro'), 'error');
+    }
+  } catch (e) {
+    showToast('⚠️ Erro de conexão', 'error');
+  }
 }

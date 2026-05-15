@@ -27,7 +27,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="assets/css/theme.css"/>
   <link rel="stylesheet" href="assets/css/index.css"/>
-  <link rel="stylesheet" href="assets/css/pedido.css"/>
+  <link rel="stylesheet" href="assets/css/cliente_auth.css"/>
 </head>
 <body>
 
@@ -49,8 +49,13 @@
 <!-- ═══ HERO ═══ -->
 <section class="hero">
   <div class="hero-inner">
-    <div class="hero-left">
-      <div class="hero-badge"><span class="dot"></span> Catálogo B2B</div>
+    <div class="hero-left hero-centered">
+      <!-- Saudação personalizada (só logado) -->
+      <div class="welcome-greet" id="welcome-greet" style="display:none">
+        <span class="welcome-wave">👋</span>
+        <span>Bem-vindo de volta, <strong id="greet-name">cliente</strong>!</span>
+      </div>
+
       <h1 class="hero-title">
         Tudo que você precisa<br/><span class="highlight">em um só lugar</span>
       </h1>
@@ -60,24 +65,30 @@
       </p>
       <div class="hero-btns">
         <a href="pedido.html" class="btn-pedido">
-          🛒 Fazer Pedido Agora
+          🛒 Fazer Pedido
         </a>
-        <a href="catalogo_interno.html" class="btn-wa">
-          📋 Acessar Catálogo
+        <a href="catalogo_interno.html" class="btn-outline">
+          📋 Ver Catálogo
         </a>
-        <a href="#produtos" class="btn-outline">Ver Produtos ↓</a>
       </div>
-      <div class="hero-stats">
-        <div class="stat-box"><div class="s-num">+</div><div class="s-label">Catálogo completo</div></div>
-        <div class="stat-box"><div class="s-num">3</div><div class="s-label">Passos para pedir</div></div>
-        <div class="stat-box"><div class="s-num">100%</div><div class="s-label">Atendimento direto</div></div>
+
+      <!-- Atalhos rápidos (só logado) -->
+      <div class="quick-actions" id="quick-actions" style="display:none">
+        <a href="pedido.html?repeat=last" class="qa-chip qa-primary">
+          <span class="qa-icon">🔄</span>
+          <span>
+            <span class="qa-title">Refazer último pedido</span>
+            <span class="qa-sub">Em poucos cliques</span>
+          </span>
+        </a>
+        <a href="perfil.html" class="qa-chip">
+          <span class="qa-icon">📋</span>
+          <span>
+            <span class="qa-title">Meus pedidos</span>
+            <span class="qa-sub">Histórico e status</span>
+          </span>
+        </a>
       </div>
-    </div>
-    <div class="hero-cards">
-      <div class="h-card"><div class="hc-icon">📦</div><div class="hc-name">Catálogo Atualizado</div><div class="hc-desc">Produtos, preços e disponibilidade sempre em dia</div><span class="hc-tag">Online</span></div>
-      <div class="h-card"><div class="hc-icon">⚡</div><div class="hc-name">Pedido Rápido</div><div class="hc-desc">Selecione, preencha e finalize em poucos cliques</div><span class="hc-tag">3 passos</span></div>
-      <div class="h-card"><div class="hc-icon">💬</div><div class="hc-name">Atendimento Direto</div><div class="hc-desc">Fale com a gente pelo WhatsApp a qualquer momento</div><span class="hc-tag">B2B</span></div>
-      <div class="h-card"><div class="hc-icon">🎟️</div><div class="hc-name">Cupons Exclusivos</div><div class="hc-desc">Condições especiais e descontos para clientes parceiros</div><span class="hc-tag">VIP</span></div>
     </div>
   </div>
 </section>
@@ -113,22 +124,15 @@
   <div class="container">
     <span class="section-badge">Nossos produtos</span>
     <h2 class="section-title">Confira o catálogo</h2>
-    <p class="section-sub">Lista resumida do que temos disponível. Para preços e disponibilidade, acesse o catálogo completo.</p>
-    <div style="margin-bottom:36px;padding:18px 24px;background:#F59E0B;border-radius:12px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
-      <span style="font-size:1.4rem;flex-shrink:0">⚠️</span>
-      <p style="font-size:.9rem;color:#1A1428;margin:0;flex:1;min-width:200px;font-weight:500">
-        <strong style="font-weight:800">Esta página não exibe preços.</strong> Os itens listados são apenas uma visão geral do catálogo.
-        Para ver disponibilidade e valores, <a href="catalogo_interno.html" style="color:#1A1428;font-weight:800;text-decoration:underline">acesse o Catálogo →</a>
-      </p>
-    </div>
+    <p class="section-sub">Visão geral do catálogo. Acesse o catálogo completo para ver preços e fazer pedido.</p>
     <div class="prod-grid" id="prod-grid">
       <div style="grid-column:1/-1;text-align:center;padding:40px;color:#4A6278">⏳ Carregando produtos...</div>
     </div>
-    <div style="margin-top:48px;padding:32px 28px;background:linear-gradient(135deg,rgba(124,58,237,0.15),rgba(245,158,11,0.1));border:1px solid rgba(124,58,237,0.3);border-radius:18px;text-align:center">
-      <div style="font-size:1.5rem;margin-bottom:10px">🛒</div>
-      <h3 style="font-family:'Montserrat',sans-serif;font-size:1.1rem;font-weight:800;color:#1A1428;margin-bottom:8px">Quer fazer um pedido?</h3>
-      <p style="font-size:.88rem;color:rgba(255,255,255,0.75);margin-bottom:20px;max-width:480px;margin-left:auto;margin-right:auto">Acesse o formulário de pedido, escolha os produtos, quantidades e finalize com as condições de pagamento.</p>
-      <a href="pedido.html" style="display:inline-flex;align-items:center;gap:9px;background:linear-gradient(135deg,#F39C12,#E67E22);color:#1A1428;font-family:'Montserrat',sans-serif;font-size:.95rem;font-weight:800;padding:14px 30px;border-radius:50px;text-decoration:none;box-shadow:0 6px 24px rgba(243,156,18,0.4);transition:all .2s">
+    <div class="prod-cta-card">
+      <div class="prod-cta-icon">🛒</div>
+      <h3 class="prod-cta-title">Quer fazer um pedido?</h3>
+      <p class="prod-cta-text">Acesse o formulário de pedido, escolha os produtos, quantidades e finalize com as condições de pagamento.</p>
+      <a href="pedido.html" class="prod-cta-btn">
         📋 Acessar Formulário de Pedido →
       </a>
     </div>
@@ -239,6 +243,15 @@
   <div class="ft-text">© <span data-client-name></span> · Catálogo B2B<br/>Atendimento direto e pedidos online.</div>
   <a href="#" class="ft-wa" target="_blank" data-wa-link>💬 WhatsApp</a>
 </footer>
+
+<!-- ═══ STICKY CTA BAR (aparece ao rolar pra fora do hero) ═══ -->
+<div class="sticky-cta" id="sticky-cta">
+  <span class="sticky-text">Pronto pra fazer seu pedido?</span>
+  <div class="sticky-actions">
+    <a href="pedido.html" class="sticky-btn sticky-btn-primary">📋 Fazer Pedido</a>
+    <a href="#" class="sticky-btn sticky-btn-wa" target="_blank" data-wa-link data-wa-text="Olá! Tenho interesse no catálogo.">💬</a>
+  </div>
+</div>
 
 <!-- ═══ WHATSAPP FLUTUANTE ═══ -->
 <a href="#" class="wa-float" target="_blank" title="Falar no WhatsApp" data-wa-link data-wa-text="Olá! Tenho interesse no catálogo.">💬</a>

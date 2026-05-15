@@ -58,6 +58,7 @@ const API = {
   criarCupom:       (p)                 => API.call({ action: 'criar_cupom_admin', ...p }),
   editarProduto:    (p)                 => API.call({ action: 'editar_produto_completo', ...p }),
   editarCliente:    (p)                 => API.call({ action: 'editar_cliente', ...p }),
+  apagarCliente:    (documento, email)  => API.call({ action: 'apagar_cliente', documento: documento || '', email_cli: email || '' }),
   pedidosCliente:   (documento)         => API.call({ action: 'pedidos_cliente_admin', documento }),
   relatorio:        ()                  => API.call({ action: 'relatorio' }),
   salvarNotaInt:    (id, nota)          => API.call({ action: 'salvar_nota_interna', id, nota }),
@@ -65,4 +66,9 @@ const API = {
   retornarEstoque:  (id)                => API.call({ action: 'retornar_estoque', id }),
   protocolos:       ()                  => API.call({ action: 'protocolos' }),
   editarProtocolo:  (p)                 => API.call({ action: 'editar_protocolo', ...p }),
+  indicacoes:       ()                  => API.call({ action: 'painel_indicacoes' }),
+  setIndicacaoStatus: (rowNum, status)  => API.call({ action: 'set_indicacao_status', rowNum, status }),
+  solicitacoes:     ()                  => API.call({ action: 'painel_solicitacoes' }),
+  aprovarSolicitacao: (rowNum, obs_admin) => API.call({ action: 'aprovar_solicitacao', rowNum, obs_admin: obs_admin || '' }),
+  rejeitarSolicitacao: (rowNum, motivo) => API.call({ action: 'rejeitar_solicitacao', rowNum, motivo: motivo || '' }),
 };

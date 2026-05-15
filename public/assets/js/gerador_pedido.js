@@ -247,28 +247,19 @@ async function calcularFrete(){
     const tab=FRETE_TABELA[data.uf];
     if(!tab){status.textContent='Estado sem tabela de frete.';status.style.color='#FCA5A5';return;}
 
-    // Verifica frete gratis
-    const subtotal=calcSubtotal();
-    if(subtotal>=3000){
-      gFreteValor=0;gFreteMetodo='gratis';
-      opcoes.style.display='none';
-      gratisEl.style.display='block';
-      status.textContent='';
-    } else {
-      gratisEl.style.display='none';
-      opcoes.style.display='flex';
-      opcoes.innerHTML=[
-        {id:'sedex',nome:'SEDEX',preco:tab.sedex,prazo:tab.ds},
-        {id:'pac',nome:'PAC',preco:tab.pac,prazo:tab.dp},
-        {id:'jadlog',nome:'Jadlog',preco:tab.jadlog,prazo:tab.dj},
-      ].map(o=>`<div class="frete-opt" id="fo-${o.id}" onclick="selecionarFrete('${o.id}')">
-        <div class="fo-nome">${o.nome}</div>
-        <div class="fo-preco">R$ ${o.preco.toFixed(2).replace('.',',')}</div>
-        <div class="fo-prazo">${o.prazo} dias uteis</div>
-      </div>`).join('');
-      selecionarFrete('jadlog');
-      status.textContent='';
-    }
+    // Sempre mostra as opções SEDEX/Jadlog. Frete grátis só via cupom (frete_gratis_acima).
+    gratisEl.style.display='none';
+    opcoes.style.display='flex';
+    opcoes.innerHTML=[
+      {id:'sedex',nome:'SEDEX',preco:tab.sedex,prazo:tab.ds},
+      {id:'jadlog',nome:'Jadlog',preco:tab.jadlog,prazo:tab.dj},
+    ].map(o=>`<div class="frete-opt" id="fo-${o.id}" onclick="selecionarFrete('${o.id}')">
+      <div class="fo-nome">${o.nome}</div>
+      <div class="fo-preco">R$ ${o.preco.toFixed(2).replace('.',',')}</div>
+      <div class="fo-prazo">${o.prazo} dias uteis</div>
+    </div>`).join('');
+    selecionarFrete('jadlog');
+    status.textContent='';
     renderCart();gerarMensagem();
   }catch(e){status.textContent='⚠️ Erro ao consultar CEP.';status.style.color='#FCA5A5';}
 }
@@ -468,8 +459,26 @@ function carregarPedidoNoEditor(p,cli){
     else gPendingCartText=p.produtos;
   }
   if(gCATALOG.length===0&&Object.keys(gCart).length>0){gPendingCart={...gCart};gCart={};}
-  gFreteValor=0;gFreteMetodo='';
+  // Restaura frete do pedido salvo (se houver) — pré-preenche CEP e chama calcularFrete
+  // pra reconstruir as opções e selecionar o método antes usado.
+  gFreteValor=parseFloat(p.freteValor)||0;
+  gFreteMetodo=String(p.freteMetodo||'').toLowerCase();
+  gFreteCep=String(p.cep||'').replace(/\D/g,'');
   irParaEditor();
+  if(gFreteCep){
+    const cepInput=document.getElementById('f_cep');
+    if(cepInput){
+      cepInput.value=gFreteCep.length===8?`${gFreteCep.slice(0,5)}-${gFreteCep.slice(5)}`:gFreteCep;
+      // Aguarda 1 tick pra garantir que o editor foi renderizado, e re-aplica o método
+      setTimeout(async ()=>{
+        const metodoAntes=gFreteMetodo;
+        await calcularFrete();
+        if(metodoAntes&&['sedex','jadlog'].includes(metodoAntes)){
+          selecionarFrete(metodoAntes);
+        }
+      },50);
+    }
+  }
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -483,6 +492,9 @@ async function g_salvarNovoCliente(){
   if(!nome){status.textContent='Preencha o nome.';return;}if(!tel){status.textContent='Preencha o telefone.';return;}
   const btn=document.getElementById('btn-salvar-cliente');btn.disabled=true;btn.textContent='Salvando...';status.textContent='';
   const params=new URLSearchParams({action:'cadastrar',clinica:nome,responsavel:document.getElementById('nc_responsavel').value.trim(),telefone:tel,email:document.getElementById('nc_email').value.trim(),cpf:document.getElementById('nc_cpf').value.trim(),cidade:document.getElementById('nc_cidade').value.trim(),estado:document.getElementById('nc_estado').value.trim(),endereco:document.getElementById('nc_endereco').value.trim()});
+  // Admin auth via token de sessão — backend (validateAdmin_) só precisa do token.
+  // Pula a obrigatoriedade de senha/email do fluxo customer self-service.
+  if(window.App?.admin?.token){params.set('token',App.admin.token);}
   try{
     const r=await fetch(`${SHEETS_URL}?${params}`);const data=await r.json();
     if(data.ok){fecharModal();['nc_nome','nc_responsavel','nc_telefone','nc_email','nc_cpf','nc_cidade','nc_estado','nc_endereco'].forEach(id=>document.getElementById(id).value='');
@@ -636,14 +648,16 @@ async function salvarPedido(){
     cupom_codigo:gCupomCodigo||'',cupom_valor:calcularDescontoCupom().toFixed(2),carrinho:JSON.stringify(gCart),
     cep:gFreteCep||'',frete_metodo:gFreteMetodo||'',frete_valor:gFreteValor>0?gFreteValor.toFixed(2):'0',
   });
-  // Corrigir: atualiza linha existente em vez de criar nova (exige token admin)
+  // Auth admin SEMPRE — backend salvar() exige cliente_token OU admin.
+  // No painel admin nunca temos cliente_token; precisamos do email+token admin.
+  if(window.App?.admin){
+    params.set('email', App.admin.email);
+    params.set('token', App.admin.token);
+  }
+  // Corrigir: atualiza linha existente em vez de criar nova
   if(gMODO==='corrigir'&&gPedidoRowId){
     params.set('action','atualizar_pedido');
     params.set('rowNum',gPedidoRowId);
-    if(window.App?.admin){
-      params.set('email', App.admin.email);
-      params.set('token', App.admin.token);
-    }
   }
   try{
     const r=await fetch(`${SHEETS_URL}?${params}`);

@@ -2,6 +2,34 @@ let protocolosCache = null;
 let produtosCache = null;
 const CORES = ['c1','c2','c3','c4','c5','c6','c7','c8'];
 
+// ─── IMAGEM DE PRODUTO / PLACEHOLDER ────────────────────────────────────────
+function _imgHashTone(str) {
+  let h = 0; const s = String(str || '');
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
+  return Math.abs(h) % 10;
+}
+window.imgFallback = function(imgEl) {
+  const tone = imgEl.dataset.tone || '0';
+  const icon = imgEl.dataset.icon || '📦';
+  const sizeClass = imgEl.dataset.sizeClass || '';
+  const div = document.createElement('div');
+  div.className = `img-placeholder ${sizeClass} tone-${tone}`;
+  div.innerHTML = `<span class="ph-icon">${icon}</span>`;
+  imgEl.replaceWith(div);
+};
+function productImageHTML(p, sizeClass) {
+  const tone = _imgHashTone(p.categoria || p.id || p.nome || '');
+  const icon = p.icone || '📦';
+  const cls = sizeClass || '';
+  if (p.imagem) {
+    const src = `assets/img/produtos/${p.imagem}`;
+    return `<img class="product-img ${cls}" src="${escAttr(src)}" alt="${escAttr(p.nome)}" loading="lazy"
+      data-tone="${tone}" data-icon="${escAttr(icon)}" data-size-class="${escAttr(cls)}"
+      onerror="imgFallback(this)"/>`;
+  }
+  return `<div class="img-placeholder ${cls} tone-${tone}"><span class="ph-icon">${esc(icon)}</span></div>`;
+}
+
 // ── ESCAPE HTML ──
 function esc(s) {
   return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -42,6 +70,11 @@ async function carregarProdutosLanding() {
   } catch(e) { return null; }
 }
 
+// Paginação landing: mostra primeiros N produtos, botão "Ver mais"
+const _LANDING_PROD_LIMIT = 12;
+let _landingProdutosCache = null;
+let _landingProdutosShown = _LANDING_PROD_LIMIT;
+
 async function renderProdutosLanding() {
   const grid = document.getElementById('prod-grid');
   const [produtos, protocolos] = await Promise.all([
@@ -52,7 +85,20 @@ async function renderProdutosLanding() {
     grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:30px;color:#4A6278">⚠️ Erro ao carregar produtos.</div>';
     return;
   }
-  grid.innerHTML = produtos.map((p, i) => {
+  _landingProdutosCache = produtos;
+  _landingProdutosShown = _LANDING_PROD_LIMIT;
+  _renderLandingProdutosBatch();
+}
+
+function _renderLandingProdutosBatch() {
+  const grid = document.getElementById('prod-grid');
+  const produtos = _landingProdutosCache || [];
+  const protocolos = protocolosCache || {};
+  const showCount = Math.min(_landingProdutosShown, produtos.length);
+  const visiveis = produtos.slice(0, showCount);
+  const restantes = produtos.length - showCount;
+
+  grid.innerHTML = visiveis.map((p, i) => {
     const cor = CORES[i % CORES.length];
     const tags = (Array.isArray(p.tags) ? p.tags : []).slice(0,3);
     const temProto = protocolos && protocolos[p.id];
@@ -65,7 +111,7 @@ async function renderProdutosLanding() {
     return `
       <div class="prod-card">
         <div class="prod-card-top ${cor}">
-          <div class="pc-icon">${esc(p.icone || '📦')}</div>
+          ${productImageHTML(p, 'prod-card-img')}
           <div class="pc-conc">${esc(p.conc)}</div>
           <div class="pc-name">${esc(p.nome)}</div>
           <div class="pc-sub">${esc(p.lab || '')}</div>
@@ -78,6 +124,29 @@ async function renderProdutosLanding() {
         </div>
       </div>`;
   }).join('');
+
+  // Botão "Ver mais" se ainda há produtos não exibidos
+  if (restantes > 0) {
+    const moreBtn = document.createElement('div');
+    moreBtn.className = 'prod-more-wrap';
+    moreBtn.innerHTML = `
+      <button class="prod-more-btn" onclick="verMaisProdutos()">
+        Ver mais ${restantes} produto${restantes !== 1 ? 's' : ''} ↓
+      </button>`;
+    grid.parentNode.insertBefore(moreBtn, grid.nextSibling);
+  } else {
+    // Remove botão se já mostrou tudo
+    const old = document.querySelector('.prod-more-wrap');
+    if (old) old.remove();
+  }
+}
+
+function verMaisProdutos() {
+  _landingProdutosShown += _LANDING_PROD_LIMIT;
+  // Remove botão antigo antes de re-renderizar
+  const old = document.querySelector('.prod-more-wrap');
+  if (old) old.remove();
+  _renderLandingProdutosBatch();
 }
 
 async function carregarProtocolos() {
@@ -89,7 +158,55 @@ async function carregarProtocolos() {
   } catch(e) { return null; }
 }
 
-window.addEventListener('DOMContentLoaded', renderProdutosLanding);
+window.addEventListener('DOMContentLoaded', () => {
+  renderProdutosLanding();
+  initHeroLogado();
+  initStickyCta();
+});
+
+// ─── HERO: BOAS-VINDAS + ATALHOS PARA CLIENTE LOGADO ───────────────────────
+function initHeroLogado() {
+  try {
+    const sess = (typeof getClienteSession === 'function') ? getClienteSession() : null;
+    if (!sess || !sess.token) return;
+    const greet  = document.getElementById('welcome-greet');
+    const quick  = document.getElementById('quick-actions');
+    const name   = document.getElementById('greet-name');
+    const nome   = sess.apelido || sess.nome || sess.responsavel || 'cliente';
+    const primeiro = String(nome).trim().split(' ')[0];
+    if (name)  name.textContent = primeiro;
+    if (greet) greet.style.display = 'inline-flex';
+    if (quick) quick.style.display = 'grid';
+  } catch(e) { /* sem sessão */ }
+}
+
+// ─── STICKY CTA: aparece após o hero, sobe junto quando o footer entra ─────
+function initStickyCta() {
+  const cta    = document.getElementById('sticky-cta');
+  const hero   = document.querySelector('.hero');
+  const footer = document.querySelector('footer');
+  if (!cta || !hero) return;
+  let ticking = false;
+  function check() {
+    const heroBottom = hero.offsetTop + hero.offsetHeight * 0.7;
+    const passedHero = window.scrollY > heroBottom;
+    cta.classList.toggle('visible', passedHero);
+    // Quando footer entra na viewport, empurra o sticky pra cima dele.
+    // Clamp pela altura do footer pra não ultrapassar.
+    if (footer) {
+      const r = footer.getBoundingClientRect();
+      const raw = window.innerHeight - r.top;
+      const overlap = Math.max(0, Math.min(raw, footer.offsetHeight));
+      cta.style.bottom = overlap + 'px';
+    }
+    ticking = false;
+  }
+  window.addEventListener('scroll', () => {
+    if (!ticking) { requestAnimationFrame(check); ticking = true; }
+  }, { passive: true });
+  window.addEventListener('resize', check, { passive: true });
+  check();
+}
 
 async function verProtocolo(id, nome, icone, conc) {
   document.getElementById('proto-icon').textContent = icone;

@@ -341,12 +341,11 @@ async function criarCupom() {
   alertEl.classList.remove('show');
   const codigo   = document.getElementById('f_codigo').value.trim().toUpperCase();
   const validade = document.getElementById('f_validade').value;
-  const indet    = document.getElementById('btn-indet').classList.contains('active');
   if (selecionados.size===0 && tipoAtual!=='pct') { mostrarAlerta('Selecione pelo menos 1 produto.'); return; }
   if (!codigo) { mostrarAlerta('Gere ou digite um código para o cupom.'); return; }
-  if (!indet && !validade) { mostrarAlerta('Defina a validade do cupom ou clique em Indeterminado.'); return; }
-  let validadeFmt = '';
-  if (validade && !indet) { const [y,m,d] = validade.split('-'); validadeFmt = `${d}/${m}/${y}`; }
+  // Sem data preenchida = INDETERMINADO (não força clicar no botão)
+  let validadeFmt = 'INDETERMINADO';
+  if (validade) { const [y,m,d] = validade.split('-'); validadeFmt = `${d}/${m}/${y}`; }
   let produtos, precos, valor;
   if (tipoAtual==='pct') {
     valor = parseFloat(document.getElementById('f_pct').value);

@@ -16,13 +16,12 @@
 <header>
   <img src="assets/img/logo.png" alt=""
        onerror="this.style.display='none'; document.getElementById('logo-text').style.display='block'"/>
-  <div id="logo-text" style="display:none; width:44px; height:44px; background:#F59E0B; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:1.2rem;">📦</div>
+  <div id="logo-text" class="logo-fallback" style="display:none">📦</div>
   <div>
     <h1><span data-client-name></span></h1>
     <span>Formulário de Pedido</span>
   </div>
   <div class="header-right">
-    <button class="btn-history" onclick="openHistory()">📋 Histórico</button>
     <div id="cliente-header-btn" class="header-cli-btn"></div>
   </div>
 </header>
@@ -57,7 +56,7 @@
     <div class="step-line" id="line3"></div>
     <div class="step" id="s4">
       <div class="step-circle">4</div>
-      <div class="step-label">Revisar<br>& Enviar</div>
+      <div class="step-label">Revisar</div>
     </div>
   </div>
 </div>
@@ -66,73 +65,142 @@
 
   <!-- STEP 1 — PRODUTOS -->
   <div class="step-panel active" id="panel1">
-    <div class="panel-title">💊 Selecione os Produtos</div>
-    <div class="panel-subtitle">Clique no produto para selecionar e defina a quantidade</div>
-
     <div id="alert1" class="alert">⚠️ Selecione pelo menos 1 produto para continuar.</div>
 
-    <input type="search" id="product-search" placeholder="🔍 Buscar produto pelo nome..."
-      oninput="activeSearch=this.value.toLowerCase().trim();renderProducts()"
-      style="width:100%;padding:9px 14px;border-radius:8px;border:1px solid var(--border);
-             background:#f0f7f3;color:var(--text);font-size:.88rem;outline:none;font-family:inherit;margin-bottom:14px;display:block"/>
-
-    <!-- ⭐ Em Destaque -->
-    <div class="hl-section" id="section-destaque" style="display:none">
-      <div class="hl-header">
-        <span>⭐</span>
-        <span class="hl-title">Em Destaque</span>
-        <span class="hl-sub">Os mais vendidos</span>
-      </div>
-      <div class="hl-grid" id="grid-destaque"></div>
+    <!-- BARRA DE BUSCA -->
+    <div class="search-bar-wrap">
+      <input type="search" id="product-search" placeholder="🔍 O que você está procurando?"
+        oninput="onSearchInput(this.value)"
+        autocomplete="off"/>
+      <button class="search-clear-btn" id="search-clear-btn" onclick="clearSearch()" style="display:none">✕</button>
     </div>
 
-    <!-- 💡 Você também pode gostar -->
-    <div class="hl-section" id="section-recomendado" style="display:none">
-      <div class="hl-header">
-        <span>💡</span>
-        <span class="hl-title">Você também pode gostar</span>
-        <span class="hl-sub">Selecionados para você</span>
-      </div>
-      <div class="hl-grid" id="grid-recomendado"></div>
-    </div>
-
-    <div class="catalog-divider" id="catalog-divider" style="display:none">📦 Catálogo Completo</div>
-
-    <div class="filter-area">
-      <div class="filter-group">
-        <div class="filter-group-header" onclick="toggleFilterGroup('lab-filters','arrow-lab')">
-          <span class="filter-group-label">Laboratórios</span>
-          <span class="filter-arrow" id="arrow-lab">▼</span>
+    <!-- ATALHO: Refazer último pedido (cliente logado com histórico) -->
+    <div class="repeat-order-bar" id="repeat-order-bar" style="display:none">
+      <div class="repeat-order-info">
+        <span class="repeat-order-icon">🔄</span>
+        <div>
+          <div class="repeat-order-title">Refazer último pedido</div>
+          <div class="repeat-order-sub" id="repeat-order-sub">—</div>
         </div>
-        <div class="lab-filters" id="lab-filters" style="display:none"></div>
       </div>
-      <div class="filter-group">
-        <div class="filter-group-header">
-          <span class="filter-group-label">Categoria</span>
+      <button class="repeat-order-btn" onclick="refazerUltimoPedido()">Refazer →</button>
+    </div>
+
+    <!-- SKELETON LOADING (mostrado enquanto CATALOG carrega) -->
+    <div class="skeleton-wrap" id="skeleton-wrap">
+      <div class="sk-hero">
+        <div class="sk-hero-icon"></div>
+        <div class="sk-hero-content">
+          <div class="sk-line sk-line-sm" style="width:30%"></div>
+          <div class="sk-line sk-line-lg" style="width:70%"></div>
+          <div class="sk-line sk-line-md" style="width:50%"></div>
         </div>
-        <div class="lab-filters" id="tag-filters"></div>
       </div>
-      <div class="sort-bar">
-        <span class="sort-label">Ordenar:</span>
-        <button class="sort-btn active" data-sort="alpha" onclick="setSort('alpha')">A–Z</button>
-        <button class="sort-btn" data-sort="price-asc" onclick="setSort('price-asc')">↑ Menor preço</button>
-        <button class="sort-btn" data-sort="price-desc" onclick="setSort('price-desc')">↓ Maior preço</button>
+      <div class="sk-cat-grid">
+        <div class="sk-cat-tile"></div>
+        <div class="sk-cat-tile"></div>
+        <div class="sk-cat-tile"></div>
+        <div class="sk-cat-tile"></div>
+        <div class="sk-cat-tile"></div>
+        <div class="sk-cat-tile"></div>
       </div>
     </div>
 
-    <div class="products-grid" id="products-grid">
+    <!-- HERO CARROSSEL DE DESTAQUES -->
+    <section class="hero-carousel" id="hero-carousel" style="display:none">
+      <div class="hero-track" id="hero-track"></div>
+      <button class="hero-arrow hero-arrow-left" onclick="heroNav(-1)" aria-label="Anterior">‹</button>
+      <button class="hero-arrow hero-arrow-right" onclick="heroNav(1)" aria-label="Próximo">›</button>
+      <div class="hero-dots" id="hero-dots"></div>
+    </section>
+
+    <!-- CATEGORIAS EM DESTAQUE -->
+    <section class="cat-section" id="cat-section" style="display:none">
+      <div class="cat-section-head">
+        <h2 class="cat-section-title">Categorias</h2>
+        <span class="cat-section-sub">Toque para explorar</span>
+      </div>
+      <div class="cat-grid" id="cat-grid"></div>
+    </section>
+
+    <!-- RECOMENDADOS -->
+    <section class="rec-section" id="rec-section" style="display:none">
+      <div class="cat-section-head">
+        <h2 class="cat-section-title">💡 Recomendados</h2>
+        <span class="cat-section-sub">Selecionados</span>
+      </div>
+      <div class="rec-track" id="rec-track"></div>
+    </section>
+
+    <!-- CHIP DE CATEGORIA ATIVA -->
+    <div class="cat-chip-bar" id="cat-chip-bar" style="display:none">
+      <button class="cat-chip-back" onclick="setTagFilter('todos')">←</button>
+      <div class="cat-chip-info">
+        <div class="cat-chip-label" id="cat-chip-label"></div>
+        <div class="cat-chip-count" id="cat-chip-count"></div>
+      </div>
+      <button class="cat-chip-clear" onclick="setTagFilter('todos')">✕ Limpar</button>
+    </div>
+
+    <!-- FILTROS AVANÇADOS (COLAPSADOS) -->
+    <div class="adv-filters-wrap" id="adv-filters-wrap" style="display:none">
+      <button class="adv-filters-toggle" id="adv-filters-toggle" onclick="toggleAdvFilters()">
+        <span>⚙ Filtros &amp; Ordenação</span>
+        <span class="adv-filters-arrow" id="adv-filters-arrow">▼</span>
+      </button>
+      <div class="adv-filters-body" id="adv-filters-body" style="display:none">
+        <div class="filter-group">
+          <div class="filter-group-label">Laboratórios</div>
+          <div class="lab-filters" id="lab-filters"></div>
+        </div>
+        <div class="sort-bar">
+          <span class="sort-label">Ordenar:</span>
+          <button class="sort-btn active" data-sort="alpha" onclick="setSort('alpha')">A–Z</button>
+          <button class="sort-btn" data-sort="price-asc" onclick="setSort('price-asc')">↑ Menor preço</button>
+          <button class="sort-btn" data-sort="price-desc" onclick="setSort('price-desc')">↓ Maior preço</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TÍTULO CATÁLOGO COMPLETO (só visível em modo home) -->
+    <div class="catalog-title" id="catalog-title" style="display:none">
+      <h2 class="cat-section-title">📦 Catálogo Completo</h2>
+      <span class="cat-section-sub">Todos os produtos disponíveis</span>
+    </div>
+
+    <!-- GRID DE PRODUTOS -->
+    <div class="products-grid" id="products-grid" style="display:none">
       <!-- cards gerados via JS -->
     </div>
 
+    <!-- ESTADO VAZIO (busca sem resultados) -->
+    <div class="empty-state" id="empty-state" style="display:none">
+      <div class="empty-icon">🔍</div>
+      <div class="empty-title">Nenhum produto encontrado</div>
+      <div class="empty-sub">Tente outro termo ou explore as categorias.</div>
+    </div>
+
+    <!-- container oculto pra compat (ordem de filtros): tag-filters não usado mais -->
+    <div id="tag-filters" style="display:none"></div>
+
     <div class="cart-sticky">
-      <div class="total-bar">
-        <div>
-          <div class="tb-label">Itens selecionados</div>
+      <!-- Mini-carrinho expansível (lista de itens com qty e remover) -->
+      <div class="cart-expanded" id="cart-expanded" style="display:none">
+        <div class="ce-header">
+          <span>🛒 Itens no carrinho</span>
+          <button class="ce-clear-all" onclick="limparCarrinho()">Limpar tudo</button>
+        </div>
+        <div class="ce-list" id="ce-list"></div>
+      </div>
+      <div class="total-bar" onclick="toggleCartExpand()" id="total-bar">
+        <div class="tb-toggle-side">
+          <div class="tb-label">Itens selecionados <span class="tb-toggle-icon" id="tb-toggle-icon">▲</span></div>
           <div class="tb-items" id="items-count">0 produto(s)</div>
         </div>
-        <div style="text-align:right">
+        <div class="tb-right">
           <div class="tb-label">Total do Pedido</div>
-          <div style="display:flex; align-items:baseline; gap:4px; justify-content:flex-end">
+          <div class="tb-value-row">
             <span class="tb-currency">R$</span>
             <span class="tb-total" id="total-display">0,00</span>
           </div>
@@ -146,9 +214,6 @@
 
   <!-- STEP 2 — DADOS DA CLÍNICA -->
   <div class="step-panel" id="panel2">
-    <div class="panel-title">📋 Dados do Cliente</div>
-    <div class="panel-subtitle">Preencha os dados do responsável pelo pedido</div>
-
     <!-- ── LOGIN PANEL ── -->
     <div id="lp-logado-bar" class="lp-logado-bar" style="display:none">
       <div class="lp-logado-info">✅ Logado como <span id="lp-nome-bar"></span></div>
@@ -156,9 +221,9 @@
     </div>
 
     <!-- "Já tem conta?" link no topo -->
-    <div id="lp-ja-tem-conta" style="text-align:center;margin-bottom:14px">
-      <span style="font-size:.82rem;color:var(--gray)">Já tem conta? </span>
-      <span class="lp-link" onclick="lpToggleLogin()" style="color:var(--accent);font-weight:600">Já sou cadastrado</span>
+    <div id="lp-ja-tem-conta" class="lp-ja-tem-conta">
+      <span class="lp-ja-tem-conta-prompt">Já tem conta? </span>
+      <span class="lp-link lp-ja-tem-conta-link" onclick="lpToggleLogin()">Já sou cadastrado</span>
     </div>
 
     <!-- Painel de login (oculto, expande ao clicar) -->
@@ -171,7 +236,7 @@
       </div>
       <div class="lp-loading" id="lp-loading">⏳ Buscando dados...</div>
       <div class="lp-erro" id="lp-erro"></div>
-      <span class="lp-link" onclick="lpToggleLogin()" style="margin-top:6px;display:inline-block">← Fechar</span>
+      <span class="lp-link lp-link-fechar" onclick="lpToggleLogin()">← Fechar</span>
     </div>
 
     <!-- Formulário — visível por padrão -->
@@ -180,7 +245,7 @@
 
     <div class="form-grid">
       <div class="field full">
-        <label>CNPJ / CPF</label>
+        <label>CNPJ / CPF <span class="required-mark">*</span></label>
         <input type="text" id="f_documento" placeholder="00.000.000/0001-00" oninput="agendarBuscaCliente(this.value)"/>
       </div>
       <div class="field full">
@@ -199,17 +264,17 @@
         <label>E-mail <span class="required-mark">*</span></label>
         <input type="email" id="f_email" placeholder="contato@clinica.com"/>
       </div>
-      <div class="field" style="max-width:170px">
+      <div class="field field-narrow-cep">
         <label>CEP de Entrega <span class="required-mark">*</span></label>
         <input type="text" id="f_cep_entrega" placeholder="00000-000" maxlength="9"
           oninput="this.value=this.value.replace(/\D/g,'').replace(/^(\d{5})(\d)/,'$1-$2'); if(this.value.replace(/\D/g,'').length===8) preencherEnderecoViaCEP()"/>
-        <div id="cep-end-loading" style="display:none;font-size:.72rem;color:var(--gray);margin-top:3px">⏳ Buscando endereço...</div>
+        <div id="cep-end-loading" class="cep-loading" style="display:none">⏳ Buscando endereço...</div>
       </div>
       <div class="field">
         <label>Rua / Logradouro <span class="required-mark">*</span></label>
         <input type="text" id="f_rua" placeholder="Ex: Rua das Flores"/>
       </div>
-      <div class="field" style="max-width:130px">
+      <div class="field field-narrow-num">
         <label>Número <span class="required-mark">*</span></label>
         <input type="text" id="f_numero" placeholder="Ex: 123"/>
       </div>
@@ -225,7 +290,7 @@
         <label>Cidade</label>
         <input type="text" id="f_cidade" placeholder="São Paulo"/>
       </div>
-      <div class="field" style="max-width:100px">
+      <div class="field field-narrow-uf">
         <label>Estado</label>
         <input type="text" id="f_estado" placeholder="SP" maxlength="2"/>
       </div>
@@ -236,7 +301,7 @@
     </div>
     </div><!-- /lp-form-wrap -->
 
-    <div class="btn-row">
+    <div class="step-actions-sticky">
       <button class="btn btn-back" onclick="goStep(1)">← Voltar</button>
       <button class="btn btn-next" onclick="_goStep3()">Continuar para Pagamento →</button>
     </div>
@@ -244,9 +309,6 @@
 
   <!-- STEP 3 — PAGAMENTO -->
   <div class="step-panel" id="panel3">
-    <div class="panel-title">💳 Forma de Pagamento</div>
-    <div class="panel-subtitle">Escolha como deseja pagar</div>
-
     <div id="alert3" class="alert">⚠️ Selecione uma forma de pagamento.</div>
 
     <div class="payment-options">
@@ -265,16 +327,11 @@
         <div class="pay-name">Cartão de Crédito</div>
         <div class="pay-desc">Até 12x · acréscimo de 5%</div>
       </div>
-      <div class="pay-opt" onclick="selectPayment('Boleto')" id="pay-Boleto">
-        <div class="pay-icon">📄</div>
-        <div class="pay-name">Boleto Bancário</div>
-        <div class="pay-desc">Vencimento em 3 dias úteis</div>
-      </div>
     </div>
 
     <!-- Parcelamento (só para cartão) -->
     <div class="installment-wrap" id="installment-wrap">
-      <div id="cupom-parc-badge" style="display:none;background:rgba(245,158,11,.12);border:1px solid var(--accent);border-radius:8px;padding:8px 14px;font-size:.82rem;color:var(--accent);margin-bottom:12px">
+      <div id="cupom-parc-badge" class="cupom-parc-badge" style="display:none">
         ⚡ Cupom ativo: parcelas 1× a 3× sem juros!
       </div>
       <div class="form-grid">
@@ -291,7 +348,7 @@
         </div>
         <div class="field">
           <label>Valor por Parcela</label>
-          <input type="text" id="f_parcela_val" readonly style="color: var(--accent); font-weight:700;"/>
+          <input type="text" id="f_parcela_val" class="parcela-val-input" readonly/>
         </div>
       </div>
     </div>
@@ -300,17 +357,17 @@
     <div class="frete-section">
       <div class="frete-header">🚚 Calcular Frete (Correios)</div>
       <div class="frete-body">
-        <div style="display:flex; gap:10px; align-items:flex-end">
-          <div class="field" style="flex:1">
+        <div class="frete-input-row">
+          <div class="field field-flex-1">
             <label>CEP de Destino</label>
             <input type="text" id="f_frete_cep" placeholder="00000-000" maxlength="9"
               oninput="this.value=this.value.replace(/\D/g,'').replace(/^(\d{5})(\d)/,'$1-$2')"
               onkeydown="if(event.key==='Enter') calcFrete()"/>
           </div>
-          <button class="btn btn-next" style="margin-bottom:0;padding:10px 18px;font-size:.85rem" onclick="calcFrete()">Calcular</button>
+          <button class="btn btn-next btn-calc-frete" onclick="calcFrete()">Calcular</button>
         </div>
-        <div id="frete-loading" style="display:none;text-align:center;padding:12px;color:var(--gray);font-size:.85rem">⏳ Consultando Correios...</div>
-        <div id="frete-error" style="display:none;background:rgba(231,76,60,.12);border:1px solid var(--danger);border-radius:8px;padding:10px 14px;font-size:.83rem;color:#f5a;margin-top:10px"></div>
+        <div id="frete-loading" class="frete-loading-msg" style="display:none">⏳ Consultando Correios...</div>
+        <div id="frete-error" class="frete-error-msg" style="display:none"></div>
         <div class="frete-gratis" id="frete-gratis" style="display:none"></div>
         <div class="frete-metodos" id="frete-metodos" style="display:none">
           <div class="frete-opt" id="fo-sedex" onclick="selecionarFrete('sedex')">
@@ -326,25 +383,25 @@
             <div class="fo-days" id="fd-jadlog">—</div>
           </div>
         </div>
+        <div class="frete-aviso" id="frete-aviso" style="display:none">
+          ℹ️ Este valor é uma estimativa e pode variar conforme o horário do envio e disponibilidade da transportadora.
+        </div>
       </div>
     </div>
 
-    <div class="field" style="margin-top:16px">
+    <div class="field mt-16">
       <label>Observações de Pagamento</label>
       <textarea id="f_obs_pag" placeholder="Alguma informação adicional sobre o pagamento?"></textarea>
     </div>
 
-    <div class="btn-row">
+    <div class="step-actions-sticky">
       <button class="btn btn-back" onclick="goStep(2)">← Voltar</button>
-      <button class="btn btn-next" onclick="goStep(4)">Próximo — Revisar Pedido →</button>
+      <button class="btn btn-next" onclick="goStep(4)">Revisar Pedido →</button>
     </div>
   </div>
 
   <!-- STEP 4 — REVISÃO -->
   <div class="step-panel" id="panel4">
-    <div class="panel-title">✅ Revisar e Enviar</div>
-    <div class="panel-subtitle">Confira todos os dados antes de enviar pelo WhatsApp</div>
-
     <div class="review-card">
       <div class="rc-header">📋 Dados do Cliente</div>
       <div class="rc-body" id="review-dados"></div>
@@ -364,17 +421,32 @@
 
     <div class="review-total-box" id="review-total-box"></div>
 
-    <!-- Cupom de Bonificação -->
+    <!-- Código (cupom de desconto OU código de indicação) -->
     <div class="cupom-section">
-      <div class="cupom-header">🎟️ Código de Bonificação</div>
+      <div class="cupom-header">🎁 Tem um código?</div>
       <div class="cupom-row">
-        <input type="text" id="f_cupom" placeholder="EX: BONUS10"
+        <input type="text" id="f_codigo" placeholder="Cupom ou código de indicação"
                oninput="this.value=this.value.toUpperCase()"
-               onkeydown="if(event.key==='Enter') aplicarCupom()"/>
-        <button id="btn-cupom" onclick="aplicarCupom()">Aplicar</button>
-        <button id="btn-remover-cupom" class="hidden" onclick="removerCupom()">✕ Remover</button>
+               onkeydown="if(event.key==='Enter') aplicarCodigo()"/>
+        <button id="btn-codigo" onclick="aplicarCodigo()">Aplicar</button>
+        <button id="btn-remover-codigo" class="hidden" onclick="removerCodigo()">✕ Remover</button>
       </div>
-      <div id="cupom-msg"></div>
+      <div id="codigo-msg"></div>
+      <div class="cupom-hint">Aceita cupom de desconto (ex: <code>BONUS10</code>) ou código de indicação (ex: <code>joao-3F9ABC</code>).</div>
+    </div>
+
+    <!-- Saldo de indicação (só aparece se cliente logado tem saldo) -->
+    <div class="cupom-section mt-14" id="saldo-indicacao-section" style="display:none">
+      <div class="cupom-header">💰 Seu Saldo de Indicação</div>
+      <div id="saldo-indicacao-info" class="saldo-indicacao-info">
+        <label class="saldo-toggle-label">
+          <input type="checkbox" id="usar_saldo_indicacao_chk" onchange="atualizarUsoSaldoIndicacao()"/>
+          <span>Usar <strong id="saldo-disp-display" class="saldo-amount"></strong> nesse pedido</span>
+        </label>
+        <div id="saldo-usado-detalhe" class="saldo-detalhe" style="display:none">
+          Será descontado <strong id="saldo-usado-valor" class="saldo-amount"></strong> do total. Saldo restante fica pro próximo pedido.
+        </div>
+      </div>
     </div>
 
     <!-- Recomendações na revisão -->
@@ -388,19 +460,19 @@
         <div class="rec-rev-group-label">💡 Leve também</div>
         <div class="rec-grid" id="rec-rev-leve-grid"></div>
       </div>
-      <div id="rec-rev-hist" style="display:none; margin-top:14px">
+      <div id="rec-rev-hist" class="mt-14" style="display:none">
         <div class="rec-rev-group-label">🔄 Você costuma levar</div>
         <div class="rec-grid" id="rec-rev-hist-grid"></div>
       </div>
     </div>
 
-    <button class="btn-wa" onclick="sendWhatsApp()">
+    <button class="btn-wa" onclick="confirmarEnviarPedido()">
       <svg viewBox="0 0 24 24" fill="currentColor">
         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
       </svg>
       Enviar Pedido por WhatsApp
     </button>
-    <p style="text-align:center; color:var(--gray); font-size:0.75rem; margin-top:10px;">
+    <p class="wa-instrucao">
       Será aberto o WhatsApp com a mensagem já formatada para envio
     </p>
 
@@ -419,57 +491,62 @@
 
 </main>
 
-<!-- HISTORY MODAL -->
-<div class="modal-overlay" id="history-modal">
-  <div class="modal">
-    <div class="modal-header">
-      <h2>📋 Histórico de Pedidos</h2>
-      <div style="display:flex; gap:10px; align-items:center">
-        <button class="btn-clear-history" onclick="clearHistory()">Limpar Tudo</button>
-        <button class="modal-close" onclick="closeHistory()">✕</button>
-      </div>
-    </div>
-    <div class="modal-body" id="history-body"></div>
-  </div>
-</div>
 
-<!-- PROTOCOL MODAL -->
+<!-- PROTOCOL MODAL — unificado: 1 modal com tabs (Resumo / Informativo Completo) -->
 <div class="modal-overlay" id="protocol-modal">
-  <div class="modal" style="max-width:620px">
+  <div class="modal proto-modal-flex">
     <div class="modal-header">
-      <div style="display:flex;align-items:center;gap:10px">
-        <span id="pm-icon" style="font-size:1.6rem"></span>
+      <div class="pm-header-info">
+        <span id="pm-icon" class="pm-header-icon"></span>
         <div>
-          <h2 id="pm-name" style="font-size:1rem;margin:0"></h2>
-          <div id="pm-conc" style="font-size:.75rem;color:var(--gray)"></div>
+          <h2 id="pm-name" class="pm-header-name"></h2>
+          <div id="pm-conc" class="pm-header-conc"></div>
         </div>
       </div>
-      <button class="modal-close" onclick="document.getElementById('protocol-modal').classList.remove('open')">✕</button>
+      <button class="modal-close" onclick="fecharProtocolo()">✕</button>
     </div>
-    <div class="proto-modal-body" id="pm-body">
-      <div class="proto-loading">⏳ Carregando protocolo...</div>
+
+    <!-- Tabs (Informativo aparece só se o produto tiver) -->
+    <div class="pm-tabs" id="pm-tabs">
+      <button class="pm-tab active" data-tab="resumo" onclick="trocarTabProto('resumo')">📋 Resumo</button>
+      <button class="pm-tab" id="pm-tab-info" data-tab="info" onclick="trocarTabProto('info')" style="display:none">📖 Informativo completo</button>
     </div>
-    <div class="pm-aviso" id="pm-aviso" style="display:none">
-      <span class="pm-aviso-icon">⚠️</span>
-      <span>Estas são <strong>informações gerais</strong> do produto. Para protocolos específicos, advertências detalhadas, dosagens individualizadas e orientações de reconstituição, acesse o informativo completo abaixo.</span>
+
+    <!-- Pane: Resumo -->
+    <div class="pm-tab-pane active" id="pm-pane-resumo">
+      <div class="proto-modal-body" id="pm-body">
+        <div class="proto-loading">⏳ Carregando protocolo...</div>
+      </div>
+      <div class="pm-aviso" id="pm-aviso" style="display:none">
+        <span class="pm-aviso-icon">⚠️</span>
+        <span>Estas são <strong>informações gerais</strong>. Pra protocolos específicos, dosagens individualizadas e reconstituição, abra <strong>Informativo completo</strong> acima.</span>
+      </div>
     </div>
-    <div class="pm-info-footer" id="pm-info-footer" style="display:none">
-      <button class="btn-ver-informativo" onclick="abrirInformativo()">
-        📋 Acessar informativo completo do produto
-      </button>
+
+    <!-- Pane: Informativo (iframe lazy) -->
+    <div class="pm-tab-pane" id="pm-pane-info">
+      <iframe id="pm-info-iframe" src="" allowfullscreen></iframe>
     </div>
   </div>
 </div>
 
-<!-- INFORMATIVO FULLSCREEN OVERLAY -->
-<div class="info-overlay" id="info-overlay">
-  <div class="info-overlay-inner">
-    <div class="info-overlay-bar">
-      <span id="info-overlay-title">Informativo do produto</span>
-      <button class="btn-fechar-info" onclick="fecharInformativo()">✕ Fechar informativo</button>
+<!-- CONFIRMATION MODAL — antes de enviar pelo WhatsApp -->
+<div class="modal-overlay" id="confirm-pedido-modal">
+  <div class="modal modal-confirm-size">
+    <div class="modal-header">
+      <span>📋 Confirmar pedido</span>
+      <button class="modal-close" onclick="fecharConfirmacao()">✕</button>
     </div>
-    <div class="info-iframe-wrap">
-      <iframe id="info-iframe" src="" allowfullscreen></iframe>
+    <div class="confirm-body">
+      <p class="confirm-text">Você está prestes a enviar seu pedido pelo WhatsApp.</p>
+      <div class="confirm-summary" id="confirm-summary"></div>
+      <div class="confirm-info">
+        Confira tudo. Após enviar, o WhatsApp abre com a mensagem pronta — você só confirma o envio.
+      </div>
+    </div>
+    <div class="confirm-actions">
+      <button class="btn btn-back" onclick="fecharConfirmacao()">← Revisar</button>
+      <button class="btn btn-next" onclick="sendWhatsApp(); fecharConfirmacao()">✓ Confirmar e enviar</button>
     </div>
   </div>
 </div>

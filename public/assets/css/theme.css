@@ -1,27 +1,57 @@
-/* Template — variáveis e reset compartilhados (paleta Pharmafit Purple + Amber, dark theme) */
+/* Template2 — PrimeMed (light suave / natureza, inspirado Apple Health + Ekos) */
 :root {
-  --bg:       #0F0B1A;
-  --surface:  #1A1428;
-  --card:     #1A1428;
-  --border:   #2D2440;
-  --accent:   #F59E0B;
-  --accent-d: #D97706;
-  --green:    #10B981;
-  --blue:     #7C3AED;
-  --purple:   #7C3AED;
-  --red:      #EF4444;
-  --wa:       #25D366;
-  --wa-d:     #1DA851;
-  --white:    #FFFFFF;
-  --gray:     #9CA3AF;
-  --gray2:    #7B6E9A;
-  --light:    #F5F3FF;
-  --text:     #FFFFFF;
-  --input-bg: #1F1935;
-  --lavender: #A78BFA;
-  /* Header / nav */
-  --header-bg:    #0F0B1A;
-  --header-text:  #FFFFFF;
+  /* base — off-white quente (papel/areia clara) */
+  --bg:         #F5F1E8;
+  --surface:    #FAFAF7;
+  --card:       #FFFFFF;
+  --border:     #E5E0D5;
+  --border-soft:#EFEAE0;
+  --input-bg:   #FFFFFF;
+  --input-border: #E5E0D5;
+
+  /* accent principal — verde sage (CTAs, destaques) */
+  --accent:     #5C8A6E;
+  --accent-d:   #3F6750;
+  --accent-l:   #B8D4BE;
+  --accent-bg:  #EFF5F0;
+
+  /* secundário — azul-mar suave */
+  --blue:       #6B97B5;
+  --blue-d:     #457B9D;
+  --blue-l:     #DCE8F0;
+
+  /* terceiro — dourado champanhe (toque warm/Ekos) */
+  --amber:      #C49B6E;
+  --amber-d:    #A07A4F;
+  --amber-l:    #E8DDC8;
+
+  /* utilitários */
+  --green:      var(--accent);
+  --red:        #C5705D;        /* terracota — não vermelho cru */
+  --red-l:      #F4D9D2;
+  --wa:         #25D366;
+  --wa-d:       #1DA851;
+  --teal:       var(--blue);
+  --purple:     var(--blue);
+  --lavender:   var(--blue-l);
+
+  /* texto */
+  --text:       #1F2937;
+  --text-mid:   #4B5563;
+  --gray:       #6B7280;
+  --gray2:      #9CA3AF;
+  --light:      #9CA3AF;
+  --white:      #FFFFFF;
+
+  /* header / nav — escuro corporativo (verde-noite) */
+  --header-bg:    #1F2937;
+  --header-text:  #F5F1E8;
+  --header-border: #3F6750;
+
+  /* sombras coloridas suaves (não pretas duras) */
+  --shadow-sm:    0 1px 3px rgba(92,138,110,.08), 0 1px 2px rgba(31,41,55,.04);
+  --shadow-md:    0 4px 12px rgba(92,138,110,.10), 0 2px 6px rgba(31,41,55,.06);
+  --shadow-lg:    0 12px 32px rgba(92,138,110,.14), 0 4px 12px rgba(31,41,55,.08);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }

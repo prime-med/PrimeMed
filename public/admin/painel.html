@@ -29,9 +29,10 @@
     <button class="nav-btn" data-view="produtos">💊 Produtos & Estoque</button>
     <button class="nav-btn" data-view="protocolos">🔬 Protocolos</button>
     <button class="nav-btn" data-view="cupons">🎟️ Cupons</button>
+    <button class="nav-btn" data-view="indicacoes">🎁 Indicações</button>
     <button class="nav-btn" data-view="gerador">📝 Gerar Pedido</button>
     <button class="nav-btn" data-view="relatorio">📊 Relatório</button>
-    <button class="nav-btn notif-nav-btn" data-view="notificacoes">🔔 Notificações<span class="notif-badge" id="notif-badge" style="display:none">0</span></button>
+    <button class="nav-btn notif-nav-btn" data-view="solicitacoes">📥 Solicitações<span class="notif-badge" id="solic-badge" style="display:none">0</span></button>
     <button class="nav-btn" data-view="config">⚙️ Configurações</button>
   </nav>
 
@@ -304,11 +305,90 @@
       </form>
     </div>
 
-    <div class="search-bar-wrapper">
-      <input type="search" id="busca-cupons" placeholder="🔍 Buscar cupom..." oninput="renderCupons()"/>
+    <!-- Stats bar -->
+    <div class="cupom-stats-bar" id="cupom-stats-bar">
+      <div class="cs-box">
+        <div class="cs-label">Total</div>
+        <div class="cs-value" id="cs-total">—</div>
+      </div>
+      <div class="cs-box cs-box-on">
+        <div class="cs-label">Ativos</div>
+        <div class="cs-value" id="cs-ativos">—</div>
+      </div>
+      <div class="cs-box">
+        <div class="cs-label">Usos</div>
+        <div class="cs-value" id="cs-usos">—</div>
+      </div>
+      <div class="cs-box cs-box-revenue">
+        <div class="cs-label">Receita gerada</div>
+        <div class="cs-value" id="cs-receita">R$ —</div>
+      </div>
+    </div>
+
+    <div class="cupom-filters">
+      <input type="search" id="busca-cupons" placeholder="🔍 Buscar por código ou vendedora..." oninput="renderCupons()"/>
+      <select id="filtro-cupom-status" onchange="renderCupons()">
+        <option value="">Todos status</option>
+        <option value="Ativo">✅ Ativos</option>
+        <option value="Desativado">⏸ Desativados</option>
+        <option value="Expirado">⌛ Expirados</option>
+      </select>
+      <select id="filtro-cupom-vendedora" onchange="renderCupons()">
+        <option value="">Todas vendedoras</option>
+      </select>
+      <select id="filtro-cupom-sort" onchange="renderCupons()">
+        <option value="recentes">🕐 Mais recentes</option>
+        <option value="usos">🔥 Mais usados</option>
+        <option value="receita">💰 Maior receita</option>
+        <option value="alpha">A–Z</option>
+      </select>
     </div>
     <div id="cupons-grid" class="admin-grid cupom-grid">
       <div class="loading-msg">⏳ Carregando...</div>
+    </div>
+  </div>
+
+  <!-- DRAWER de detalhes de cupom (igual order-drawer dos pedidos) -->
+  <div class="drawer-overlay" id="coupon-drawer-overlay" onclick="closeCouponDrawer()"></div>
+  <aside class="coupon-drawer" id="coupon-drawer"></aside>
+
+  <!-- ══ VIEW: INDICAÇÕES ══ -->
+  <div id="view-indicacoes" class="view hidden">
+    <div class="view-bar">
+      <h2 class="view-title">🎁 Indicações</h2>
+      <div class="view-bar-right">
+        <input type="search" id="ind-search" placeholder="🔍 Buscar nome, email, código..." oninput="renderIndicacoes()" style="min-width:280px"/>
+        <select id="ind-filter-status" onchange="renderIndicacoes()" style="min-width:140px">
+          <option value="">Todos status</option>
+          <option value="PENDENTE">⏳ Pendente</option>
+          <option value="LIBERADA">✅ Liberada</option>
+          <option value="REVOGADA">❌ Revogada</option>
+          <option value="SUSPEITA">🚩 Suspeita</option>
+        </select>
+        <button class="btn-sm btn-outline" onclick="carregarIndicacoes()">🔄 Atualizar</button>
+      </div>
+    </div>
+
+    <!-- Stats cards -->
+    <div class="stats-bar" id="ind-stats-bar"></div>
+
+    <div class="table-view" style="flex:1;overflow:auto;padding:0 20px 20px">
+      <table class="data-table" id="ind-table">
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Indicador</th>
+            <th>Indicado</th>
+            <th style="text-align:right">Pedido</th>
+            <th style="text-align:right">Comissão</th>
+            <th>Status</th>
+            <th style="width:240px">Ações</th>
+          </tr>
+        </thead>
+        <tbody id="ind-tbody">
+          <tr><td colspan="7" class="loading-msg">⏳ Carregando…</td></tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
@@ -469,23 +549,46 @@
       <div class="row"><div class="field"><label>Responsavel</label><input type="text" id="nc_responsavel"/></div></div>
       <div class="row"><div class="field"><label>Telefone *</label><input type="text" id="nc_telefone"/></div><div class="field"><label>E-mail</label><input type="text" id="nc_email"/></div></div>
       <div class="row"><div class="field"><label>CPF/CNPJ</label><input type="text" id="nc_cpf"/></div></div>
-      <div class="row"><div class="field"><label>Cidade</label><input type="text" id="nc_cidade"/></div><div class="field" style="max-width:100px"><label>Estado</label><input type="text" id="nc_estado" maxlength="2"/></div></div>
+      <div class="row"><div class="field"><label>Cidade</label><input type="text" id="nc_cidade"/></div><div class="field" style="max-width:120px"><label>Estado</label><select id="nc_estado"><option value="">—</option><option value="AC">AC</option><option value="AL">AL</option><option value="AP">AP</option><option value="AM">AM</option><option value="BA">BA</option><option value="CE">CE</option><option value="DF">DF</option><option value="ES">ES</option><option value="GO">GO</option><option value="MA">MA</option><option value="MT">MT</option><option value="MS">MS</option><option value="MG">MG</option><option value="PA">PA</option><option value="PB">PB</option><option value="PR">PR</option><option value="PE">PE</option><option value="PI">PI</option><option value="RJ">RJ</option><option value="RN">RN</option><option value="RS">RS</option><option value="RO">RO</option><option value="RR">RR</option><option value="SC">SC</option><option value="SP">SP</option><option value="SE">SE</option><option value="TO">TO</option></select></div></div>
       <div class="row"><div class="field"><label>Endereco</label><input type="text" id="nc_endereco"/></div></div>
       <div class="status-msg" id="cadastro-status" style="color:#FCA5A5"></div>
       <div class="modal-actions"><button class="btn-modal secondary" onclick="fecharModal()">Cancelar</button><button class="btn-modal primary" id="btn-salvar-cliente" onclick="g_salvarNovoCliente()">Cadastrar</button></div>
     </div></div>
   </div>
 
-  <!-- ══ VIEW: NOTIFICAÇÕES ══ -->
-  <div id="view-notificacoes" class="view hidden">
+  <!-- ══ VIEW: SOLICITAÇÕES ══ -->
+  <div id="view-solicitacoes" class="view hidden">
     <div class="view-bar">
-      <h2 class="view-title">🔔 Notificações</h2>
+      <h2 class="view-title">📥 Solicitações de Cupom</h2>
       <div class="view-bar-right">
-        <button class="btn-sm btn-outline" onclick="limparNotificacoes()">🗑️ Limpar</button>
+        <select id="solic-filter-status" onchange="renderSolicitacoes()" style="min-width:140px">
+          <option value="">Todos status</option>
+          <option value="PENDENTE" selected>⏳ Pendentes</option>
+          <option value="APROVADA">✅ Aprovadas</option>
+          <option value="REJEITADA">❌ Rejeitadas</option>
+        </select>
+        <button class="btn-sm btn-outline" onclick="carregarSolicitacoes()">🔄 Atualizar</button>
       </div>
     </div>
-    <p class="notif-subtext">Apenas notificações recebidas após o login são mostradas aqui.</p>
-    <div id="notif-list" class="notif-list"></div>
+    <div class="stats-bar" id="solic-stats-bar"></div>
+    <div class="table-view" style="flex:1;overflow:auto;padding:0 20px 20px">
+      <table class="data-table" id="solic-table">
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Cliente</th>
+            <th style="text-align:right">Valor</th>
+            <th>Obs cliente</th>
+            <th>Status</th>
+            <th>Cupom / Resposta</th>
+            <th style="width:200px">Ações</th>
+          </tr>
+        </thead>
+        <tbody id="solic-tbody">
+          <tr><td colspan="7" class="loading-msg">⏳ Carregando…</td></tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <!-- ══ VIEW: RELATÓRIO ══ -->
@@ -560,6 +663,39 @@
             </div>
           </div>
           <p style="font-size:11px;color:var(--text2);margin:6px 0 0">Você receberá uma notificação quando o estoque de um produto atingir este nível.</p>
+        </div>
+      </div>
+
+      <!-- Indicação -->
+      <div class="config-section">
+        <h3 class="cfg-section-title">🎁 Programa de Indicação</h3>
+        <div class="cfg-form">
+          <div class="cfg-row" style="display:flex;gap:18px;flex-wrap:wrap">
+            <div class="field-inline" style="flex:0 0 auto">
+              <label>Percentual de comissão</label>
+              <div style="display:flex;align-items:center;gap:8px">
+                <input type="number" id="cfg-ind-pct" min="0" max="100" step="0.5"
+                  style="width:80px;text-align:center"/>
+                <span style="font-size:12px;color:var(--text2)">% sobre o total do pedido</span>
+              </div>
+            </div>
+            <div class="field-inline" style="flex:0 0 auto">
+              <label>Carência antes de liberar</label>
+              <div style="display:flex;align-items:center;gap:8px">
+                <input type="number" id="cfg-ind-dias" min="0" max="365"
+                  style="width:80px;text-align:center"/>
+                <span style="font-size:12px;color:var(--text2)">dias após o pedido</span>
+              </div>
+            </div>
+            <div style="align-self:flex-end">
+              <button class="btn-sm btn-accent" onclick="salvarConfigIndicacao()">💾 Salvar</button>
+              <span id="cfg-ind-status" style="margin-left:10px;font-size:12px"></span>
+            </div>
+          </div>
+          <p style="font-size:11px;color:var(--text2);margin:6px 0 0">
+            Comissão é calculada na primeira compra de cada cliente indicado.
+            Após a carência (e pedido pago/enviado), a comissão fica disponível pro indicador no perfil dele.
+          </p>
         </div>
       </div>
 

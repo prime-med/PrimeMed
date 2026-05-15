@@ -1,15 +1,15 @@
 :root {
     /* Paleta Verde Sálvia + Carvão Morno — alinhada com theme.css */
-    --bg:      #0F0B1A;
-    --surface: #1A1428;
-    --border:  #2D2440;
-    --accent:  #F59E0B;
-    --blue:    #3b82f6;
-    --green:   #F59E0B;
-    --red:     #ef4444;
+    --bg:      #F5F1E8;
+    --surface: #FFFFFF;
+    --border:  #E5E0D5;
+    --accent:  #5C8A6E;
+    --blue:    #457B9D;
+    --green:   #5C8A6E;
+    --red:     #C5705D;
     --text:    #FFFFFF;
     --gray:    #9CA3AF;
-    --light:   #A78BFA;
+    --light:   #DCE8F0;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh}
@@ -36,7 +36,7 @@
   .pin-err{color:var(--red);font-size:.82rem;margin-top:10px}
 
   /* ── HEADER ── */
-  .header{background:var(--header-bg,#0F0B1A);color:var(--header-text,#FFFFFF);border-bottom:2px solid var(--accent);box-shadow:0 2px 8px rgba(0,0,0,.08);padding:14px 28px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:100;display:none}
+  .header{background:var(--header-bg,#F5F1E8);color:var(--header-text,#FFFFFF);border-bottom:2px solid var(--accent);box-shadow:0 2px 8px rgba(0,0,0,.08);padding:14px 28px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:100;display:none}
   .header.show{display:flex}
   .header-title{font-size:1.05rem;font-weight:700;color:var(--accent)}
   .header-sub{font-size:.72rem;color:rgba(232,238,244,.6);margin-top:2px}
@@ -119,7 +119,7 @@
   .prod-grid::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
   .prod-card{border:1px solid var(--border);border-radius:10px;padding:12px;cursor:pointer;transition:.15s;user-select:none;display:flex;align-items:flex-start;gap:10px}
   .prod-card:hover{border-color:var(--blue)}
-  .prod-card.selected{border-color:var(--accent);background:rgba(245,158,11,.07)}
+  .prod-card.selected{border-color:var(--accent);background:rgba(92, 138, 110,.07)}
   .prod-check{width:18px;height:18px;border-radius:5px;flex-shrink:0;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.7rem;margin-top:2px;transition:.15s}
   .prod-card.selected .prod-check{background:var(--accent);border-color:var(--accent);color:#000}
   .prod-name{font-size:.82rem;font-weight:600;line-height:1.3}
@@ -128,7 +128,7 @@
   .sel-all-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
   .sel-count{font-size:.78rem;color:var(--gray)}
   .btn-sel-all{font-size:.75rem;color:var(--blue);background:transparent;border:1px solid var(--blue);padding:4px 12px;border-radius:6px;cursor:pointer}
-  .btn-sel-all:hover{background:rgba(59,130,246,.1)}
+  .btn-sel-all:hover{background:rgba(107, 151, 181,.1)}
 
   /* ── TIPO DESCONTO ── */
   .tipo-toggle{display:flex;border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:18px}
@@ -144,12 +144,12 @@
   .td-novo input:focus{border-color:var(--accent);outline:none}
   /* Hover row pra dar feedback visual na tabela de preços fixos */
   .preco-table tbody tr{transition:background .15s}
-  .preco-table tbody tr:hover{background:rgba(245,158,11,.04)}
+  .preco-table tbody tr:hover{background:rgba(92, 138, 110,.04)}
 
   /* ── OPÇÕES EXTRAS (Parcelamento / Frete grátis) ── */
   .opt-row{display:flex;align-items:center;gap:12px;cursor:pointer;font-size:.88rem;color:var(--light);padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:var(--bg);transition:.15s}
   .opt-row:hover{border-color:var(--accent)}
-  .opt-row:has(.opt-check:checked){border-color:var(--accent);background:rgba(245,158,11,.06)}
+  .opt-row:has(.opt-check:checked){border-color:var(--accent);background:rgba(92, 138, 110,.06)}
   .opt-check{width:18px;height:18px;accent-color:var(--accent);cursor:pointer;flex-shrink:0}
   .opt-input-num{width:100px;padding:6px 10px;background:var(--surface);border:1px solid var(--border);border-radius:6px;color:var(--accent);font-weight:700;font-size:.9rem;text-align:right;font-family:inherit}
   .opt-input-num:focus{outline:none;border-color:var(--accent)}
@@ -161,7 +161,7 @@
   .btn-regen:hover{border-color:var(--accent);color:var(--accent)}
   .valid-btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
   .valid-btn{padding:6px 14px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--light);font-size:.78rem;cursor:pointer;transition:.15s;font-family:inherit}
-  .valid-btn:hover,.valid-btn.active{border-color:var(--accent);color:var(--accent);background:rgba(245,158,11,.08)}
+  .valid-btn:hover,.valid-btn.active{border-color:var(--accent);color:var(--accent);background:rgba(92, 138, 110,.08)}
 
   /* ── BOTÕES ── */
   .btn-submit{width:100%;padding:15px;background:var(--accent);color:#000;font-weight:800;font-size:1rem;border:none;border-radius:12px;cursor:pointer;transition:opacity .2s;margin-top:8px;font-family:inherit}
@@ -192,7 +192,7 @@
   .stat-value.green{color:var(--green)}
   .stat-value.blue{color:var(--blue)}
   .cupons-linha{font-size:.75rem;color:var(--gray);margin-bottom:16px;line-height:1.8}
-  .cupom-badge{display:inline-block;font-size:.65rem;font-weight:700;background:rgba(245,158,11,.1);color:var(--accent);border:1px solid rgba(245,158,11,.25);padding:2px 8px;border-radius:4px;margin:2px}
+  .cupom-badge{display:inline-block;font-size:.65rem;font-weight:700;background:rgba(92, 138, 110,.1);color:var(--accent);border:1px solid rgba(92, 138, 110,.25);padding:2px 8px;border-radius:4px;margin:2px}
   .ped-item{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:8px}
   .ped-item:last-child{margin-bottom:0}
   .ped-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:6px;flex-wrap:wrap}
@@ -201,7 +201,7 @@
   .ped-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:4px}
   .ped-total{font-size:.9rem;font-weight:800;color:var(--accent)}
   .ped-desc{font-size:.75rem;font-weight:700;color:var(--green)}
-  .ped-pag{font-size:.6rem;font-weight:700;background:rgba(59,130,246,.18);color:var(--blue);padding:2px 7px;border-radius:4px}
+  .ped-pag{font-size:.6rem;font-weight:700;background:rgba(107, 151, 181,.18);color:var(--blue);padding:2px 7px;border-radius:4px}
   .ped-cupom{font-size:.63rem;color:var(--accent);opacity:.7;margin-bottom:3px}
   .ped-tel{font-size:.7rem;color:var(--gray);margin-bottom:4px}
   .ped-prods{font-size:.7rem;color:var(--gray);line-height:1.6;border-top:1px solid var(--border);padding-top:7px;margin-top:5px}
