@@ -974,7 +974,7 @@ function renderClientes() {
     const initials = (c.responsavel || c.clinica || '?').split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
     const isVip = c.vip === 'SIM';
     return `
-      <div class="admin-card">
+      <div class="admin-card" data-cli-doc="${escAttr(c.cpf || c.documento || c.email || '')}" title="Right-click pra mais opções">
         <div class="cli-avatar">${esc(initials)}</div>
         <div class="cli-card-name">${esc(c.responsavel || c.clinica)}${isVip ? '<span class="vip-badge">⭐ VIP</span>' : ''}</div>
         <div class="cli-card-clinic">${esc(c.clinica)}</div>
@@ -1070,7 +1070,7 @@ function renderProdutos() {
       : (parseInt(p.estoque) || 0);
     const low = est < 5;
     return `
-      <div class="admin-card">
+      <div class="admin-card" data-prod-id="${escAttr(p.id)}" title="Right-click pra mais opções">
         <div class="prod-card-icon">${p.icone || '💊'}</div>
         <div class="prod-card-name">${esc(p.nome)}</div>
         <div class="prod-card-conc">${esc(p.conc || '—')}</div>
@@ -2287,8 +2287,12 @@ function abrirEditarProduto(prodId) {
       <div class="cfg-row">
         <div class="field-inline" style="flex:0 0 240px">
           <label>Imagem (arquivo)</label>
-          <input id="ep-imagem" value="${escAttr(p.imagem||'')}" placeholder="bpc-157.webp"
-            oninput="previewImagemProduto(this.value,'ep')"/>
+          <div style="display:flex;gap:6px;align-items:center">
+            <input id="ep-imagem" value="${escAttr(p.imagem||'')}" placeholder="bpc-157.webp"
+              oninput="previewImagemProduto(this.value,'ep')" style="flex:1"/>
+            <button type="button" class="btn-sm" title="Remover imagem"
+              onclick="document.getElementById('ep-imagem').value='';previewImagemProduto('','ep');">🗑</button>
+          </div>
           <small style="font-size:.7rem;color:var(--gray);margin-top:4px;display:block;line-height:1.3">
             Suba o arquivo em <code>assets/img/produtos/</code> no GitHub e coloque o nome aqui.
           </small>
@@ -2334,9 +2338,10 @@ function abrirEditarProduto(prodId) {
       </details>
 
       <div id="ep-status" class="cfg-status-msg"></div>
-      <div style="display:flex;gap:8px">
+      <div style="display:flex;gap:8px;align-items:center">
         <button type="submit" class="btn-sm btn-accent">Salvar</button>
         <button type="button" class="btn-sm" onclick="closeModal()">Cancelar</button>
+        <button type="button" class="btn-sm btn-danger" style="margin-left:auto" onclick="apagarProdutoConfirm('${escAttr(prodId)}','${escAttr(p.nome||'')}')">🗑 Apagar</button>
       </div>
     </form>`);
   // Populate variant rows after modal renders
@@ -2427,6 +2432,214 @@ async function salvarProduto(e) {
   }
 }
 
+// ── APAGAR PRODUTO ────────────────────────────────────────────────────────────
+async function apagarProdutoConfirm(prodId, nome) {
+  if (!prodId) return;
+  const label = nome ? `"${nome}" (${prodId})` : prodId;
+  if (!confirm('Apagar o produto ' + label + '?\n\nIsso apaga o produto E o protocolo. Pedidos antigos mantêm o histórico, mas perdem o link com este produto.\n\nAÇÃO IRREVERSÍVEL.')) return;
+  if (!confirm('Tem CERTEZA? Última confirmação.')) return;
+  try {
+    const data = await API.apagarProduto(prodId);
+    if (data && data.ok) {
+      showToast('Produto apagado.');
+      closeModal && closeModal();
+      await loadProdutos();
+      renderProdutos();
+    } else {
+      alert('Erro ao apagar: ' + ((data && data.erro) || 'falha desconhecida'));
+    }
+  } catch(ex) {
+    alert('Erro de conexão ao apagar.');
+  }
+}
+
+// ── CONTEXT MENU CUSTOMIZADO ──────────────────────────────────────────────────
+// Substitui o menu do navegador por opções do site.
+// Uso: showContextMenu(event, [{icon:'✏️', label:'Editar', action: fn}, {divider:true}, {icon:'🗑', label:'Apagar', danger:true, action: fn}])
+function showContextMenu(e, items) {
+  e.preventDefault();
+  e.stopPropagation();
+  document.querySelectorAll('.ctx-menu').forEach(m => m.remove());
+  if (!items || !items.length) return;
+
+  const menu = document.createElement('div');
+  menu.className = 'ctx-menu';
+  items.forEach(it => {
+    if (it.divider) {
+      const d = document.createElement('div');
+      d.className = 'ctx-menu-divider';
+      menu.appendChild(d);
+      return;
+    }
+    const li = document.createElement('div');
+    li.className = 'ctx-menu-item' + (it.danger ? ' danger' : '') + (it.disabled ? ' disabled' : '');
+    li.innerHTML = '<span class="ctx-icon">' + (it.icon || '•') + '</span><span>' + it.label + '</span>';
+    if (!it.disabled) {
+      li.addEventListener('click', function() {
+        menu.remove();
+        try { it.action && it.action(); } catch(err) { console.error(err); }
+      });
+    }
+    menu.appendChild(li);
+  });
+  document.body.appendChild(menu);
+
+  // Posicionar — ajusta se sair da viewport
+  const w = menu.offsetWidth, h = menu.offsetHeight;
+  let x = e.clientX, y = e.clientY;
+  if (x + w > window.innerWidth)  x = window.innerWidth  - w - 8;
+  if (y + h > window.innerHeight) y = window.innerHeight - h - 8;
+  menu.style.left = x + 'px';
+  menu.style.top  = y + 'px';
+
+  // Fechar ao clicar fora ou pressionar Esc
+  function close(ev) {
+    if (ev && menu.contains(ev.target)) return;
+    menu.remove();
+    document.removeEventListener('mousedown', close);
+    document.removeEventListener('contextmenu', close);
+    document.removeEventListener('keydown', escClose);
+    window.removeEventListener('scroll', close, true);
+    window.removeEventListener('resize', close);
+  }
+  function escClose(ev) { if (ev.key === 'Escape') close(); }
+  setTimeout(() => {
+    document.addEventListener('mousedown', close);
+    document.addEventListener('contextmenu', close);
+    document.addEventListener('keydown', escClose);
+    window.addEventListener('scroll', close, true);
+    window.addEventListener('resize', close);
+  }, 0);
+}
+
+// Acopla um listener contextmenu (right-click) num elemento, recebendo um
+// builder que retorna os items dinamicamente (pra usar valores atualizados).
+function bindContextMenu(el, itemsBuilder) {
+  if (!el) return;
+  el.addEventListener('contextmenu', function(e) {
+    const items = (typeof itemsBuilder === 'function') ? itemsBuilder(e) : itemsBuilder;
+    showContextMenu(e, items);
+  });
+}
+
+// ── HELPERS DE AÇÃO RÁPIDA ────────────────────────────────────────────────────
+async function toggleAtivoProduto(prodId, ativar) {
+  try {
+    const data = await API.editarProduto({ prod_id: prodId, id: prodId, ativo: ativar ? 'true' : 'false' });
+    if (data && (data.ok || data._silent)) {
+      showToast(ativar ? 'Produto ativado' : 'Produto desativado');
+      await loadProdutos();
+      renderProdutos();
+    } else {
+      alert('Erro: ' + ((data && data.erro) || 'falha'));
+    }
+  } catch(ex) { alert('Erro de conexão'); }
+}
+
+async function copiarParaClipboard(texto) {
+  try {
+    await navigator.clipboard.writeText(texto);
+    showToast('Copiado!');
+  } catch(_) {
+    // fallback
+    const ta = document.createElement('textarea');
+    ta.value = texto; document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); showToast('Copiado!'); } catch(__) {}
+    ta.remove();
+  }
+}
+
+// Builders de menu por entidade (chamados via right-click nos cards)
+function menuItemsProduto(prod) {
+  return [
+    { icon: '✏️',  label: 'Editar',          action: () => abrirEditarProduto(prod.id) },
+    { icon: '📋',  label: 'Copiar ID',       action: () => copiarParaClipboard(prod.id) },
+    { divider: true },
+    { icon: prod.ativo === false ? '✅' : '⏸',
+      label: prod.ativo === false ? 'Ativar' : 'Desativar',
+      action: () => toggleAtivoProduto(prod.id, prod.ativo === false) },
+    { icon: '📝',  label: 'Editar protocolo', action: () => (typeof abrirEditarProtocolo === 'function') && abrirEditarProtocolo(prod.id) },
+    { divider: true },
+    { icon: '🗑',  label: 'Apagar produto',  danger: true,
+      action: () => apagarProdutoConfirm(prod.id, prod.nome) },
+  ];
+}
+
+function menuItemsPedido(order) {
+  const tel = order && order.telefone ? order.telefone.replace(/\D/g,'') : '';
+  return [
+    { icon: '👁',  label: 'Ver detalhes',       action: () => openDrawer && openDrawer(order.id) },
+    { icon: '📋',  label: 'Copiar nº do pedido', action: () => copiarParaClipboard(String(order.id)) },
+    { divider: true },
+    { icon: '💬',  label: 'WhatsApp cliente',    action: () => tel ? window.open('https://wa.me/55'+tel, '_blank') : alert('Sem telefone'),
+      disabled: !tel },
+    { divider: true },
+    { icon: '🏷',  label: 'Editar nota interna', action: () => openDrawer && openDrawer(order.id) },
+  ];
+}
+
+function menuItemsCliente(cli) {
+  const docu = cli && (cli.documento || cli.cpfCnpj || '') || '';
+  const tel  = cli && cli.telefone ? cli.telefone.replace(/\D/g,'') : '';
+  return [
+    { icon: '✏️',  label: 'Editar',          action: () => (typeof abrirEditarCliente === 'function') && abrirEditarCliente(cli) },
+    { icon: '📦',  label: 'Ver pedidos',     action: () => (typeof verPedidosCliente === 'function') && verPedidosCliente(docu) },
+    { divider: true },
+    { icon: '💬',  label: 'WhatsApp',        action: () => tel ? window.open('https://wa.me/55'+tel, '_blank') : alert('Sem telefone'),
+      disabled: !tel },
+    { icon: '📋',  label: 'Copiar email',    action: () => copiarParaClipboard(cli.email || '') },
+    { divider: true },
+    { icon: '🗑',  label: 'Apagar cliente',  danger: true,
+      action: () => (typeof apagarClienteConfirm === 'function')
+        ? apagarClienteConfirm(docu, cli.email)
+        : confirm('Apagar ' + (cli.nome||cli.clinica||'cliente') + '?') && API.apagarCliente(docu, cli.email).then(() => loadClientes().then(() => (typeof renderClientes === 'function') && renderClientes())) },
+  ];
+}
+
+function menuItemsProtocolo(prod) {
+  return [
+    { icon: '✏️',  label: 'Editar protocolo', action: () => (typeof abrirEditarProtocolo === 'function') && abrirEditarProtocolo(prod.id) },
+    { icon: '💊',  label: 'Editar produto',  action: () => abrirEditarProduto(prod.id) },
+    { divider: true },
+    { icon: '📋',  label: 'Copiar ID',       action: () => copiarParaClipboard(prod.id) },
+  ];
+}
+
+// Acopla via event delegation no document — funciona pra cards renderizados depois
+document.addEventListener('contextmenu', function(e) {
+  // Produto card
+  const pCard = e.target.closest('[data-prod-id]');
+  if (pCard) {
+    const id = pCard.getAttribute('data-prod-id');
+    const prod = (App.produtos || []).find(p => String(p.id) === String(id));
+    if (prod) return showContextMenu(e, menuItemsProduto(prod));
+  }
+  // Pedido card
+  const oCard = e.target.closest('.kanban-card[onclick*="openDrawer"]');
+  if (oCard) {
+    const m = oCard.getAttribute('onclick').match(/openDrawer\((\d+)\)/);
+    if (m) {
+      const id = parseInt(m[1]);
+      const order = (App.pedidos || []).find(p => p.id === id);
+      if (order) return showContextMenu(e, menuItemsPedido(order));
+    }
+  }
+  // Cliente row
+  const cRow = e.target.closest('[data-cli-doc]');
+  if (cRow) {
+    const docu = cRow.getAttribute('data-cli-doc');
+    const cli  = (App.clientes || []).find(c => String(c.documento||c.cpfCnpj||'') === String(docu));
+    if (cli) return showContextMenu(e, menuItemsCliente(cli));
+  }
+  // Protocolo row
+  const ptRow = e.target.closest('[data-proto-id]');
+  if (ptRow) {
+    const id = ptRow.getAttribute('data-proto-id');
+    const prod = (App.produtos || []).find(p => String(p.id) === String(id));
+    if (prod) return showContextMenu(e, menuItemsProtocolo(prod));
+  }
+});
+
 // ── PROTOCOLOS ────────────────────────────────────────────────────────────────
 function setProtoFilter(btn) {
   document.querySelectorAll('[data-proto-filter]').forEach(b => b.classList.remove('active'));
@@ -2450,7 +2663,7 @@ function renderProtocolos() {
   }
   grid.innerHTML = lista.map(p => {
     const temProto = !!(App.protocolos && App.protocolos[p.id]);
-    return `<div class="proto-card">
+    return `<div class="proto-card" data-proto-id="${escAttr(p.id)}" title="Right-click pra mais opções">
       <div class="proto-card-icon">${p.icone||'💊'}</div>
       <div class="proto-card-nome">${esc(p.nome)}</div>
       <div class="proto-card-conc">${esc(p.conc||'')}</div>

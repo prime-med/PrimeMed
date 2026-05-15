@@ -1029,12 +1029,12 @@ function renderProducts() {
       : isSelected;
 
     grid.innerHTML += `
-      <div class="product-card ${cardSelected ? 'selected' : ''} ${promoAtiva ? 'promo-ativa' : ''}"
+      <div class="product-card ${cardSelected ? 'selected' : ''} ${promoAtiva ? 'promo-ativa' : ''} ${p.imagem ? 'pc-has-image' : 'pc-no-image'}"
            id="pc-${escAttr(p.id)}" onclick="${cardOnclick}"
            style="">
         ${promoRibbon}
-        <div class="pc-header">
-          ${productImageHTML(p, 'pc-icon')}
+        <div class="pc-media">
+          ${productImageHTML(p, 'pc-img-card')}
           <div class="pc-check">${cardSelected ? '✓' : ''}</div>
         </div>
         <div class="pc-name">${esc(p.name)}</div>

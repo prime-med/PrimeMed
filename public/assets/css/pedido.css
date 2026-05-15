@@ -919,16 +919,60 @@
     cursor: pointer;
     position: relative;
     user-select: none;
-    box-shadow: 0 1px 3px rgba(0,0,0,.18);
+    box-shadow: 0 1px 3px rgba(15,61,46,.08);
+    overflow: hidden;
   }
-  .product-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,.32); }
+  .product-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(15,61,46,.14); }
   .product-card.selected { border-color: var(--accent); background: var(--selected-bg); box-shadow: 0 4px 14px rgba(21, 164, 122,.18); }
-  .product-card .pc-header {
+
+  /* ── IMAGEM GRANDE DO CARD (catálogo) ── */
+  .product-card .pc-media {
+    position: relative;
+    margin: -18px -18px 14px -18px;
+    width: calc(100% + 36px);
+    aspect-ratio: 4 / 3;
+    background: linear-gradient(135deg, rgba(21,164,122,0.06), rgba(245,241,232,0.6));
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 10px;
+    align-items: center;
+    justify-content: center;
   }
+  .product-card .pc-media .pc-img-card {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .product-card .pc-media .img-placeholder.pc-img-card {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    font-size: 4.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .product-card .pc-media .pc-check {
+    position: absolute;
+    top: 10px; right: 10px;
+    background: rgba(255,255,255,.94);
+    border: 2px solid var(--accent);
+    width: 28px; height: 28px;
+    box-shadow: 0 2px 6px rgba(15,61,46,.18);
+    color: var(--accent);
+    font-weight: 800;
+  }
+  .product-card.selected .pc-media .pc-check {
+    background: var(--accent);
+    color: #FFFFFF;
+  }
+  .product-card.pc-no-image .pc-media { aspect-ratio: 3 / 1; }
+  @media (max-width: 600px) {
+    .product-card .pc-media { aspect-ratio: 1 / 1; }
+  }
+
+  /* (legado — pc-icon ainda usado em outros lugares como recomendados) */
   .pc-icon {
     font-size: 1.5rem;
     width: 44px; height: 44px;
