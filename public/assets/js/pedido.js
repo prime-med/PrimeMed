@@ -1798,9 +1798,21 @@ function _aplicarStep(n) {
 
 // ─── VALIDAÇÕES ─────────────────────────────────────────────────────────────
 function validateStep1() {
-  const ok = Object.keys(cart).length > 0;
+  // Considera só itens com quantidade > 0 (keys zeradas não contam)
+  const itens = Object.entries(cart || {}).filter(function(kv){ return parseInt(kv[1]) > 0; });
+  const ok = itens.length > 0;
   const alert = document.getElementById('alert1');
-  ok ? alert.classList.remove('show') : alert.classList.add('show');
+  if (alert) {
+    if (ok) {
+      alert.classList.remove('show');
+    } else {
+      alert.classList.add('show');
+      alert.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+  if (!ok && typeof window !== 'undefined') {
+    try { window.alert('Selecione pelo menos 1 produto antes de finalizar.'); } catch(_) {}
+  }
   return ok;
 }
 

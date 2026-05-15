@@ -2381,12 +2381,16 @@ async function salvarProduto(e) {
   // CORS no redirect do GAS que joga catch sem ter falhado de fato).
   const verificarPersistencia = async () => {
     await loadProdutos();
+    // Se o ID mudou, a busca tem que ser pelo novo_id
+    const buscaId = (params.novo_id && params.novo_id !== prodId) ? params.novo_id : prodId;
     const atual = (App.produtos || []).find(p =>
-      String(p.prod_id || p.id || '') === String(prodId)
+      String(p.prod_id || p.id || '') === String(buscaId)
     );
     if (!atual) return false;
     if (params.nome && (atual.nome || '').trim() !== params.nome.trim()) return false;
     if (params.preco && String(atual.preco || '').replace(/\D/g,'') !== String(params.preco).replace(/\D/g,'')) return false;
+    if (params.imagem !== undefined && (atual.imagem || '').trim() !== params.imagem.trim()) return false;
+    if (params.destaque !== undefined && (atual.destaque || '').trim() !== params.destaque.trim()) return false;
     return true;
   };
 

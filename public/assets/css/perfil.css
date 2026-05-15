@@ -43,7 +43,7 @@ body {
   flex: 1;
   background: transparent;
   border: none;
-  color: var(--gray, #9CA3AF);
+  color: var(--text-mid, #4B5563);
   font-family: inherit;
   font-size: .9rem;
   font-weight: 600;
@@ -71,14 +71,14 @@ body {
 }
 .pf-section-head p {
   font-size: .88rem;
-  color: var(--gray);
+  color: var(--text-mid, #4B5563);
 }
 
 /* ── LOADING / EMPTY ── */
 .pf-loading {
   text-align: center;
   padding: 60px 20px;
-  color: var(--gray);
+  color: var(--text-mid, #4B5563);
   font-size: .92rem;
 }
 .pf-empty {
@@ -90,7 +90,7 @@ body {
 }
 .pf-empty-icon { font-size: 2.6rem; margin-bottom: 10px; }
 .pf-empty h3 { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: 6px; }
-.pf-empty p { color: var(--gray); font-size: .88rem; max-width: 420px; margin: 0 auto 18px; }
+.pf-empty p { color: var(--text-mid, #4B5563); font-size: .88rem; max-width: 420px; margin: 0 auto 18px; }
 .pf-btn-primary {
   display: inline-flex;
   align-items: center;
@@ -179,7 +179,7 @@ body {
 }
 .pf-pedido-data {
   font-size: .78rem;
-  color: var(--gray);
+  color: var(--text-mid, #4B5563);
   margin-top: 3px;
 }
 .pf-pedido-total {
@@ -192,7 +192,7 @@ body {
   font-size: .68rem;
   text-transform: uppercase;
   letter-spacing: .08em;
-  color: var(--gray);
+  color: var(--text-mid, #4B5563);
 }
 .pf-pedido-total-val {
   font-size: 1.2rem;
@@ -230,23 +230,23 @@ body {
   font-size: 1rem;
   background: rgba(255,255,255,.05);
   border: 2px solid var(--border);
-  color: var(--gray);
+  color: var(--text-mid, #4B5563);
   margin-bottom: 6px;
   transition: all .2s;
 }
 .pf-tl-label {
   font-size: .68rem;
   font-weight: 600;
-  color: var(--gray);
+  color: var(--text-mid, #4B5563);
   line-height: 1.2;
   max-width: 80px;
 }
 .pf-tl-step.done .pf-tl-dot {
   background: rgba(140,162,184,.16);
-  border-color: var(--gray);
-  color: var(--light);
+  border-color: var(--text-mid, #4B5563);
+  color: var(--text-mid, #4B5563);
 }
-.pf-tl-step.done .pf-tl-label { color: var(--light); }
+.pf-tl-step.done .pf-tl-label { color: var(--text-mid, #4B5563); }
 .pf-tl-step.current .pf-tl-dot {
   background: var(--accent);
   border-color: var(--accent);
@@ -275,7 +275,7 @@ body {
   flex-direction: column;
   gap: 4px;
   font-size: .85rem;
-  color: var(--light);
+  color: var(--text-mid, #4B5563);
   margin-bottom: 12px;
 }
 .pf-prod-line { line-height: 1.5; }
@@ -292,9 +292,9 @@ body {
   justify-content: space-between;
   align-items: center;
   padding: 4px 0;
-  color: var(--light);
+  color: var(--text-mid, #4B5563);
 }
-.pf-fin-row strong { color: var(--white, #fff); font-weight: 700; }
+.pf-fin-row strong { color: var(--text, #1F2937); font-weight: 700; }
 .pf-fin-desc strong { color: #15A47A; }
 .pf-fin-total {
   border-top: 1px solid rgba(255,255,255,0.12);
@@ -303,7 +303,7 @@ body {
   font-size: .95rem;
 }
 .pf-fin-total strong { color: var(--accent, #15A47A); font-size: 1.05rem; }
-.pf-fin-meta { font-size: .8rem; color: var(--gray, #9CA3AF); }
+.pf-fin-meta { font-size: .8rem; color: var(--text-mid, #4B5563); }
 
 /* ─── INDICAÇÃO ─────────────────────────────────────────── */
 .pf-indicacao-card {
@@ -318,7 +318,7 @@ body {
   font-size: .72rem;
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  color: var(--gray, #9CA3AF);
+  color: var(--text-mid, #4B5563);
   margin-bottom: 8px;
 }
 .pf-ind-codigo {
@@ -355,7 +355,7 @@ body {
 .pf-ind-info h3 {
   font-size: .95rem;
   margin-bottom: 12px;
-  color: var(--white, #fff);
+  color: var(--text, #1F2937);
 }
 .pf-ind-steps {
   padding-left: 22px;
@@ -364,7 +364,7 @@ body {
 .pf-ind-steps li {
   font-size: .85rem;
   line-height: 1.6;
-  color: var(--light, #DCE8F0);
+  color: var(--text-mid, #4B5563);
   margin-bottom: 6px;
 }
 .pf-ind-note {
@@ -373,7 +373,7 @@ body {
   padding: 10px 14px;
   border-radius: 6px;
   font-size: .82rem;
-  color: var(--white, #fff);
+  color: var(--text, #1F2937);
 }
 
 /* Cards de comissão */
@@ -400,7 +400,7 @@ body {
 }
 .pf-com-label {
   font-size: .75rem;
-  color: var(--gray, #9CA3AF);
+  color: var(--text-mid, #4B5563);
   text-transform: uppercase;
   letter-spacing: 1px;
   margin-bottom: 8px;
@@ -408,14 +408,14 @@ body {
 .pf-com-valor {
   font-size: 1.6rem;
   font-weight: 800;
-  color: var(--white, #fff);
+  color: var(--text, #1F2937);
   margin-bottom: 4px;
 }
 .pf-com-liberada .pf-com-valor { color: #15A47A; }
 .pf-com-pendente .pf-com-valor { color: #15A47A; }
 .pf-com-meta {
   font-size: .76rem;
-  color: var(--gray, #9CA3AF);
+  color: var(--text-mid, #4B5563);
 }
 @media (max-width: 540px) {
   .pf-comissao-grid { grid-template-columns: 1fr; }
@@ -433,12 +433,12 @@ body {
 .pf-com-detalhe-item {
   display: flex; justify-content: space-between; align-items: center;
   padding: 4px 0;
-  color: var(--light, #DCE8F0);
+  color: var(--text-mid, #4B5563);
 }
-.pf-com-detalhe-item strong { color: var(--white, #fff); font-weight: 600; }
+.pf-com-detalhe-item strong { color: var(--text, #1F2937); font-weight: 600; }
 
 /* Lista de solicitações */
-.pf-solicitacoes-wrap h3 { color: var(--white, #fff); }
+.pf-solicitacoes-wrap h3 { color: var(--text, #1F2937); }
 .pf-solicitacoes-list { display: flex; flex-direction: column; gap: 8px; }
 .pf-sol-card {
   background: rgba(255,255,255,0.04);
@@ -450,9 +450,9 @@ body {
   display: flex; justify-content: space-between; align-items: center;
   font-size: .78rem; margin-bottom: 4px;
 }
-.pf-sol-data { color: var(--gray, #9CA3AF); }
+.pf-sol-data { color: var(--text-mid, #4B5563); }
 .pf-sol-status { font-weight: 700; }
-.pf-sol-valor { font-size: 1.05rem; font-weight: 800; color: var(--white, #fff); }
+.pf-sol-valor { font-size: 1.05rem; font-weight: 800; color: var(--text, #1F2937); }
 .pf-sol-cupom {
   display: flex; align-items: center; gap: 8px; margin-top: 8px;
   padding: 8px 10px; background: rgba(92, 138, 110,0.1);
@@ -484,7 +484,7 @@ body {
   border-radius: 6px;
   padding: 3px 10px;
   font-size: .72rem;
-  color: var(--light);
+  color: var(--text-mid, #4B5563);
   font-weight: 600;
 }
 .pf-tag-accent {
@@ -494,7 +494,7 @@ body {
 }
 .pf-meta {
   font-size: .72rem;
-  color: var(--gray);
+  color: var(--text-mid, #4B5563);
   font-style: italic;
 }
 .pf-rastreio {
@@ -536,7 +536,7 @@ body {
 .pf-field label {
   font-size: .72rem;
   font-weight: 600;
-  color: var(--light);
+  color: var(--text-mid, #4B5563);
   text-transform: uppercase;
   letter-spacing: .04em;
 }
