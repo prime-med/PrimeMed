@@ -407,6 +407,7 @@ async function carregarProdutos() {
       categoria:   p.categoria ? String(p.categoria).trim().toLowerCase() : '',
       destaque:    p.destaque || '',
       lab:         p.lab || '',
+      imagem:      p.imagem || '',
       variantes:   (Array.isArray(p.variantes) && p.variantes.length > 0 && p.variantes[0].dose)
                      ? p.variantes : null,
       promo_preco: parseFloat(p.promo_preco) || 0,

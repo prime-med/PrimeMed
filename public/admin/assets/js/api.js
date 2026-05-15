@@ -19,21 +19,30 @@ const API = {
     let res;
     try {
       if (useFormPost) {
-        // POST com form-data — Apps Script lê em e.parameter automaticamente
-        const body = new URLSearchParams();
-        Object.entries(params).forEach(([k, v]) => body.set(k, String(v)));
+        // POST com text/plain + JSON no body — Apps Script lê via e.postData.contents.
+        // Evita preflight CORS (text/plain é "simple request") e suporta payloads
+        // grandes (ex: filename com espaços/caracteres especiais).
         res = await fetch(SHEETS_URL, {
           method: 'POST',
-          body: body,
-          // Não setar Content-Type explicit pra evitar preflight CORS
-          // URLSearchParams como body já usa application/x-www-form-urlencoded
+          body: JSON.stringify(params),
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          redirect: 'follow',
         });
       } else {
         res = await fetch(urlString);
       }
     } catch (netErr) {
       console.error('[API] Erro de rede:', netErr, 'action:', params.action);
-      throw new Error('Sem conexão com o servidor');
+      // Fallback automático: tenta via GET (URL longa pode rejeitar, mas é melhor que falhar tudo)
+      if (useFormPost) {
+        try {
+          res = await fetch(urlString);
+        } catch (netErr2) {
+          throw new Error('Sem conexão com o servidor');
+        }
+      } else {
+        throw new Error('Sem conexão com o servidor');
+      }
     }
     if (!res.ok) {
       console.error('[API] HTTP', res.status, 'action:', params.action);
